@@ -1,9 +1,9 @@
 import React from 'react'
-import CarouselPrincipal from '../components/CarouselPrincipal'
-import WhatsappButton from '../components/WhatsappButton'
-import InstagramButton from '../components/InstagramButton'
-import FacebookButton from '../components/FacebookButton'
-import ContactoInfo from '../components/ContactoInfo'
+import CarouselPrincipal from '../../components/CarouselPrincipal'
+import WhatsappButton from '../../components/WhatsappButton'
+import InstagramButton from '../../components/InstagramButton'
+import FacebookButton from '../../components/FacebookButton'
+import ContactoInfo from '../../components/ContactoInfo'
 
 const CarouselLayout: React.FC = () => {
     return (

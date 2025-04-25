@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import CarouselLayout from '../../layout/CarouselLayout';
+import CarouselLayout from '../../shared/layout/CarouselLayout';
 import AnimationMoto from '../../components/AnimationMoto';
 import LocalesMenu from '../../components/LocalesMenu';
 // import CardCategorias from '../../components/CardCategorias';

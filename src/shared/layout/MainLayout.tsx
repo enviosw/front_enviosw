@@ -1,10 +1,8 @@
 import React from 'react'
-import { Navbar } from '../components/Navbar'
-import Topvar from '../components/Topbar'
+import { Navbar } from '../../components/Navbar'
+import Topvar from '../../components/Topbar'
+import { Contenido } from '../types/childrenInterface'
 
-interface Contenido {
-    children: React.ReactNode
-}
 
 const MainLayout: React.FC<Contenido> = ({ children }) => {
     return (
