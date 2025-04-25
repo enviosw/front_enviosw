@@ -19,12 +19,12 @@ const Sidebar: React.FC = () => {
 
     return (
         <div
-            className={`bg-[#000000] text-white p-4 h-screen transition-all duration-500 ease-in-out
+            className={`bg-[#F7F7F7] text-black p-4 h-screen transition-all duration-500 ease-in-out
             ${isOpen ? 'w-64' : 'w-24'} flex flex-col`}
         >
             {/* Sidebar Toggle Button */}
             <div className="flex justify-start gap-2 items-center mb-4 cursor-pointer" onClick={toggleSidebar}>
-                <button className="text-white cursor-pointer">
+                <button className="cursor-pointer">
                     <HiMenu size={24} />
                 </button>
                 {isOpen && <span className="transition-all duration-300 ease-in-out">Menu</span>}
@@ -38,8 +38,8 @@ const Sidebar: React.FC = () => {
                         <NavLink
                             to={item.to}
                             className={({ isActive }) =>
-                                `flex items-center justify-start cursor-pointer hover:bg-[#2B2B2B] rounded-md  gap-2  py-2 transition-all duration-300 ease-in-out
-                                ${isActive ? 'bg-[#2B2B2B]' : ''}`
+                                `flex items-center justify-start cursor-pointer hover:bg-[#2B2B2B] hover:text-white rounded-md  gap-2  py-2 transition-all duration-300 ease-in-out
+                                ${isActive ? 'bg-[#2B2B2B] text-white' : ''}`
                             }
                         >
                             <div className={`transition-transform duration-300 ease-in-out text-2xl pl-2`}>
