@@ -18,7 +18,7 @@ const Login: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.4 }}
-              className="w-full max-w-lg space-y-6 lg:shadow-xl p-6 lg:p-12 rounded-2xl lg:border border-gray-200"
+              className="w-full max-w-lg space-y-1 lg:shadow-xl p-6 lg:p-12 rounded-2xl lg:border border-gray-200"
             >
               <div className="flex flex-col items-center space-y-2">
                 <img

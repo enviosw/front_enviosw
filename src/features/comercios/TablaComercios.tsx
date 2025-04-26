@@ -4,16 +4,22 @@ import Loader from '../../utils/Loader';
 import { formatDate } from '../../utils/formatearFecha';
 import DataTable from '../../shared/components/DataTable'; // Asegúrate de importar el componente DataTable
 import TableCell from '../../shared/components/TableCell';
+import Modal from '../../shared/components/Modal';
+import { useModal } from '../../context/ModalContext';
+import FormularioComercio from './FormularioComercio';
+import { FaPen, FaRegCheckSquare } from 'react-icons/fa';
 
 const TablaComercios: React.FC = () => {
     const { data: comercios, isLoading, error } = useComercios();
+    const { openModal, setModalTitle, setModalContent } = useModal();
+
 
     const headers = [
         'ID',
+        'Acciones',
         'Nombre',
         'Razón',
         'NIT',
-        'Categoría',
         'Responsable',
         'Email',
         'Teléfono',
@@ -22,15 +28,14 @@ const TablaComercios: React.FC = () => {
         'Activo',
         'Fecha',
         'Tipo de Comercio',
-        'Acciones'
     ];
 
     // Condicional para cuando se está cargando
     if (isLoading) {
         return (
-            <p className="text-center text-blue-600">
+            <div className="text-center text-blue-600">
                 Cargando Comercios... <Loader />
-            </p>
+            </div>
         );
     }
 
@@ -40,30 +45,41 @@ const TablaComercios: React.FC = () => {
 
     const renderRow = (comercio: any) => (
         <tr key={comercio.id} className="hover:bg-gray-100 bg-white">
-          <TableCell>{comercio.id}</TableCell>
-          <TableCell>{comercio.nombre_comercial}</TableCell>
-          <TableCell>{comercio.razon_social}</TableCell>
-          <TableCell>{comercio.nit}</TableCell>
-          <TableCell>{comercio.categoria}</TableCell>
-          <TableCell>{comercio.responsable}</TableCell>
-          <TableCell>{comercio.email_contacto}</TableCell>
-          <TableCell>{comercio.telefono}</TableCell>
-          <TableCell>{comercio.telefono_secundario}</TableCell>
-          <TableCell>{comercio.direccion}</TableCell>
-          <TableCell>{comercio.activo ? 'Sí' : 'No'}</TableCell>
-          <TableCell>{formatDate(comercio.fecha_creacion)}</TableCell>
-          <TableCell>{comercio.tipo.nombre}</TableCell>
-          <TableCell>
-            <button className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">
-              Ver detalles
-            </button>
-          </TableCell>
+            <TableCell>{comercio.id}</TableCell>
+            <TableCell>
+                <button onClick={openCustomModal} className="">
+                    <FaPen />
+                </button>
+            </TableCell>
+            <TableCell>{comercio.nombre_comercial}</TableCell>
+            <TableCell>{comercio.razon_social}</TableCell>
+            <TableCell>{comercio.nit}</TableCell>
+            <TableCell>{comercio.responsable}</TableCell>
+            <TableCell>{comercio.email_contacto}</TableCell>
+            <TableCell>{comercio.telefono}</TableCell>
+            <TableCell>{comercio.telefono_secundario}</TableCell>
+            <TableCell>{comercio.direccion}</TableCell>
+            <TableCell>{comercio.activo ? 'Sí' : 'No'}</TableCell>
+            <TableCell>{formatDate(comercio.fecha_creacion)}</TableCell>
+            <TableCell>{comercio.tipo.nombre}</TableCell>
+
         </tr>
-      );
+    );
+
+    const openCustomModal = () => {
+        setModalTitle('Registrar Comercio');
+        setModalContent(<FormularioComercio />);
+        openModal();
+    };
 
     return (
         <div className="overflow-x-auto">
+            <button onClick={openCustomModal} className="btn btn-success mb-4">
+                <FaRegCheckSquare className="mr-2" />
+                Registrar
+            </button>
             <DataTable headers={headers} data={comercios ?? []} renderRow={renderRow} />
+            <Modal />
         </div>
     );
 };

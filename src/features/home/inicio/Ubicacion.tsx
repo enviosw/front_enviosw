@@ -1,8 +1,8 @@
 import React from 'react'
 import { FaMapMarkerAlt } from 'react-icons/fa'
-import { useModal } from '../context/ModalContext';
-import Modal from './Modal';
-import MapaDinamico from './MapaDinamico';
+import { useModal } from '../../../context/ModalContext';
+import Modal from '../../../shared/components/Modal';
+import MapaDinamico from '../shop/MapaDinamico';
 
 
 const Ubicacion: React.FC = () => {

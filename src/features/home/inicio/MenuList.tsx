@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import MenuItem from './MenuItem';
-import MenuFilters from './MenuFilters';
-import Cart from './Cart';
-import WhatsappButton from './WhatsappButton';
+import MenuItem from '../shop/MenuItem';
+import MenuFilters from '../shop/MenuFilters';
+import Cart from '../shop/Cart';
+import WhatsappButton from '../../../shared/components/buttons/WhatsappButton';
 import { FaArrowLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Ubicacion from './Ubicacion';
-import CartaMenu from './CartaMenu';
-import { menuData } from '../utils/array-items';
-import InstagramButton from './InstagramButton';
-import FacebookButton from './FacebookButton';
-import CategoryCarousel from './CategoryCarousel';
+import CartaMenu from '../shop/CartaMenu';
+import { menuData } from '../../../utils/array-items';
+import InstagramButton from '../../../shared/components/buttons/InstagramButton';
+import FacebookButton from '../../../shared/components/buttons/FacebookButton';
+import CategoryCarousel from '../shop/CategoryCarousel';
 
 
 const MenuList: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { MenuItemType } from '../context/CartContext';
-import { useCart } from '../context/CartContext';
+import { MenuItemType } from '../../../context/CartContext';
+import { useCart } from '../../../context/CartContext';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 

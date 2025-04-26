@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosInstance from "../utils/axiosConfig";
 import { Comercio } from "../shared/types/comercioInterface";
 import { AxiosError } from "axios";
@@ -19,5 +19,25 @@ export const useComercios = () => {
         },
         staleTime: 1000 * 60 * 10,
         gcTime: 1000 * 60 * 15,
+    });
+};
+
+
+export const useCrearComercio = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (comercio: Comercio) => {
+            const { data } = await axiosInstance.post("/comercios", comercio);
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["comercios"] });
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError: string[] | string = error.response?.data?.message || "Error al crear el comercio";
+            console.log(messageError)
+        },
     });
 };

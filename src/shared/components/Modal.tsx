@@ -1,5 +1,5 @@
 import React from 'react';
-import { useModal } from '../context/ModalContext';
+import { useModal } from '../../context/ModalContext';
 import { FaTimes } from 'react-icons/fa';
 
 const Modal: React.FC = () => {

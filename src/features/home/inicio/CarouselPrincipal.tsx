@@ -27,7 +27,7 @@ const CarouselPrincipal: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-h-[410px] lg:max-h-[500px] relative bg-[#E63946] overflow-hidden">
+    <div className="w-full max-h-[300px] lg:max-h-[500px] relative bg-[#E63946] overflow-hidden">
       <div className="relative w-full h-[500px]">
         {slides.map((slide, index) => (
           <img

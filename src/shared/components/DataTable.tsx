@@ -36,7 +36,7 @@ const DataTable = <T,>({ headers, data, renderRow }: DataTableProps<T>) => {
                             {headers.map((header, index) => (
                                 <th
                                     key={index}
-                                    className="px-6 bg-sky-700 text-white text-left text-sm font-semibold uppercase tracking-wider border-b"
+                                    className="px-6 bg-[#E63946] text-white text-left text-sm font-semibold uppercase tracking-wider border-b"
                                 >
                                     {header}
                                 </th>

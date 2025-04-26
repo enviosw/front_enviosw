@@ -1,5 +1,5 @@
-  export interface TipoComercio {
-    id: number;
-    nombre: string;
-  }
-  
+export interface TipoComercio {
+  id?: number;
+  nombre?: string;
+  descripcion?: string;
+}

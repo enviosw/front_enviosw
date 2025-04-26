@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { FaPlus } from 'react-icons/fa';
-import Cart from '../../components/Cart';
+import Cart from '../../features/home/shop/Cart';
 
 const ProductPage: React.FC = () => {
     const { state } = useLocation();

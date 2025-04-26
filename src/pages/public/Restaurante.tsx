@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { CartProvider } from '../../context/CartContext';
-import MenuList from '../../components/MenuList';
+import MenuList from '../../features/home/inicio/MenuList';
 
 const Restaurante: React.FC = () => {
     const { id } = useParams<{ id: string }>();

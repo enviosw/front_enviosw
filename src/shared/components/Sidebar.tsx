@@ -38,8 +38,8 @@ const Sidebar: React.FC = () => {
                         <NavLink
                             to={item.to}
                             className={({ isActive }) =>
-                                `flex items-center justify-start cursor-pointer hover:bg-[#2B2B2B] hover:text-white rounded-md  gap-2  py-2 transition-all duration-300 ease-in-out
-                                ${isActive ? 'bg-[#2B2B2B] text-white' : ''}`
+                                `flex items-center justify-start cursor-pointer hover:bg-[#E63946] hover:text-white rounded-md  gap-2  py-2 transition-all duration-300 ease-in-out
+                                ${isActive ? 'bg-[#E63946] text-white' : ''}`
                             }
                         >
                             <div className={`transition-transform duration-300 ease-in-out text-2xl pl-2`}>
