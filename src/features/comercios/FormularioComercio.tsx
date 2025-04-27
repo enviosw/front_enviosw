@@ -3,12 +3,13 @@ import { Comercio } from '../../shared/types/comercioInterface';
 import InputField from '../../shared/components/InputField'; // Importamos el nuevo componente
 import SelectField from '../../shared/components/SelectField'; // Importamos el nuevo componente
 import { useCrearComercio } from '../../services/comerciosService'; // Importamos el hook de la mutación
-import { useTipoComercio } from '../../services/tiposServices';
+import { useServicios } from '../../services/serviciosServices';
 
 
 const FormularioComercio: React.FC = () => {
     const { mutate, isPending, isError, error } = useCrearComercio(); // Usamos el hook
-    const { data: tiposComercio, isLoading } = useTipoComercio(); // Cargamos los tipos de comercio
+    const { data: tiposComercio, isLoading } = useServicios(); // Cargamos los tipos de comercio
+    const [logo, setLogo] = useState<File | null>(null);  // Estado para manejar el archivo
 
     const [formulario, setFormulario] = useState<Omit<Comercio, 'id' | 'categoria' | 'fecha_creacion' | 'fecha_actualizacion' | 'tipo'>>({
         nombre_comercial: '',
@@ -22,7 +23,7 @@ const FormularioComercio: React.FC = () => {
         direccion: '',
         logo_url: '',
         activo: '', // Utilizamos string para los valores del select
-        tipo_id: ''
+        servicio_id: ''
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -35,14 +36,37 @@ const FormularioComercio: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Llamamos a mutate para enviar los datos del formulario
-        mutate(formulario); // Los datos del formulario se envían al backend
+
+        const formData = new FormData();
+
+        // Agregar todos los campos del formulario a FormData
+        for (const key in formulario) {
+            if (formulario.hasOwnProperty(key)) {
+                formData.append(key, formulario[key as keyof typeof formulario]);
+            }
+        }
+
+        // Agregar el archivo (logo) si está presente
+        if (logo) {
+            formData.append("logo", logo);
+        }
+
+        // Llamamos al mutate con FormData
+        mutate(formData); // Los datos se envían como FormData, lo que incluye los archivos
     };
 
 
     if (isLoading) {
         return <div>Error cargando los tipos de comercio</div>;
     }
+
+
+    const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        if (e.target instanceof HTMLInputElement && e.target.files) {
+            const file = e.target.files[0];
+            setLogo(file);  // Asignamos el archivo seleccionado al estado
+        }
+    };
 
 
     return (
@@ -120,11 +144,12 @@ const FormularioComercio: React.FC = () => {
                     required
                 />
                 <InputField
-                    label="Logo URL"
-                    name="logo_url"
-                    type="text"
-                    value={formulario.logo_url || ''}
-                    onChange={handleChange}
+                    label="Logo"
+                    name="logo"
+                    type="file"
+                    value={logo || null}  // Set the value to the file or null
+                    onChange={handleLogoChange}
+                    accept="image/*"  // Accept only image files
                 />
 
                 {/* Aquí usamos SelectField para el estado 'activo' */}
@@ -142,9 +167,9 @@ const FormularioComercio: React.FC = () => {
                 <SelectField
                     label="Tipo de Comercio"
                     name="tipo"
-                    value={formulario.tipo_id || 0}
+                    value={formulario.servicio_id || 0}
                     onChange={handleChange}
-                    options={tiposComercio?.map(tipo => ({
+                    options={tiposComercio?.filter(tipo => tipo.estado == 'activo').map(tipo => ({
                         value: tipo.id ?? 0,  // Si `tipo.id` es `undefined`, asigna `0` como valor por defecto
                         label: tipo.nombre ?? 'Sin nombre',  // Si `tipo.nombre` es `undefined`, asigna 'Sin nombre'
                     })) || []}

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CartProvider } from '../../context/CartContext';
 import MenuList from '../../features/home/inicio/MenuList';
 
-const Restaurante: React.FC = () => {
+const LocalComercial: React.FC = () => {
     const { id } = useParams<{ id: string }>();
 
     console.log(id)
@@ -17,4 +17,4 @@ const Restaurante: React.FC = () => {
     );
 };
 
-export default Restaurante;
+export default LocalComercial;

@@ -1,7 +1,4 @@
 // src/types/comercioInterface.ts
-
-import { TipoComercio } from "./tipos";
-
 export interface Comercio {
   id?: number;
   nombre_comercial: string;
@@ -15,7 +12,9 @@ export interface Comercio {
   direccion: string;
   logo_url?: string;
   activo?: string;
-  tipo?: TipoComercio | number;
   tipo_id?: number | undefined | string
+  logo?: any
+  servicio?: any
+  servicio_id?: number | undefined | string
 }
 

@@ -7,6 +7,7 @@ import { HiMenu, HiHome, HiUser, HiCube, HiChartBar, HiCollection, HiShoppingCar
 const menuItems = [
     { icon: <HiHome />, label: 'Dashboard', to: '/dashboard' },
     { icon: <HiUser />, label: 'Comercios', to: '/comercios' },
+    { icon: <HiUser />, label: 'Usuarios', to: '/usuarios' },
     { icon: <HiCube />, label: 'Clientes', to: '/clientes' },
     { icon: <HiChartBar />, label: 'Configuraciones', to: '/configuraciones' },
     { icon: <HiCollection />, label: 'Reportes', to: '/reportes' },

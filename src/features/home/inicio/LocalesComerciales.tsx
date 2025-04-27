@@ -1,0 +1,63 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaCheckCircle, FaClock } from 'react-icons/fa';
+import { AiFillStar } from 'react-icons/ai';
+import { useComerciosPublicos } from '../../../services/comerciosService';
+import { Comercio } from '../../../shared/types/comercioInterface';
+import Skeleton from '../../../utils/Skeleton';
+
+const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioId }) => {
+    const navigate = useNavigate();
+    const { data: comercios, isLoading, isError, error } = useComerciosPublicos(servicioId); // Usamos el servicioId para filtrar
+
+    // Si hay un error o está cargando, muestra un mensaje
+    if (isLoading) {
+        return <Skeleton />;
+    }
+
+    if (isError) {
+        return <div>Error al cargar los comercios: {error?.message}</div>;
+    }
+
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6">
+            {comercios?.map((comercio: Comercio) => (
+                <div
+                    key={comercio.id}
+                    onClick={() => navigate(`/local/${comercio.id}`)}
+                    className="group cursor-pointer bg-white hover:bg-[#E63946] rounded-3xl hover:shadow-xl transition duration-300 overflow-hidden relative border border-gray-200"
+                >
+                    <div className="relative h-48">
+                        <img
+                            src={comercio.logo_url || 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/b4/01/1b/el-faro-pizzeria-bar.jpg?w=600&h=-1&s=1'}
+                            alt={comercio.nombre_comercial}
+                            className="w-full h-full object-cover transition-transform hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
+
+                        <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow">
+                            <AiFillStar className="text-green-500" /> {comercio.servicio ? comercio.servicio.nombre : 'Sin tipo'}
+                        </div>
+                    </div>
+
+                    <div className="p-4 space-y-2">
+                        <h3 className="text-base font-bold text-gray-800 group-hover:text-white truncate">{comercio.nombre_comercial}</h3>
+                        <p className="text-sm text-gray-500 group-hover:text-white line-clamp-2">{comercio.descripcion}</p>
+
+                        <div className="flex items-center justify-between text-xs font-medium group-hover:text-white text-gray-600 pt-2">
+                            <div className="flex items-center gap-1">
+                                <FaClock className="text-green-600 group-hover:text-white" />
+                                15-25 min
+                            </div>
+                            <span className="flex items-center group-hover:text-white text-green-600 gap-1">
+                                <FaCheckCircle /> Disponible
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default LocalesComerciales;

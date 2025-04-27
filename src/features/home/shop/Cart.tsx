@@ -4,13 +4,12 @@ import { FaPlus, FaMinus, FaTrash, FaTimes, FaShoppingCart } from 'react-icons/f
 
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total } = useCart();
-
     const [direccion, setDireccion] = useState('');
 
     const handleWhatsAppOrder = () => {
         const numeroWhatsApp = '3232205900'; // Cambia por el número real del negocio
         const productos = cartItems
-            .map(item => `• ${item.quantity}x ${item.name} - $${(item.price * item.quantity).toFixed(2)}`)
+            .map(item => `• ${item.quantity}x ${item.nombre} - $${(parseFloat(item.precio_descuento) * item.quantity).toFixed(2)}`)
             .join('%0A');
 
         const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido con los siguientes productos:%0A%0A${productos}%0A%0A🔸 Total: $${total.toFixed(2)}%0A📍 Dirección de envío: ${direccion}%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
@@ -25,16 +24,11 @@ const Cart: React.FC = () => {
 
             {/* Botón flotante */}
             <div className="drawer-content">
-
-
                 <label
                     htmlFor="cart-drawer"
                     className="flex items-center gap-2 px-5 py-3 bg-white backdrop-blur-xl rounded-full text-[#25D366] hover:bg-green-500 hover:text-white transition-all duration-300 shadow-md"
                 >
                     <FaShoppingCart size={20} className="text-xl text-red-500 hover:text-red-500 transition" />
-
-
-
                 </label>
             </div>
 
@@ -58,22 +52,22 @@ const Cart: React.FC = () => {
                         ) : (
                             <div className="space-y-4">
                                 {cartItems.map(item => (
-                                    <div key={item.name} className="flex items-start gap-3 border-b pb-4">
+                                    <div key={item.id} className="flex items-start gap-3 border-b pb-4">
                                         <img
-                                            src={item.image}
-                                            alt={item.name}
+                                            src={item.image || 'https://via.placeholder.com/150'}
+                                            alt={item.nombre}
                                             className="w-16 h-16 object-cover rounded-md border"
                                         />
                                         <div className="flex-1">
                                             <div className="flex justify-between items-start">
                                                 <div>
-                                                    <h4 className="text-lg font-semibold text-gray-800">{item.name}</h4>
+                                                    <h4 className="text-lg font-semibold text-gray-800">{item.nombre}</h4>
                                                     <p className="text-sm text-gray-500 mt-1">
-                                                        ${(item.price * item.quantity).toFixed(2)}
+                                                        ${(parseFloat(item.precio_descuento) * item.quantity).toFixed(2)}
                                                     </p>
                                                 </div>
                                                 <button
-                                                    onClick={() => removeFromCart(item.name)}
+                                                    onClick={() => removeFromCart(Number(item.id))} // Usando id en lugar de name
                                                     className="text-red-500 hover:text-red-600"
                                                 >
                                                     <FaTrash className="text-base" />
@@ -81,14 +75,14 @@ const Cart: React.FC = () => {
                                             </div>
                                             <div className="flex items-center gap-2 mt-3">
                                                 <button
-                                                    onClick={() => decrement(item.name)}
+                                                    onClick={() => decrement(Number(item.id))} // Usando id en lugar de name
                                                     className="p-1 bg-gray-200 rounded-full hover:bg-gray-300"
                                                 >
                                                     <FaMinus />
                                                 </button>
                                                 <span className="font-medium">{item.quantity}</span>
                                                 <button
-                                                    onClick={() => increment(item.name)}
+                                                    onClick={() => increment(Number(item.id))} // Usando id en lugar de name
                                                     className="p-1 bg-gray-200 rounded-full hover:bg-gray-300"
                                                 >
                                                     <FaPlus />
@@ -102,14 +96,11 @@ const Cart: React.FC = () => {
                     </div>
 
                     {/* Footer */}
-                    {/* Footer */}
                     <div className="mt-6 pt-4 border-t mb-10 lg:mb-0">
                         <div className="flex justify-between items-center mb-4">
                             <span className="text-xl font-bold">Total:</span>
                             <span className="text-2xl font-extrabold text-orange-600">${total.toFixed(2)}</span>
                         </div>
-
-                        {/* Input de Teléfono */}
 
                         {/* Input de Dirección */}
                         <div className="mb-4">
@@ -135,8 +126,6 @@ const Cart: React.FC = () => {
                             Finalizar pedido por WhatsApp
                         </button>
                     </div>
-
-
                 </div>
             </div>
         </div>

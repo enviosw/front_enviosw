@@ -3,3 +3,7 @@ export interface TipoComercio {
   nombre?: string;
   descripcion?: string;
 }
+
+export interface TipoServicios {
+  tipo: string;
+}

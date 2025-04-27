@@ -3,14 +3,15 @@ import React from 'react';
 interface InputFieldProps {
     label: string;
     name: string;
-    type: string;
-    value: string | boolean; // Aquí mantenemos el tipo string | boolean
+    type?: string;
+    value: string | boolean | File | null;  // Permitimos File | null para manejar el archivo
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     required?: boolean;
     placeholder?: string;
+    accept?: string;  // Añadimos 'accept' para especificar el tipo de archivo
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, name, type, value, onChange, required = false, placeholder = '' }) => {
+const InputField: React.FC<InputFieldProps> = ({ label, name, type, value, onChange, required = false, placeholder = '', accept }) => {
     return (
         <div className="form-control">
             <label className="label">
@@ -36,6 +37,15 @@ const InputField: React.FC<InputFieldProps> = ({ label, name, type, value, onCha
                         className="checkbox checkbox-primary ml-2"
                     />
                 </label>
+            ) : type === 'file' ? (
+                <input
+                    type="file"
+                    name={name}
+                    onChange={onChange}
+                    className="input input-bordered w-full"
+                    required={required}
+                    accept={accept} // Añadimos el atributo accept para filtrar los tipos de archivo
+                />
             ) : (
                 <input
                     type={type}

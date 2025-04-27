@@ -24,36 +24,41 @@ const ProductPage: React.FC = () => {
         );
     }
 
-    const { name, description, price, image } = state;
+    const { id, nombre, descripcion, precio_descuento, image } = state;
 
     const handleAddToCart = () => {
         addToCart({
-            name,
-            description,
-            price: price * quantity, // Multiply price by quantity
+            id,
+            nombre,
+            descripcion,
+            precio_descuento: (precio_descuento * quantity).toString(), // Convert to string after calculation
+            precio: (precio_descuento * quantity).toString(), // Include precio, using the calculated value
+            unidad: 'Unidad', // Default value for unidad
+            estado: 'Activo', // Default value for estado
             image
         });
     };
+
 
     return (
         <div className="max-w-xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg">
             {/* Product Image */}
             <img
-                src={image}
-                alt={name}
+                src={image || 'https://via.placeholder.com/150'}
+                alt={nombre}
                 className="rounded-lg mb-4 w-full object-cover h-64 sm:h-80 lg:h-96"
             />
 
             {/* Product Name */}
-            <h1 className="text-2xl font-bold mb-4 text-center">{name}</h1>
+            <h1 className="text-2xl font-bold mb-4 text-center">{nombre}</h1>
 
             {/* Product Description */}
-            <p className="text-gray-700 mb-2">{description}</p>
+            <p className="text-gray-700 mb-2">{descripcion}</p>
 
             {/* Price */}
             <div className="flex justify-between items-center">
-                <span className="text-lg font-bold text-orange-600">${(price * quantity).toFixed(2)}</span>
-                <span className="text-sm text-gray-500 line-through">${(price * 1.14).toFixed(2)}</span>
+                <span className="text-lg font-bold text-orange-600">${(precio_descuento * quantity).toFixed(2)}</span>
+                <span className="text-sm text-gray-500 line-through">${(precio_descuento * 1.14).toFixed(2)}</span>
             </div>
 
             {/* Quantity Selector */}

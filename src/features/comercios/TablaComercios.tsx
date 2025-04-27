@@ -61,7 +61,7 @@ const TablaComercios: React.FC = () => {
             <TableCell>{comercio.direccion}</TableCell>
             <TableCell>{comercio.activo ? 'Sí' : 'No'}</TableCell>
             <TableCell>{formatDate(comercio.fecha_creacion)}</TableCell>
-            <TableCell>{comercio.tipo.nombre}</TableCell>
+            <TableCell>sda</TableCell>
 
         </tr>
     );

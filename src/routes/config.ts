@@ -24,8 +24,8 @@ export const routesConfig = [
         useAdminLayout: false
     },
     {
-        path: '/restaurante/:id',
-        element: lazy(() => import('../pages/public/Restaurante')),
+        path: '/local/:id',
+        element: lazy(() => import('../pages/public/LocalComercial')),
         requiresAuth: false,
         useLayout: false,
         useAdminLayout: false
@@ -84,6 +84,13 @@ export const routesConfig = [
     {
         path: '/perfil',
         element: lazy(() => import('../pages/admin/Perfil')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: true
+    },
+    {
+        path: '/usuarios',
+        element: lazy(() => import('../pages/admin/Usuarios')),
         requiresAuth: false,
         useLayout: false,
         useAdminLayout: true
