@@ -41,7 +41,7 @@ const Home: React.FC = () => {
           <IconButtons onSelectServicio={handleSelectServicio} />
         </section>
 
-        <section className="w-full lg:w-[85%] mx-auto pb-20 px-3 lg:px-10 my-5 flex justify-center gap-10">
+        <section className="w-[95%] lg:w-[85%] mx-auto pb-20 lg:px-10 my-5 lg:flex justify-center gap-10">
           {servicioId !== null ? (
             <LocalesComerciales servicioId={servicioId} /> // Mostrar LocalesComerciales solo si es un número
           ) : servicioNombre ? (

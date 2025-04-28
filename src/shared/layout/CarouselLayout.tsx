@@ -1,10 +1,12 @@
 import React from 'react'
 import WhatsappButton from '../components/buttons/WhatsappButton'
 import ContactoInfo from '../../features/home/inicio/ContactoInfo'
+import InstagramButton from '../components/buttons/InstagramButton'
+import FacebookButton from '../components/buttons/FacebookButton'
 
 const CarouselLayout: React.FC = () => {
     return (
-        <div className="relative w-full h-[40vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-gradient-to-r from-[#E63946] to-[#FF6A13]">
+        <div className="relative w-full h-[45vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-[#2B2B2B]">
             <img
                 loading="lazy"
                 className="absolute z-20 w-[90%] lg:w-[45%] hidden lg:flex -bottom-5 left-16 transform -translate-x-1/2 lg:left-0 lg:top-0 lg:translate-x-0 object-cover"
@@ -13,43 +15,46 @@ const CarouselLayout: React.FC = () => {
             />
             <img
                 loading="lazy"
-                className="absolute z-20 w-[90%] lg:w-[45%] -bottom-5 right-16 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
+                className="absolute z-20 w-[90%] lg:w-[45%] -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
                 src="domi.png"
                 alt="Motociclista"
             />
+            <div className="absolute inset-0 flex flex-col  justify-center pt-2 lg:pt-10 items-center text-center z-30 px-4 ">
+                <div className="flex flex-col justify-center items-center">
+                    <h1 className="text-5xl md:text-7xl flex flex-col lg:flex-row items-center gap-2 lg:text-8xl font-extrabold leading-tight bg-gradient-to-r from-[#FE6601] via-white to-[#FE6601] text-transparent bg-clip-text drop-shadow-lg">
+                        <img
+                            loading="lazy"
+                            className="w-3xs sm:w-2xs md:w-sm lg:w-lm filter drop-shadow-[0_0_1px_black] p-0 m-0"
+                            src="logoW_1.png"
+                            alt="Logo Domi"
+                        />
+                    </h1>
 
-            <div className="absolute inset-0 flex flex-col justify-end items-center text-center z-30">
-                <div className='w-full text-2xl h-auto max-w-2xl mx-auto text-white rounded-xl flex flex-col items-start justify-center py-8 px-4'>
-                    <div className='flex items-center justify-start gap-6'>
-                        {/* Logo de bienvenida */}
-                        <img className='w-32 h-32 lg:w-36 lg:h-36 object-contain' src="w.png" alt="Logo" />
-                        {/* Título de bienvenida */}
-                        <h1 className="text-xl lg:text-8xl font-normal uppercase pt-6 text-transparent bg-clip-text bg-gradient-to-r from-[#ffffff] to-[#ffffff] leading-tight drop-shadow-lg">
-                            - Domicilios <br />
-                            - Entregas <br />
-                            - y Mas...
-                        </h1>
-                    </div>
-                    {/* Descripción */}
-                    <div className='text-center mt-4'>
-                        <p className="mb-4 text-lg lg:text-2xl z-50 bg-white/10 text-white rounded-xl font-semibold drop-shadow-lg">
-                            ¡Conectamos lo que necesitas, de manera rápida, segura y sencilla!
+                    <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-sans italic font-bold uppercase pt-2">
+                        <span className="text-white">Domicilios</span> <span className="text-[#ff6600] pr-2.5">W</span>
+                    </p>
 
-                        </p>
-
-                        {/* Botones de contacto */}
-                        <div className="flex flex-wrap justify-start items-center gap-6">
-                            <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quisiera más información sobre su producto." />
-                        </div>
-                    </div>
+                    <p className="text-xl md:text-2xl lg:text-3xl font-sans italic font-semibold px-4 py-0">
+                        <span className="text-white">Te ahorramos</span>
+                        <span className="text-[#ff6600]"> Tiempo</span>
+                        <span className="text-white"> y sobre todo</span>
+                        <span className="text-[#ff6600]"> Dinero</span>
+                    </p>
                 </div>
 
-                {/* Información de contacto en pantallas grandes */}
-                <div className="absolute hidden lg:flex lg:right-10 bottom-2">
-                    <ContactoInfo />
+                <div className="flex flex-col lg:mt-3">
+                    <div className="flex flex-wrap justify-center items-center gap-4 mt-5  mb-5">
+                        <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quisiera más información sobre su producto." />
+                        <InstagramButton username="your_instagram_username" />
+                        <FacebookButton pageId="your_facebook_page_id" />
+
+                    </div>
+
+                    <div className='absolute hidden lgflex left-0 right-0 lg:right-10 bottom-2'>
+                        <ContactoInfo />
+                    </div>
                 </div>
             </div>
-
 
         </div>
 

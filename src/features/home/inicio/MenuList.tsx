@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useProductosPublicos } from '../../../services/productosServices'; // Hook para obtener los productos
 import MenuItem from '../shop/MenuItem';
@@ -47,7 +47,7 @@ const MenuList: React.FC = () => {
         categoria: producto.categoria?.nombre || 'Sin Categoría', // Default to 'Sin Categoría' if no category
         unidad: producto.unidad || 'Unidad', // Default unit if not provided
         estado: producto.estado || 'Activo', // Default state if not provided
-        image: 'https://via.placeholder.com/150', // Default image if no image is provided
+        image: 'https://i.revistapym.com.co/old/2016/10/las-comidas-rapidas-1.png?w=728', // Default image if no image is provided
     }));
 
     // Filtrar productos

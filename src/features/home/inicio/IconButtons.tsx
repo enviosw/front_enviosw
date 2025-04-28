@@ -37,24 +37,29 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
         }
     };
 
+    console.log(servicios)
+
     return (
         <div className="flex justify-center overflow-x-auto space-x-6 py-4 scrollbar-hidden w-full pl-[350px] pr-5 md:px-0">
-            {servicios?.map((servicio: Servicio) => (
-                <div key={servicio.id} className="flex flex-col items-center">
-                    <button
-                        onClick={() => handleClick(servicio)}
-                        className={`bg-${servicio.color} hover:bg-opacity-75 text-white rounded-full cursor-pointer p-4 flex items-center justify-center ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                            ? 'border-2 border-[#f56e00]' // Agregar borde verde si está seleccionado
-                            : ''
-                            }`}
-                    >
-                        <Icon iconName={servicio?.icon ?? ''} size={24} />
-                    </button>
-                    <span className="mt-2 text-black text-sm lg:text-lg font-semibold lg:font-normal">
-                        {servicio.nombre}
-                    </span>
-                </div>
-            ))}
+            {servicios
+                ?.sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
+                .map((servicio: Servicio) => (
+                    <div key={servicio.id} className="flex flex-col items-center">
+                        <button
+                            style={{ backgroundColor: servicio.color }}
+                            onClick={() => handleClick(servicio)}
+                            className={`bg-[${servicio.color}] hover:bg-opacity-75 text-white rounded-full cursor-pointer p-4 flex items-center justify-center ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+                                ? 'border-2 border-[#f56e00]' // Agregar borde verde si está seleccionado
+                                : ''
+                                }`}
+                        >
+                            <Icon iconName={servicio?.icon ?? ''} size={24} />
+                        </button>
+                        <span className="mt-2 text-black text-sm lg:text-lg font-semibold lg:font-normal">
+                            {servicio.nombre}
+                        </span>
+                    </div>
+                ))}
         </div>
     );
 };

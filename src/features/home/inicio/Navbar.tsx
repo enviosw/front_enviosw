@@ -28,12 +28,23 @@ export const Navbar: React.FC = () => {
         >
             <div className="flex-1">
                 {/* Nombre de la empresa */}
-                <div className="flex gap-2">
-                    <img className="bg-white rounded-2xl z-50 w-10 h-10" src="logo.png" alt="" />
-                    <a className="m-0 p-0 btn-ghost text-black lg:text-[#000000] text-2xl font-semibold">
-                        Envíos Express
-                    </a>
+                <div className="flex gap-2 items-end">
+                    {/* Logo */}
+                    <img
+                        className="rounded-2xl z-50 w-10 h-10 object-cover bg-black"
+                        src="logoW.png"
+                        alt="Logo W"
+                    />
+
+                    {/* Texto "Domicilios W" */}
+                    <div className="m-0 p-0 text-black text-2xl font-semibold">
+                        Domicilios{" "}
+                        <span className="bg-[#FF6600] px-2 py-1 text-white rounded-full">
+                            W
+                        </span>
+                    </div>
                 </div>
+
             </div>
             <div className="flex-none">
                 {/* Icono de carrito de compras o pedidos */}
