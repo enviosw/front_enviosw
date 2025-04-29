@@ -10,14 +10,14 @@ export interface MenuItemType {
   id?: number;
   nombre?: string;
   descripcion?: string;
-  precio: string; // Agregar precio si es necesario
+  precio?: string; // Agregar precio si es necesario
   precio_descuento: string;
-  unidad: string; // Agregar unidad si es necesario
-  categoria: Categoria;
-  estado: string;
-  estado_descuento: string;
-  fecha_creacion: string;
-  fecha_actualizacion: string;
+  unidad?: string; // Agregar unidad si es necesario
+  categoria?: Categoria;
+  estado?: string;
+  estado_descuento?: string;
+  fecha_creacion?: string;
+  fecha_actualizacion?: string;
   image?: any
   quantity?: any
 }

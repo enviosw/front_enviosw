@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
 
     return (
         <div
-            className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 `}
+            className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 shadow-2xl`}
         >
             <div className="flex-1">
                 {/* Nombre de la empresa */}

@@ -4,6 +4,7 @@ import AnimationMoto from '../../features/home/inicio/AnimationMoto';
 import IconButtons from '../../features/home/inicio/IconButtons';
 import LocalesComerciales from '../../features/home/inicio/LocalesComerciales';
 import TipoServicio from '../../features/home/inicio/TipoServicio';
+import WhatsAppFloatButton from '../../shared/components/WhatsAppFloatButton';
 
 const Home: React.FC = () => {
   const [showAnimation, setShowAnimation] = useState(true);
@@ -35,23 +36,25 @@ const Home: React.FC = () => {
       <CarouselLayout />
       <div>
         <section className="mt-5 w-full">
-          <h2 className="text-center text-2xl font-bold lg:font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#FF6347] to-[#FF4500] drop-shadow-md">
-            - Selecciona el Servicio -
+          <h2 className="text-center text-2xl text-black font-normal italic drop-shadow-md">
+            Selecciona el Servicio!
           </h2>
           <IconButtons onSelectServicio={handleSelectServicio} />
         </section>
 
-        <section className="w-[95%] lg:w-[85%] mx-auto pb-20 lg:px-10 my-5 lg:flex justify-center gap-10">
+        <section className="w-[100%] lg:w-[85%] mx-auto pb-20 lg:px-10 bg-[#f0f8ff] lg:bg-gray-50 lg:rounded-xl lg:py-10 lg:flex justify-center gap-10">
           {servicioId !== null ? (
-            <LocalesComerciales servicioId={servicioId} /> // Mostrar LocalesComerciales solo si es un número
+            <div className='px-3 lg:px-0'><LocalesComerciales servicioId={servicioId} /></div>
           ) : servicioNombre ? (
-            <div className="text-center text-lg font-semibold w-full">
+            <div className="text-center text-lg px-3 font-semibold w-full">
 
               <TipoServicio tipo={String(servicioNombre)} />
             </div>
           ) : null}
         </section>
       </div>
+
+      <WhatsAppFloatButton />
     </>
   );
 };

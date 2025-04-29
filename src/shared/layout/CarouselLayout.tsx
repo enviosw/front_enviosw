@@ -6,16 +6,16 @@ import FacebookButton from '../components/buttons/FacebookButton'
 
 const CarouselLayout: React.FC = () => {
     return (
-        <div className="relative w-full h-[45vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-[#2B2B2B]">
+        <div className="relative w-full h-[35vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-[#2B2B2B]">
             <img
                 loading="lazy"
-                className="absolute z-20 w-[90%] lg:w-[45%] hidden lg:flex -bottom-5 left-16 transform -translate-x-1/2 lg:left-0 lg:top-0 lg:translate-x-0 object-cover"
+                className="absolute z-20 w-[70%] lg:w-[45%] hidden lg:flex -bottom-5 left-16 transform -translate-x-1/2 lg:left-0 lg:top-0 lg:translate-x-0 object-cover"
                 src="domi4.png"
                 alt="Motociclista"
             />
             <img
                 loading="lazy"
-                className="absolute z-20 w-[90%] lg:w-[45%] -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
+                className="absolute z-20 w-[80%] lg:w-[45%] hidden lg:flex  -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
                 src="domi.png"
                 alt="Motociclista"
             />
@@ -24,7 +24,7 @@ const CarouselLayout: React.FC = () => {
                     <h1 className="text-5xl md:text-7xl flex flex-col lg:flex-row items-center gap-2 lg:text-8xl font-extrabold leading-tight bg-gradient-to-r from-[#FE6601] via-white to-[#FE6601] text-transparent bg-clip-text drop-shadow-lg">
                         <img
                             loading="lazy"
-                            className="w-3xs sm:w-2xs md:w-sm lg:w-lm filter drop-shadow-[0_0_1px_black] p-0 m-0"
+                            className="w-[50%] lg:w-[35%] mx-auto filter drop-shadow-[0_0_1px_black] p-0 m-0"
                             src="logoW_1.png"
                             alt="Logo Domi"
                         />
@@ -45,7 +45,9 @@ const CarouselLayout: React.FC = () => {
                 <div className="flex flex-col lg:mt-3">
                     <div className="flex flex-wrap justify-center items-center gap-4 mt-5  mb-5">
                         <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quisiera más información sobre su producto." />
-                        <InstagramButton username="your_instagram_username" />
+                        <div className='hidden lg:flex'>
+                            <InstagramButton username="your_instagram_username" />
+                        </div>
                         <FacebookButton pageId="your_facebook_page_id" />
 
                     </div>

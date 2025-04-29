@@ -40,7 +40,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     console.log(servicios)
 
     return (
-        <div className="flex justify-center overflow-x-auto space-x-6 py-4 scrollbar-hidden w-full pl-[350px] pr-5 md:px-0">
+        <div className="flex justify-center overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full pl-[350px] pr-5 md:px-0">
             {servicios
                 ?.sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
                 .map((servicio: Servicio) => (
@@ -55,7 +55,13 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                         >
                             <Icon iconName={servicio?.icon ?? ''} size={24} />
                         </button>
-                        <span className="mt-2 text-black text-sm lg:text-lg font-semibold lg:font-normal">
+                        <span
+                            style={{
+                                marginTop: '0.5rem', // mt-2 en Tailwind
+                                fontSize: '1rem', // Tamaño de letra fijo
+                                color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre ? servicio.color : '#000', // color condicional
+                            }}
+                        >
                             {servicio.nombre}
                         </span>
                     </div>
