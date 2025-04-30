@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CarouselLayout from '../../shared/layout/CarouselLayout';
-import AnimationMoto from '../../features/home/inicio/AnimationMoto';
 import IconButtons from '../../features/home/inicio/IconButtons';
 import LocalesComerciales from '../../features/home/inicio/LocalesComerciales';
 import TipoServicio from '../../features/home/inicio/TipoServicio';
 import WhatsAppFloatButton from '../../shared/components/WhatsAppFloatButton';
 
 const Home: React.FC = () => {
-  const [showAnimation, setShowAnimation] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowAnimation(false);
-    }, 2000); // 4 segundos
-
-    return () => clearTimeout(timer); // Limpiar el timer si el componente se desmonta
-  }, []);
 
   const [servicioId, setServicioId] = useState<number | null>(null);
   const [servicioNombre, setServicioNombre] = useState<string | null>(null);
@@ -32,7 +22,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {showAnimation && <AnimationMoto />}
       <CarouselLayout />
       <div>
         <section className="mt-5 w-full">
@@ -42,7 +31,7 @@ const Home: React.FC = () => {
           <IconButtons onSelectServicio={handleSelectServicio} />
         </section>
 
-        <section className="w-[100%] lg:w-[85%] mx-auto pb-20 lg:px-10 bg-[#f0f8ff] lg:bg-gray-50 lg:rounded-xl lg:py-10 lg:flex justify-center gap-10">
+        <section className="w-[100%] lg:w-[85%] mx-auto pb-20 lg:px-10  lg:py-10 lg:flex justify-center gap-10">
           {servicioId !== null ? (
             <div className='px-3 lg:px-0'><LocalesComerciales servicioId={servicioId} /></div>
           ) : servicioNombre ? (

@@ -1,7 +1,8 @@
 // routes/config.ts
 import { lazy } from 'react';
+import { RouteConfig } from '../shared/types/routesInterface';
 
-export const routesConfig = [
+export const routesConfig: RouteConfig[]  = [
     {
         path: '/',
         element: lazy(() => import('../pages/public/Home')),
@@ -42,56 +43,64 @@ export const routesConfig = [
     {
         path: '/comercios',
         element: lazy(() => import('../pages/admin/Comercios')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },
     {
         path: '/dashboard',
         element: lazy(() => import('../pages/admin/Dashboard')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },
     {
         path: '/clientes',
         element: lazy(() => import('../pages/admin/Clientes')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },
     {
         path: '/tarifas',
         element: lazy(() => import('../pages/admin/Tarifas')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },
     {
         path: '/reportes',
         element: lazy(() => import('../pages/admin/Reportes')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },
     {
         path: '/configuraciones',
         element: lazy(() => import('../pages/admin/Configuraciones')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },
     {
         path: '/perfil',
         element: lazy(() => import('../pages/admin/Perfil')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },
     {
         path: '/usuarios',
         element: lazy(() => import('../pages/admin/Usuarios')),
-        requiresAuth: false,
+        requiresAuth: true,
+        rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
     },

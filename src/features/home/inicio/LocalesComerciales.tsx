@@ -6,17 +6,28 @@ import { useComerciosPublicos } from '../../../services/comerciosService';
 import { Comercio } from '../../../shared/types/comercioInterface';
 import Skeleton from '../../../utils/Skeleton';
 
-const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioId }) => {
-    const navigate = useNavigate();
-    const { data: comercios, isLoading, isError, error } = useComerciosPublicos(servicioId); // Usamos el servicioId para filtrar
+// Custom Hook para obtener comercios
+const useComercios = (servicioId: number | null) => {
+    const { data, isLoading, isError, error } = useComerciosPublicos(servicioId);
 
-    // Si hay un error o está cargando, muestra un mensaje
     if (isLoading) {
-        return <Skeleton />;
+        return { isLoading, comercios: [] };
     }
 
     if (isError) {
-        return <div>Error al cargar los comercios: {error?.message}</div>;
+        console.error(error);
+        return { isLoading, comercios: [] };
+    }
+
+    return { isLoading, comercios: data || [] };
+};
+
+const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioId }) => {
+    const navigate = useNavigate();
+    const { isLoading, comercios } = useComercios(servicioId);
+
+    if (isLoading) {
+        return <Skeleton />;
     }
 
     return (

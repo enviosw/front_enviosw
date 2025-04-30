@@ -3,59 +3,81 @@ import WhatsappButton from '../components/buttons/WhatsappButton'
 import ContactoInfo from '../../features/home/inicio/ContactoInfo'
 import InstagramButton from '../components/buttons/InstagramButton'
 import FacebookButton from '../components/buttons/FacebookButton'
+import { Animate } from 'react-simple-animate';
+
 
 const CarouselLayout: React.FC = () => {
     return (
-        <div className="relative w-full h-[35vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-[#2B2B2B]">
+        <div className="relative w-full h-[35vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-secondary">
             <img
                 loading="lazy"
                 className="absolute z-20 w-[70%] lg:w-[45%] hidden lg:flex -bottom-5 left-16 transform -translate-x-1/2 lg:left-0 lg:top-0 lg:translate-x-0 object-cover"
-                src="domi4.png"
+                src="domi4-min.png"
                 alt="Motociclista"
             />
             <img
                 loading="lazy"
                 className="absolute z-20 w-[80%] lg:w-[45%] hidden lg:flex  -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
-                src="domi.png"
+                src="domi-min.png"
                 alt="Motociclista"
             />
             <div className="absolute inset-0 flex flex-col  justify-center pt-2 lg:pt-10 items-center text-center z-30 px-4 ">
                 <div className="flex flex-col justify-center items-center">
-                    <h1 className="text-5xl md:text-7xl flex flex-col lg:flex-row items-center gap-2 lg:text-8xl font-extrabold leading-tight bg-gradient-to-r from-[#FE6601] via-white to-[#FE6601] text-transparent bg-clip-text drop-shadow-lg">
-                        <img
-                            loading="lazy"
-                            className="w-[50%] lg:w-[35%] mx-auto filter drop-shadow-[0_0_1px_black] p-0 m-0"
-                            src="logoW_1.png"
-                            alt="Logo Domi"
-                        />
-                    </h1>
+                    <Animate play duration={1} start={{ opacity: 0, transform: 'scale(0.8)' }} end={{ opacity: 1, transform: 'scale(1)' }}>
+                        <h1 className="text-5xl md:text-7xl flex flex-col lg:flex-row items-center gap-2 lg:text-8xl font-extrabold leading-tight bg-gradient-to-r from-[#FE6601] via-white to-[#FE6601] text-transparent bg-clip-text drop-shadow-lg">
+                            <img
+                                loading="lazy"
+                                className="w-[50%] lg:w-[35%] mx-auto filter drop-shadow-[0_0_1px_black] p-0 m-0"
+                                src="logoW_1.png"
+                                alt="Logo Domi"
+                            />
+                        </h1>
+                    </Animate>
 
-                    <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-sans italic font-bold uppercase pt-2">
-                        <span className="text-white">Domicilios</span> <span className="text-[#ff6600] pr-2.5">W</span>
-                    </p>
+                    <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
+                        <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-sans italic font-bold uppercase pt-2">
+                            <span className="text-white">Domicilios</span> <span className="text-primary pr-2.5">W</span>
+                        </p>
+                    </Animate>
 
-                    <p className="text-xl md:text-2xl lg:text-3xl font-sans italic font-semibold px-4 py-0">
-                        <span className="text-white">Te ahorramos</span>
-                        <span className="text-[#ff6600]"> Tiempo</span>
-                        <span className="text-white"> y sobre todo</span>
-                        <span className="text-[#ff6600]"> Dinero</span>
-                    </p>
+                    <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
+                        <p className="text-xl md:text-2xl lg:text-3xl font-sans italic font-semibold px-4 py-0">
+                            <span className="text-white">Te ahorramos</span>
+                            <span className="text-primary"> Tiempo</span>
+                            <span className="text-white"> y sobre todo</span>
+                            <span className="text-primary"> Dinero</span>
+                        </p>
+                    </Animate>
                 </div>
 
                 <div className="flex flex-col lg:mt-3">
-                    <div className="flex flex-wrap justify-center items-center gap-4 mt-5  mb-5">
-                        <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quisiera más información sobre su producto." />
-                        <div className='hidden lg:flex'>
-                            <InstagramButton username="your_instagram_username" />
+                    <div className="flex flex-wrap justify-center items-center gap-4 mt-5 mb-5">
+
+                        {/* Botón WhatsApp animado */}
+                        <Animate play duration={1} delay={0.8} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
+                            <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quisiera más información sobre su producto." />
+                        </Animate>
+
+                        {/* Botón Instagram animado */}
+                        <div className="hidden lg:flex">
+                            <Animate play duration={1} delay={1.0} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
+                                <InstagramButton username="your_instagram_username" />
+                            </Animate>
                         </div>
-                        <FacebookButton pageId="your_facebook_page_id" />
+
+                        {/* Botón Facebook animado */}
+                        <Animate play duration={1} delay={1.2} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
+                            <FacebookButton pageId="your_facebook_page_id" />
+                        </Animate>
 
                     </div>
 
-                    <div className='absolute hidden lgflex left-0 right-0 lg:right-10 bottom-2'>
+                    {/* ContactoInfo (puedes decidir si también quieres animarlo aparte) */}
+                    <div className="absolute hidden lg:flex right-0 lg:right-10 bottom-2">
                         <ContactoInfo />
                     </div>
                 </div>
+
             </div>
 
         </div>

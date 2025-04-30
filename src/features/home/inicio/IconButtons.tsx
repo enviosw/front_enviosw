@@ -1,7 +1,8 @@
 import { useServicios } from '../../../services/serviciosServices';
 import { Servicio } from '../../../shared/types/serviciosInterface';
 import { Icon } from '../../../shared/components/Icon';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { Animate } from 'react-simple-animate';
 
 export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioIdOrNombre: number | string) => void }) => {
     const { data: servicios, isLoading, isError } = useServicios();
@@ -9,63 +10,68 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     // Estado para el servicio seleccionado
     const [selectedServicioId, setSelectedServicioId] = useState<number | string | null>(null);
 
+    // UseMemo para memorizar la lista de servicios ordenada
+    const sortedServicios = useMemo(() => {
+        return servicios?.sort((a, b) => (a.id ?? 0) - (b.id ?? 0)) ?? [];
+    }, [servicios]);
+
+    // useCallback fuera de condicionales, garantizando el mismo orden de hooks
+    const handleClick = useCallback((servicio: Servicio) => {
+        const servicioSeleccionado = servicio.estado === 'activo' ? Number(servicio.id) : String(servicio.nombre);
+        setSelectedServicioId(servicioSeleccionado);
+        onSelectServicio(servicioSeleccionado);
+    }, [onSelectServicio]);
+
     // Efecto para seleccionar el primer servicio por defecto al cargar
     useEffect(() => {
-        if (servicios && servicios.length > 0 && selectedServicioId === null) {
-            const firstServicio = servicios[0];
-            // Selecciona el primer servicio por defecto (según su estado)
-            if (firstServicio.estado === 'activo') {
-                setSelectedServicioId(Number(firstServicio.id)); // Si está activo, selecciona por ID
-                onSelectServicio(Number(firstServicio.id)); // Pasar el ID al callback
-            } else {
-                setSelectedServicioId(String(firstServicio.nombre)); // Si está inactivo, selecciona por nombre
-                onSelectServicio(String(firstServicio.nombre)); // Pasar el nombre al callback
-            }
+        if (sortedServicios.length > 0 && selectedServicioId === null) {
+            const firstServicio = sortedServicios[0];
+            const servicioSeleccionado = firstServicio.estado === 'activo' ? Number(firstServicio.id) : String(firstServicio.nombre);
+            setSelectedServicioId(servicioSeleccionado);
+            onSelectServicio(servicioSeleccionado);
         }
-    }, [servicios, selectedServicioId, onSelectServicio]);
+    }, [sortedServicios, selectedServicioId, onSelectServicio]);
 
     if (isLoading) return <div>Cargando...</div>;
     if (isError) return <div>Error al cargar los servicios</div>;
 
-    const handleClick = (servicio: Servicio) => {
-        if (servicio.estado === 'activo') {
-            setSelectedServicioId(Number(servicio.id)); // Actualizar el servicio seleccionado
-            onSelectServicio(Number(servicio.id));
-        } else {
-            setSelectedServicioId(String(servicio.nombre)); // Actualizar el servicio seleccionado
-            onSelectServicio(String(servicio.nombre));
-        }
-    };
-
-    console.log(servicios)
-
     return (
         <div className="flex justify-center overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full pl-[350px] pr-5 md:px-0">
-            {servicios
-                ?.sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
-                .map((servicio: Servicio) => (
-                    <div key={servicio.id} className="flex flex-col items-center">
+            {sortedServicios.map((servicio: Servicio) => (
+                <Animate
+                    key={servicio.id}
+                    play
+                    duration={0.8}
+                    delay={0.2} // Puedes usar un delay fijo para mejorar rendimiento
+                    start={{ opacity: 0, transform: 'translateY(20px)' }}
+                    end={{ opacity: 1, transform: 'translateY(0px)' }}
+                >
+                    <div className="flex flex-col items-center">
                         <button
                             style={{ backgroundColor: servicio.color }}
                             onClick={() => handleClick(servicio)}
-                            className={`bg-[${servicio.color}] hover:bg-opacity-75 text-white rounded-full cursor-pointer p-4 flex items-center justify-center ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                                ? 'border-2 border-[#f56e00]' // Agregar borde verde si está seleccionado
-                                : ''
+                            className={`hover:bg-opacity-80 text-white rounded-full cursor-pointer p-4 flex items-center justify-center transition-all duration-75 
+                                ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+                                    ? 'border-2 border-[#b1b1b1] scale-110'
+                                    : 'border-2 border-transparent'
                                 }`}
                         >
-                            <Icon iconName={servicio?.icon ?? ''} size={24} />
+                            <Icon iconName={servicio?.icon ?? ''} size={28} />
                         </button>
                         <span
+                            className='uppercase text-sm'
                             style={{
-                                marginTop: '0.5rem', // mt-2 en Tailwind
-                                fontSize: '1rem', // Tamaño de letra fijo
-                                color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre ? servicio.color : '#000', // color condicional
+                                marginTop: '0.5rem',
+                                color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+                                    ? servicio.color
+                                    : '#000000',
                             }}
                         >
                             {servicio.nombre}
                         </span>
                     </div>
-                ))}
+                </Animate>
+            ))}
         </div>
     );
 };

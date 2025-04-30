@@ -1,75 +1,83 @@
 import React, { forwardRef } from 'react';
 
 interface InputFieldProps {
-    label: string;
-    name: string;
-    type?: string;
-    value: string | boolean | File | null;  // Permitimos File | null para manejar el archivo
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
-    required?: boolean;
-    placeholder?: string;
-    accept?: string;  // Añadimos 'accept' para especificar el tipo de archivo
+  label: string;
+  name: string;
+  type?: string;
+  value: string | boolean | File | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+  required?: boolean;
+  placeholder?: string;
+  accept?: string;
 }
 
 const InputField = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputFieldProps>(({
-    label,
-    name,
-    type,
-    value,
-    onChange,
-    required = false,
-    placeholder = '',
-    accept
-}: InputFieldProps, ref: any) => {
-    return (
-        <div className="mb-4 relative bg-[#ffffff] w-full shadow rounded-lg py-2 border border-gray-400 hover:bg-gray-50">
-            <label className="block text-sm font-medium text-white absolute left-1 px-2 rounded-2xl bg-[#ff6600] -top-2">{label}</label>
-            {type === 'textarea' ? (
-                <textarea
-                    name={name}
-                    value={value as string} // El valor para textarea sigue siendo un string
-                    onChange={onChange}
-                    className="mt-1 block w-full px-3 py-2 border-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    required={required}
-                    placeholder={placeholder}
-                    ref={ref}  // Asignamos la referencia al textarea
-                />
-            ) : type === 'checkbox' ? (
-                <label className="label cursor-pointer">
-                    <span className="label-text">{label}</span>
-                    <input
-                        type="checkbox"
-                        name={name}
-                        checked={value as boolean} // Usamos 'checked' en lugar de 'value' para los checkbox
-                        onChange={onChange}
-                        className="checkbox checkbox-primary ml-2"
-                        ref={ref}  // Asignamos la referencia al checkbox
-                    />
-                </label>
-            ) : type === 'file' ? (
-                <input
-                    type="file"
-                    name={name}
-                    onChange={onChange}
-                    className="mt-1 block w-full px-3 py-2 border-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    required={required}
-                    accept={accept} // Añadimos el atributo accept para filtrar los tipos de archivo
-                    ref={ref}  // Asignamos la referencia al input de tipo file
-                />
-            ) : (
-                <input
-                    type={type}
-                    name={name}
-                    value={value as string} // Convertimos a string para otros tipos de input
-                    onChange={onChange}
-                    className="mt-1 block w-full px-3 py-2 border-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    required={required}
-                    placeholder={placeholder}
-                    ref={ref}  // Asignamos la referencia al input normal
-                />
-            )}
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  required = false,
+  placeholder = '',
+  accept
+}, ref) => {
+  return (
+    <div className="w-full mb-5">
+      <label htmlFor={name} className="block text-left text-sm font-medium text-gray-700 mb-1">
+        {label}{required && <span className="text-red-500 ml-1">*</span>}
+      </label>
+
+      {type === 'textarea' ? (
+        <textarea
+          id={name}
+          name={name}
+          value={value as string}
+          onChange={onChange}
+          required={required}
+          placeholder={placeholder}
+          ref={ref as React.Ref<HTMLTextAreaElement>}
+          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#E63946] focus:border-transparent transition shadow-sm resize-none"
+          rows={4}
+        />
+      ) : type === 'checkbox' ? (
+        <div className="flex items-center gap-2">
+          <input
+            id={name}
+            type="checkbox"
+            name={name}
+            checked={value as boolean}
+            onChange={onChange}
+            ref={ref as React.Ref<HTMLInputElement>}
+            className="h-5 w-5 text-[#E63946] border-gray-300 rounded focus:ring-[#E63946]"
+          />
+          <label htmlFor={name} className="text-sm text-gray-800">{label}</label>
         </div>
-    );
+      ) : type === 'file' ? (
+        <input
+          id={name}
+          type="file"
+          name={name}
+          onChange={onChange}
+          required={required}
+          accept={accept}
+          ref={ref as React.Ref<HTMLInputElement>}
+          className="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#E63946] file:text-white hover:file:bg-red-600 cursor-pointer"
+        />
+      ) : (
+        <input
+          id={name}
+          type={type}
+          name={name}
+          value={value as string}
+          onChange={onChange}
+          required={required}
+          placeholder={placeholder}
+          ref={ref as React.Ref<HTMLInputElement>}
+          className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#E63946] focus:border-transparent transition shadow-sm"
+        />
+      )}
+    </div>
+  );
 });
 
 export default InputField;

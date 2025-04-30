@@ -24,32 +24,13 @@ export const useComercios = () => {
 };
 
 
-// export const useComerciosPublicos = () => {
-//     const axiosInstance = useAxiosInstance();
-//     return useQuery<Comercio[]>({
-//         queryKey: ['comercios-publicos'],
-//         queryFn: async () => {
-//             try {
-//                 const { data } = await axiosInstance.get<Comercio[]>('/comercios/publicos?servicio_id=');
-//                 return data;
-//             } catch (error) {
-//                 const axiosError = error as AxiosError<ServerError>;
-//                 throw new Error(axiosError.response?.data.message);
-//             }
-//         },
-//         staleTime: 1000 * 60 * 10,
-//         gcTime: 1000 * 60 * 15,
-//     });
-// };
-
-
 export const useComerciosPublicos = (servicioId: number | null) => {
     const axiosInstance = useAxiosInstance();
     
     return useQuery<Comercio[]>({
         queryKey: ['comercios-publicos', servicioId],
         queryFn: async () => {
-            if (!servicioId) return []; // Si no se proporciona servicioId, devuelve un array vacío
+            if (!servicioId) return [];
             
             try {
                 const { data } = await axiosInstance.get<Comercio[]>(`/comercios/publicos?servicio_id=${servicioId}`);
@@ -73,7 +54,7 @@ export const useCrearComercio = () => {
         mutationFn: async (formData: FormData) => {
             const { data } = await axiosInstance.post("/comercios", formData, {
                 headers: {
-                    "Content-Type": "multipart/form-data", // Especificamos que es un formulario con archivos
+                    "Content-Type": "multipart/form-data",
                 },
             });
             return data;

@@ -3,7 +3,7 @@ import React from 'react';
 interface Category {
     id: number;
     name: string;
-    icon?: string; // Emoji o URL de imagen
+    icon?: string;
 }
 
 const categories: Category[] = [
@@ -18,22 +18,21 @@ const categories: Category[] = [
     { id: 9, name: 'Comida China', icon: '🥡' },
     { id: 10, name: 'Café y Té', icon: '☕' },
     { id: 11, name: 'Helados', icon: '🍦' },
-    { id: 12, name: 'Carnes', icon: '🥩' },
-    { id: 13, name: 'Vegetariano', icon: '🧆' }
 ];
 
 const CategoryCarousel: React.FC = () => {
     return (
-        <div className="w-full bg-[#f5f0f0] py-2 my-1 rounded-xl px-2 overflow-hidden">
-            <div className="carousel carousel-center max-w-full space-x-4 overflow-x-auto scrollbar-hide px-2">
+        <div className="w-full bg-white shadow-md rounded-xl py-3 px-3 overflow-x-auto">
+            <div className="flex gap-4 whitespace-nowrap scrollbar-hide justify-between items-center flex-wrap">
                 {categories.map((category) => (
-                    <div key={category.id} className="carousel-item max-w-full overflow-hidden">
-                        <div className="bg-white w-24 overflow-hidden h-24 md:w-40 md:h-24 rounded-xl   flex flex-col items-center justify-center text-center hover:scale-105 transition-transform">
-                            <div className="text-5xl md:text-6xl mb-1">{category.icon}</div>
-                            <span className="text-xs md:text-sm font-medium text-gray-800 truncate">
-                                {category.name}
-                            </span>
-                        </div>
+                    <div
+                        key={category.id}
+                        className="bg-[#F7F7F7] hover:bg-[#FFE0DC] transition p-3 py-1 rounded-xl flex flex-col items-center w-24 h-20 md:w-28  justify-center shadow-sm"
+                    >
+                        <div className="text-3xl md:text-4xl">{category.icon}</div>
+                        <span className="text-xs md:text-sm font-medium text-gray-700 mt-2 text-center truncate">
+                            {category.name}
+                        </span>
                     </div>
                 ))}
             </div>

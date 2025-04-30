@@ -2,25 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Navbar: React.FC = () => {
-    // const [scrolling, setScrolling] = useState(false);
+
     const navigate = useNavigate();
-
-    // // Detectar el desplazamiento del scroll
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (window.scrollY > 20) {
-    //             setScrolling(true);
-    //         } else {
-    //             setScrolling(false);
-    //         }
-    //     };
-
-    //     window.addEventListener('scroll', handleScroll);
-
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, []);
 
     return (
         <div
@@ -39,7 +22,7 @@ export const Navbar: React.FC = () => {
                     {/* Texto "Domicilios W" */}
                     <div className="m-0 p-0 text-black text-2xl font-semibold">
                         Domicilios{" "}
-                        <span className="bg-[#FF6600] px-2 py-1 text-white rounded-full">
+                        <span className="text-primary">
                             W
                         </span>
                     </div>
@@ -47,22 +30,7 @@ export const Navbar: React.FC = () => {
 
             </div>
             <div className="flex-none">
-                {/* Icono de carrito de compras o pedidos */}
-                <button className="btn btn-square btn-ghost">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="inline-block h-6 w-6 stroke-[#000] lg:stroke-[#000000]"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M3 3h18l-1 12H4L3 3zM9 3v12m6-12v12"
-                        ></path>
-                    </svg>
-                </button>
+
                 {/* Icono de perfil o usuario */}
                 <button className="btn btn-square btn-ghost ml-4"
 

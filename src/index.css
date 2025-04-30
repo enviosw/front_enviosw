@@ -2,6 +2,18 @@
 @plugin "daisyui";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
+
+/* VARIABLES ESTILOS GLOBALES */
+:root {
+    --color-primary: #ff6600;
+    --color-secondary: #2B2B2B;
+    --color-black: #000000;
+    --color-dark: #121212;
+    --color-background: #000;
+    --color-text-dark: #1a1a1a;
+}
+
+
 /* body {
     font-family: 'Poppins', sans-serif;
 } */
