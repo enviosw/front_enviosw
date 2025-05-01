@@ -1,191 +1,172 @@
 import React, { useState } from 'react';
-import { Comercio } from '../../shared/types/comercioInterface';
-import InputField from '../../shared/components/InputField'; // Importamos el nuevo componente
-import SelectField from '../../shared/components/SelectField'; // Importamos el nuevo componente
-import { useCrearComercio } from '../../services/comerciosService'; // Importamos el hook de la mutación
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { comercioSchema } from '../../shared/schemas/comercioSchema';
+import { useActualizarComercio, useCrearComercio } from '../../services/comerciosService';
 import { useServicios } from '../../services/serviciosServices';
 
 
-const FormularioComercio: React.FC = () => {
-    const { mutate, isPending, isError, error } = useCrearComercio(); // Usamos el hook
-    const { data: tiposComercio, isLoading } = useServicios(); // Cargamos los tipos de comercio
-    const [logo, setLogo] = useState<File | null>(null);  // Estado para manejar el archivo
+interface FormularioComercioProps {
+    comercio?: Partial<ComercioFormData> & {
+        id?: number;
+        servicio?: { id: number } | any;
+    };
+}
 
-    const [formulario, setFormulario] = useState<Omit<Comercio, 'id' | 'categoria' | 'fecha_creacion' | 'fecha_actualizacion' | 'tipo'>>({
-        nombre_comercial: '',
-        razon_social: '',
-        nit: '',
-        descripcion: '',
-        responsable: '',
-        email_contacto: '',
-        telefono: '',
-        telefono_secundario: '',
-        direccion: '',
-        logo_url: '',
-        activo: '', // Utilizamos string para los valores del select
-        servicio_id: ''
+
+
+type ComercioFormData = z.infer<typeof comercioSchema>;
+
+const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => {
+    const crearMutation = useCrearComercio();
+    const actualizarMutation = useActualizarComercio();
+
+    const { data: tiposComercio, isLoading } = useServicios();
+
+
+    const [logo, setLogo] = useState<File | null>(null);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<ComercioFormData>({
+        resolver: zodResolver(comercioSchema),
+        defaultValues: {
+            ...comercio,
+            servicio_id: comercio?.servicio?.id ?? comercio?.servicio_id ?? '',
+        },
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormulario(prev => ({
-            ...prev,
-            [name]: value, // Para todos los inputs y selects, usamos el 'value'
-        }));
-    };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const onSubmit = (data: ComercioFormData) => {
         const formData = new FormData();
-
-        // Agregar todos los campos del formulario a FormData
-        for (const key in formulario) {
-            if (formulario.hasOwnProperty(key)) {
-                formData.append(key, formulario[key as keyof typeof formulario]);
-            }
+        for (const key in data) {
+            formData.append(key, data[key as keyof ComercioFormData] as string);
         }
-
-        // Agregar el archivo (logo) si está presente
         if (logo) {
-            formData.append("logo", logo);
+            formData.append('logo', logo);
         }
 
-        // Llamamos al mutate con FormData
-        mutate(formData); // Los datos se envían como FormData, lo que incluye los archivos
-    };
 
-
-    if (isLoading) {
-        return <div>Error cargando los tipos de comercio</div>;
-    }
-
-
-    const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        if (e.target instanceof HTMLInputElement && e.target.files) {
-            const file = e.target.files[0];
-            setLogo(file);  // Asignamos el archivo seleccionado al estado
+        if (comercio?.id) {
+            formData.append('id', comercio.id.toString()); // 👈 esto debe ir ANTES de llamar a mutate()
+            actualizarMutation.mutate(formData);
+            reset();
+        } else {
+            crearMutation.mutate(formData);
+            reset();
         }
     };
+
+    const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) setLogo(e.target.files[0]);
+    };
+
+    const isPending = comercio?.id ? actualizarMutation.isPending : crearMutation.isPending;
+    const isError = comercio?.id ? actualizarMutation.isError : crearMutation.isError;
+    const error = comercio?.id ? actualizarMutation.error : crearMutation.error;
+
+
+    if (isLoading) return <p className="text-center">Cargando tipos de comercio...</p>;
 
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 bg-white">
-                <InputField
-                    label="Nombre Comercial"
-                    name="nombre_comercial"
-                    type="text"
-                    value={formulario.nombre_comercial}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Razón Social"
-                    name="razon_social"
-                    type="text"
-                    value={formulario.razon_social}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="NIT"
-                    name="nit"
-                    type="text"
-                    value={formulario.nit}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Responsable"
-                    name="responsable"
-                    type="text"
-                    value={formulario.responsable}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Descripción"
-                    name="descripcion"
-                    type="textarea"
-                    value={formulario.descripcion}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Email de Contacto"
-                    name="email_contacto"
-                    type="email"
-                    value={formulario.email_contacto}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Teléfono"
-                    name="telefono"
-                    type="text"
-                    value={formulario.telefono}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Teléfono Secundario"
-                    name="telefono_secundario"
-                    type="text"
-                    value={formulario.telefono_secundario}
-                    onChange={handleChange}
-                />
-                <InputField
-                    label="Dirección"
-                    name="direccion"
-                    type="text"
-                    value={formulario.direccion}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Logo"
-                    name="logo"
-                    type="file"
-                    value={logo || null}  // Set the value to the file or null
-                    onChange={handleLogoChange}
-                    accept="image/*"  // Accept only image files
-                />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label>Nombre Comercial</label>
+                    <input {...register('nombre_comercial')} className="input input-bordered w-full" />
+                    {errors.nombre_comercial && <p className="text-red-500">{errors.nombre_comercial.message}</p>}
+                </div>
 
-                {/* Aquí usamos SelectField para el estado 'activo' */}
-                <SelectField
-                    label="Activo"
-                    name="activo"
-                    value={String(formulario.activo)}
-                    onChange={handleChange}
-                    options={[
-                        { value: 'true', label: 'Activo' },
-                        { value: 'false', label: 'Inactivo' },
-                    ]}
-                    required
-                />
-                <SelectField
-                    label="Tipo de Comercio"
-                    name="tipo"
-                    value={formulario.servicio_id || 0}
-                    onChange={handleChange}
-                    options={tiposComercio?.filter(tipo => tipo.estado == 'activo').map(tipo => ({
-                        value: tipo.id ?? 0,  // Si `tipo.id` es `undefined`, asigna `0` como valor por defecto
-                        label: tipo.nombre ?? 'Sin nombre',  // Si `tipo.nombre` es `undefined`, asigna 'Sin nombre'
-                    })) || []}
-                    required
-                />
+                <div>
+                    <label>Razón Social</label>
+                    <input {...register('razon_social')} className="input input-bordered w-full" />
+                    {errors.razon_social && <p className="text-red-500">{errors.razon_social.message}</p>}
+                </div>
 
-            </form>
+                <div>
+                    <label>NIT</label>
+                    <input {...register('nit')} className="input input-bordered w-full" />
+                    {errors.nit && <p className="text-red-500">{errors.nit.message}</p>}
+                </div>
 
-            <div className="flex justify-end w-full mt-6">
-                <button onClick={handleSubmit} className="btn btn-success" disabled={isPending}>
-                    {isPending ? 'Registrando...' : 'Registrar Comercio'}
-                </button>
+                <div>
+                    <label>Responsable</label>
+                    <input {...register('responsable')} className="input input-bordered w-full" />
+                    {errors.responsable && <p className="text-red-500">{errors.responsable.message}</p>}
+                </div>
+
+                <div>
+                    <label>Email de Contacto</label>
+                    <input type="email" {...register('email_contacto')} className="input input-bordered w-full" />
+                    {errors.email_contacto && <p className="text-red-500">{errors.email_contacto.message}</p>}
+                </div>
+
+                <div>
+                    <label>Teléfono</label>
+                    <input {...register('telefono')} className="input input-bordered w-full" />
+                    {errors.telefono && <p className="text-red-500">{errors.telefono.message}</p>}
+                </div>
+
+                <div>
+                    <label>Teléfono Secundario</label>
+                    <input {...register('telefono_secundario')} className="input input-bordered w-full" />
+                </div>
+
+                <div>
+                    <label>Dirección</label>
+                    <input {...register('direccion')} className="input input-bordered w-full" />
+                    {errors.direccion && <p className="text-red-500">{errors.direccion.message}</p>}
+                </div>
+
+                <div>
+                    <label>Logo</label>
+                    <input type="file" name="logo" onChange={handleLogoChange} accept="image/*" className="file-input file-input-bordered w-full" />
+                </div>
+
+                {comercio?.id && (
+                    <div>
+                        <label>Estado</label>
+                        <select {...register('estado')} className="select select-bordered w-full">
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                        </select>
+                        {errors.estado && <p className="text-red-500">{errors.estado.message}</p>}
+                    </div>
+                )}
+
+
+                <div>
+                    <label>Tipo de Comercio</label>
+                    <select {...register('servicio_id')} className="select select-bordered w-full">
+                        {tiposComercio?.filter(t => t.estado === 'activo').map(t => (
+                            <option key={t.id} value={t.id}>
+                                {t.nombre}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.servicio_id && <p className="text-red-500">{errors.servicio_id.message}</p>}
+                </div>
             </div>
 
+            <div>
+                <label>Descripción</label>
+                <textarea {...register('descripcion')} className="textarea textarea-bordered w-full" rows={4} />
+                {errors.descripcion && <p className="text-red-500">{errors.descripcion.message}</p>}
+            </div>
+
+            <button type="submit" className="btn btn-success" disabled={isPending}>
+                {isPending
+                    ? comercio?.id ? 'Actualizando...' : 'Registrando...'
+                    : comercio?.id ? 'Actualizar Comercio' : 'Registrar Comercio'}
+            </button>
+
             {isError && <p className="text-red-500 mt-4">{error?.message}</p>}
-        </>
+        </form>
     );
 };
 

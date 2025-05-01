@@ -4,38 +4,49 @@ import { Comercio } from "../shared/types/comercioInterface";
 import { AxiosError } from "axios";
 import { ServerError } from "../shared/types/serverErrorInterface";
 import { AlertService } from "../utils/AlertService";
+import { useModal } from "../context/ModalContext";
 
-export const useComercios = () => {
+interface ComercioFilters {
+    page: number;
+    search?: string;
+    estado?: string;
+    fechaInicio?: string;
+    fechaFin?: string;
+}
+
+interface ComercioResponse {
+    data: Comercio[];
+    total: number;
+    page: number;
+    lastPage: number;
+}
+
+export const useComercios = (filters: ComercioFilters) => {
     const axiosInstance = useAxiosInstance();
-    return useQuery<Comercio[]>({
-        queryKey: ['comercios'],
+
+    return useQuery<ComercioResponse>({
+        queryKey: ['comercios', filters],
         queryFn: async () => {
-            try {
-                const { data } = await axiosInstance.get<Comercio[]>('/comercios');
-                return data;
-            } catch (error) {
-                const axiosError = error as AxiosError<ServerError>;
-                throw new Error(axiosError.response?.data.message);
-            }
+            const { data } = await axiosInstance.get('/comercios', { params: filters });
+            return data;
         },
-        staleTime: 1000 * 60 * 10,
-        gcTime: 1000 * 60 * 15,
+        // keepPreviousData: true,
     });
 };
 
 
 export const useComerciosPublicos = (servicioId: number | null) => {
     const axiosInstance = useAxiosInstance();
-    
+
     return useQuery<Comercio[]>({
         queryKey: ['comercios-publicos', servicioId],
         queryFn: async () => {
             if (!servicioId) return [];
-            
+
             try {
                 const { data } = await axiosInstance.get<Comercio[]>(`/comercios/publicos?servicio_id=${servicioId}`);
                 return data;
-            }catch (error) {
+            } catch (error) {
                 const axiosError = error as AxiosError<ServerError>;
                 throw new Error(axiosError.response?.data.message);
             }
@@ -50,6 +61,8 @@ export const useCrearComercio = () => {
     const axiosInstance = useAxiosInstance();
     const queryClient = useQueryClient();
 
+    const { closeModal, setModalTitle, setModalContent } = useModal();
+
     return useMutation({
         mutationFn: async (formData: FormData) => {
             const { data } = await axiosInstance.post("/comercios", formData, {
@@ -62,11 +75,52 @@ export const useCrearComercio = () => {
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["comercios"] });
             AlertService.success('Guardado exitosamente', 'Tu registro ha sido almacenado.');
+
+            closeModal()
+            setModalTitle('')
+            setModalContent('')
+
         },
         onError: (error: AxiosError<ServerError>) => {
             const messageError: string[] | string = error.response?.data?.message || "Error al crear el comercio";
             console.log(messageError)
             AlertService.error('Error al guardar', messageError);
+        },
+    });
+};
+
+
+
+export const useActualizarComercio = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+    const { closeModal, setModalTitle, setModalContent } = useModal();
+
+
+    return useMutation({
+        mutationFn: async (formData: FormData) => {
+            const comercioId = formData.get('id');
+            console.log(comercioId)
+            if (!comercioId) throw new Error('ID del comercio es requerido para actualizar');
+
+            const { data } = await axiosInstance.patch(`/comercios/${comercioId}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["comercios"] });
+            closeModal()
+            setModalTitle('')
+            setModalContent('')
+            AlertService.success('Actualizado exitosamente', 'El comercio ha sido actualizado.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError: string[] | string = error.response?.data?.message || "Error al actualizar el comercio";
+            console.error(messageError);
+            AlertService.error('Error al actualizar', messageError);
         },
     });
 };

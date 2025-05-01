@@ -40,9 +40,9 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                 >
                     <div className="relative h-48">
                         <img
-                            src={comercio.logo_url || 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/b4/01/1b/el-faro-pizzeria-bar.jpg?w=600&h=-1&s=1'}
+                            src={comercio.logo_url || 'logo_w_fondo_negro.jpeg'}
                             alt={comercio.nombre_comercial}
-                            className="w-full h-full object-cover transition-transform hover:scale-105"
+                            className="w-full h-full object-cover transition-transform min-w-72 hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
 

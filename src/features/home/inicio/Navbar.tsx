@@ -1,10 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
+import { FaSignInAlt } from 'react-icons/fa';
 
 export const Navbar: React.FC = () => {
 
     const navigate = useNavigate();
 
+    const { user } = useAuth()
+
+    console.log(user)
     return (
         <div
             className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 shadow-2xl`}
@@ -37,21 +42,32 @@ export const Navbar: React.FC = () => {
                     onClick={() => navigate(`/login`)}
                 >
 
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        className="inline-block h-6 w-6 stroke-[#000] lg:stroke-[#000000]"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.66 0-8 1.34-8 4v2h16v-2c0-2.66-5.34-4-8-4z"
-                        ></path>
-                    </svg>
+<FaSignInAlt size={24} />
                 </button>
+
+
+                <div className="dropdown dropdown-end">
+                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                        <div className="w-10 rounded-full">
+                            <img
+                                alt="Tailwind CSS Navbar component"
+                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                        </div>
+                    </div>
+                    <ul
+                        tabIndex={0}
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        <li>
+                            <a className="justify-between">
+                                Profile
+                                <span className="badge">New</span>
+                            </a>
+                        </li>
+                        <li><a>Logout</a></li>
+                    </ul>
+                </div>
             </div>
+
         </div>
     );
 };

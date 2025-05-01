@@ -11,7 +11,7 @@ export interface Comercio {
   telefono_secundario: string;
   direccion: string;
   logo_url?: string;
-  activo?: string;
+  estado?: string;
   tipo_id?: number | undefined | string
   logo?: any
   servicio?: any

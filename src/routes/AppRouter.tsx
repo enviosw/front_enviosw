@@ -25,8 +25,6 @@ const AppRouter: React.FC = () => {
                 content = <AdminLayout>{content}</AdminLayout>;
               }
 
-              console.log(path, requiresAuth, useLayout, useAdminLayout, rol)
-
               // ✅ PROTEGE DESPUÉS DE APLICAR LAYOUT
               if (requiresAuth && rol) {
                 content = (

@@ -20,10 +20,6 @@ const RoleProtectedRoute: React.FC<Props> = ({ children, requiredRole }) => {
         return () => clearTimeout(timer); // limpia si el user se carga antes
     }, [user]);
 
-    console.log("isAuthenticated:", isAuthenticated);
-    console.log("user.rol:", user?.rol);
-    console.log("requiredRole:", requiredRole);
-
     if (timeoutReached) {
         return <Navigate to={location.state?.from || '/'} replace />;
     }

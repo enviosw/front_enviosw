@@ -20,7 +20,7 @@ const MenuItem: React.FC<any> = ({
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  const defaultImage = 'https://via.placeholder.com/150';
+  const defaultImage = 'logo_w_fondo_negro.jpeg';
 
   const handleCardClick = () => {
     navigate('/producto', {

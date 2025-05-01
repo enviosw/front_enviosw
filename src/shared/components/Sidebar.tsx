@@ -2,6 +2,7 @@ import React from 'react';
 import { useSidebar } from '../../context/SidebarContext';
 import { NavLink } from 'react-router-dom'; // Importar NavLink de React Router
 import { HiMenu, HiHome, HiUser, HiCube, HiChartBar, HiCollection, HiShoppingCart, HiTag } from 'react-icons/hi';
+import { FaTimes } from 'react-icons/fa';
 
 // Actualiza los elementos del menú con sus rutas
 const menuItems = [
@@ -21,12 +22,13 @@ const Sidebar: React.FC = () => {
     return (
         <div
             className={`bg-[#F7F7F7] text-black p-4 h-screen transition-all duration-500 ease-in-out
-            ${isOpen ? 'w-64' : 'w-24'} flex flex-col`}
+            ${isOpen ? 'w-64' : 'w-[73px]'} flex flex-col`}
         >
             {/* Sidebar Toggle Button */}
-            <div className="flex justify-start gap-2 items-center mb-4 cursor-pointer" onClick={toggleSidebar}>
+            <div className={`flex gap-2 items-center mb-4 cursor-pointer ${isOpen ? 'justify-start pl-2' : 'justify-center'}`} onClick={toggleSidebar}>
                 <button className="cursor-pointer">
-                    <HiMenu size={24} />
+
+                    {isOpen ? <FaTimes size={24} /> : <HiMenu size={24} />}
                 </button>
                 {isOpen && <span className="transition-all duration-300 ease-in-out">Menu</span>}
 
