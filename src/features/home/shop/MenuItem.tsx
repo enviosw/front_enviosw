@@ -2,6 +2,7 @@ import React from 'react';
 import { useCart } from '../../../context/CartContext';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../../utils/baseUrl';
 
 const MenuItem: React.FC<any> = ({
   id,
@@ -44,7 +45,7 @@ const MenuItem: React.FC<any> = ({
     >
       <div className="avatar">
         <div className="mask mask-squircle w-24">
-          <img src={image || defaultImage} alt={nombre} />
+          <img src={`${BASE_URL}/${image}`  || defaultImage} alt={nombre} />
         </div>
       </div>
 

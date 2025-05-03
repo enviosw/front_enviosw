@@ -8,7 +8,7 @@ import { Animate } from 'react-simple-animate';
 
 const CarouselLayout: React.FC = () => {
     return (
-        <div className="relative w-full h-[35vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-secondary">
+        <div className="relative w-full h-[45vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-secondary">
             <img
                 loading="lazy"
                 className="absolute z-20 w-[70%] lg:w-[45%] hidden lg:flex -bottom-5 left-16 transform -translate-x-1/2 lg:left-0 lg:top-0 lg:translate-x-0 object-cover"

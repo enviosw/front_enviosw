@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaCheckCircle, FaClock } from 'react-icons/fa';
+import {  FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import { AiFillStar } from 'react-icons/ai';
 import { useComerciosPublicos } from '../../../services/comerciosService';
 import { Comercio } from '../../../shared/types/comercioInterface';
 import Skeleton from '../../../utils/Skeleton';
+import { BASE_URL } from '../../../utils/baseUrl';
 
 // Custom Hook para obtener comercios
 const useComercios = (servicioId: number | null) => {
@@ -38,10 +39,9 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                     onClick={() => navigate(`/local/${comercio.id}`)}
                     className="group cursor-pointer bg-white hover:bg-[#E63946] rounded-3xl hover:shadow-xl transition duration-300 overflow-hidden relative border border-gray-200"
                 >
-                    <div className="relative h-48">
-                        <img
-                            src={comercio.logo_url || 'logo_w_fondo_negro.jpeg'}
-                            alt={comercio.nombre_comercial}
+                    <div className="relative h-44 bg-white">
+                        <img src={`${BASE_URL}/${comercio.logo_url}` || "logo_w_fondo_negro.jpeg"} alt={comercio.logo_url}
+
                             className="w-full h-full object-cover transition-transform min-w-72 hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
@@ -56,14 +56,15 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                         <p className="text-sm text-gray-500 group-hover:text-white line-clamp-2">{comercio.descripcion}</p>
 
                         <div className="flex items-center justify-between text-xs font-medium group-hover:text-white text-gray-600 pt-2">
-                            <div className="flex items-center gap-1">
-                                <FaClock className="text-green-600 group-hover:text-white" />
-                                15-25 min
-                            </div>
-                            <span className="flex items-center group-hover:text-white text-green-600 gap-1">
-                                <FaCheckCircle /> Disponible
-                            </span>
-                        </div>
+  <div className="flex items-center gap-1 truncate">
+    <FaMapMarkerAlt className="text-green-600 group-hover:text-white" />
+    {comercio.direccion || 'Sin dirección'}
+  </div>
+  <span className="flex items-center group-hover:text-white text-green-600 gap-1">
+    <FaPhoneAlt />
+    {comercio.telefono || 'Sin teléfono'}
+  </span>
+</div>
                     </div>
                 </div>
             ))}
