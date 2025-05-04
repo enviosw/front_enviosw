@@ -20,4 +20,6 @@ export interface AuthResponse {
       email: string;
       rol: string;
     };
+    comercio?: number | null;
+
   }

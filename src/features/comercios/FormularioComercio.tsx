@@ -46,6 +46,7 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
         for (const key in data) {
             formData.append(key, data[key as keyof ComercioFormData] as string);
         }
+        
         if (logo) {
             formData.append('logo', logo);
         }

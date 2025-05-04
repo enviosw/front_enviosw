@@ -6,6 +6,7 @@ interface User {
   email: string;
   nombre: string;
   rol: 'administrador' | 'aliado'; // ✅ Cambiado a "rol"
+  comercioId?: number | null;
 }
 
 interface AuthContextProps {
@@ -23,17 +24,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
+    const comercioIdRaw = localStorage.getItem('comercio_id'); // 👈 obtiene como string
+  
     if (token) {
       const decoded: any = jwtDecode(token);
+      const comercioId = comercioIdRaw ? Number(comercioIdRaw) : null; // 👈 convierte a número
+  
       setUser({
         id: decoded.sub,
         email: decoded.email,
-        nombre: decoded.nombre || '', // Esto se asegura de que el nombre se guarde correctamente
+        nombre: decoded.nombre || '',
         rol: decoded.rol,
+        comercioId: comercioId !== null && !isNaN(comercioId) ? comercioId : null,
       });
     }
   }, []);
-
+  
   const login = (token: string) => {
     localStorage.setItem('access_token', token);
     const decoded: any = jwtDecode(token);

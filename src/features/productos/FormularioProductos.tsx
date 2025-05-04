@@ -1,0 +1,159 @@
+import React, { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { productoSchema } from '../../shared/schemas/productoSchema';
+import { useCategoriasPorComercio } from '../../services/categoriasServices';
+import { useCrearProducto, useActualizarProducto } from '../../services/productosServices';
+import { useAuth } from '../../context/AuthContext';
+
+type ProductoFormData = z.infer<typeof productoSchema>;
+
+interface FormularioProductosProps {
+  producto?: Partial<ProductoFormData> & { id?: number; categoria?: { id: number }; comercio?: { id: number } };
+}
+
+const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) => {
+  const crearMutation = useCrearProducto();
+  const actualizarMutation = useActualizarProducto();
+  const [imagen, setImagen] = useState<File | null>(null);
+  const { user } = useAuth();
+  const comercioId = user?.comercioId || 0;
+
+  const { data: categorias = [] } = useCategoriasPorComercio(comercioId);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ProductoFormData>({
+    resolver: zodResolver(productoSchema),
+    defaultValues: {
+      ...producto,
+      categoriaId: producto?.categoria?.id ? String(producto.categoria.id) : '',
+      comercioId: String(comercioId),
+    },
+  });
+
+  const onSubmit: SubmitHandler<ProductoFormData> = (data) => {
+    console.log('✅ Datos del formulario:', data);
+
+    const formData = new FormData();
+
+    for (const key in data) {
+        const valor = data[key as keyof ProductoFormData];
+        if (valor !== undefined && valor !== null && valor !== '') {
+          formData.append(key, String(valor));
+        }
+      }
+      
+
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+      
+
+    console.log("---------", formData)
+
+    if (imagen) {
+      formData.append('logo', imagen);
+    }
+
+    console.log('🧾 FormData contenido:');
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+
+    if (producto?.id) {
+      actualizarMutation.mutate(formData);
+    } else {
+      crearMutation.mutate(formData);
+    }
+
+    reset();
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label>Nombre</label>
+          <input {...register('nombre')} className="input input-bordered w-full" />
+          {errors.nombre && <p className="text-red-500">{errors.nombre.message}</p>}
+        </div>
+
+        <div>
+          <label>Descripción</label>
+          <input {...register('descripcion')} className="input input-bordered w-full" />
+          {errors.descripcion && <p className="text-red-500">{errors.descripcion.message}</p>}
+        </div>
+
+        <div>
+          <label>Precio</label>
+          <input type="number" step="0.01" {...register('precio')} className="input input-bordered w-full" />
+          {errors.precio && <p className="text-red-500">{errors.precio.message}</p>}
+        </div>
+
+        <div>
+          <label>Precio Descuento (opcional)</label>
+          <input type="number" step="0.01" {...register('precio_descuento')} className="input input-bordered w-full" />
+        </div>
+
+        <div>
+          <label>Unidad</label>
+          <input {...register('unidad')} className="input input-bordered w-full" />
+          {errors.unidad && <p className="text-red-500">{errors.unidad.message}</p>}
+        </div>
+
+        <div>
+          <label>Categoría</label>
+          <select {...register('categoriaId')} className="select select-bordered w-full">
+            <option value="">Seleccionar...</option>
+            {categorias.map((cat) => (
+              <option key={cat.id} value={String(cat.id)}>{cat.nombre}</option>
+            ))}
+          </select>
+          {errors.categoriaId && <p className="text-red-500">{errors.categoriaId.message}</p>}
+        </div>
+
+        {producto?.id && (
+          <>
+            <div>
+              <label>Estado</label>
+              <select {...register('estado')} className="select select-bordered w-full">
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Estado Descuento</label>
+              <select {...register('estado_descuento')} className="select select-bordered w-full">
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+              </select>
+            </div>
+          </>
+        )}
+
+        <div>
+          <label>Imagen</label>
+          <input
+            name="imagen" // 👈 esto es CRUCIAL para que Multer lo capture
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImagen(e.target.files?.[0] || null)}
+            className="file-input file-input-bordered w-full"
+          />
+        </div>
+      </div>
+
+      <button type="submit" className="btn btn-success">
+        {producto?.id ? 'Actualizar Producto' : 'Registrar Producto'}
+      </button>
+    </form>
+  );
+};
+
+export default FormularioProductos;

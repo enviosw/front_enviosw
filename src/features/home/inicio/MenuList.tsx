@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useProductosPublicos } from '../../../services/productosServices';
 import MenuItem from '../shop/MenuItem';
@@ -12,7 +12,10 @@ import ComercioHeader from './ComercioHeader';
 
 const MenuList: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { data: productos, isLoading, isError } = useProductosPublicos(Number(id));
+    const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);
+
+    const { data: productos, isLoading, isError } = useProductosPublicos(Number(id), categoriaId);
+
 
     if (isLoading) return <div className="text-center py-10 text-gray-600">Cargando productos...</div>;
     if (isError) return <div className="text-center py-10 text-red-500">Error al cargar los productos.</div>;
@@ -72,7 +75,10 @@ const MenuList: React.FC = () => {
 
                     {/* Categorías */}
                     <section className="w-full container mt-24 mx-auto flex justify-center items-center px-4">
-                        <CategoryCarousel />
+                        <CategoryCarousel
+                            comercioId={Number(id)}
+                            onSelectCategoria={setCategoriaId}
+                        />
                     </section>
 
                     {/* Lista de productos */}
