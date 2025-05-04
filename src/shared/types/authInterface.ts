@@ -18,6 +18,6 @@ export interface AuthResponse {
       id: number;
       nombre: string;
       email: string;
-      role: string;
+      rol: string;
     };
   }

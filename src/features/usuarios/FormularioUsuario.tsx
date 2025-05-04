@@ -1,114 +1,122 @@
-import React, { useState, useEffect } from 'react';
-import { Usuario } from '../../shared/types/usuariosInterface'; // Asegúrate de que la ruta sea correcta
-import InputField from '../../shared/components/InputField'; // Importamos el componente InputField
-import SelectField from '../../shared/components/SelectField'; // Importamos el componente SelectField
-import { useCrearUsuario } from '../../services/usuariosServices'; // Hook para crear usuarios
-import { useRolesUsuario } from '../../services/rolesServices'; // Hook para obtener los roles de usuario
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { usuarioSchema } from '../../shared/schemas/usuarioSchema'; // Asegúrate de tener este esquema de validación
+import { useCrearUsuario, useActualizarUsuario } from '../../services/usuariosServices'; // Hooks para crear y actualizar usuarios
+import { useRolesUsuario } from '../../services/rolesServices'; // Hook para obtener los roles de los usuarios
+import { Usuario } from '../../shared/types/usuariosInterface';
 
-const FormularioUsuario: React.FC<{ usuario?: Usuario }> = ({ usuario }) => {
-    const { mutate, isPending, isError, error } = useCrearUsuario(); // Hook para crear el usuario
+interface FormularioUsuarioProps {
+    usuario?: Usuario; // Usuario opcional para editar
+}
+
+type UsuarioFormData = z.infer<typeof usuarioSchema>;
+
+const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
+    const { mutate: crearUsuario, isPending: isCreating, isError: isErrorCreating, error: errorCreating } = useCrearUsuario();
+    const { mutate: actualizarUsuario, isPending: isUpdating, isError: isErrorUpdating, error: errorUpdating } = useActualizarUsuario();
     const { data: roles, isLoading } = useRolesUsuario(); // Obtenemos los roles de los usuarios
 
-    // Inicializamos el estado con los valores del formulario, si es para editar un usuario
-    const [formulario, setFormulario] = useState<Omit<Usuario, 'id' | 'fecha_creacion' | 'fecha_actualizacion'>>({
-        nombre: '',
-        email: '',
-        password: '',
-        rol: 'usuario',
-        estado: 'activo',
+    // Hook de react-hook-form con validaciones usando Zod
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<UsuarioFormData>({
+        resolver: zodResolver(usuarioSchema),
+        defaultValues: usuario // Directamente tomamos los datos del usuario para pre-cargar el formulario
     });
 
-    // Si se pasa un usuario, pre-cargamos los datos en el formulario
     useEffect(() => {
         if (usuario) {
-            setFormulario({
-                nombre: usuario.nombre,
-                email: usuario.email,
-                password: '',  // En el caso de edición, el campo password podría dejarse vacío
-                rol: usuario.rol,
-                estado: usuario.estado,
-            });
+            reset(usuario); // Resetear los valores del formulario cuando el `usuario` cambia
         }
-    }, [usuario]);
+    }, [usuario, reset]);
 
-    // Manejamos los cambios en los inputs
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormulario(prev => ({
-            ...prev,
-            [name]: value, // Para todos los inputs y selects, usamos el 'value'
-        }));
-    };
-
-    // Manejamos el envío del formulario
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        mutate(formulario); // Enviamos los datos del formulario
+    const onSubmit = (data: UsuarioFormData) => {
+        if (usuario?.id) {
+            actualizarUsuario({ ...data, id: usuario.id });
+        } else {
+            crearUsuario(data);
+        }
     };
 
     if (isLoading) {
-        return <div>Cargando Roles...</div>;
+        return <div>Cargando roles...</div>;
     }
 
     return (
-        <>
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <InputField
-                    label="Nombre"
-                    name="nombre"
-                    type="text"
-                    value={formulario.nombre}
-                    onChange={handleChange}
-                    required
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white">
+            <div>
+                <label>Nombre</label>
+                <input
+                    {...register('nombre')}
+                    className="input input-bordered w-full"
+                    placeholder="Nombre completo"
                 />
-                <InputField
-                    label="Email"
-                    name="email"
-                    type="email"
-                    value={formulario.email}
-                    onChange={handleChange}
-                    required
-                />
-                <InputField
-                    label="Contraseña"
-                    name="password"
-                    type="password"
-                    value={String(formulario.password)}
-                    onChange={handleChange}
-                    required={!usuario} // Solo es requerido para crear, no para editar
-                />
-                <SelectField
-                    label="Rol"
-                    name="rol"
-                    value={formulario.rol}
-                    onChange={handleChange}
-                    options={roles?.map(role => ({
-                        value: role.id ?? '0',
-                        label: role.nombre ?? 'Sin nombre',
-                    })) || []}
-                    required
-                />
-                <SelectField
-                    label="Estado"
-                    name="estado"
-                    value={formulario.estado}
-                    onChange={handleChange}
-                    options={[
-                        { value: 'activo', label: 'Activo' },
-                        { value: 'inactivo', label: 'Inactivo' },
-                    ]}
-                    required
-                />
-            </form>
+                {errors.nombre && <p className="text-red-500">{errors.nombre.message}</p>}
+            </div>
 
-            <div className="flex justify-end w-full mt-6">
-                <button onClick={handleSubmit} className="btn btn-success" disabled={isPending}>
-                    {isPending ? 'Registrando...' : 'Registrar Usuario'}
+            <div>
+                <label>Email</label>
+                <input
+                    {...register('email')}
+                    type="email"
+                    className="input input-bordered w-full"
+                    placeholder="Email"
+                />
+                {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+            </div>
+
+            <div>
+                <label>Contraseña</label>
+                <input
+                    {...register('password')}
+                    type="password"
+                    className="input input-bordered w-full"
+                    placeholder="Contraseña"
+                />
+                {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+            </div>
+
+            <div>
+                <label>Rol</label>
+                <select {...register('rol')} className="select select-bordered w-full">
+                    {roles?.map(role => (
+                        <option key={role.id} value={role.nombre}>
+                            {role.nombre}
+                        </option>
+                    ))}
+                </select>
+                {errors.rol && <p className="text-red-500">{errors.rol.message}</p>}
+            </div>
+
+            {usuario?.id && (
+                <div>
+                    <label>Estado</label>
+                    <select {...register('estado')} className="select select-bordered w-full">
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                    </select>
+                    {errors.estado && <p className="text-red-500">{errors.estado.message}</p>}
+                </div>
+            )}
+
+
+
+            <div className="flex justify-end">
+                <button
+                    type="submit"
+                    className="btn btn-success"
+                    disabled={isCreating || isUpdating}
+                >
+                    {isCreating || isUpdating ? 'Procesando...' : usuario?.id ? 'Actualizar Usuario' : 'Registrar Usuario'}
                 </button>
             </div>
 
-            {isError && <p className="text-red-500 mt-4">{error?.message}</p>}
-        </>
+            {(isErrorCreating || isErrorUpdating) && (
+                <p className="text-red-500 mt-4">
+                    {(errorCreating || errorUpdating)?.message}
+                </p>
+            )}
+        </form>
     );
 };
 

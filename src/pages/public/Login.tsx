@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLogin } from "../../services/authServices";
 import { useRegister } from "../../services/authServices";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
+
+const {isAuthenticated} =  useAuth()
+
+const navigate = useNavigate();
+
+useEffect(() => {
+  if (isAuthenticated) {
+    navigate(-1); // Navega a la página anterior si el usuario ya está autenticado
+  }
+}, [isAuthenticated, navigate]);
+
   const [isRegistering, setIsRegistering] = useState(false);
   const [form, setForm] = useState({ nombre: "", email: "", password: "" });
 
@@ -14,7 +27,9 @@ const Login: React.FC = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault(); // Prevenir el comportamiento por defecto de recarga
+
     loginMutation.mutate({ email: form.email, password: form.password });
   };
 

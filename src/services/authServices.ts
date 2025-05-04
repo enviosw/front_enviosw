@@ -17,7 +17,18 @@ export const useLogin = () => {
         onSuccess: (data) => {
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('refresh_token', data.refresh_token);
+            localStorage.setItem('user', JSON.stringify(data.user));
             AlertService.success('Bienvenido', `Hola, ${data.user.nombre}`);
+
+            // Redirige según el rol
+            const userRole = data.user.rol;
+            if (userRole === 'administrador') {
+                window.location.href = '/dashboard';
+            } else if (userRole === 'aliado') {
+                window.location.href = '/mi-comercio';
+            } else {
+                window.location.href = '/';
+            }
         },
         onError: (error: AxiosError<ServerError>) => {
             const message = error.response?.data.message || 'Error de inicio de sesión';

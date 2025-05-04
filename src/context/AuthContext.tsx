@@ -5,7 +5,7 @@ interface User {
   id: number;
   email: string;
   nombre: string;
-  rol: 'administrador' | 'aliado' | 'cliente'; // ✅ Cambiado a "rol"
+  rol: 'administrador' | 'aliado'; // ✅ Cambiado a "rol"
 }
 
 interface AuthContextProps {
@@ -20,6 +20,7 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
+
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (token) {
@@ -27,8 +28,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser({
         id: decoded.sub,
         email: decoded.email,
-        nombre: decoded.nombre || '',
-        rol: decoded.rol, // ✅ Usamos "rol" en lugar de "role"
+        nombre: decoded.nombre || '', // Esto se asegura de que el nombre se guarde correctamente
+        rol: decoded.rol,
       });
     }
   }, []);

@@ -2,7 +2,7 @@
 import { lazy } from 'react';
 import { RouteConfig } from '../shared/types/routesInterface';
 
-export const routesConfig: RouteConfig[]  = [
+export const routesConfig: RouteConfig[] = [
     {
         path: '/',
         element: lazy(() => import('../pages/public/Home')),
@@ -103,6 +103,14 @@ export const routesConfig: RouteConfig[]  = [
         rol: 'administrador',
         useLayout: false,
         useAdminLayout: true
+    },
+    {
+        path: '/mi-comercio',
+        element: lazy(() => import('../pages/comercios/MiComercio')),
+        requiresAuth: true,
+        rol: 'aliado',
+        useLayout: false,
+        useAdminLayout: false
     },
 
 ];
