@@ -1,5 +1,6 @@
 import React from 'react'
 import TablaProductos from '../../features/productos/TablaProductos'
+import TablaCategorias from '../../features/categorias/TablaCategorias'
 
 const MiComercio: React.FC = () => {
     return (
@@ -17,7 +18,7 @@ const MiComercio: React.FC = () => {
                 <input type="radio" name="my_tabs_2" className="tab" aria-label="Categorias" />
                 <div className="tab-content border-base-300 bg-base-100 p-10">
 
-
+<TablaCategorias />
 
                 </div>
                 {/* 
