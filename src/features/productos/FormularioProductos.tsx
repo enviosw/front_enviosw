@@ -37,7 +37,7 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
   });
 
   const onSubmit: SubmitHandler<ProductoFormData> = (data) => {
-    console.log('✅ Datos del formulario:', data);
+    // console.log('✅ Datos del formulario:', data);
 
     const formData = new FormData();
 
@@ -49,21 +49,25 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
       }
       
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
+      // for (const [key, value] of formData.entries()) {
+      //   console.log(`${key}:`, value);
+      // }
       
 
-    console.log("---------", formData)
+    // console.log("---------", formData)
 
     if (imagen) {
       formData.append('logo', imagen);
     }
 
-    console.log('🧾 FormData contenido:');
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
+    if (producto?.id) {
+      formData.append('id', String(producto.id)); // 🔥 ESTO ES LO QUE FALTABA
     }
+
+    // console.log('🧾 FormData contenido:');
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
 
     if (producto?.id) {
       actualizarMutation.mutate(formData);

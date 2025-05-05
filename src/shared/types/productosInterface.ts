@@ -26,4 +26,5 @@ export interface Producto {
     unidad: string;
     fecha_creacion: string; // Fecha en formato string (puede ser formateada en el frontend)
     fecha_actualizacion: string; // Fecha en formato string
+    imagen_url?: string
 }

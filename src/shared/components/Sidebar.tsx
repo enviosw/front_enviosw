@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSidebar } from '../../context/SidebarContext';
 import { NavLink } from 'react-router-dom'; // Importar NavLink de React Router
-import { HiMenu, HiHome, HiUser, HiCube, HiChartBar, HiCollection, HiShoppingCart, HiTag } from 'react-icons/hi';
+import { HiMenu, HiHome, HiUser, HiCube } from 'react-icons/hi';
 import { FaTimes } from 'react-icons/fa';
+// import { HiMenu, HiHome, HiUser, HiCube, HiChartBar, HiCollection, HiShoppingCart, HiTag } from 'react-icons/hi';
 
 // Actualiza los elementos del menú con sus rutas
 const menuItems = [
@@ -10,10 +11,10 @@ const menuItems = [
     { icon: <HiUser />, label: 'Comercios', to: '/comercios' },
     { icon: <HiUser />, label: 'Usuarios', to: '/usuarios' },
     { icon: <HiCube />, label: 'Clientes', to: '/clientes' },
-    { icon: <HiChartBar />, label: 'Configuraciones', to: '/configuraciones' },
-    { icon: <HiCollection />, label: 'Reportes', to: '/reportes' },
-    { icon: <HiShoppingCart />, label: 'Tarifas', to: '/tarifas' },
-    { icon: <HiTag />, label: 'Perfil', to: '/perfil' }
+    // { icon: <HiChartBar />, label: 'Configuraciones', to: '/configuraciones' },
+    // { icon: <HiCollection />, label: 'Reportes', to: '/reportes' },
+    // { icon: <HiShoppingCart />, label: 'Tarifas', to: '/tarifas' },
+    // { icon: <HiTag />, label: 'Perfil', to: '/perfil' }
 ];
 
 const Sidebar: React.FC = () => {

@@ -3,12 +3,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { FaPlus } from 'react-icons/fa';
 import Cart from '../../features/home/shop/Cart';
+import { BASE_URL } from '../../utils/baseUrl';
 
 const ProductPage: React.FC = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const { addToCart } = useCart();
     const [quantity, setQuantity] = useState(1);
+
+    const defaultImage = 'logo_w_fondo_negro.jpeg';
+
 
     if (!state) {
         return (
@@ -44,7 +48,7 @@ const ProductPage: React.FC = () => {
         <div className="max-w-xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg">
             {/* Product Image */}
             <img
-                src={image || 'https://via.placeholder.com/150'}
+                src={`${BASE_URL}/${image}`  || defaultImage}
                 alt={nombre}
                 className="rounded-lg mb-4 w-full object-cover h-64 sm:h-80 lg:h-96"
             />

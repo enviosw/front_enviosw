@@ -59,7 +59,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                             <Icon iconName={servicio?.icon ?? ''} size={28} />
                         </button>
                         <span
-                            className='uppercase text-sm'
+                            className='lg:uppercase text-sm'
                             style={{
                                 marginTop: '0.5rem',
                                 color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre

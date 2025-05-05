@@ -2,17 +2,27 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { FaSignInAlt } from 'react-icons/fa';
+import { AlertService } from '../../../utils/AlertService';
+
+
 
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth(); // Obtenemos el usuario y la función logout del contexto
 
   // Manejar la acción de cerrar sesión
-  const handleLogout = () => {
-    logout();
-    navigate('/login'); // Redirige al login
+  const handleLogout = async () => {
+    const confirmed = await AlertService.confirm(
+      '¿Cerrar sesión?',
+      '¿Estás seguro de que deseas salir de tu cuenta?'
+    );
+  
+    if (confirmed) {
+      logout();
+      navigate('/login');
+    }
   };
-
+  
   console.log(user)
 
   return (

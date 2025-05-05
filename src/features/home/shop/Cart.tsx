@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../../../context/CartContext';
 import { FaPlus, FaMinus, FaTrash, FaTimes, FaShoppingCart } from 'react-icons/fa';
+import { BASE_URL } from '../../../utils/baseUrl';
 
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total } = useCart();
@@ -17,6 +18,9 @@ const Cart: React.FC = () => {
         const url = `https://wa.me/57${numeroWhatsApp}?text=${mensaje}`;
         window.open(url, '_blank');
     };
+
+    const defaultImage = 'logo_w_fondo_negro.jpeg';
+
 
     return (
         <div className="drawer drawer-end z-50">
@@ -54,7 +58,7 @@ const Cart: React.FC = () => {
                                 {cartItems.map(item => (
                                     <div key={item.id} className="flex items-start gap-3 border-b pb-4">
                                         <img
-                                            src={item.image || 'https://via.placeholder.com/150'}
+                                            src={`${BASE_URL}/${item.image}` || defaultImage}
                                             alt={item.nombre}
                                             className="w-16 h-16 object-cover rounded-md border"
                                         />

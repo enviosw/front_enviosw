@@ -78,7 +78,9 @@ export const useActualizarProducto = () => {
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
+      console.log(formData)
       const productoId = formData.get('id');
+      console.log("ID", productoId)
       if (!productoId) throw new Error('ID del producto es requerido para actualizar');
 
       const { data } = await axiosInstance.patch(`/productos/${productoId}`, formData, {
@@ -86,7 +88,7 @@ export const useActualizarProducto = () => {
       });
 
 
-      console.log(data)
+
       return data;
     },
     onSuccess: async () => {

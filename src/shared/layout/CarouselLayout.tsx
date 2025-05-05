@@ -11,13 +11,13 @@ const CarouselLayout: React.FC = () => {
         <div className="relative w-full h-[45vh]  lg:h-[60vh] overflow-hidden mt-16 lg:mt-0 bg-secondary">
             <img
                 loading="lazy"
-                className="absolute z-20 w-[70%] lg:w-[45%] hidden lg:flex -bottom-5 left-16 transform -translate-x-1/2 lg:left-0 lg:top-0 lg:translate-x-0 object-cover"
+                className="absolute z-20 w-[80%] lg:w-[61%] xl:w-[45%] flex -bottom-5 left-16 transform -translate-x-1/2 lg:left-0 lg:top-0 lg:translate-x-0 object-cover"
                 src="domi4-min.png"
                 alt="Motociclista"
             />
             <img
                 loading="lazy"
-                className="absolute z-20 w-[80%] lg:w-[45%] hidden lg:flex  -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
+                className="absolute z-20 w-[80%] lg:w-[60%] xl:w-[45%] flex  -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
                 src="domi-min.png"
                 alt="Motociclista"
             />

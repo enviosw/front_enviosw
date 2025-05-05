@@ -30,7 +30,6 @@ export const useComercios = (filters: ComercioFilters) => {
             const { data } = await axiosInstance.get('/comercios', { params: filters });
             return data;
         },
-        // keepPreviousData: true,
     });
 };
 
@@ -100,7 +99,7 @@ export const useActualizarComercio = () => {
     return useMutation({
         mutationFn: async (formData: FormData) => {
             const comercioId = formData.get('id');
-            console.log(comercioId)
+            
             if (!comercioId) throw new Error('ID del comercio es requerido para actualizar');
 
             const { data } = await axiosInstance.patch(`/comercios/${comercioId}`, formData, {
@@ -124,3 +123,21 @@ export const useActualizarComercio = () => {
         },
     });
 };
+
+export const useBuscarComercios = (search: string) => {
+    const axiosInstance = useAxiosInstance();
+  
+    return useQuery<Comercio[], AxiosError<ServerError>>({
+      queryKey: ['comercios-search', search],
+      queryFn: async () => {
+        if (!search.trim()) return [];
+        const { data } = await axiosInstance.get(`/comercios/search`, {
+          params: { search },
+        });
+        return data;
+      },
+      enabled: !!search, // Solo se ejecuta si hay una búsqueda
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 10,
+    });
+  };

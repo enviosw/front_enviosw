@@ -16,6 +16,7 @@ const MenuList: React.FC = () => {
 
     const { data: productos, isLoading, isError } = useProductosPublicos(Number(id), categoriaId);
 
+    console.log(productos)
 
     if (isLoading) return <div className="text-center py-10 text-gray-600">Cargando productos...</div>;
     if (isError) return <div className="text-center py-10 text-red-500">Error al cargar los productos.</div>;
@@ -34,7 +35,7 @@ const MenuList: React.FC = () => {
         estado_descuento: producto.estado_descuento || 'inactivo',
         fecha_creacion: producto.fecha_creacion,
         fecha_actualizacion: producto.fecha_actualizacion,
-        image: 'https://i.revistapym.com.co/old/2016/10/las-comidas-rapidas-1.png?w=728',
+        image: producto.imagen_url,
     }));
 
     return (
