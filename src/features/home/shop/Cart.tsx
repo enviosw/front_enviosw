@@ -5,7 +5,7 @@ import { FaPlus, FaMinus, FaTrash, FaTimes, FaShoppingCart } from 'react-icons/f
 import { BASE_URL } from '../../../utils/baseUrl';
 
 const Cart: React.FC = () => {
-    const { cartItems, increment, decrement, removeFromCart, total } = useCart();
+    const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart(); // Asegurarse de que clearCart esté disponible
     const [direccion, setDireccion] = useState('');
     const { id: comercioId } = useParams<{ id: string }>(); // Obtener comercioId desde la URL
 
@@ -27,6 +27,14 @@ const Cart: React.FC = () => {
         }
 
         window.open(url, '_blank');
+    };
+
+    // Actualiza el estado y el localStorage al limpiar el carrito
+    const handleClearCart = () => {
+        if (comercioId) {
+            localStorage.removeItem(`cart_${comercioId}`);
+        }
+        clearCart(); // Vacía el carrito en el contexto de React
     };
 
     const defaultImage = 'logo_w_fondo_negro.jpeg';
@@ -114,7 +122,7 @@ const Cart: React.FC = () => {
                     </div>
 
                     {/* Footer */}
-                    <div className="mt-6 pt-4 border-t mb-10 lg:mb-0">
+                    <div className="mt-6 pt-4  mb-10 lg:mb-0">
                         <div className="flex justify-between items-center mb-4">
                             <span className="text-xl font-bold">Total:</span>
                             <span className="text-2xl font-extrabold text-orange-600">${total.toFixed(2)}</span>
@@ -142,6 +150,14 @@ const Cart: React.FC = () => {
                             className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 transition disabled:opacity-50"
                         >
                             Finalizar pedido por WhatsApp
+                        </button>
+
+                        {/* Botón para limpiar el carrito */}
+                        <button
+                            onClick={handleClearCart} // Función para limpiar el carrito
+                            className="mt-4 w-full bg-red-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-red-700 transition"
+                        >
+                            Limpiar carrito
                         </button>
                     </div>
                 </div>

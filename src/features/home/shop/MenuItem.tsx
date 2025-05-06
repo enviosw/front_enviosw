@@ -19,15 +19,13 @@ const MenuItem: React.FC<any> = ({
   fecha_actualizacion,
   comercioId
 }) => {
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
   const navigate = useNavigate();
 
   const defaultImage = 'logo_w_fondo_negro.jpeg';
 
   const handleCardClick = () => {
     navigate(`/comercio/${comercioId}/producto/${id}`, {
-
-
       state: {
         id,
         nombre,
@@ -41,10 +39,15 @@ const MenuItem: React.FC<any> = ({
 
   const mostrarDescuento = precio_descuento < precio;
 
+  // Verifica si el producto está en el carrito
+  const isInCart = cartItems.some(item => item.id === id);
+
   return (
     <div
       onClick={handleCardClick}
-      className="rounded-xl shadow cursor-pointer border-b border-gray-200 bg-[#F7F7F7] p-2 transition w-full lg:max-w-72 flex items-center gap-4"
+      className={`rounded-xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${
+        isInCart ? 'bg-orange-200' : 'bg-[#F7F7F7]' // Cambia el color si está en el carrito
+      }`}
     >
       <div className="avatar">
         <div className="mask mask-squircle w-24">
@@ -93,9 +96,9 @@ const MenuItem: React.FC<any> = ({
                 quantity: 1
               });
             }}
-            className="bg-[#E63946] text-white text-sm size-8 flex justify-center items-center rounded-full hover:bg-orange-600 transition"
+            className="bg-[#E63946] cursor-pointer text-white text-sm size-10 flex justify-center items-center rounded-full hover:bg-orange-600 transition"
           >
-            <FaPlus />
+            <FaPlus size={20} />
           </button>
         </div>
       </div>
