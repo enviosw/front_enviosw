@@ -10,4 +10,6 @@ export const usuarioSchema = z.object({
     estado: z.enum(['activo', 'inactivo'], {
         required_error: 'El estado es obligatorio',
     }).optional(),
+    telefono: z.string().min(10, 'El teléfono debe tener al menos 10 caracteres').optional(),
+    direccion: z.string().min(5, 'La dirección debe tener al menos 5 caracteres').optional(),
 });

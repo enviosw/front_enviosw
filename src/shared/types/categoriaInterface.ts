@@ -1,10 +1,9 @@
 export interface CategoriaType {
+  id?: number;
+  nombre: string;
+  comercioId?: number
+  comercio?: {
     id?: number;
-    nombre: string;
-    descripcion?: string;
-    estado?: string;
-    comercio?: {
-      id?: number;
-      nombre_comercial?: string;
-    };
+    nombre_comercial?: string;
+  };
 }

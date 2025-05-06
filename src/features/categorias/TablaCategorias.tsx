@@ -1,78 +1,123 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';  // Asegúrate de que tienes acceso al contexto de Auth
+import { useAuth } from '../../context/AuthContext';
 import { useCategoriasPorComercio } from '../../services/categoriasServices';
+import { useEliminarCategoria } from '../../services/categoriasServices';
 import { CategoriaType } from '../../shared/types/categoriaInterface';
-import { FaPen, FaTrashAlt } from 'react-icons/fa';
+import { FaPen, FaTrashAlt, FaPlus } from 'react-icons/fa';
 import DataTable from '../../shared/components/DataTable';
-import TableCell from '../../shared/components/TableCell';  // Asegúrate de que este componente esté disponible
+import TableCell from '../../shared/components/TableCell';
+import { useModal } from '../../context/ModalContext';
+import FormularioCategoria from './FormularioCategoria';
+import Modal from '../../shared/components/Modal';
+import { AlertService } from '../../utils/AlertService';
+
 
 const TablaCategorias: React.FC = () => {
-  // Obtener el ID del comercio desde el contexto de autenticación
   const { user } = useAuth();
   const comercioId = user?.comercioId;
 
   const { data: categorias, isLoading, error } = useCategoriasPorComercio(comercioId);
-  const [search, setSearch] = useState<string>('');
-  const [estado, setEstado] = useState<string>('');
+  const [search, setSearch] = useState('');
   const [filteredCategorias, setFilteredCategorias] = useState<CategoriaType[]>([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
-  // Filtrar las categorías en función de la búsqueda y el estado
+  const { openModal, setModalTitle, setModalContent } = useModal();
+  const eliminarCategoriaMutation = useEliminarCategoria();
+
   useEffect(() => {
     if (!categorias) return;
 
-    let filteredData = categorias;
+    let filtered = categorias;
 
     if (search) {
-      filteredData = filteredData.filter(categoria =>
-        categoria.nombre.toLowerCase().includes(search.toLowerCase())
+      filtered = filtered.filter((cat) =>
+        cat.nombre.toLowerCase().includes(search.toLowerCase())
       );
     }
 
-    if (estado) {
-      filteredData = filteredData.filter(categoria => categoria.estado === estado);
-    }
+    setFilteredCategorias(filtered);
+  }, [search, categorias]);
 
-    setFilteredCategorias(filteredData);
-  }, [search, estado, categorias]);
+  const allSelected =
+    filteredCategorias.length > 0 &&
+    selectedIds.length === filteredCategorias.length;
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(filteredCategorias.map((cat) => cat.id).filter((id) => id !== undefined) as number[]);
+    }
+  };
+
+  const toggleSelect = (id: number) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
+    );
+  };
+
+  const handleEliminarCategoria = async (categoriaId: number) => {
+    // Confirmar antes de eliminar
+    const confirmed = await AlertService.confirm('¿Estás seguro de eliminar esta categoría?', 'Esta acción no puede deshacerse.');
+    if (confirmed) {
+      eliminarCategoriaMutation.mutate(categoriaId);
+    }
+  };
+
+  const openModalCategoria = (categoria?: CategoriaType) => {
+    setModalTitle(categoria ? 'Actualizar Categoría' : 'Registrar Categoría');
+    setModalContent(<FormularioCategoria categoria={categoria} />);
+    openModal();
+  };
 
   const renderRow = (categoria: CategoriaType) => (
     <tr key={categoria.id} className="hover:bg-gray-100 bg-white">
+      <td className="px-2 w-10">
+        <input
+          type="checkbox"
+          className="checkbox"
+          checked={selectedIds.includes(Number(categoria.id))}
+          onChange={() => toggleSelect(Number(categoria.id))}
+        />
+      </td>
       <TableCell>{categoria.nombre}</TableCell>
-      <TableCell>{categoria.descripcion}</TableCell>
-      <TableCell>{categoria.estado}</TableCell>
       <TableCell>
-        <button onClick={() => alert(`Editar categoría ${categoria.nombre}`)} className="text-blue-600 hover:text-blue-800">
+        <button
+          onClick={() => openModalCategoria(categoria)}
+          className="text-blue-600 hover:text-blue-800"
+          title="Editar"
+        >
           <FaPen />
         </button>
       </TableCell>
       <TableCell>
-        <button onClick={() => alert(`Eliminar categoría ${categoria.nombre}`)} className="text-red-600 hover:text-red-800">
+        <button
+          onClick={() => handleEliminarCategoria(Number(categoria.id))} // Usar el nuevo método de eliminación
+          className="text-red-600 hover:text-red-800"
+          title="Eliminar"
+        >
           <FaTrashAlt />
         </button>
       </TableCell>
     </tr>
   );
 
-  if (isLoading) {
-    return <div className="text-center text-blue-600">Cargando categorías...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center text-red-600">Error al cargar categorías: {(error as Error).message}</div>;
-  }
-
   const headers = [
     'Nombre',
-    'Descripción',
-    'Estado',
-    'Acciones',
+    'Editar',
     'Eliminar',
   ];
 
   return (
     <div className="overflow-x-auto space-y-4">
+      <div className="flex justify-between items-center">
+        <button onClick={() => openModalCategoria()} className="btn btn-success">
+          <FaPlus className="mr-2" /> Registrar Categoría
+        </button>
+      </div>
+
       {/* Filtros */}
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex flex-wrap items-end gap-4 mb-4">
         <input
           type="text"
           placeholder="Buscar por nombre..."
@@ -80,23 +125,44 @@ const TablaCategorias: React.FC = () => {
           onChange={(e) => setSearch(e.target.value)}
           className="input input-bordered input-sm"
         />
-        <select
-          value={estado}
-          onChange={(e) => setEstado(e.target.value)}
-          className="select select-bordered input-sm"
-        >
-          <option value="">Todos los estados</option>
-          <option value="activo">Activo</option>
-          <option value="inactivo">Inactivo</option>
-        </select>
       </div>
 
-      {/* DataTable para mostrar las categorías */}
-      <DataTable
-        headers={headers}
-        data={filteredCategorias}
-        renderRow={renderRow}
-      />
+      {/* Acción múltiple si hay selección */}
+      {selectedIds.length > 0 && (
+        <div className="bg-red-100 border border-red-300 text-red-700 px-3 py-2 rounded-md flex items-center gap-2 text-sm mb-2">
+          <span>{selectedIds.length} seleccionadas</span>
+          <button
+            onClick={() => console.log('Eliminar seleccionadas')}
+            className="btn btn-xs btn-error"
+          >
+            Eliminar seleccionadas
+          </button>
+          <button
+            onClick={() => setSelectedIds([])}
+            className="text-red-500 hover:text-red-700 text-xs font-bold ml-1 cursor-pointer"
+            title="Deseleccionar todo"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* Tabla */}
+      {isLoading ? (
+        <div className="text-center text-blue-600">Cargando categorías...</div>
+      ) : error ? (
+        <div className="text-center text-red-600">Error: {(error as Error).message}</div>
+      ) : (
+        <DataTable
+          headers={headers}
+          data={filteredCategorias}
+          renderRow={renderRow}
+          allSelected={allSelected}
+          toggleSelectAll={toggleSelectAll}
+        />
+      )}
+
+      <Modal />
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-// Estructura adaptada del producto
 export interface Categoria {
   id: number;
   nombre: string;
@@ -10,16 +10,16 @@ export interface MenuItemType {
   id?: number;
   nombre?: string;
   descripcion?: string;
-  precio?: string; // Agregar precio si es necesario
+  precio?: string;
   precio_descuento: string;
-  unidad?: string; // Agregar unidad si es necesario
+  unidad?: string;
   categoria?: Categoria;
   estado?: string;
   estado_descuento?: string;
   fecha_creacion?: string;
   fecha_actualizacion?: string;
-  image?: any
-  quantity?: any
+  image?: any;
+  quantity?: any;
 }
 
 export interface CartItem extends MenuItemType {
@@ -38,7 +38,25 @@ interface CartContextProps {
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const { id: comercioId } = useParams<{ id: string }>(); // Obtén el comercioId de la URL
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  const loadCartItems = (comercioId: string) => {
+    const savedCart = localStorage.getItem(`cart_${comercioId}`);
+    return savedCart ? JSON.parse(savedCart) : [];
+  };
+
+  useEffect(() => {
+    if (comercioId) {
+      setCartItems(loadCartItems(comercioId));
+    }
+  }, [comercioId]);
+
+  useEffect(() => {
+    if (comercioId) {
+      localStorage.setItem(`cart_${comercioId}`, JSON.stringify(cartItems));
+    }
+  }, [cartItems, comercioId]);
 
   const addToCart = (item: MenuItemType) => {
     setCartItems(prev => {

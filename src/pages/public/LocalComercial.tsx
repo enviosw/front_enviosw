@@ -1,12 +1,8 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { CartProvider } from '../../context/CartContext';
 import MenuList from '../../features/home/inicio/MenuList';
 
 const LocalComercial: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-
-    console.log(id)
 
     return (
         <CartProvider>

@@ -54,7 +54,7 @@ const TablaProductos: React.FC = () => {
 
   const renderRow = (producto: any) => (
     <tr key={producto.id} className="hover:bg-gray-100 bg-white">
-         <td className="px-2">
+       <td className="px-2 w-10">
                 <input
                     type="checkbox"
                     className="checkbox"

@@ -27,7 +27,6 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
         defaultValues: usuario // Directamente tomamos los datos del usuario para pre-cargar el formulario
     });
 
-
     useEffect(() => {
         if (usuario) {
             reset(usuario); // Resetear los valores del formulario cuando el `usuario` cambia
@@ -35,36 +34,30 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
     }, [usuario, reset]);
 
     const onSubmit = (data: UsuarioFormData) => {
-
-        
         const payload = {
-          ...data,
-          ...(comercioId && { comercio_id: comercioId }), // ⬅️ Solo si hay comercio
+            ...data,
+            ...(comercioId && { comercio_id: comercioId }), // ⬅️ Solo si hay comercio
         };
 
         if (!comercioId) {
             setComercioError('Debes seleccionar un comercio');
             return;
-          }
-      
-        if (usuario?.id) {
-            
-          actualizarUsuario({ ...payload, id: usuario.id });
-        } else {
-          crearUsuario(payload);
         }
-      };
-      
+
+        if (usuario?.id) {
+            actualizarUsuario({ ...payload, id: usuario.id });
+        } else {
+            crearUsuario(payload);
+        }
+    };
 
     if (isLoading) {
         return <div>Cargando roles...</div>;
     }
 
-
-
     const handleComercioSelect = (id: number | null, comercio?: any) => {
-      setComercioId(id);
-      console.log('Comercio seleccionado:', comercio);
+        setComercioId(id);
+        console.log('Comercio seleccionado:', comercio);
     };
 
     return (
@@ -124,11 +117,29 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
                 </div>
             )}
 
+            {/* Nuevos campos: Telefono y Dirección */}
+            <div>
+                <label>Teléfono</label>
+                <input
+                    {...register('telefono')}
+                    className="input input-bordered w-full"
+                    placeholder="Teléfono"
+                />
+                {errors.telefono && <p className="text-red-500">{errors.telefono.message}</p>}
+            </div>
 
-<BuscarComercioSelect onSelect={handleComercioSelect} />
-{comercioError && <p className="text-red-500">{comercioError}</p>}
+            <div>
+                <label>Dirección</label>
+                <input
+                    {...register('direccion')}
+                    className="input input-bordered w-full"
+                    placeholder="Dirección"
+                />
+                {errors.direccion && <p className="text-red-500">{errors.direccion.message}</p>}
+            </div>
 
-
+            <BuscarComercioSelect onSelect={handleComercioSelect} />
+            {comercioError && <p className="text-red-500">{comercioError}</p>}
 
             <div className="flex justify-end">
                 <button

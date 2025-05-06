@@ -71,7 +71,7 @@ const TablaUsuarios: React.FC = () => {
 
     const renderRow = (usuario: any) => (
         <tr key={usuario.id} className="hover:bg-gray-100 bg-white">
-            <td className="px-2">
+         <td className="px-2 w-10">
                 <input
                     type="checkbox"
                     className="checkbox"

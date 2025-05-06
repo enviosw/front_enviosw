@@ -11,7 +11,8 @@ import CategoryCarousel from '../shop/CategoryCarousel';
 import ComercioHeader from './ComercioHeader';
 
 const MenuList: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>(); // Aquí `id` es el id del comercio
+
     const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);
 
     const { data: productos, isLoading, isError } = useProductosPublicos(Number(id), categoriaId);
@@ -75,7 +76,7 @@ const MenuList: React.FC = () => {
                     />
 
                     {/* Categorías */}
-                    <section className="w-full container mt-24 mx-auto flex justify-center items-center px-4">
+                    <section className="w-full container lg:mt-24 mx-auto flex justify-center items-center px-4">
                         <CategoryCarousel
                             comercioId={Number(id)}
                             onSelectCategoria={setCategoriaId}
@@ -86,7 +87,7 @@ const MenuList: React.FC = () => {
                     <main className="w-full container mx-auto px-4 py-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 bg-white shadow-md rounded-xl py-4 px-3">
                             {productosAdaptados?.map((item) => (
-                                <MenuItem key={item.id} {...item} />
+                                <MenuItem key={item.id} {...item} comercioId={id} />
                             ))}
                         </div>
                     </main>

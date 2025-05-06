@@ -16,7 +16,8 @@ const MenuItem: React.FC<any> = ({
   estado,
   estado_descuento,
   fecha_creacion,
-  fecha_actualizacion
+  fecha_actualizacion,
+  comercioId
 }) => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ const MenuItem: React.FC<any> = ({
   const defaultImage = 'logo_w_fondo_negro.jpeg';
 
   const handleCardClick = () => {
-    navigate('/producto', {
+    navigate(`/comercio/${comercioId}/producto/${id}`, {
+
+
       state: {
         id,
         nombre,
@@ -45,7 +48,7 @@ const MenuItem: React.FC<any> = ({
     >
       <div className="avatar">
         <div className="mask mask-squircle w-24">
-          <img src={`${BASE_URL}/${image}`  || defaultImage} alt={nombre} />
+          <img src={`${BASE_URL}/${image}` || defaultImage} alt={nombre} />
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {  FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import { AiFillStar } from 'react-icons/ai';
 import { useComerciosPublicos } from '../../../services/comerciosService';
 import { Comercio } from '../../../shared/types/comercioInterface';
@@ -36,7 +36,8 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             {comercios?.map((comercio: Comercio) => (
                 <div
                     key={comercio.id}
-                    onClick={() => navigate(`/local/${comercio.id}`)}
+                    onClick={() => navigate(`/comercio/${comercio.id}/productos`)} // Usar la sintaxis correcta
+
                     className="group cursor-pointer bg-white hover:bg-[#E63946] rounded-3xl hover:shadow-xl transition duration-300 overflow-hidden relative border border-gray-200"
                 >
                     <div className="relative h-44 bg-white">
@@ -56,15 +57,15 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                         <p className="text-sm text-gray-500 group-hover:text-white line-clamp-2">{comercio.descripcion}</p>
 
                         <div className="flex items-center justify-between text-xs font-medium group-hover:text-white text-gray-600 pt-2">
-  <div className="flex items-center gap-1 truncate">
-    <FaMapMarkerAlt className="text-green-600 group-hover:text-white" />
-    {comercio.direccion || 'Sin dirección'}
-  </div>
-  <span className="flex items-center group-hover:text-white text-green-600 gap-1">
-    <FaPhoneAlt />
-    {comercio.telefono || 'Sin teléfono'}
-  </span>
-</div>
+                            <div className="flex items-center gap-1 truncate">
+                                <FaMapMarkerAlt className="text-green-600 group-hover:text-white" />
+                                {comercio.direccion || 'Sin dirección'}
+                            </div>
+                            <span className="flex items-center group-hover:text-white text-green-600 gap-1">
+                                <FaPhoneAlt />
+                                {comercio.telefono || 'Sin teléfono'}
+                            </span>
+                        </div>
                     </div>
                 </div>
             ))}

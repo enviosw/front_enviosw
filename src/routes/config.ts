@@ -25,20 +25,20 @@ export const routesConfig: RouteConfig[] = [
         useAdminLayout: false
     },
     {
-        path: '/local/:id',
+        path: '/comercio/:id/productos',
         element: lazy(() => import('../pages/public/LocalComercial')),
         requiresAuth: false,
         useLayout: false,
         useAdminLayout: false
     },
-
     {
-        path: '/producto',
+        path: '/comercio/:comercioId/producto/:productoId',
         element: lazy(() => import('../pages/public/ProductPage')),
         requiresAuth: false,
         useLayout: false,
         useAdminLayout: false
     },
+
 
     {
         path: '/comercios',

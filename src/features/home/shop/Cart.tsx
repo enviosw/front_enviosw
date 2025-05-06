@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom'; // Para obtener el comercioId de la URL
 import { useCart } from '../../../context/CartContext';
 import { FaPlus, FaMinus, FaTrash, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import { BASE_URL } from '../../../utils/baseUrl';
@@ -6,6 +7,10 @@ import { BASE_URL } from '../../../utils/baseUrl';
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total } = useCart();
     const [direccion, setDireccion] = useState('');
+    const { id: comercioId } = useParams<{ id: string }>(); // Obtener comercioId desde la URL
+
+    // Calcular el total de productos en el carrito
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const handleWhatsAppOrder = () => {
         const numeroWhatsApp = '3232205900'; // Cambia por el número real del negocio
@@ -16,23 +21,32 @@ const Cart: React.FC = () => {
         const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido con los siguientes productos:%0A%0A${productos}%0A%0A🔸 Total: $${total.toFixed(2)}%0A📍 Dirección de envío: ${direccion}%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
 
         const url = `https://wa.me/57${numeroWhatsApp}?text=${mensaje}`;
+
+        if (comercioId) {
+            localStorage.removeItem(`cart_${comercioId}`);
+        }
+
         window.open(url, '_blank');
     };
 
     const defaultImage = 'logo_w_fondo_negro.jpeg';
 
-
     return (
         <div className="drawer drawer-end z-50">
             <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
 
-            {/* Botón flotante */}
+            {/* Botón flotante con número de productos */}
             <div className="drawer-content">
                 <label
                     htmlFor="cart-drawer"
-                    className="flex items-center gap-2 px-5 py-3 bg-white backdrop-blur-xl rounded-full text-[#25D366] hover:bg-green-500 hover:text-white transition-all duration-300 shadow-md"
+                    className="relative flex items-center size-12 justify-center bg-white backdrop-blur-xl rounded-full text-[#25D366] hover:bg-green-500 hover:text-white transition-all duration-300 shadow-md"
                 >
-                    <FaShoppingCart size={20} className="text-xl text-red-500 hover:text-red-500 transition" />
+                    <FaShoppingCart size={25} className="text-xl text-red-500 hover:text-red-500 transition" />
+                    {totalItems > 0 && (
+                        <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+                            {totalItems}
+                        </span>
+                    )}
                 </label>
             </div>
 
