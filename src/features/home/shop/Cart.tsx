@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom'; // Para obtener el comercioId de la URL
 import { useCart } from '../../../context/CartContext';
 import { FaPlus, FaMinus, FaTrash, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import { BASE_URL } from '../../../utils/baseUrl';
+import { useComercioId } from '../../../utils/obtenerComercio';
+import { formatNumber } from '../../../utils/formatNumber';
 
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart(); // Asegurarse de que clearCart esté disponible
     const [direccion, setDireccion] = useState('');
-    const { id: comercioId } = useParams<{ id: string }>(); // Obtener comercioId desde la URL
-
+    const comercioId = useComercioId();
     // Calcular el total de productos en el carrito
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -89,7 +89,7 @@ const Cart: React.FC = () => {
                                                 <div>
                                                     <h4 className="text-lg font-semibold text-gray-800">{item.nombre}</h4>
                                                     <p className="text-sm text-gray-500 mt-1">
-                                                        ${(parseFloat(item.precio_descuento) * item.quantity).toFixed(2)}
+                                                        {formatNumber((parseFloat(item.precio || '0') * item.quantity))}
                                                     </p>
                                                 </div>
                                                 <button
@@ -125,8 +125,9 @@ const Cart: React.FC = () => {
                     <div className="mt-6 pt-4  mb-10 lg:mb-0">
                         <div className="flex justify-between items-center mb-4">
                             <span className="text-xl font-bold">Total:</span>
-                            <span className="text-2xl font-extrabold text-orange-600">${total.toFixed(2)}</span>
-                        </div>
+                            <span className="text-2xl font-extrabold text-orange-600">
+                                ${formatNumber(total)}
+                            </span>                        </div>
 
                         {/* Input de Dirección */}
                         <div className="mb-4">
@@ -147,7 +148,7 @@ const Cart: React.FC = () => {
                         <button
                             disabled={cartItems.length === 0 || !direccion}
                             onClick={handleWhatsAppOrder}
-                            className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 transition disabled:opacity-50"
+                            className="w-full bg-success text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 transition"
                         >
                             Finalizar pedido por WhatsApp
                         </button>
@@ -155,7 +156,7 @@ const Cart: React.FC = () => {
                         {/* Botón para limpiar el carrito */}
                         <button
                             onClick={handleClearCart} // Función para limpiar el carrito
-                            className="mt-4 w-full bg-red-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-red-700 transition"
+                            className="mt-4 w-full bg-error text-white py-3 rounded-xl font-semibold text-lg hover:bg-red-700 transition"
                         >
                             Limpiar carrito
                         </button>

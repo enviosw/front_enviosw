@@ -31,13 +31,13 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: false
     },
-    {
-        path: '/comercio/:comercioId/producto/:productoId',
-        element: lazy(() => import('../pages/public/ProductPage')),
-        requiresAuth: false,
-        useLayout: false,
-        useAdminLayout: false
-    },
+    // {
+    //     path: '/comercio/:comercioId/producto/:productoId',
+    //     element: lazy(() => import('../pages/public/ProductPage')),
+    //     requiresAuth: false,
+    //     useLayout: false,
+    //     useAdminLayout: false
+    // },
 
 
     {

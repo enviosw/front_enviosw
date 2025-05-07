@@ -37,17 +37,17 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                 <div
                     key={comercio.id}
                     onClick={() => navigate(`/comercio/${comercio.id}/productos`)} // Usar la sintaxis correcta
-
                     className="group cursor-pointer bg-white hover:bg-[#E63946] rounded-3xl hover:shadow-xl transition duration-300 overflow-hidden relative border border-gray-200"
                 >
                     <div className="relative h-44 bg-white">
-                        <img src={`${BASE_URL}/${comercio.logo_url}` || "logo_w_fondo_negro.jpeg"} alt={comercio.logo_url}
-
+                        <img 
+                            src={`${BASE_URL}/${comercio.logo_url}` || "logo_w_fondo_negro.jpeg"} 
+                            alt={comercio.nombre_comercial}
                             className="w-full h-full object-cover transition-transform min-w-72 hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-
-                        <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow">
+                        
+                        <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
                             <AiFillStar className="text-green-500" /> {comercio.servicio ? comercio.servicio.nombre : 'Sin tipo'}
                         </div>
                     </div>
@@ -58,11 +58,11 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
                         <div className="flex items-center justify-between text-xs font-medium group-hover:text-white text-gray-600 pt-2">
                             <div className="flex items-center gap-1 truncate">
-                                <FaMapMarkerAlt className="text-green-600 group-hover:text-white" />
-                                {comercio.direccion || 'Sin dirección'}
+                                <FaMapMarkerAlt className="text-green-600 group-hover:text-white" aria-label="Ubicación" />
+                                <span>{comercio.direccion || 'Sin dirección'}</span>
                             </div>
                             <span className="flex items-center group-hover:text-white text-green-600 gap-1">
-                                <FaPhoneAlt />
+                                <FaPhoneAlt className="group-hover:text-white" aria-label="Teléfono" />
                                 {comercio.telefono || 'Sin teléfono'}
                             </span>
                         </div>
