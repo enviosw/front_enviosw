@@ -23,25 +23,33 @@ const Home: React.FC = () => {
   return (
     <>
       <CarouselLayout />
-      <div>
-        <section className="mt-5 w-full">
-          <h2 className="text-center text-2xl text-black font-normal italic drop-shadow-md">
-            Selecciona el Servicio!
-          </h2>
-          <IconButtons onSelectServicio={handleSelectServicio} />
-        </section>
 
-        <section className="w-[100%] lg:w-[85%] mx-auto pb-20 lg:px-10  lg:py-10 lg:flex justify-center gap-10">
+      <section className="mt-5 w-full">
+        <h2 className="text-center text-2xl text-black font-normal italic drop-shadow-md">
+          Selecciona el Servicio!
+        </h2>
+        <IconButtons onSelectServicio={handleSelectServicio} />
+      </section>
+
+      <section className="h-auto flex justify-start items-center relative">
+        {/* Fondo desde la mitad hacia abajo */}
+        {/* Contenido principal */}
+        <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 py-10 lg:flex justify-center gap-10">
           {servicioId !== null ? (
-            <div className='px-3 lg:px-0'><LocalesComerciales servicioId={servicioId} /></div>
+            <div className="w-full">
+              <LocalesComerciales servicioId={servicioId} />
+            </div>
           ) : servicioNombre ? (
-            <div className="text-center text-lg px-3 font-semibold w-full">
-
+            <div className="text-center text-lg font-semibold w-full">
               <TipoServicio tipo={String(servicioNombre)} />
             </div>
           ) : null}
-        </section>
-      </div>
+        </div>
+      </section>
+
+
+      <div className="w-full h-60 bg-primary  top-1/4  z-10  shadow-lg" />
+
 
       <WhatsAppFloatButton />
     </>
