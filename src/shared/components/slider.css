@@ -1,0 +1,101 @@
+/* Slider Container */
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    /* La altura es el 70% de la altura de la pantalla */
+    overflow: hidden;
+}
+
+/* Contenedor del slider */
+.slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Contenedor de las imágenes */
+.slider-images {
+    display: flex;
+    width: 100%;
+}
+
+/* Estilo para las imágenes */
+.slider-image {
+    width: 100vw;
+    /* Ocupa el 100% del ancho de la ventana */
+    height: 100%;
+    /* Ocupa el 100% de la altura del contenedor */
+    object-fit: cover;
+    /* Asegura que la imagen cubra el contenedor sin distorsionarse */
+}
+
+/* Controles de navegación */
+.controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+/* Estilo de los botones */
+.prev,
+.next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    transition: 0.3s ease;
+}
+
+/* Efecto hover de los botones */
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Responsividad para dispositivos móviles */
+@media (max-width: 768px) {
+
+    /* Ajustar la altura en pantallas pequeñas */
+    .slider-container {
+        height: 60vh;
+        /* Menos altura en pantallas pequeñas */
+    }
+
+    .prev,
+    .next {
+        padding: 15px;
+        /* Reducir el tamaño de los botones */
+        font-size: 20px;
+        /* Reducir el tamaño de la fuente de los botones */
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* Ajuste de altura en dispositivos más pequeños */
+    .slider-container {
+        height: 50vh;
+    }
+
+    .prev,
+    .next {
+        padding: 10px;
+        font-size: 18px;
+        /* Botones más pequeños */
+    }
+
+    .slider-image {
+        width: 100vw;
+        /* Aseguramos que cubra todo el ancho */
+        height: 100%;
+        /* La imagen seguirá cubriendo el 100% de la altura */
+        object-fit: cover;
+        /* Mantener la cobertura de la imagen */
+    }
+}
