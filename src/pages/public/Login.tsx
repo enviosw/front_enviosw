@@ -31,7 +31,7 @@ useEffect(() => {
 
   const handleLogin = () => {
     // e.preventDefault(); // Prevenir el comportamiento por defecto de recarga
-    
+
     loginMutation.mutate({
       email: form.email,
       password: form.password,
@@ -47,6 +47,7 @@ useEffect(() => {
       telefono2: form.telefono2,
       email: form.email,
       password: form.password,
+      rol: "cliente",
     });
   };
 
