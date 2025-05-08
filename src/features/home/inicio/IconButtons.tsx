@@ -12,7 +12,8 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
 
     // UseMemo para memorizar la lista de servicios ordenada
     const sortedServicios = useMemo(() => {
-        return servicios?.sort((a, b) => (a.id ?? 0) - (b.id ?? 0)) ?? [];
+        if (!Array.isArray(servicios)) return [];
+        return [...servicios].sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     }, [servicios]);
 
     // useCallback fuera de condicionales, garantizando el mismo orden de hooks
