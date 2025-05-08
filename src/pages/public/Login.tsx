@@ -4,6 +4,8 @@ import { useLogin } from "../../services/authServices";
 import { useRegister } from "../../services/authServices";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import FormRegister from "./Login/FormRegister";
+import FormLogin from "./Login/FormLogin";
 
 const Login: React.FC = () => {
 
@@ -18,24 +20,31 @@ useEffect(() => {
 }, [isAuthenticated, navigate]);
 
   const [isRegistering, setIsRegistering] = useState(false);
-  const [form, setForm] = useState({ nombre: "", email: "", password: "" });
+  const [form, setForm] = useState({ nombre: "", apellido: "", direccion: "", telefono: "", telefono2: "", email: "", password: ""});
 
   const loginMutation = useLogin();
   const registerMutation = useRegister();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (input:string, value:string) => {
+    setForm({ ...form, [input]: value });
   };
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault(); // Prevenir el comportamiento por defecto de recarga
-
-    loginMutation.mutate({ email: form.email, password: form.password });
+  const handleLogin = () => {
+    // e.preventDefault(); // Prevenir el comportamiento por defecto de recarga
+    
+    loginMutation.mutate({
+      email: form.email,
+      password: form.password,
+    });
   };
 
   const handleRegister = () => {
     registerMutation.mutate({
       nombre: form.nombre,
+      apellido: form.apellido,
+      direccion: form.direccion,
+      telefono: form.telefono,
+      telefono2: form.telefono2,
       email: form.email,
       password: form.password,
     });
@@ -43,7 +52,7 @@ useEffect(() => {
 
   const toggleForm = () => {
     setIsRegistering((prev) => !prev);
-    setForm({ nombre: "", email: "", password: "" });
+    setForm({ nombre: "", apellido: "", direccion: "", telefono: "", telefono2: "", email: "", password: ""});
   };
 
   return (
@@ -59,59 +68,12 @@ useEffect(() => {
               transition={{ duration: 0.4 }}
               className="w-full max-w-lg space-y-1 lg:shadow-xl p-6 lg:p-12 rounded-2xl lg:border border-gray-200"
             >
-              <div className="flex flex-col items-center space-y-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoXnWNMmlDU1_f09QOXMzs5xRx5lT7IaEVEQ&s"
-                  alt="Logo"
-                  className="w-24 h-24"
-                />
-                <h2 className="text-2xl font-bold text-gray-800">Crear Cuenta</h2>
-                <p className="text-sm text-gray-500">Regístrate para comenzar a ordenar</p>
-              </div>
-
-              <legend className="fieldset-legend">Nombre</legend>
-              <input
-                type="text"
-                name="nombre"
-                value={form.nombre}
-                onChange={handleChange}
-                placeholder="Nombre completo"
-                className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
+              <FormRegister 
+                onInputChange={handleChange} 
+                handleRegister={handleRegister} 
+                toggleForm={toggleForm}
+                form={form} 
               />
-              <legend className="fieldset-legend">Correo</legend>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="Correo electrónico"
-                className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
-              />
-              <legend className="fieldset-legend">Contraseña</legend>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Contraseña"
-                className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
-              />
-              <button
-                onClick={handleRegister}
-                className="btn w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white border-none"
-              >
-                REGISTRARSE
-              </button>
-
-              <div className="text-sm text-center text-gray-600">
-                ¿Ya tienes una cuenta?
-                <button
-                  onClick={toggleForm}
-                  className="ml-2 text-pink-500 hover:underline font-medium"
-                >
-                  INICIAR SESIÓN
-                </button>
-              </div>
             </motion.div>
           ) : (
             <motion.div
@@ -122,56 +84,12 @@ useEffect(() => {
               transition={{ duration: 0.4 }}
               className="w-full max-w-lg space-y-6 lg:shadow-xl p-6 lg:p-12 rounded-2xl lg:border border-gray-200"
             >
-              <div className="flex flex-col items-center space-y-2">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoXnWNMmlDU1_f09QOXMzs5xRx5lT7IaEVEQ&s"
-                  alt="Logo"
-                  className="w-24 h-24"
-                />
-                <h2 className="text-2xl font-bold text-gray-800">Bienvenido</h2>
-                <p className="text-sm text-gray-500">Inicia sesión para continuar</p>
-              </div>
-
-              <legend className="fieldset-legend">Correo</legend>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="Correo electrónico"
-                className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
+              <FormLogin 
+                onInputChange={handleChange} 
+                handleLogin={handleLogin} 
+                toggleForm={toggleForm}
+                form={form} 
               />
-              <legend className="fieldset-legend">Contraseña</legend>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Contraseña"
-                className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
-              />
-              <button
-                onClick={handleLogin}
-                className="btn w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white border-none"
-              >
-                INICIAR SESIÓN
-              </button>
-
-              <div className="text-right">
-                <a href="#" className="text-sm text-pink-500 hover:underline">
-                  ¿Olvidaste tu contraseña?
-                </a>
-              </div>
-
-              <div className="text-sm text-center text-gray-600">
-                ¿No tienes una cuenta?
-                <button
-                  onClick={toggleForm}
-                  className="ml-2 text-pink-500 hover:underline font-medium"
-                >
-                  REGÍSTRATE
-                </button>
-              </div>
             </motion.div>
           )}
         </AnimatePresence>
