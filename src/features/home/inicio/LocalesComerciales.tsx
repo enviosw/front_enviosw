@@ -37,9 +37,9 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                 <div
                     key={comercio.id}
                     onClick={() => navigate(`/comercio/${comercio.id}/productos`)} // Usar la sintaxis correcta
-                    className="group cursor-pointer bg-white hover:bg-[#E63946] rounded-3xl hover:shadow-xl transition duration-300 overflow-hidden relative border border-gray-200"
+                    className="group cursor-pointer bg-white hover:bg-[#E63946] rounded-3xl shadow-xl transition duration-300 overflow-hidden relative border border-gray-300"
                 >
-                    <div className="relative h-44 bg-white">
+                    <div className="relative h-32 md:h-40 bg-white">
                         <img 
                             src={`${BASE_URL}/${comercio.logo_url}` || "logo_w_fondo_negro.jpeg"} 
                             alt={comercio.nombre_comercial}
@@ -52,7 +52,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                         </div>
                     </div>
 
-                    <div className="p-4 space-y-2">
+                    <div className="p-4 md:space-y-2">
                         <h3 className="text-base font-bold text-gray-800 group-hover:text-white truncate">{comercio.nombre_comercial}</h3>
                         <p className="text-sm text-gray-500 group-hover:text-white line-clamp-2">{comercio.descripcion}</p>
 
