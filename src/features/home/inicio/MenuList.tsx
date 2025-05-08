@@ -18,7 +18,7 @@ const MenuList: React.FC = () => {
     const { data: productos, isLoading, isError } = useProductosPublicos(Number(id), categoriaId);
 
 
-    if (isLoading) return <div className="text-center py-10 text-gray-600">Cargando productos...</div>;
+    if (isLoading) return <></>;
     if (isError) return <div className="text-center py-10 text-red-500">Error al cargar los productos.</div>;
 
     const productosAdaptados = productos?.map((producto) => ({

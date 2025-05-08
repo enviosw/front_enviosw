@@ -8,6 +8,10 @@ export interface RegisterAuth {
     email: string
     password: string
     rol?: string
+    apellido?: string
+    direccion?: string
+    telefono?: string
+    telefono2?: string
 }
 
 

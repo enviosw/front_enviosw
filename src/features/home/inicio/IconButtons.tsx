@@ -7,12 +7,15 @@ import { Animate } from 'react-simple-animate';
 export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioIdOrNombre: number | string) => void }) => {
     const { data: servicios, isLoading, isError } = useServicios();
 
+    console.log(servicios)
+
     // Estado para el servicio seleccionado
     const [selectedServicioId, setSelectedServicioId] = useState<number | string | null>(null);
 
     // UseMemo para memorizar la lista de servicios ordenada
     const sortedServicios = useMemo(() => {
-        return servicios?.sort((a, b) => (a.id ?? 0) - (b.id ?? 0)) ?? [];
+        if (!Array.isArray(servicios)) return [];
+        return servicios.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
     }, [servicios]);
 
     // useCallback fuera de condicionales, garantizando el mismo orden de hooks

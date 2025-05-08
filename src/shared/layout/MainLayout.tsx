@@ -2,6 +2,7 @@ import React from 'react'
 import { Navbar } from '../../features/home/inicio/Navbar'
 import Topvar from '../../features/home/inicio/Topbar'
 import { Contenido } from '../types/childrenInterface'
+import Footer from '../components/Footer'
 
 
 const MainLayout: React.FC<Contenido> = ({ children }) => {
@@ -11,6 +12,8 @@ const MainLayout: React.FC<Contenido> = ({ children }) => {
                 <Topvar />
                 <Navbar />
                 {children}
+
+                <Footer />
             </div>
         </>
     )

@@ -1,6 +1,5 @@
-// Slider.tsx
 import React, { useState, useEffect } from "react";
-import "./slider.css";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 type SliderProps = {
     images: string[];
@@ -11,7 +10,6 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
     const [transitioning, setTransitioning] = useState(false);
     const totalImages = images.length;
 
-    // Cambia automáticamente cada 3 segundos
     useEffect(() => {
         const interval = setInterval(() => {
             handleNext();
@@ -19,58 +17,62 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
         return () => clearInterval(interval);
     }, []);
 
-    // Función para cambiar a la siguiente imagen con animación
     const handleNext = () => {
         if (transitioning) return;
         setTransitioning(true);
-        // Incrementa el índice de la imagen
         setCurrentIndex((prevIndex) => (prevIndex + 1) % totalImages);
     };
 
-    // Función para cambiar a la imagen anterior con animación
     const handlePrev = () => {
         if (transitioning) return;
         setTransitioning(true);
-        // Decrementa el índice de la imagen
-        setCurrentIndex(
-            (prevIndex) => (prevIndex - 1 + totalImages) % totalImages
-        );
+        setCurrentIndex((prevIndex) => (prevIndex - 1 + totalImages) % totalImages);
     };
 
-    // Control de la transición
     const onTransitionEnd = () => {
         setTransitioning(false);
     };
 
     return (
-        <div className="slider-container my-20">
-            <div className="slider">
-                <div
-                    className="slider-images"
-                    style={{
-                        transform: `translateX(-${currentIndex * 100}%)`,
-                        transition: transitioning ? "transform 1s ease-in-out" : "none",
-                    }}
-                    onTransitionEnd={onTransitionEnd}
-                >
-                    {images.map((image, index) => (
-                        <img
-                            key={index}
-                            src={image}
-                            alt={`Slide ${index}`}
-                            className="slider-image min-w-screen"
-                        />
-                    ))}
-                </div>
+        <div className="my-20 relative w-full overflow-hidden max-h-[60vh]">
+            <div
+                className="flex transition-transform duration-1000 ease-in-out"
+                style={{
+                    transform: `translateX(-${currentIndex * 100}%)`,
+                }}
+                onTransitionEnd={onTransitionEnd}
+            >
+                {images.map((image, index) => (
+                    <img
+                        key={index}
+                        src={image}
+                        alt={`Slide ${index}`}
+                        className="w-full flex-shrink-0"
+                    />
+                ))}
             </div>
-            <div className="controls">
-                <button className="prev" onClick={handlePrev}>
-                    &#10094;
+
+            <div className="absolute top-1/2 left-0 right-0 flex justify-between items-center px-4">
+                <button onClick={handlePrev} className="text-white text-xl bg-black/60 p-3 rounded-full">
+                    <FaChevronLeft />
                 </button>
-                <button className="next" onClick={handleNext}>
-                    &#10095;
+                <button onClick={handleNext} className="text-white text-xl bg-black/60 p-3 rounded-full">
+                    <FaChevronRight />
                 </button>
             </div>
+
+            <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                {images.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-white" : "bg-black"
+                            }`}
+                    />
+                ))}
+            </div>
+            <div className="blur-bottom"></div>
+
         </div>
     );
 };
