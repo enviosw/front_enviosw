@@ -67,7 +67,7 @@ const MenuItem: React.FC<any> = ({
 
       <div className="flex flex-col justify-between flex-1">
         <h3 className="text-base font-semibold text-gray-800 truncate">{nombre}</h3>
-        <p className="text-sm text-gray-500 line-clamp-2">{descripcion}</p>
+        <p className="text-sm text-gray-500 line-clamp-2 break-all">{descripcion}</p>
 
         <div className="flex justify-between items-center mt-3">
           <div className="flex flex-col">

@@ -36,17 +36,17 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             {comercios?.map((comercio: Comercio) => (
                 <div
                     key={comercio.id}
-                    onClick={() => navigate(`/comercio/${comercio.id}/productos`)} // Usar la sintaxis correcta
+                    onClick={() => navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } })}
                     className="group cursor-pointer bg-white hover:bg-[#E63946] rounded-3xl shadow-xl transition duration-300 overflow-hidden relative border border-gray-300"
                 >
                     <div className="relative h-32 md:h-40 bg-white">
-                        <img 
-                            src={`${BASE_URL}/${comercio.logo_url}` || "logo_w_fondo_negro.jpeg"} 
+                        <img
+                            src={`${BASE_URL}/${comercio.logo_url}` || "logo_w_fondo_negro.jpeg"}
                             alt={comercio.nombre_comercial}
                             className="w-full h-full object-cover transition-transform min-w-72 hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                        
+
                         <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
                             <AiFillStar className="text-green-500" /> {comercio.servicio ? comercio.servicio.nombre : 'Sin tipo'}
                         </div>
