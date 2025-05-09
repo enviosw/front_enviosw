@@ -16,13 +16,13 @@ export const Navbar: React.FC = () => {
       '¿Cerrar sesión?',
       '¿Estás seguro de que deseas salir de tu cuenta?'
     );
-  
+
     if (confirmed) {
       logout();
       navigate('/login');
     }
   };
-  
+
   console.log(user)
 
   return (
@@ -69,6 +69,7 @@ export const Navbar: React.FC = () => {
                   <span className="badge">User</span>
                 </a>
               </li>
+              <li><a onClick={() => navigate('/mi-comercio')}>Mi Comcercio</a></li>
               <li><a onClick={handleLogout}>Logout</a></li>
             </ul>
           </div>
