@@ -69,7 +69,7 @@ export const Navbar: React.FC = () => {
                   <span className="badge">User</span>
                 </a>
               </li>
-              <li><a onClick={() => navigate('/mi-comercio')}>Mi Comcercio</a></li>
+              <li><a onClick={() => navigate('/mi-comercio')}>Mi Comercio</a></li>
               <li><a onClick={handleLogout}>Logout</a></li>
             </ul>
           </div>

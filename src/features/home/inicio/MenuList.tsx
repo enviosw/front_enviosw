@@ -10,6 +10,7 @@ import CartaMenu from '../shop/CartaMenu';
 import CategoryCarousel from '../shop/CategoryCarousel';
 import ComercioHeader from './ComercioHeader';
 import { BASE_URL } from '../../../utils/baseUrl';
+import Modal from '../../../shared/components/Modal';
 
 const MenuList: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // Aquí `id` es el id del comercio
@@ -58,14 +59,14 @@ const MenuList: React.FC = () => {
                                 </Link>
                                 <img
                                     className="w-10 h-10 rounded-full border-2 border-white"
-                                    src={`${BASE_URL}/${comercio.logo_url}`}
+                                    src={`${BASE_URL}/${comercio?.logo_url}`}
                                     alt="Logo"
                                 />
-                                <h1 className="text-xl font-bold">{comercio.nombre_comercial || 'Nombre Comercial'}</h1>
+                                <h1 className="text-xl font-bold">{comercio?.nombre_comercial ?? 'Nombre Comercial'}</h1>
                             </div>
                             <div className="hidden lg:flex gap-4">
                                 <Ubicacion />
-                                <WhatsappButton phoneNumber={comercio.telefono || 0} message="Hola, quiero hacer un pedido" />
+                                <WhatsappButton phoneNumber={comercio?.telefono ?? ''} message="Hola, quiero hacer un pedido" />
                                 <CartaMenu />
                             </div>
                             <div className="fixed bottom-10 right-6 z-50">
@@ -74,10 +75,10 @@ const MenuList: React.FC = () => {
                         </div>
                     </header>
                     <ComercioHeader
-                        nombre={comercio.nombre_comercial}
-                        descripcion={comercio.descripcion}
+                        nombre={comercio?.nombre_comercial ?? 'Comercio'}
+                        descripcion={comercio?.descripcion ?? 'Descripcion'}
                         horario="Lunes a Viernes · 9:00 AM - 6:00 PM" // Este dato lo puedes actualizar si está disponible
-                        imagen={`${BASE_URL}/${comercio.logo_url}`}  // Suponiendo que `logo_url` está en `comercio`
+                        imagen={`${BASE_URL}/${comercio?.logo_url}`}
                     />
 
                     {/* Categorías */}
@@ -102,6 +103,7 @@ const MenuList: React.FC = () => {
                     </main>
                 </div>
             </div>
+              <Modal /> 
         </div>
     );
 };
