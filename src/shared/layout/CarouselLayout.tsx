@@ -20,13 +20,13 @@ const CarouselLayout: React.FC = () => {
             <div className="absolute inset-0 bg-black/30"></div>
             <img
                 loading="lazy"
-                className="absolute opacity-80 md:opacity-100 flex z-20 w-[75%] lg:w-[50%] xl:w-[38%] -bottom-5 left-4 transform -translate-x-1/2 lg:-left-10 lg:top-10 lg:translate-x-0 object-cover"
+                className="absolute opacity-70 md:opacity-100 flex z-20 w-[76%] lg:w-[50%] xl:w-[38%] -bottom-5 left-4 transform -translate-x-1/2 lg:-left-10 lg:top-10 lg:translate-x-0 object-cover"
                 src="mujer.png"
                 alt="Motociclista"
             />
             <img
                 loading="lazy"
-                className="absolute opacity-80 md:opacity-100 z-20 w-full scale-110 md:scale-100 lg:w-[60%] xl:w-[60%] flex -bottom-1  lg:-bottom-5 right-32 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
+                className="absolute opacity-70 md:opacity-100 z-20 w-full scale-110 md:scale-100 lg:w-[60%] xl:w-[60%] flex -bottom-1  lg:-bottom-5 right-32 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
                 src="hombre.png"
                 alt="Motociclista"
             />
