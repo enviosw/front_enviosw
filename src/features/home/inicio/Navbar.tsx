@@ -26,7 +26,7 @@ export const Navbar: React.FC = () => {
   console.log(user)
 
   return (
-    <div className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 shadow-2xl`}>
+    <div className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 border-b-[1px] border-gray-100`}>
       <div className="flex-1">
         {/* Nombre de la empresa */}
         <div className="flex gap-2 items-end">

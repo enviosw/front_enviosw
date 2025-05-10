@@ -116,7 +116,7 @@ const TablaComercios: React.FC = () => {
     };
 
     return (
-        <div className="overflow-x-auto space-y-4">
+        <div className="overflow-x-auto w-full space-y-4">
             <div className="flex items-center justify-start gap-3">
                 <button onClick={() => openCustomModal()} className="btn btn-success">
                     <FaRegCheckSquare className="mr-2" /> Registrar
@@ -145,34 +145,34 @@ const TablaComercios: React.FC = () => {
             </div>
 
             {/* Filtros */}
-            <div className="flex flex-wrap gap-4 items-end justify-between">
+            <div className="flex w-full flex-wrap gap-4 items-end justify-between">
                 <input
                     type="text"
                     placeholder="Buscar..."
                     value={filters.search}
                     onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                    className="input input-bordered input-sm"
+                    className="input input-bordered input-sm w-full md:w-[20%]"
                 />
                 <select
                     value={filters.estado}
                     onChange={e => setFilters(prev => ({ ...prev, estado: e.target.value }))}
-                    className="select select-sm"
+                    className="select select-sm w-full md:w-[20%]"
                 >
                     <option value="">Todos los estados</option>
                     <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
+                    <option value="inactivo w-full md:w-[20%]">Inactivo</option>
                 </select>
                 <input
                     type="date"
                     value={filters.fechaInicio}
                     onChange={e => setFilters(prev => ({ ...prev, fechaInicio: e.target.value }))}
-                    className="input input-sm"
+                    className="input input-sm w-full md:w-[20%]"
                 />
                 <input
                     type="date"
                     value={filters.fechaFin}
                     onChange={e => setFilters(prev => ({ ...prev, fechaFin: e.target.value }))}
-                    className="input input-sm"
+                    className="input input-sm w-full md:w-[20%]"
                 />
 
                 <button
