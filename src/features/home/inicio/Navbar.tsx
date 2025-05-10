@@ -28,22 +28,24 @@ export const Navbar: React.FC = () => {
   return (
     <div className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 border-b-[1px] border-gray-100`}>
       <div className="flex-1">
-        {/* Nombre de la empresa */}
         <div className="flex gap-2 items-end">
-          {/* Logo */}
           <img
             className="rounded-2xl z-50 w-10 h-10 object-cover bg-black"
             src="logoW.png"
             alt="Logo W"
           />
-          {/* Texto "Domicilios W" */}
           <div className="m-0 p-0 text-black text-2xl font-semibold">
             Domicilios <span className="text-primary">W</span>
           </div>
         </div>
       </div>
-      <div className="flex-none">
-        {/* Si no hay usuario autenticado, mostramos el botón de Login */}
+
+      {/* Texto centrado: solo visible en sm+ */}
+      <div className="hidden sm:block text-center text-gray-500 text-sm font-medium">
+        Pitalito - Huila
+      </div>
+
+      <div className="flex-none ml-4">
         {!user ? (
           <button
             className="btn btn-square btn-ghost ml-4"
@@ -52,7 +54,6 @@ export const Navbar: React.FC = () => {
             <FaSignInAlt size={24} />
           </button>
         ) : (
-          // Si hay un usuario autenticado, mostramos el Dropdown con su info
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -76,5 +77,6 @@ export const Navbar: React.FC = () => {
         )}
       </div>
     </div>
+
   );
 };

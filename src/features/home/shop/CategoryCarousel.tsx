@@ -20,13 +20,13 @@ const CategoryCarousel: React.FC<CategoryCarouselProps> = ({
   };
 
   return (
-    <div className="w-auto overflow-x-auto py-2">
-      <div className="flex gap-4 whitespace-nowrap scrollbar-hide justify-center items-center flex-wrap">
+    <div className="flex justify-center overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full pl-[200px] pr-5 md:px-0">
+      <div className="flex gap-4 whitespace-nowrap flex-nowrap justify-start items-center px-4">
         <div
           onClick={() => handleClick(undefined)}
           className={`p-1 py-1 rounded-xl flex flex-col items-center 
-    w-20 h-16 md:w-28 md:h-20 justify-center shadow-sm cursor-pointer transition
-    ${selectedCategoriaId === undefined ? 'bg-[#FFB8AD]' : 'bg-[#F7F7F7] hover:bg-[#FFE0DC]'}`}
+            w-20 h-16 md:w-28 md:h-20 justify-center shadow-sm cursor-pointer transition
+            ${selectedCategoriaId === undefined ? 'bg-[#FFB8AD]' : 'bg-[#F7F7F7] hover:bg-[#FFE0DC]'}`}
         >
           <div className="text-2xl md:text-4xl">📦</div>
           <span className="text-[10px] md:text-sm font-medium text-gray-700 mt-2 text-center truncate">
@@ -39,8 +39,8 @@ const CategoryCarousel: React.FC<CategoryCarouselProps> = ({
             key={category.id}
             onClick={() => handleClick(category.id)}
             className={`p-1 py-1 rounded-xl flex flex-col items-center 
-      w-20 h-16 md:w-28 md:h-20 justify-center shadow-sm cursor-pointer transition
-      ${selectedCategoriaId === category.id ? 'bg-[#FFB8AD]' : 'bg-[#F7F7F7] hover:bg-[#FFE0DC]'}`}
+              w-20 h-16 md:w-28 md:h-20 justify-center shadow-sm cursor-pointer transition
+              ${selectedCategoriaId === category.id ? 'bg-[#FFB8AD]' : 'bg-[#F7F7F7] hover:bg-[#FFE0DC]'}`}
           >
             <div className="text-2xl md:text-4xl">📦</div>
             <span className="text-[10px] md:text-sm font-medium text-gray-700 mt-2 text-center truncate">

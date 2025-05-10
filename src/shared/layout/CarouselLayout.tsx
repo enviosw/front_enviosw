@@ -8,7 +8,7 @@ import { Animate } from 'react-simple-animate';
 
 const CarouselLayout: React.FC = () => {
     return (
-        <div className="relative w-full h-[45vh] lg:h-[60vh] overflow-hidden mt-16 lg:mt-0">
+        <div className="relative w-full h-[40vh] lg:h-[60vh] overflow-hidden mt-16 lg:mt-0">
             {/* Imagen de fondo */}
             <img
                 src="pitalito3.png"
@@ -26,7 +26,7 @@ const CarouselLayout: React.FC = () => {
             />
             <img
                 loading="lazy"
-                className="absolute z-20 w-full lg:w-[60%] xl:w-[60%] flex -bottom-1  lg:-bottom-5 right-32 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
+                className="absolute z-20 w-full scale-110 md:scale-100 lg:w-[60%] xl:w-[60%] flex -bottom-1  lg:-bottom-5 right-32 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
                 src="hombre.png"
                 alt="Motociclista"
             />

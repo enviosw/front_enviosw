@@ -60,7 +60,7 @@ const MenuItem: React.FC<any> = ({
       }`}
     >
       <div className="avatar">
-        <div className="mask mask-squircle w-24">
+        <div className="mask mask-squircle bg-white w-24">
           <img src={`${BASE_URL}/${image}` || defaultImage} alt={nombre} />
         </div>
       </div>
