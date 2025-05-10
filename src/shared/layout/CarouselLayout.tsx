@@ -26,7 +26,7 @@ const CarouselLayout: React.FC = () => {
             />
             <img
                 loading="lazy"
-                className="absolute z-20 w-[80%] lg:w-[60%] xl:w-[60%] flex  -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
+                className="absolute z-20 w-full lg:w-[60%] xl:w-[60%] flex -bottom-1  lg:-bottom-5 right-32 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
                 src="hombre.png"
                 alt="Motociclista"
             />
