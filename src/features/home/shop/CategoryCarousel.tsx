@@ -38,7 +38,7 @@ const CategoryCarousel: React.FC<CategoryCarouselProps> = ({
           <div
             key={category.id}
             onClick={() => handleClick(category.id)}
-            className={`p-1 py-1 rounded-xl flex flex-col items-center 
+            className={`p-1 py-1 bg-white rounded-xl flex flex-col items-center 
               w-20 h-16 md:w-28 md:h-20 justify-center shadow-sm cursor-pointer transition
               ${selectedCategoriaId === category.id ? 'bg-[#FFB8AD]' : 'bg-[#F7F7F7] hover:bg-[#FFE0DC]'}`}
           >

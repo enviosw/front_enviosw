@@ -26,7 +26,7 @@ const CarouselLayout: React.FC = () => {
             />
             <img
                 loading="lazy"
-                className="absolute opacity-70 md:opacity-100 z-20 w-full scale-110 md:scale-100 lg:w-[60%] xl:w-[60%] flex -bottom-1  lg:-bottom-5 right-32 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
+                className="absolute opacity-70 md:opacity-100 hidden lg:flex z-20 w-full scale-110 md:scale-100 lg:w-[60%] xl:w-[60%]  -bottom-1  lg:-bottom-5 right-32 transform translate-x-1/2 lg:right-0 lg:top-10 lg:translate-x-0 object-cover"
                 src="hombre.png"
                 alt="Motociclista"
             />
@@ -60,7 +60,7 @@ const CarouselLayout: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col lg:mt-3">
-                    <div className="flex flex-wrap justify-center items-center gap-4 mt-5 mb-5">
+                    <div className="flex flex-wrap justify-center items-center gap-4 mt-2 mb-5">
 
                         {/* Botón WhatsApp animado */}
                         <Animate play duration={1} delay={0.8} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
