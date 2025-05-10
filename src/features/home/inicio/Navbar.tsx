@@ -26,7 +26,7 @@ export const Navbar: React.FC = () => {
   console.log(user)
 
   return (
-    <div className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 border-b-[1px] border-gray-100`}>
+    <div className={`navbar bg-[#ffffff] fixed top-0 w-full z-50 transition-all duration-300`}>
       <div className="flex-1">
         <div className="flex gap-2 items-end">
           <img
@@ -35,13 +35,13 @@ export const Navbar: React.FC = () => {
             alt="Logo W"
           />
           <div className="m-0 p-0 text-black text-2xl font-semibold">
-            Domicilios <span className="text-primary">W</span>
+            Domicilios <span className="text-">W</span>
           </div>
         </div>
       </div>
 
       {/* Texto centrado: solo visible en sm+ */}
-      <div className="hidden sm:block text-center text-gray-500 text-sm font-medium">
+      <div className="text-center text-gray-500 text-sm font-medium pt-3">
         Pitalito - Huila
       </div>
 
