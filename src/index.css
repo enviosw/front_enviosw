@@ -105,7 +105,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* Fondo negro semi-transparente */
+  background: rgba(0, 0, 0, 0.6); /* Fondo negro semi-transparente */
   border-radius: 8px;
   filter: blur(8px);
   z-index: -1;

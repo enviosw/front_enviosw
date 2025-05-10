@@ -20,7 +20,7 @@ const CarouselLayout: React.FC = () => {
             <div className="absolute inset-0 bg-black/30"></div>
             <img
                 loading="lazy"
-                className="absolute hidden lg:flex z-20 w-[80%] lg:w-[50%] xl:w-[38%] -bottom-5 left-16 transform -translate-x-1/2 lg:-left-10 lg:top-10 lg:translate-x-0 object-cover"
+                className="absolute flex z-20 w-[75%] lg:w-[50%] xl:w-[38%] -bottom-5 left-4 transform -translate-x-1/2 lg:-left-10 lg:top-10 lg:translate-x-0 object-cover"
                 src="mujer.png"
                 alt="Motociclista"
             />
@@ -33,7 +33,7 @@ const CarouselLayout: React.FC = () => {
             <div className="absolute inset-0 flex flex-col  justify-center pt-2 lg:pt-10 items-center text-center z-30 px-4 ">
                 <div className="flex flex-col justify-center items-center">
                     <Animate play duration={1} start={{ opacity: 0, transform: 'scale(0.8)' }} end={{ opacity: 1, transform: 'scale(1)' }}>
-                        <h1 className="text-5xl md:text-7xl flex flex-col lg:flex-row items-center gap-2 lg:text-8xl font-extrabold leading-tight bg-gradient-to-r from-[#FE6601] via-white to-[#FE6601] text-transparent bg-clip-text drop-shadow-lg">
+                        <h1 className="titulo-con-sombra text-5xl md:text-7xl flex flex-col lg:flex-row items-center gap-2 lg:text-8xl font-extrabold leading-tight bg-gradient-to-r from-[#FE6601] via-white to-[#FE6601] text-transparent bg-clip-text drop-shadow-lg">
                             <img
                                 loading="lazy"
                                 className="w-[50%] lg:w-[35%] mx-auto filter drop-shadow-[0_0_1px_black] p-0 m-0"
@@ -41,6 +41,7 @@ const CarouselLayout: React.FC = () => {
                                 alt="Logo Domi"
                             />
                         </h1>
+
                     </Animate>
 
                     <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
