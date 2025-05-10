@@ -44,13 +44,13 @@ const CarouselLayout: React.FC = () => {
                     </Animate>
 
                     <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                        <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-sans italic font-bold uppercase pt-2">
+                        <p className="titulo-con-sombra text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-sans italic font-bold uppercase pt-2">
                             <span className="text-white">Domicilios</span> <span className="text-primary pr-2.5">W</span>
                         </p>
                     </Animate>
 
                     <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                        <p className="text-xl md:text-2xl lg:text-3xl font-sans italic font-semibold px-4 py-0">
+                        <p className="subtitulo-con-sombra text-xl md:text-2xl lg:text-3xl font-sans italic font-semibold px-4 py-0">
                             <span className="text-white">Te ahorramos</span>
                             <span className="text-primary"> Tiempo</span>
                             <span className="text-white"> y sobre todo</span>
