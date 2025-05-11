@@ -59,6 +59,7 @@ export const useActualizarCliente = () => {
             if (!clienteId) throw new Error('ID del cliente es requerido para actualizar');
 
             const { data } = await axiosInstance.patch(`/clientes/${clienteId}`, cliente);
+            
             return data;
         },
         onSuccess: async () => {

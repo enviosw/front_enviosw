@@ -17,8 +17,8 @@ const CarouselLayout: React.FC = () => {
             />
             <img
                 loading="lazy"
-                className="absolute z-20 w-[80%] lg:w-[60%] xl:w-[45%] flex  -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
-                src="domi-min.png"
+                className="absolute z-20 w-[80%] lg:w-[50%] xl:w-[40%] flex scale-x-[-1] -bottom-5 right-14 transform translate-x-1/2 lg:right-0 lg:top-3 lg:translate-x-0 object-cover"
+                src="domi-2.png"
                 alt="Motociclista"
             />
             <div className="absolute inset-0 flex flex-col  justify-center pt-2 lg:pt-10 items-center text-center z-30 px-4 ">
