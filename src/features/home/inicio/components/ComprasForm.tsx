@@ -57,7 +57,19 @@ const ComprasForm: React.FC<ComprasFormProps> = ({ tipoString }) => {
     };
 
     const handleSubmit = () => {
-        alert('Formulario enviado');
+        const numeroWhatsApp = '3232205900'; // Cambia por el número real del negocio
+
+        // Construir el mensaje con la información del formulario
+        const mensaje = `🛒 ¡Hola! Me gustaría realizar una compra:\n\n` +
+            `🛍️ Lista de Compras: ${formData.listaCompras}\n` +
+            `📍 Dirección de Entrega: ${formData.direccionEntrega}\n` +
+            `📞 Teléfono de Entrega: ${formData.telefonoEntrega}`;
+
+        // Crear la URL de WhatsApp
+        const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+
+        // Abrir el enlace en una nueva pestaña
+        window.open(url, '_blank');
     };
 
     if (tipoString !== 'compras') return null;

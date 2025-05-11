@@ -25,7 +25,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-4 md:p-8">
+    <div className="w-full mx-auto p-4 md:p-8">
       <img
         src={`${BASE_URL}/${product.image}` || defaultImage}
         alt={product.nombre}

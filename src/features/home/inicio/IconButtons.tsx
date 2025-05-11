@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Animate } from 'react-simple-animate';
 
 export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioIdOrNombre: number | string) => void }) => {
-    const { data: servicios, isLoading, isError } = useServicios();
+    const { data: servicios } = useServicios();
 
     console.log(servicios)
 
@@ -34,9 +34,6 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
             onSelectServicio(servicioSeleccionado);
         }
     }, [sortedServicios, selectedServicioId, onSelectServicio]);
-
-    if (isLoading) return <div>Cargando...</div>;
-    if (isError) return <div>Error al cargar los servicios</div>;
 
     return (
         <div className="flex justify-center overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full pl-[350px] pr-5 md:px-0">
