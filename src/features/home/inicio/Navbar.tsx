@@ -30,8 +30,8 @@ export const Navbar: React.FC = () => {
       <div className="flex-1">
         <div className="flex gap-2 items-end">
           <img
-            className="rounded-2xl z-50 w-10 h-10 object-cover bg-black"
-            src="logoW.png"
+            className="rounded-2xl z-50 w-10 h-10 object-contain bg-black"
+            src="logoW_1.png"
             alt="Logo W"
           />
           <div className="m-0 p-0 text-black text-2xl font-semibold">

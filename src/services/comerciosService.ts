@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosInstance from "../utils/axiosConfig";
-import { Comercio } from "../shared/types/comercioInterface";
+import { Comercio, ComercioHorario, Horario } from "../shared/types/comercioInterface";
 import { AxiosError } from "axios";
 import { ServerError } from "../shared/types/serverErrorInterface";
 import { AlertService } from "../utils/AlertService";
@@ -99,7 +99,7 @@ export const useActualizarComercio = () => {
     return useMutation({
         mutationFn: async (formData: FormData) => {
             const comercioId = formData.get('id');
-            
+
             if (!comercioId) throw new Error('ID del comercio es requerido para actualizar');
 
             const { data } = await axiosInstance.patch(`/comercios/${comercioId}`, formData, {
@@ -126,18 +126,69 @@ export const useActualizarComercio = () => {
 
 export const useBuscarComercios = (search: string) => {
     const axiosInstance = useAxiosInstance();
-  
+
     return useQuery<Comercio[], AxiosError<ServerError>>({
-      queryKey: ['comercios-search', search],
-      queryFn: async () => {
-        if (!search.trim()) return [];
-        const { data } = await axiosInstance.get(`/comercios/search`, {
-          params: { search },
-        });
-        return data;
-      },
-      enabled: !!search, // Solo se ejecuta si hay una búsqueda
-      staleTime: 1000 * 60 * 5,
-      gcTime: 1000 * 60 * 10,
+        queryKey: ['comercios-search', search],
+        queryFn: async () => {
+            if (!search.trim()) return [];
+            const { data } = await axiosInstance.get(`/comercios/search`, {
+                params: { search },
+            });
+            return data;
+        },
+        enabled: !!search, // Solo se ejecuta si hay una búsqueda
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 10,
     });
-  };
+};
+
+
+export const useGetHorariosComercio = (comercioId: number | null) => {
+    const axiosInstance = useAxiosInstance();
+
+    return useQuery<any>({
+        queryKey: ['comercio-horarios', comercioId],
+        queryFn: async () => {
+            if (!comercioId) {
+                throw new Error('Comercio ID no proporcionado');
+            }
+
+            try {
+                const { data } = await axiosInstance.get<ComercioHorario>(`/comercios/${comercioId}`);
+                return data;
+            } catch (error) {
+                const axiosError = error as AxiosError<ServerError>;
+                throw new Error(axiosError.response?.data.message || 'Error al obtener los horarios');
+            }
+        },
+        staleTime: 1000 * 60 * 10, // 10 minutos
+        gcTime: 1000 * 60 * 15, // 15 minutos
+    });
+};
+
+
+export const useActualizarHorariosComercio = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (formData: { id: number; horarios: Horario[] }) => {
+            const { id, horarios } = formData;
+
+            if (!id) throw new Error('ID del comercio es requerido para actualizar horarios');
+
+            const { data } = await axiosInstance.patch(`/comercios/${id}/horarios`, { horarios });
+            return data;
+        },
+        onSuccess: async () => {
+            // Invalida las queries de comercios para refrescar los datos
+            await queryClient.invalidateQueries({ queryKey: ['comercios'] });
+            AlertService.success('Horarios actualizados', 'Los horarios del comercio han sido actualizados exitosamente.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError: string[] | string = error.response?.data?.message || 'Error al actualizar los horarios';
+            console.error(messageError);
+            AlertService.error('Error al actualizar', messageError);
+        },
+    });
+};

@@ -56,7 +56,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                                     : 'border-2 border-transparent'
                                 }`}
                         >
-                            <Icon iconName={servicio?.icon ?? ''} size={28} />
+                            <Icon iconName={servicio?.icon ?? ''} size={35} />
                         </button>
                         <span
                             className='text-sm lg:text-base'
