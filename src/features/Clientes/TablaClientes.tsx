@@ -7,6 +7,7 @@ import { formatDate } from "../../utils/formatearFecha";
 import DataTable from "../../shared/components/DataTable";
 import Modal from "../../shared/components/Modal";
 import Loader from "../../utils/Loader";
+import FormularioCliente from "./FormularioCliente";
 
 
 const TablaClientes: React.FC = () => {
@@ -94,7 +95,7 @@ const TablaClientes: React.FC = () => {
             <TableCell>{cliente.phone}</TableCell>
             <TableCell>{cliente.phone_2}</TableCell>
             <TableCell>{cliente.address}</TableCell>
-            <TableCell>{cliente.state}</TableCell>
+            <TableCell>{cliente.status}</TableCell>
             <TableCell>{formatDate(cliente.fecha_creacion)}</TableCell>
         </tr>
     );
@@ -103,7 +104,7 @@ const TablaClientes: React.FC = () => {
         const isEdit = cliente?.id !== undefined;
         const key = isEdit ? `edit-${cliente.id}` : `create-${Date.now()}`;
         setModalTitle(isEdit ? 'Actualizar Cliente' : 'Registrar Cliente');
-        // setModalContent(<FormularioCliente key={key} cliente={cliente} />);
+        setModalContent(<FormularioCliente key={key} cliente={cliente} />);
         openModal();
     };
 

@@ -1,13 +1,16 @@
 export interface Cliente {
-    id: number;
-    nombre: string;
+    id?: number;
+    name: string;
+    lastName: string;
     email: string;
-    telefono: string;
-    direccion: string;
-    estado: string;
-    fecha_creacion: string;
-    fecha_actualizacion: string;
-    usuario_creacion: string;
-    usuario_actualizacion: string;
-    // Otros campos que necesites
-}
+    password: string;
+    rol_id: number;
+    rol?: {
+      id: number;
+      name: string;
+    };
+    status?: 'activo' | 'inactivo';
+    phone?: string;
+    phone_2?: string;
+    address?: string;
+  }
