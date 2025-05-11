@@ -31,11 +31,13 @@ const FormularioCliente: React.FC<FormularioClienteProps> = ({ cliente }) => {
     }, [cliente, reset]);
 
     const onSubmit = (data: ClienteFormData) => {
-        console.log('dfsd', data);
         
         const payload = {
             ...data
         };
+
+        console.log(data);
+        
 
         if (cliente?.id) {
             actualizarCliente({ ...payload, id: cliente.id });

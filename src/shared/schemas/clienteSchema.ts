@@ -6,9 +6,10 @@ export const clienteSchema = z.object({
   email: z.string().email('Correo no válido'),
   password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
 
-  rol_id: z.number().refine((val) => [1, 2, 3].includes(val), {
-    message: 'Debes agregar un rol válido',
-  }),
+//   rol_id: z.string().refine((val) => [1, 2, 3].includes(val), {
+//     message: 'Debes agregar un rol válido',
+//   }),
+  rol_id: z.string().min(1, 'El teléfono debe tener al menos 10 caracteres').optional(),
 
   status: z.string().refine((val) => ['activo', 'inactivo'].includes(val), {
     message: 'El estado debe ser activo o inactivo',

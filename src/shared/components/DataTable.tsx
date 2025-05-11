@@ -19,14 +19,22 @@ const DataTable = <T,>({
         <div className="overflow-x-auto">
             <table className="min-w-full bg-[#F8F8F8] rounded-t-md overflow-hidden">
                 <thead>
-                    <tr>
-                        <th className="px-2">
-                            <input type="checkbox" className="checkbox" checked={allSelected} onChange={toggleSelectAll} />
+                    <tr className='bg-gray-800 text-white border-b'>
+                        <th className="px-2 py-0 h-10">
+                            <div className="flex items-center gap-3">
+                                <input 
+                                    type="checkbox" 
+                                    className="checkbox bg-white focus:bg-white focus:outline-none focus:ring-0" 
+                                    checked={allSelected} 
+                                    onChange={toggleSelectAll} 
+                                />
+                                <span>Acciones</span>
+                            </div>
                         </th>
                         {headers.map((header, index) => (
                             <th
                                 key={index}
-                                className="px-6 bg-[#E63946] h-10 text-white text-left text-sm font-semibold uppercase tracking-wider border-b"
+                                className="px-6 h-10 text-left text-sm font-semibold uppercase tracking-wider border-b"
                             >
                                 {header}
                             </th>
