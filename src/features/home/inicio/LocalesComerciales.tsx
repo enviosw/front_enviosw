@@ -37,7 +37,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                 <div
                     key={comercio.id}
                     onClick={() => navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } })}
-                    className="cursor-pointer bg-white rounded-2xl hover:shadow-xl  transition duration-300 overflow-hidden relative"
+                    className="cursor-pointer bg-white border-b-[1px] border-gray-200 hover:rounded-2xl rounded-t-2xl hover:shadow-xl  transition duration-300 overflow-hidden relative"
                 >
                     <div className="relative h-[180px]">
                         <img

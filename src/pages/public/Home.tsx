@@ -5,11 +5,12 @@ import LocalesComerciales from '../../features/home/inicio/LocalesComerciales';
 import TipoServicio from '../../features/home/inicio/TipoServicio';
 import WhatsAppFloatButton from '../../shared/components/WhatsAppFloatButton';
 import Slider from '../../shared/components/Slider';
-import { Animate } from 'react-simple-animate';
-import InstagramButton from '../../shared/components/buttons/InstagramButton';
-import WhatsappButton from '../../shared/components/buttons/WhatsappButton';
-import FacebookButton from '../../shared/components/buttons/FacebookButton';
-import ContactoInfo from '../../features/home/inicio/ContactoInfo';
+// import { Animate } from 'react-simple-animate';
+// import InstagramButton from '../../shared/components/buttons/InstagramButton';
+// import WhatsappButton from '../../shared/components/buttons/WhatsappButton';
+// import FacebookButton from '../../shared/components/buttons/FacebookButton';
+// import ContactoInfo from '../../features/home/inicio/ContactoInfo';
+import Slider2 from '../../shared/components/Slider2';
 
 const Home: React.FC = () => {
 
@@ -49,11 +50,11 @@ const Home: React.FC = () => {
     <>
       {/* <CarouselLayout /> */}
 
-      <div className="relative w-full h-[40vh] lg:[50vh] mt-10 bg-secondary flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+      <Slider2 />
+      {/* <div className="relative w-full h-[40vh] lg:[50vh] mt-10 bg-secondary flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
 
 
         <div className=' flex container mx-auto relative'>
-          {/* IZQUIERDA: LOGO + TEXTO */}
           <div className="w-full flex flex-col justify-center items-center text-left space-y-2 lg:space-y-4 relative z-10">
             <Animate play duration={1} start={{ opacity: 0, transform: 'scale(0.8)' }} end={{ opacity: 1, transform: 'scale(1)' }}>
               <img
@@ -80,7 +81,6 @@ const Home: React.FC = () => {
             </Animate>
           </div>
 
-          {/* DERECHA: IMAGEN ADICIONAL */}
           <div className="w-full flex justify-center items-center h-full mt-6 md:mt-0 relative z-10">
             <img
               loading="lazy"
@@ -90,7 +90,6 @@ const Home: React.FC = () => {
             />
           </div>
 
-          {/* ICONOS DE CONTACTO: WHATSAPP, INSTAGRAM, FACEBOOK */}
           <div className="absolute  flex-col items-center hidden lg:flex justify-center right-10 bottom-30 space-y-6 z-20">
             <Animate play duration={1} delay={0.8} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
               <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quisiera más información sobre su producto." />
@@ -110,88 +109,88 @@ const Home: React.FC = () => {
 
         </div>
 
-        {/* CONTACTO INFO - Oculto en dispositivos pequeños */}
         <div className="absolute hidden lg:flex right-0 lg:right-10 bottom-10 z-20">
           <ContactoInfo />
         </div>
-      </div>
+      </div> */}
 
 
 
 
 
 
-      <div className='bg-white rounded-t-4xl z-20 -translate-y-8'>
+      {/* <div className='bg-white rounded-t-4xl z-20 -translate-y-8'> */}
 
-        {/* Contenido principal */}
-        <section className="mt-7 w-full">
-          <h2 className="text-center mb-3 text-3xl lg:text-4xl text-black font-normal italic drop-shadow-md">
-            Selecciona el <span className='text-primary'>Servicio!</span>
-          </h2>
-          <IconButtons onSelectServicio={handleSelectServicio} />
-        </section>
+      {/* Contenido principal */}
+      <section className="w-full lg:w-[85%] mx-auto  px-4 lg:px-10">
 
-        <section className="h-auto flex justify-start items-center relative">
-          <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
-            {servicioId !== null ? (
-              <div className="w-full">
-                <div className="flex justify-center items-center mb-2">
-                  <div className="relative w-full max-w-md">
-                    <input
-                      type="text"
-                      placeholder="Buscar..."
-                      className="w-full py-3 pl-10 pr-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
-                    />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <circle cx="11" cy="11" r="8"></circle>
-                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                  </div>
+        <h2 className="text-center lg:text-left mb-5 text-3xl lg:text-4xl text-gray-700 font-normal">
+          Selecciona el <span className='text-primary'>Servicio!</span>
+        </h2>
+        <IconButtons onSelectServicio={handleSelectServicio} />
+      </section>
+
+      <section className="h-auto flex justify-start items-center relative mt-5">
+        <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
+          {servicioId !== null ? (
+            <div className="w-full">
+              <div className="flex justify-start items-center mb-6">
+                <div className="relative w-full max-w-full">
+                  <input
+                    type="text"
+                    placeholder="Buscar..."
+                    className="w-full py-3 pl-10 pr-4 bg-[#FFB84D]/20 rounded-full  focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
+                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
                 </div>
-
-
-                <LocalesComerciales servicioId={servicioId} />
               </div>
-            ) : servicioNombre ? (
-              <div className="text-center text-lg font-semibold w-full">
-                <TipoServicio tipo={String(servicioNombre)} />
-              </div>
-            ) : null}
-          </div>
-        </section>
 
-        {/* Sección de promoción con imagen y texto */}
-        <div className="w-full relative overflow-hidden px-6 my-10">
-          <div className="flex items-center justify-center h-full gap-6 flex-wrap">
-            <img
-              src="motoexpress.png"
-              alt="Moto Express - Domicilios rápidos en Pitalito"
-              className="h-80 w-auto object-contain"
-            />
-            <div className="flex flex-col justify-center items-start text-left">
-              <h2 className="text-gray-800 text-3xl md:text-5xl font-bold mb-2">
-                Tu aliado en domicilios
-              </h2>
-              <p className="text-gray-600 text-sm md:text-lg mb-4 max-w-md">
-                Pide comida, haz tus compras, envía productos o gestiona trámites. Nosotros lo entregamos en tu puerta, fácil y rápido.
-              </p>
-              <button className="bg-orange-600 text-white font-semibold py-3 px-5 rounded-full hover:bg-orange-700 transition duration-300 shadow-md">
-                ¡Pedir ahora!
-              </button>
+
+              <LocalesComerciales servicioId={servicioId} />
             </div>
+          ) : servicioNombre ? (
+            <div className="text-center text-lg font-semibold w-full">
+              <TipoServicio tipo={String(servicioNombre)} />
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      {/* Sección de promoción con imagen y texto */}
+      <div className="w-full relative overflow-hidden px-6 my-10">
+        <div className="flex items-center justify-center h-full gap-6 flex-wrap">
+          <img
+            src="motoexpress.png"
+            alt="Moto Express - Domicilios rápidos en Pitalito"
+            className="h-80 w-auto object-contain"
+          />
+          <div className="flex flex-col justify-center items-start text-left">
+            <h2 className="text-gray-800 text-3xl md:text-5xl font-bold mb-2">
+              Tu aliado en domicilios
+            </h2>
+            <p className="text-gray-600 text-sm md:text-lg mb-4 max-w-md">
+              Pide comida, haz tus compras, envía productos o gestiona trámites. Nosotros lo entregamos en tu puerta, fácil y rápido.
+            </p>
+            <button className="bg-orange-600 text-white font-semibold py-3 px-5 rounded-full hover:bg-orange-700 transition duration-300 shadow-md">
+              ¡Pedir ahora!
+            </button>
           </div>
         </div>
+        {/* </div> */}
 
         <Slider images={images} />
         <WhatsAppFloatButton />
