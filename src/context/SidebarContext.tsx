@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import { Contenido } from '../shared/types/childrenInterface';
 
 interface SidebarContextType {
@@ -18,6 +18,24 @@ export const useSidebar = (): SidebarContextType => {
 
 export const SidebarProvider: React.FC<Contenido> = ({ children }) => {
     const [isOpen, setIsOpen] = useState<boolean>(true);
+
+    useEffect(() => {
+        // Tailwind's sm breakpoint = 640px
+        const handleResize = () => {
+            if (window.innerWidth < 640) {
+                setIsOpen(false);
+            } else {
+                setIsOpen(true);
+            }
+        };
+
+        // Llama al inicio
+        handleResize();
+
+        // También escucha cambios de tamaño
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const toggleSidebar = () => setIsOpen(prev => !prev);
 

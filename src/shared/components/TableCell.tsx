@@ -6,7 +6,7 @@ interface TableCellProps {
 
 const TableCell: React.FC<TableCellProps> = ({ children }) => {
   return (
-    <td className="px-6 text-sm text-gray-700 border-gray-300 border-b">
+    <td className="px-6 py-1 text-sm text-gray-700 border-gray-300 border-b">
       {children}
     </td>
   );

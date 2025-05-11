@@ -5,7 +5,8 @@ const Clientes: React.FC = () => {
 
     return (
         <section>
-            <h3>Clientes</h3>
+            
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">Clientes</h1>
 
             <TablaClientes />
 

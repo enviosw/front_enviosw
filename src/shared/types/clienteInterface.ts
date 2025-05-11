@@ -4,9 +4,9 @@ export interface Cliente {
     lastName: string;
     email: string;
     password: string;
-    rol_id: number;
+    rol_id: string;
     rol?: {
-      id: number;
+      id: string;
       name: string;
     };
     status?: 'activo' | 'inactivo';
