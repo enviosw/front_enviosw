@@ -1,8 +1,15 @@
 import React from 'react'
+import TablaClientes from '../../features/Clientes/TablaClientes';
 
 const Clientes: React.FC = () => {
+
     return (
-        <div>Clientes</div>
+        <section>
+            <h3>Clientes</h3>
+
+            <TablaClientes />
+
+        </section>
     )
 }
 

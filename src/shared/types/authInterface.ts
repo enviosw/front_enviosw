@@ -5,6 +5,10 @@ export interface Login {
 
 export interface RegisterAuth {
     nombre: string
+    apellido?: string
+    direccion:string
+    telefono: string
+    telefono2?: string
     email: string
     password: string
     rol?: string

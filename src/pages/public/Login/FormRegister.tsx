@@ -4,7 +4,7 @@ import { FormRegisterInterface } from "../../../shared/types/registerLoginInterf
 
 const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRegister, toggleForm, form }) => {
 
-
+    const [typeInputPassword, setTypeInputPassword] = useState('password');
     const [userCompleted, setUserCompleted] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +26,16 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
     const handleBack = () => {
         setUserCompleted(false);
     }
+
+    
+    const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            setTypeInputPassword('text');
+        } else {
+            setTypeInputPassword('password');
+        }
+    };
 
     return (
         <>
@@ -68,17 +78,25 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
 
                     <legend className="fieldset-legend">Contraseña</legend>
                     <input
-                        type="password"
+                        type={typeInputPassword}
                         name="password"
                         value={form.password}
                         onChange={handleChange}
                         placeholder="Contraseña"
                         className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
                     />
+                    <input
+                      type="checkbox"
+                      onChange={handleCheck}
+                      className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-600">
+                      ver contraseña
+                    </label>
 
                     <button
                         onClick={() => handleRegister()}
-                        className="btn w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white border-none"
+                        className="btn w-full bg-gradient-to-r mt-2 from-orange-500 via-pink-500 to-purple-600 text-white border-none"
                     >
                         REGISTRARSE
                     </button>
