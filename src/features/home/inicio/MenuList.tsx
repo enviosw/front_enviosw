@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { useProductosPublicos } from '../../../services/productosServices';
 import MenuItem from '../shop/MenuItem';
 import Cart from '../shop/Cart';
@@ -9,17 +9,24 @@ import Ubicacion from './Ubicacion';
 import CartaMenu from '../shop/CartaMenu';
 import CategoryCarousel from '../shop/CategoryCarousel';
 import ComercioHeader from './ComercioHeader';
+import { BASE_URL } from '../../../utils/baseUrl';
+import Modal from '../../../shared/components/Modal';
 
 const MenuList: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // Aquí `id` es el id del comercio
 
+    const { state } = useLocation();
+    const { comercio } = state || {};  // Accediendo al comercio desde location.state
+
+    // Ahora puedes usar el objeto comercio aquí
+    console.log(comercio);  // Aquí tendrás todos los datos del comercio
+
+
     const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);
+    const [selectedCategoriaId, setSelectedCategoriaId] = useState<number | undefined>(undefined);
 
-    const { data: productos, isLoading, isError } = useProductosPublicos(Number(id), categoriaId);
 
-
-    if (isLoading) return <></>;
-    if (isError) return <div className="text-center py-10 text-red-500">Error al cargar los productos.</div>;
+    const { data: productos } = useProductosPublicos(Number(id), categoriaId);
 
     const productosAdaptados = productos?.map((producto) => ({
         id: producto.id,
@@ -52,14 +59,14 @@ const MenuList: React.FC = () => {
                                 </Link>
                                 <img
                                     className="w-10 h-10 rounded-full border-2 border-white"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjUgdNmoM2kp33Mo_JHrQ9MXdxR5eeTuh0ng&s"
+                                    src={`${BASE_URL}/${comercio?.logo_url}`}
                                     alt="Logo"
                                 />
-                                <h1 className="text-xl font-bold">Sason del Alma</h1>
+                                <h1 className="text-xl font-bold">{comercio?.nombre_comercial ?? 'Nombre Comercial'}</h1>
                             </div>
                             <div className="hidden lg:flex gap-4">
                                 <Ubicacion />
-                                <WhatsappButton phoneNumber="32321122112" message="Hola, quiero hacer un pedido" />
+                                <WhatsappButton phoneNumber={comercio?.telefono ?? ''} message="Hola, quiero hacer un pedido" />
                                 <CartaMenu />
                             </div>
                             <div className="fixed bottom-10 right-6 z-50">
@@ -68,23 +75,27 @@ const MenuList: React.FC = () => {
                         </div>
                     </header>
                     <ComercioHeader
-                        nombre="Sazón del Alma"
-                        descripcion="Comida casera con amor, ideal para compartir en familia."
-                        horario="Lunes a Viernes · 9:00 AM - 6:00 PM"
-                        imagen="https://carloscortes.com.co/wp-content/uploads/2019/10/Logo-del-pollo-frisby-1024x448.jpg"
+                        nombre={comercio?.nombre_comercial ?? 'Comercio'}
+                        descripcion={comercio?.descripcion ?? 'Descripcion'}
+                        horario="Lunes a Viernes · 9:00 AM - 6:00 PM" // Este dato lo puedes actualizar si está disponible
+                        imagen={`${BASE_URL}/${comercio?.logo_url}`}
                     />
 
                     {/* Categorías */}
-                    <section className="w-full container lg:mt-24 mx-auto flex justify-center items-center px-4">
+                    <section className="w-full container lg:mt-14 mx-auto flex justify-center items-center px-4">
                         <CategoryCarousel
                             comercioId={Number(id)}
-                            onSelectCategoria={setCategoriaId}
+                            onSelectCategoria={(id) => {
+                                setCategoriaId(id);
+                                setSelectedCategoriaId(id);
+                            }}
+                            selectedCategoriaId={selectedCategoriaId}
                         />
                     </section>
 
                     {/* Lista de productos */}
                     <main className="w-full container mx-auto px-4 py-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 bg-white shadow-md rounded-xl py-4 px-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ">
                             {productosAdaptados?.map((item) => (
                                 <MenuItem key={item.id} {...item} comercioId={id} />
                             ))}
@@ -92,6 +103,7 @@ const MenuList: React.FC = () => {
                     </main>
                 </div>
             </div>
+              <Modal /> 
         </div>
     );
 };

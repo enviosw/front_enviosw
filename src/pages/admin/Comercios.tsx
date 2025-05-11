@@ -3,7 +3,7 @@ import TablaComercios from '../../features/comercios/TablaComercios'
 
 const Comercios: React.FC = () => {
     return (
-        <div>
+        <div className='w-full'>
             <TablaComercios />
 
         </div>

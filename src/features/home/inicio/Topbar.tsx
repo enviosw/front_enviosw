@@ -3,7 +3,7 @@ import { FaPhoneAlt, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Topbar: React.FC = () => {
     return (
-        <div className="w-full h-8 bg-[#ffffff] text-black text-xs hidden lg:flex items-center justify-between px-1 lg:px-4 shadow-sm">
+        <div className="w-full h-8 bg-[#ffffff] text-black text-xs hidden lg:flex items-center justify-between px-1 lg:px-4 shadow-sm mx-auto 2xl:w-[80%]">
             <div className="flex items-center gap-2">
                 <FaClock className="text-white" size={12} />
                 <span>Entrega en menos de 30 min</span>

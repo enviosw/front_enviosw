@@ -64,7 +64,20 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
     };
 
     const handleSubmit = () => {
-        alert('Formulario enviado');
+        const numeroWhatsApp = '3232205900'; // Cambia por el número real del negocio
+
+        // Construir el mensaje con la información del formulario
+        const mensaje = `🛵 ¡Hola! Quiero coordinar una recogida y entrega:\n\n` +
+            `📍 Dirección de Recogida: ${formData.direccionRecoger}\n` +
+            `📞 Teléfono de Recogida: ${formData.telefonoRecoger}\n\n` +
+            `📍 Dirección de Entrega: ${formData.direccionEntrega}\n` +
+            `📞 Teléfono de Entrega: ${formData.telefonoEntrega}`;
+
+        // Crear la URL de WhatsApp
+        const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+
+        // Abrir el enlace en una nueva pestaña
+        window.open(url, '_blank');
     };
 
     if (tipoString !== 'recogidas') return null;

@@ -1,36 +1,49 @@
-// shop/CategoryCarousel.tsx
 import React from 'react';
 import { useCategoriasPorComercio } from '../../../services/categoriasServices';
 
 interface CategoryCarouselProps {
   comercioId?: number;
   onSelectCategoria: (categoriaId?: number) => void;
+  selectedCategoriaId?: number;
 }
 
-const CategoryCarousel: React.FC<CategoryCarouselProps> = ({ comercioId, onSelectCategoria }) => {
-  const { data: categories, isLoading, isError } = useCategoriasPorComercio(comercioId);
+const CategoryCarousel: React.FC<CategoryCarouselProps> = ({
+  comercioId,
+  onSelectCategoria,
+  selectedCategoriaId
+}) => {
+  const { data: categories } = useCategoriasPorComercio(comercioId);
 
-  if (isLoading) return <p>Cargando...</p>;
-  if (isError) return <p className="text-red-500">Error al cargar categorías</p>;
+
+  const handleClick = (categoriaId?: number) => {
+    onSelectCategoria(categoriaId);
+  };
 
   return (
-    <div className="w-auto overflow-x-auto py-2">
-      <div className="flex gap-4 whitespace-nowrap scrollbar-hide justify-center items-center flex-wrap">
+    <div className="flex justify-center overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full pl-[200px] pr-5 md:px-0">
+      <div className="flex gap-4 whitespace-nowrap flex-nowrap justify-start items-center px-4">
         <div
-          onClick={() => onSelectCategoria(undefined)}
-          className="bg-[#FFE0DC] p-3 py-1 rounded-xl flex flex-col items-center w-24 h-20 md:w-28 justify-center shadow-sm cursor-pointer"
+          onClick={() => handleClick(undefined)}
+          className={`p-1 py-1 rounded-xl flex flex-col items-center 
+            w-20 h-16 md:w-28 md:h-20 justify-center shadow-sm cursor-pointer transition
+            ${selectedCategoriaId === undefined ? 'bg-[#FFB8AD]' : 'bg-[#F7F7F7] hover:bg-[#FFE0DC]'}`}
         >
-          <span className="text-sm font-semibold text-center text-gray-800">Todas</span>
+          <div className="text-2xl md:text-4xl">📦</div>
+          <span className="text-[10px] md:text-sm font-medium text-gray-700 mt-2 text-center truncate">
+            Todas
+          </span>
         </div>
 
         {categories?.map((category) => (
           <div
             key={category.id}
-            onClick={() => onSelectCategoria(category.id)}
-            className="bg-[#F7F7F7] hover:bg-[#FFE0DC] transition p-3 py-1 rounded-xl flex flex-col items-center w-24 h-20 md:w-28 justify-center shadow-sm cursor-pointer"
+            onClick={() => handleClick(category.id)}
+            className={`p-1 py-1 bg-white rounded-xl flex flex-col items-center 
+              w-20 h-16 md:w-28 md:h-20 justify-center shadow-sm cursor-pointer transition
+              ${selectedCategoriaId === category.id ? 'bg-[#FFB8AD]' : 'bg-[#F7F7F7] hover:bg-[#FFE0DC]'}`}
           >
-            <div className="text-3xl md:text-4xl">📦</div>
-            <span className="text-xs md:text-sm font-medium text-gray-700 mt-2 text-center truncate">
+            <div className="text-2xl md:text-4xl">📦</div>
+            <span className="text-[10px] md:text-sm font-medium text-gray-700 mt-2 text-center truncate">
               {category.nombre}
             </span>
           </div>
@@ -40,4 +53,4 @@ const CategoryCarousel: React.FC<CategoryCarouselProps> = ({ comercioId, onSelec
   );
 };
 
-export default CategoryCarousel;
+export default CategoryCarousel

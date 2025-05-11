@@ -16,34 +16,36 @@ export const Navbar: React.FC = () => {
       '¿Cerrar sesión?',
       '¿Estás seguro de que deseas salir de tu cuenta?'
     );
-  
+
     if (confirmed) {
       logout();
       navigate('/login');
     }
   };
-  
+
   console.log(user)
 
   return (
-    <div className={`navbar bg-white fixed top-0 w-full z-50 transition-all duration-300 shadow-2xl`}>
+    <div className={`navbar bg-[#ffffff] fixed top-0 w-full z-50 transition-all duration-300`}>
       <div className="flex-1">
-        {/* Nombre de la empresa */}
         <div className="flex gap-2 items-end">
-          {/* Logo */}
           <img
             className="rounded-2xl z-50 w-10 h-10 object-cover bg-black"
             src="logoW.png"
             alt="Logo W"
           />
-          {/* Texto "Domicilios W" */}
           <div className="m-0 p-0 text-black text-2xl font-semibold">
-            Domicilios <span className="text-primary">W</span>
+            Domicilios <span className="text-">W</span>
           </div>
         </div>
       </div>
-      <div className="flex-none">
-        {/* Si no hay usuario autenticado, mostramos el botón de Login */}
+
+      {/* Texto centrado: solo visible en sm+ */}
+      <div className="text-center text-gray-500 text-sm font-medium pt-3">
+        Pitalito - Huila
+      </div>
+
+      <div className="flex-none ml-4">
         {!user ? (
           <button
             className="btn btn-square btn-ghost ml-4"
@@ -52,7 +54,6 @@ export const Navbar: React.FC = () => {
             <FaSignInAlt size={24} />
           </button>
         ) : (
-          // Si hay un usuario autenticado, mostramos el Dropdown con su info
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -69,11 +70,13 @@ export const Navbar: React.FC = () => {
                   <span className="badge">User</span>
                 </a>
               </li>
+              <li><a onClick={() => navigate('/mi-comercio')}>Mi Comercio</a></li>
               <li><a onClick={handleLogout}>Logout</a></li>
             </ul>
           </div>
         )}
       </div>
     </div>
+
   );
 };

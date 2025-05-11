@@ -6,8 +6,8 @@ const Modal: React.FC = () => {
     const { isOpen, closeModal, modalTitle, modalContent } = useModal();
 
     return (
-        <div className={`modal ${isOpen ? 'modal-open' : ''}`} role="dialog">
-            <div className="modal-box w-11/12 max-w-5xl relative">
+        <div className={`modal overflow-hidden ${isOpen ? 'modal-open' : ''}`} role="dialog">
+            <div className="modal-box w-full h-full lg:h-auto lg:w-11/12lg: max-w-5xl relative">
                 <h3 className="text-lg font-bold">{modalTitle}</h3>
                 <div className="py-4">{modalContent}</div>
                 <div className="modal-action absolute top-0 right-5">
