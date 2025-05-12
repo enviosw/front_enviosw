@@ -134,30 +134,7 @@ const Home: React.FC = () => {
         <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
           {servicioId !== null ? (
             <div className="w-full">
-              <div className="flex justify-start items-center mb-6">
-                <div className="relative w-full max-w-full">
-                  <input
-                    type="text"
-                    placeholder="Buscar..."
-                    className="w-full py-3 pl-10 pr-4 bg-[#FFB84D]/20 rounded-full  focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
-                  />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                </div>
-              </div>
+              
 
 
               <LocalesComerciales servicioId={servicioId} />
