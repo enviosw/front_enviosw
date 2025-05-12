@@ -85,13 +85,13 @@ export const Navbar: React.FC = () => {
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li>
-                  <a className="justify-between">
+                  <button className="justify-between">
                     {user.nombre}
                     <span className="badge">User</span>
-                  </a>
+                  </button>
                 </li>
-                <li><a onClick={() => navigate('/mi-comercio')}>Mi Comercio</a></li>
-                <li><a onClick={handleLogout}>Logout</a></li>
+                <li><button onClick={() => navigate('/mi-comercio')}>Mi Comercio</button></li>
+                <li><button onClick={handleLogout}>Logout</button></li>
               </ul>
             </div>
           )}
