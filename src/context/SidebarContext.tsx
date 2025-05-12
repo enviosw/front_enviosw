@@ -17,14 +17,12 @@ export const useSidebar = (): SidebarContextType => {
 };
 
 export const SidebarProvider: React.FC<Contenido> = ({ children }) => {
-    const [isOpen, setIsOpen] = useState<boolean>(true);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
         // Tailwind's sm breakpoint = 640px
         const handleResize = () => {
-            if (window.innerWidth < 640) {
-                setIsOpen(false);
-            } else {
+            if (window.innerWidth > 640) {
                 setIsOpen(true);
             }
         };
