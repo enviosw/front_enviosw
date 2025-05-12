@@ -18,3 +18,28 @@ export interface Comercio {
   servicio_id?: number | undefined | string
 }
 
+
+// shared/types/comercioInterface.ts
+
+export interface Horario {
+  apertura: string;
+  cierre: string;
+}
+
+export interface ComercioHorario {
+  id: number;
+  nombre_comercial: string;
+  razon_social: string;
+  horarios: {
+    lunes: Horario;
+    martes: Horario;
+    miercoles: Horario;
+    jueves: Horario;
+    viernes: Horario;
+    sabado: Horario;
+    domingo: Horario;
+  };
+  servicio_id: number;
+  estado_comercio?: boolean;
+  logo_url?: string;
+}

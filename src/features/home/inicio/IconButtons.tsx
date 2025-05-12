@@ -36,7 +36,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     }, [sortedServicios, selectedServicioId, onSelectServicio]);
 
     return (
-        <div className="flex justify-center overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full pl-[350px] pr-5 md:px-0">
+        <div className="flex justify-start overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full">
             {sortedServicios.map((servicio: Servicio) => (
                 <Animate
                     key={servicio.id}
@@ -52,11 +52,11 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                             onClick={() => handleClick(servicio)}
                             className={`hover:bg-opacity-80 text-white rounded-full cursor-pointer p-4 flex items-center justify-center transition-all duration-75 
                                 ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                                    ? 'border-2 border-[#b1b1b1] scale-110'
+                                    ? 'border-2 border-primary scale-110'
                                     : 'border-2 border-transparent'
                                 }`}
                         >
-                            <Icon iconName={servicio?.icon ?? ''} size={28} />
+                            <Icon iconName={servicio?.icon ?? ''} size={35} />
                         </button>
                         <span
                             className='text-sm lg:text-base'

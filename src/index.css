@@ -96,17 +96,25 @@
 
 .titulo-con-sombra,
 .subtitulo-con-sombra {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .titulo-con-sombra::before,
 .subtitulo-con-sombra::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* Fondo negro semi-transparente */
-  border-radius: 8px;
-  filter: blur(8px);
-  z-index: -1;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    /* Fondo negro semi-transparente */
+    border-radius: 8px;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+
+/* en tu archivo CSS */
+.animated-bg {
+    background-size: 400% 400%;
+    background-position: 0% center;
 }
