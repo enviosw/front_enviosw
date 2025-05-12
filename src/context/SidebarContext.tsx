@@ -20,19 +20,11 @@ export const SidebarProvider: React.FC<Contenido> = ({ children }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        // Tailwind's sm breakpoint = 640px
-        const handleResize = () => {
             if (window.innerWidth > 640) {
                 setIsOpen(true);
+            }else{
+                setIsOpen(false);
             }
-        };
-
-        // Llama al inicio
-        handleResize();
-
-        // También escucha cambios de tamaño
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const toggleSidebar = () => setIsOpen(prev => !prev);
