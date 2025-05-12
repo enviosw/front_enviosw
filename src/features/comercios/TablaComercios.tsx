@@ -57,7 +57,6 @@ const TablaComercios: React.FC = () => {
 
     const headers = [
         'ID',
-        'Acciones',
         'Nombre',
         'Razón',
         'NIT',
@@ -79,21 +78,25 @@ const TablaComercios: React.FC = () => {
 
     const renderRow = (comercio: any) => (
         <tr key={comercio.id} className="hover:bg-gray-100 bg-white">
-            <td className="px-2">
-                <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={selectedIds.includes(comercio.id)}
-                    onChange={() => toggleSelect(comercio.id)}
-                />
-            </td>
+            <td className="px-2 text-sm text-gray-700 border-gray-300 border-b">
+                            <div className="flex items-center gap-3">
+                                <input
+                                    type="checkbox"
+                                    className="checkbox"
+                                    checked={selectedIds.includes(comercio.id)}
+                                    onChange={() => toggleSelect(comercio.id)}
+                                />
+            
+                                <button 
+                                    className="flex items-center gap-1 hover:underline cursor-pointer text-orange-600 hover:text-orange-900 mr-4" 
+                                    onClick={() => openCustomModal(comercio)}
+                                >
+                                    <FaPen /> <span>Editar</span>
+                                </button>
+                            </div>
+                        </td>
 
             <TableCell>{comercio.id}</TableCell>
-            <TableCell>
-                <button onClick={() => openCustomModal(comercio)}>
-                    <FaPen />
-                </button>
-            </TableCell>
             <TableCell>{comercio.nombre_comercial}</TableCell>
             <TableCell>{comercio.razon_social}</TableCell>
             <TableCell>{comercio.nit}</TableCell>

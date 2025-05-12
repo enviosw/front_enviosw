@@ -28,13 +28,13 @@ const DataTable = <T,>({
                                     checked={allSelected} 
                                     onChange={toggleSelectAll} 
                                 />
-                                <span>Acciones</span>
+                                <span className='text-sm'>ACCIONES</span>
                             </div>
                         </th>
                         {headers.map((header, index) => (
                             <th
                                 key={index}
-                                className="px-6 h-10 text-left text-sm font-semibold uppercase tracking-wider border-b"
+                                className="px-6 h-10 text-center text-sm font-semibold uppercase tracking-wider border-b"
                             >
                                 {header}
                             </th>
