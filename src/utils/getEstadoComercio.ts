@@ -1,7 +1,7 @@
 export const getEstadoComercio = (horarios: any) => {
   // Verificamos que el objeto 'horarios' no sea nulo ni indefinido
-  if (!horarios) {
-    return 'cerrado'; // Si no hay horarios, consideramos el comercio cerrado
+  if (!horarios || !horarios.horarios) {
+    return 'cerrado'; // Si no hay horarios o no está definida la estructura de días, consideramos el comercio cerrado
   }
 
   // Obtener la hora actual en Colombia
