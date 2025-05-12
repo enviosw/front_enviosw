@@ -9,7 +9,7 @@ export interface Cliente {
       id: string;
       name: string;
     };
-    status?: 'activo' | 'inactivo';
+status?: 'activo' | 'inactivo' | string;
     phone?: string;
     phone_2?: string;
     address?: string;

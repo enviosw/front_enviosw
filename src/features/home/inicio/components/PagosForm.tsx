@@ -69,7 +69,7 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
 
     return (
         <div className='w-full pb-5'>
-            <h2 className="text-xl text-left font-bold pt-4 pb-5 uppercase">Tramite de Pagos 💰</h2>
+            <h2 className="text-2xl text-left font-bold mb-4">Tramite de Pagos 💰</h2>
             <form className="flex flex-col gap-6 w-full items-center justify-center">
                 {/* Dirección de Recogida */}
                 <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mx-auto'>
