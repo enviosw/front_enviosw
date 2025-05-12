@@ -2,7 +2,7 @@ import React from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
 
 const WhatsAppFloatButton: React.FC = () => {
-    const numeroWhatsApp = '3232205900'; // Cambia por el número real del negocio
+    const numeroWhatsApp = '3134089563'; // Cambia por el número real del negocio
     const mensaje = "¡Hola! Me gustaría solicitar el servicio con las siguientes especificaciones:"; // Personaliza el mensaje si es necesario
     const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
