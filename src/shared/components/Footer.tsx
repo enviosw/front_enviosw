@@ -27,13 +27,14 @@ const Footer: React.FC = () => {
                 </p>
             </aside>
 
-            <nav>
+            <div>
                 <h6 className="footer-title">Servicios</h6>
-                <a className="link link-hover">Restaurantes</a>
-                <a className="link link-hover">Droguerías</a>
-                <a className="link link-hover">Compras y Pagos</a>
-                <a className="link link-hover">Trámites y Envíos</a>
-            </nav>
+                <span className="link link-hover">Restaurantes</span>
+                <span className="link link-hover">Droguerías</span>
+                <span className="link link-hover">Compras y Pagos</span>
+                <span className="link link-hover">Trámites y Envíos</span>
+            </div>
+
 
             <nav>
                 <h6 className="footer-title">Redes Sociales</h6>
