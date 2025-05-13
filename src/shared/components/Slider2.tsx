@@ -42,8 +42,14 @@ const Slider2: React.FC = () => {
                             </div>
                         </div>
                         <div className="w-full flex justify-end items-center h-full mt-6 md:mt-0 relative z-10">
-                            <img loading="lazy" className="w-[100%] sm:w-[60%] lg:w-[45%]" src="domi.png" alt="Repartidor en moto" />
-                        </div>
+                            <img
+                                loading="lazy"
+                                className="w-[100%] sm:w-[60%] lg:w-[45%]"
+                                src="domi.png"
+                                alt="Repartidor en moto"
+                                width="640"  // Ancho explícito en píxeles
+                                height="480" // Alto explícito en píxeles
+                            />                        </div>
                     </div>
                     <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-20">
                         <ContactoInfo />
@@ -69,8 +75,16 @@ const Slider2: React.FC = () => {
                             </Animate>
                         </div>
                         <div className="w-full flex justify-end items-center h-full mt-6 md:mt-0 relative z-10">
-                            <img loading="lazy" className="w-[100%] sm:w-[60%] lg:w-[45%]" src="https://images.freeimages.com/image/previews/702/italian-pizza-chef-character-5692723.png" alt="Repartidor en moto" />
+                            <img
+                                loading="lazy"
+                                className="w-[100%] sm:w-[60%] lg:w-[45%]"
+                                src="https://images.freeimages.com/image/previews/702/italian-pizza-chef-character-5692723.png"
+                                alt="Repartidor en moto"
+                                width="640"  // Ancho explícito en píxeles
+                                height="480" // Alto explícito en píxeles
+                            />
                         </div>
+
                     </div>
                 </div>
 
@@ -93,7 +107,14 @@ const Slider2: React.FC = () => {
                             </Animate>
                         </div>
                         <div className="w-full flex justify-end items-center h-full mt-6 md:mt-0 relative z-10">
-                            <img loading="lazy" className="w-[100%] sm:w-[60%] lg:w-[45%]" src="https://static.vecteezy.com/system/resources/previews/008/492/236/non_2x/delivery-cartoon-illustration-png.png" alt="Entrega segura" />
+                            <img
+                                loading="lazy"
+                                className="w-[100%] sm:w-[60%] lg:w-[45%]"
+                                src="https://static.vecteezy.com/system/resources/previews/008/492/236/non_2x/delivery-cartoon-illustration-png.png"
+                                alt="Entrega segura"
+                                width="640"  // Ancho explícito en píxeles
+                                height="480" // Alto explícito en píxeles
+                            />
                         </div>
                     </div>
                 </div>

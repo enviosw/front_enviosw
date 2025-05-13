@@ -48,6 +48,9 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                         src={image}
                         alt={`Slide ${index}`}
                         className="w-full flex-shrink-0"
+                        loading="lazy"  // Lazy load
+                        width="100%" // Ajusta según sea necesario
+                        height="auto" // Mantén las proporciones
                     />
                 ))}
             </div>

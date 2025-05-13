@@ -125,9 +125,9 @@ const Home: React.FC = () => {
       {/* Contenido principal */}
       <section className="w-full lg:w-[85%] mx-auto  px-4 lg:px-10">
 
-   <h2 className="text-center lg:text-left mb-5 text-3xl lg:text-4xl text-gray-700 font-normal">
-  Selecciona el <span className='text-gray-800'>Servicio!</span> {/* Cambié text-primary a text-gray-800 para mejorar el contraste */}
-</h2>
+        <h2 className="text-center lg:text-left mb-5 text-3xl lg:text-4xl text-gray-700 font-normal">
+          Selecciona el <span className='text-gray-800'>Servicio!</span> {/* Cambié text-primary a text-gray-800 para mejorar el contraste */}
+        </h2>
 
         <IconButtons onSelectServicio={handleSelectServicio} />
       </section>
@@ -152,11 +152,18 @@ const Home: React.FC = () => {
       {/* Sección de promoción con imagen y texto */}
       <div className="w-full relative overflow-hidden px-6 my-10">
         <div className="flex items-center justify-center h-full gap-6 flex-wrap">
-       <img
-  src="motoexpress.png"
-  alt="Moto Express - Domicilios rápidos en Pitalito"
-  className="h-80 w-auto object-contain"
-/>
+          <picture>
+            <source srcSet="motoexpress.webp" type="image/webp" />
+            <img
+              src="motoexpress.png"
+              alt="Moto Express - Domicilios rápidos en Pitalito"
+              className="w-full h-auto object-contain"
+              width="640"
+              height="480"
+              loading="lazy"
+            />
+          </picture>
+
 
           <div className="flex flex-col justify-center items-start text-left">
             <h2 className="text-gray-800 text-3xl md:text-5xl font-bold mb-4">
@@ -165,12 +172,12 @@ const Home: React.FC = () => {
             <p className="text-gray-600 text-sm md:text-lg mb-6 max-w-md">
               ¿Tienes hambre? ¿Necesitas hacer compras? ¿Enviar productos o realizar trámites? ¡Nosotros te ayudamos! Haz tu pedido y recíbelo directamente en tu puerta, de forma rápida y segura.
             </p>
-  <button
-  aria-label="Realiza tu pedido ahora"
-  className="bg-orange-600 text-white font-semibold py-3 px-5 rounded-full hover:bg-orange-700 transition duration-300 shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400"
->
-  ¡Haz tu Pedido Ahora!
-</button>
+            <button
+              aria-label="Realiza tu pedido ahora"
+              className="bg-orange-600 text-white font-semibold py-3 px-5 rounded-full hover:bg-orange-700 transition duration-300 shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            >
+              ¡Haz tu Pedido Ahora!
+            </button>
 
 
           </div>
@@ -179,9 +186,10 @@ const Home: React.FC = () => {
         {/* </div> */}
 
         <Slider images={images} />
+
         <WhatsAppFloatButton />
 
-             <CookieConsent />
+        <CookieConsent />
       </div>
 
     </>
