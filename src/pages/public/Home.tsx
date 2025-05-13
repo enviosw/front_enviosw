@@ -153,11 +153,10 @@ const Home: React.FC = () => {
       <div className="w-full relative overflow-hidden px-6 my-10">
         <div className="flex items-center justify-center h-full gap-6 flex-wrap">
           <picture>
-            <source srcSet="motoexpress.webp" type="image/webp" />
+            <source srcSet="motoexpress.png" type="image/png" />
             <img
               src="motoexpress.png"
               alt="Moto Express - Domicilios rápidos en Pitalito"
-              className="w-full h-auto object-contain"
               width="640"
               height="480"
               loading="lazy"
