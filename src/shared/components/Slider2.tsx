@@ -152,7 +152,7 @@ const Slider2: React.FC = () => {
 
 
     return (
-        <div className="w-full overflow-hidden relative mb-8">
+        <div className="w-full overflow-hidden relative mb-8 h-[35vh] lg:h-[42vh]">
             {/* Contenedor deslizante */}
             <div
                 className="flex transition-transform duration-1000 ease-in-out"
