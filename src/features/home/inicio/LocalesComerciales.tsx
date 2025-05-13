@@ -99,7 +99,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
             {/* Lista de locales */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6">
-                {locales.map((comercio: Comercio) => {
+                {locales?.map((comercio: Comercio) => {
 
                     const estado = getEstadoComercio(comercio.horarios); // Llamamos a la función con los horarios e id del comercio
                     return (

@@ -107,7 +107,7 @@ const TablaClientes: React.FC = () => {
     const openCustomModal = (cliente?: any) => {
         const isEdit = cliente?.id !== undefined;
         const key = isEdit ? `edit-${cliente.id}` : `create-${Date.now()}`;
-        setModalTitle(isEdit ? 'Actualizar Cliente' : 'Registrar Cliente');
+        setModalTitle(isEdit ? 'Detalles del Cliente' : 'Registrar Nuevo Cliente');
         setModalContent(<FormularioCliente key={key} cliente={cliente} />);
         openModal();
     };
@@ -128,8 +128,11 @@ const TablaClientes: React.FC = () => {
 
                     <div className="md:col-span-8 md:order-1 order-2 flex items-center justify-start gap-3 mt-4">
 
-                        {/* <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-orange-600 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
-                            Registrar
+                        {/* <button
+                            onClick={() => openCustomModal()}
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-orange-600 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                        >
+                            <FaRegCheckSquare className="mr-2" />Registrar
                         </button> */}
 
                         {selectedIds.length > 0 && (

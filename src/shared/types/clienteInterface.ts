@@ -3,8 +3,8 @@ export interface Cliente {
   name: string;
   lastName: string;
   email: string;
-  password: string;
-  rol_id?: string | any;
+  password?: string;
+  rol_id?: number | undefined;
   
   rol?: {
     id: string;
