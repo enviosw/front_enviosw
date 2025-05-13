@@ -41,57 +41,73 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <div className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 
-      ${isScrolled ? 'bg-primary' : 'bg-transparent'} 
-       top-0 z-50 transition-all duration-300`}>
-      <div
-        className={`w-full flex lg:w-[80%] mx-auto`}
-      >
-        <div className="flex-1">
-          <div className="flex gap-2 items-end">
-            <img
-              className="rounded-2xl z-50 w-10 h-10 object-contain bg-black"
-              src="logoW_1.png"
-              alt="Logo W"
-            />
-            <div className={`m-0 p-0  text-lg lg:text-2xl font-semibold ${isScrolled ? 'text-white' : 'text-black'}`}>
-              Domicilios <span className={`${isScrolled ? 'text-black' : 'text-primary'}`}>W</span>
-            </div>
+    <div
+      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-primary' : 'bg-transparent'
+        } top-0 z-50 transition-all duration-300`}
+    >
+      <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
+        <div className="flex-1 flex gap-2 items-center">
+          <img
+            className="rounded-2xl z-50 w-10 h-10 object-contain hidden lg:flex"
+            src="logoW_1.png"
+            alt="Logo W"
+          />
+          <div
+            className={`text-lg lg:text-2xl font-semibold ${isScrolled ? 'text-white' : 'text-black'
+              }`}
+          >
+            Domicilios <span className={`${isScrolled ? 'text-black' : 'text-primary'}`}>W</span>
           </div>
         </div>
 
-        {/* Texto centrado: solo visible en sm+ */}
-        <div className="text-center text-white text-xl font-medium pt-3">
-          Pitalito - Huila
+        <div className="hidden sm:block text-center text-white text-xl font-medium pt-3">
+          {/* Mejorar el contraste del texto */}
+          <span className="text-white bg-black bg-opacity-60 px-2 py-1 rounded-lg">
+            Pitalito - Huila
+          </span>
         </div>
 
-        <div className="flex-none ml-4">
+        <div className="flex-none ml-4 flex items-center gap-4">
           {!user ? (
             <button
-              className="btn btn-square text-primary lg:text-white btn-ghost ml-4"
+              className="btn btn-square text-primary lg:text-white btn-ghost transition-all duration-300 transform hover:scale-110"
               onClick={() => navigate('/login')}
             >
               <FaUserCircle size={40} />
             </button>
           ) : (
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar transition-all duration-300 transform hover:scale-110"
+                aria-label="Abrir menú de usuario"
+              >
                 <div className="w-10 rounded-full">
                   <img
-                    alt="User Avatar"
+                    alt="Avatar de usuario"
                     src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    className="object-cover" // Asegúrate de que la imagen se recorte y ajuste adecuadamente
                   />
                 </div>
               </div>
-              <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow-lg"
+              >
                 <li>
-                  <button className="justify-between">
+                  <button className="justify-between text-sm font-medium">
                     {user.nombre}
                     <span className="badge">User</span>
                   </button>
                 </li>
-                <li><button onClick={() => navigate('/mi-comercio')}>Mi Comercio</button></li>
-                <li><button onClick={handleLogout}>Logout</button></li>
+                <li>
+                  <button onClick={() => navigate('/mi-comercio')}>Mi Comercio</button>
+                </li>
+                <li>
+                  <button onClick={handleLogout}>Cerrar sesión</button>
+                </li>
               </ul>
             </div>
           )}

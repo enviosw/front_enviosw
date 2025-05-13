@@ -42,16 +42,17 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                     key={servicio.id}
                     play
                     duration={0.8}
-                    delay={0.2} // Puedes usar un delay fijo para mejorar rendimiento
+                    delay={0.2}
                     start={{ opacity: 0, transform: 'translateY(20px)' }}
                     end={{ opacity: 1, transform: 'translateY(0px)' }}
                 >
                     <div className="flex flex-col items-center">
                         <button
+                            aria-label={`Seleccionar servicio ${servicio.nombre}`}
                             style={{ backgroundColor: servicio.color }}
                             onClick={() => handleClick(servicio)}
-                            className={`hover:bg-opacity-80 text-white rounded-full cursor-pointer p-4 flex items-center justify-center transition-all duration-75 
-                                ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+                            className={`hover:bg-opacity-80 text-white rounded-full cursor-pointer p-4 flex items-center justify-center transition-all duration-75
+                        ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
                                     ? 'border-2 border-primary scale-110'
                                     : 'border-2 border-transparent'
                                 }`}
@@ -59,7 +60,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                             <Icon iconName={servicio?.icon ?? ''} size={35} />
                         </button>
                         <span
-                            className='text-sm lg:text-base'
+                            className="text-sm lg:text-base"
                             style={{
                                 marginTop: '0.5rem',
                                 color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
@@ -73,6 +74,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                 </Animate>
             ))}
         </div>
+
     );
 };
 
