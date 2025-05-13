@@ -34,25 +34,49 @@ export const useComercios = (filters: ComercioFilters) => {
 };
 
 
-export const useComerciosPublicos = (servicioId: number | null) => {
-    const axiosInstance = useAxiosInstance();
+interface ComerciosPublicosResponse {
+  data: Comercio[];
+  total: number;
+  page: number;
+  lastPage: number;
+}
 
-    return useQuery<Comercio[]>({
-        queryKey: ['comercios-publicos', servicioId],
-        queryFn: async () => {
-            if (!servicioId) return [];
+interface UseComerciosPublicosProps {
+  servicioId: number | null;
+  search?: string;
+  page?: number;
+}
 
-            try {
-                const { data } = await axiosInstance.get<Comercio[]>(`/comercios/publicos?servicio_id=${servicioId}`);
-                return data;
-            } catch (error) {
-                const axiosError = error as AxiosError<ServerError>;
-                throw new Error(axiosError.response?.data.message);
-            }
-        },
-        staleTime: 1000 * 60 * 10,
-        gcTime: 1000 * 60 * 15,
-    });
+export const useComerciosPublicos = ({ servicioId, search = '', page = 1 }: UseComerciosPublicosProps) => {
+  const axiosInstance = useAxiosInstance();
+
+  return useQuery<ComerciosPublicosResponse>({
+    queryKey: ['comercios-publicos', servicioId, search, page],
+    queryFn: async () => {
+      if (!servicioId) {
+        return { data: [], total: 0, page: 1, lastPage: 1 };
+      }
+
+      try {
+        const { data } = await axiosInstance.get<ComerciosPublicosResponse>(
+          `/comercios/publicos`,
+          {
+            params: {
+              servicio_id: servicioId,
+              search: search || undefined,
+              page,
+            },
+          }
+        );
+        return data;
+      } catch (error) {
+        const axiosError = error as AxiosError<ServerError>;
+        throw new Error(axiosError.response?.data.message);
+      }
+    },
+    staleTime: 1000 * 60 * 10,
+    gcTime: 1000 * 60 * 15,
+  });
 };
 
 

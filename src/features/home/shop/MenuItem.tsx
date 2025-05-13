@@ -19,7 +19,6 @@ const MenuItem: React.FC<any> = ({
   estado_descuento,
   fecha_creacion,
   fecha_actualizacion,
-  
 }) => {
   const { addToCart, cartItems } = useCart();
   const { openModal, setModalTitle, setModalContent } = useModal();
@@ -27,7 +26,7 @@ const MenuItem: React.FC<any> = ({
   const defaultImage = 'logo_w_fondo_negro.jpeg';
 
   const mostrarDescuento = precio_descuento < precio;
-  const isInCart = cartItems.some(item => item.id === id);
+  const isInCart = cartItems.some(item => item.id === id); // Verifica si el producto ya está en el carrito
 
   const openProductModal = () => {
     setModalTitle(nombre);
@@ -73,43 +72,40 @@ const MenuItem: React.FC<any> = ({
           <div className="flex flex-col">
             {mostrarDescuento ? (
               <>
-               <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-500">
                   ${precio.toFixed(2)}
                 </span>
-                {/* <span className="text-sm text-gray-500 line-through">
-                  ${precio.toFixed(2)}
-                </span>
-                <span className="text-base text-orange-600 font-bold">
-                  ${precio_descuento.toFixed(2)}
-                </span> */}
               </>
             ) : (
               <span className="text-base text-orange-600 font-bold">
-              ${formatNumber(precio)}
-            </span>
+                ${formatNumber(precio)}
+              </span>
             )}
           </div>
 
           <button
             onClick={(e) => {
               e.stopPropagation();
-              addToCart({
-                id,
-                nombre,
-                descripcion,
-                precio,
-                precio_descuento,
-                unidad,
-                image,
-                categoria,
-                estado,
-                estado_descuento,
-                fecha_creacion,
-                fecha_actualizacion,
-                quantity: 1,
-              });
+              if (!isInCart) { // Solo agregar al carrito si no está ya en el carrito
+                addToCart({
+                  id,
+                  nombre,
+                  descripcion,
+                  precio,
+                  precio_descuento,
+                  unidad,
+                  image,
+                  categoria,
+                  estado,
+                  estado_descuento,
+                  fecha_creacion,
+                  fecha_actualizacion,
+                  quantity: 1,
+                });
+              }
             }}
             className="bg-[#E63946] cursor-pointer text-white text-sm size-10 flex justify-center items-center rounded-full hover:bg-orange-600 transition"
+            disabled={isInCart} // Deshabilitar el botón si el producto está en el carrito
           >
             <FaPlus size={20} />
           </button>

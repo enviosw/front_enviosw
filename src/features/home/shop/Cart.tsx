@@ -8,6 +8,7 @@ import { formatNumber } from '../../../utils/formatNumber';
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart(); // Asegurarse de que clearCart esté disponible
     const [direccion, setDireccion] = useState('');
+    const [telefono, setTelefono] = useState(''); // Campo para teléfono
     const comercioId = useComercioId();
     // Calcular el total de productos en el carrito
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -18,7 +19,9 @@ const Cart: React.FC = () => {
             .map(item => `• ${item.quantity}x ${item.nombre} - $${(parseFloat(item.precio_descuento) * item.quantity).toFixed(2)}`)
             .join('%0A');
 
-        const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido con los siguientes productos:%0A%0A${productos}%0A%0A🔸 Total: $${total.toFixed(2)}%0A📍 Dirección de envío: ${direccion}%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
+        const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido con los siguientes productos:%0A%0A${productos}%0A%0A🔸 Total: $${total.toFixed(2)}%0A📍 Dirección de envío: ${direccion}%0A${
+            telefono ? `📞 Teléfono: ${telefono}` : ''
+        }%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
 
         const url = `https://wa.me/57${numeroWhatsApp}?text=${mensaje}`;
 
@@ -127,7 +130,8 @@ const Cart: React.FC = () => {
                             <span className="text-xl font-bold">Total:</span>
                             <span className="text-2xl font-extrabold text-orange-600">
                                 ${formatNumber(total)}
-                            </span>                        </div>
+                            </span>
+                        </div>
 
                         {/* Input de Dirección */}
                         <div className="mb-4">
@@ -145,6 +149,22 @@ const Cart: React.FC = () => {
                             />
                         </div>
 
+                        {/* Input de Teléfono (opcional) */}
+                        <div className="mb-4">
+                            <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">
+                                Teléfono (opcional)
+                            </label>
+                            <input
+                                type="text"
+                                id="telefono"
+                                name="telefono"
+                                value={telefono}
+                                onChange={e => setTelefono(e.target.value)}
+                                placeholder="Ej: 3001234567"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                            />
+                        </div>
+
                         <button
                             disabled={cartItems.length === 0 || !direccion}
                             onClick={handleWhatsAppOrder}
@@ -158,7 +178,7 @@ const Cart: React.FC = () => {
                             onClick={handleClearCart} // Función para limpiar el carrito
                             className="mt-4 w-full bg-error text-white py-3 rounded-xl font-semibold text-lg hover:bg-red-700 transition"
                         >
-                            Limpiar carrito
+                            Vaciar carrito
                         </button>
                     </div>
                 </div>

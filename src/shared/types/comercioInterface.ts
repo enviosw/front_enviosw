@@ -16,6 +16,7 @@ export interface Comercio {
   logo?: any
   servicio?: any
   servicio_id?: number | undefined | string
+  horarios?: any
 }
 
 

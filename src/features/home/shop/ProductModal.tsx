@@ -11,6 +11,7 @@ interface ProductModalProps {
 const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false); // Nuevo estado para controlar si el producto fue agregado
   const defaultImage = 'logo_w_fondo_negro.jpeg';
 
   const handleAddToCart = () => {
@@ -22,6 +23,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
       estado: 'Activo',
       quantity,
     });
+    setAddedToCart(true); // Establece el estado a "true" cuando el producto se agrega
   };
 
   return (
@@ -39,9 +41,6 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
         <span className="text-lg font-bold text-orange-600">
           ${formatNumber(product.precio * quantity)}
         </span>
-        {/* <span className="text-sm text-gray-500 line-through">
-          ${(product.precio_descuento * 1.14).toFixed(2)}
-        </span> */}
       </div>
 
       <div className="mt-4 flex justify-between items-center">
@@ -60,12 +59,20 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
             +
           </button>
         </div>
+        {/* Cambié el botón para que se desactive después de agregar el producto */}
         <button
           onClick={handleAddToCart}
-          className="bg-[#E63946] text-white text-sm p-3 flex justify-center items-center rounded-full hover:bg-orange-600 transition"
+          disabled={addedToCart} // Deshabilita el botón si el producto ya fue agregado
+          className="bg-[#E63946] text-white text-sm p-3 flex justify-center items-center rounded-full hover:bg-orange-600 transition  disabled:cursor-not-allowed"
         >
-          <FaPlus />
-          <span className="ml-2">Agregar</span>
+          {addedToCart ? (
+            <span>Producto agregado</span>
+          ) : (
+            <>
+              <FaPlus />
+              <span className="ml-2">Agregar</span>
+            </>
+          )}
         </button>
       </div>
     </div>
