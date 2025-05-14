@@ -7,8 +7,6 @@ import { Animate } from 'react-simple-animate';
 export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioIdOrNombre: number | string) => void }) => {
     const { data: servicios } = useServicios();
 
-    console.log(servicios)
-
     // Estado para el servicio seleccionado
     const [selectedServicioId, setSelectedServicioId] = useState<number | string | null>(null);
 
