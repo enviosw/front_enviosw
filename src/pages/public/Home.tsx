@@ -123,16 +123,16 @@ const Home: React.FC = () => {
       {/* <div className='bg-white rounded-t-4xl z-20 -translate-y-8'> */}
 
       {/* Contenido principal */}
-      <section className="w-full lg:w-[85%] mx-auto  px-4 lg:px-10">
+      <section className="w-full lg:w-[85%] mx-auto px-4 lg:px-10">
 
-        <h2 className="text-center lg:text-left mb-5 text-3xl lg:text-4xl text-gray-700 font-normal">
+        <h2 className="text-center lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-gray-700 font-normal">
           Selecciona el <span className='text-gray-800'>Servicio!</span> {/* Cambié text-primary a text-gray-800 para mejorar el contraste */}
         </h2>
 
         <IconButtons onSelectServicio={handleSelectServicio} />
       </section>
 
-      <section className="h-auto flex justify-start items-center relative mt-5">
+      <section className="h-auto flex justify-start items-center relative mt-2 lg:mt-5">
         <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
           {servicioId !== null ? (
             <div className="w-full">

@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
             alt="Logo W"
           />
           <div
-            className={`text-lg lg:text-2xl font-semibold ${isScrolled ? 'text-white' : 'text-black'
+            className={`text-lg lg:text-2xl uppercase ${isScrolled ? 'text-white' : 'text-black'
               }`}
           >
             Domicilios <span className={`${isScrolled ? 'text-black' : 'text-primary'}`}>W</span>
