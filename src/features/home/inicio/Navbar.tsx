@@ -42,7 +42,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <div
-      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-primary' : 'bg-transparent'
+      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-[#FFB84D]' : 'bg-transparent'
         } top-0 z-50 transition-all duration-300`}
     >
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
             alt="Logo W"
           />
           <div
-            className={`text-lg lg:text-2xl font-semibold ${isScrolled ? 'text-white' : 'text-black'
+            className={`text-lg lg:text-2xl uppercase ${isScrolled ? 'text-white' : 'text-black'
               }`}
           >
             Domicilios <span className={`${isScrolled ? 'text-black' : 'text-primary'}`}>W</span>

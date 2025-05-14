@@ -114,7 +114,7 @@ export const routesConfig: RouteConfig[] = [
     },
     {
         path: '/politicas-de-privacidad',
-        element: lazy(() => import('../pages/public/PoliticasDePrivacidad')),
+        element: lazy(() => import('../pages/public/PoliticasPrivacidad')),
         requiresAuth: false,
         useLayout: false,
         useAdminLayout: false
