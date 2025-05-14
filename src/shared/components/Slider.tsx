@@ -48,15 +48,26 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                         src={image}
                         alt={`Slide ${index}`}
                         className="w-full flex-shrink-0"
+                        loading="lazy"  // Lazy load
+                        width="100%" // Ajusta según sea necesario
+                        height="auto" // Mantén las proporciones
                     />
                 ))}
             </div>
 
             <div className="absolute top-1/2 left-0 right-0 flex justify-between items-center px-4">
-                <button onClick={handlePrev} className="text-white text-xl bg-black/60 p-3 rounded-full">
+                <button
+                    onClick={handlePrev}
+                    className="text-white text-xl bg-black/60 p-3 rounded-full"
+                    aria-label="Ir a la diapositiva anterior"
+                >
                     <FaChevronLeft />
                 </button>
-                <button onClick={handleNext} className="text-white text-xl bg-black/60 p-3 rounded-full">
+                <button
+                    onClick={handleNext}
+                    className="text-white text-xl bg-black/60 p-3 rounded-full"
+                    aria-label="Ir a la siguiente diapositiva"
+                >
                     <FaChevronRight />
                 </button>
             </div>
@@ -68,11 +79,11 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                         onClick={() => setCurrentIndex(index)}
                         className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-white" : "bg-black"
                             }`}
+                        aria-label={`Ir a la diapositiva ${index + 1}`}
                     />
                 ))}
             </div>
             <div className="blur-bottom"></div>
-
         </div>
     );
 };

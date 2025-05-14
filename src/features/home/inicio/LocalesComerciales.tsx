@@ -77,19 +77,22 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                         placeholder="Buscar..."
                         className="w-full py-3 pl-10 pr-20 bg-[#FFB84D]/20 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                        aria-label="Buscar contenido"
                     />
-                    {/* Buscar */}
+                    {/* Botón de búsqueda */}
                     <button
                         onClick={handleSearch}
-                        className="absolute right-10 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600"
+                        className="absolute right-10 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-all duration-300"
+                        aria-label="Realizar búsqueda"
                     >
                         <FaSearch />
                     </button>
-                    {/* Limpiar */}
+                    {/* Botón de limpiar */}
                     {searchValue && (
                         <button
                             onClick={handleClearSearch}
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500 transition-all duration-300"
+                            aria-label="Limpiar búsqueda"
                         >
                             <FaTimes />
                         </button>
@@ -126,20 +129,30 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                         <FaMapMarkerAlt className="text-green-600" />
                                         <span>{comercio.direccion || 'Sin dirección'}</span>
                                     </div>
-                                    <span className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full">
+                                    <span
+                                        className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full"
+                                        aria-live="polite"  // Para informar cambios de estado
+                                    >
                                         {/* Mostrar el estado con íconos y texto */}
                                         {estado === 'abierto' ? (
                                             <>
-                                                <FaCheckCircle className="text-green-500" />
+                                                <FaCheckCircle
+                                                    className="text-green-500"
+                                                    aria-label="Servicio abierto" // Añadir descripción al icono
+                                                />
                                                 <span className="text-green-500 font-semibold">Abierto</span>
                                             </>
                                         ) : (
                                             <>
-                                                <FaTimesCircle className="text-red-500" />
+                                                <FaTimesCircle
+                                                    className="text-red-500"
+                                                    aria-label="Servicio cerrado" // Añadir descripción al icono
+                                                />
                                                 <span className="text-red-500 font-semibold">Cerrado</span>
                                             </>
                                         )}
                                     </span>
+
                                 </div>
                             </div>
                         </div>
