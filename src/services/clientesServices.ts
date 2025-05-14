@@ -28,6 +28,8 @@ export const useCrearCliente = () => {
 
     return useMutation({
         mutationFn: async (cliente: Cliente) => {
+            console.log(cliente);
+            
             const { data } = await axiosInstance.post("/clientes", cliente);
             return data;
         },

@@ -8,6 +8,7 @@ import DataTable from "../../shared/components/DataTable";
 import Modal from "../../shared/components/Modal";
 import Loader from "../../utils/Loader";
 import FormularioCliente from "./FormularioCliente";
+import FiltrosDeBusqueda from "../../shared/components/FiltrosDeBusqueda";
 
 
 const TablaClientes: React.FC = () => {
@@ -106,7 +107,7 @@ const TablaClientes: React.FC = () => {
     const openCustomModal = (cliente?: any) => {
         const isEdit = cliente?.id !== undefined;
         const key = isEdit ? `edit-${cliente.id}` : `create-${Date.now()}`;
-        setModalTitle(isEdit ? 'Actualizar Cliente' : 'Registrar Cliente');
+        setModalTitle(isEdit ? 'Detalles del Cliente' : 'Registrar Nuevo Cliente');
         setModalContent(<FormularioCliente key={key} cliente={cliente} />);
         openModal();
     };
@@ -117,57 +118,22 @@ const TablaClientes: React.FC = () => {
 
             {/* Filtros */}
             <div className="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm overflow-auto scroll-auto">
-                <h2 className="text-xl font-semibold mb-4 text-gray-700">Filtros de Búsqueda</h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Buscador</label>
-                        <input
-                            type="text"
-                            placeholder="Buscar..."
-                            value={filters.search}
-                            onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                            className="input input-sm"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Estado</label>
-                        <select
-                            value={filters.estado}
-                            onChange={e => setFilters(prev => ({ ...prev, estado: e.target.value }))}
-                            className="select select-sm"
-                        >
-                            <option value="">Todos los estados</option>
-                            <option value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
-                        </select>                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Inicio</label>
-                        <input
-                            type="date"
-                            value={filters.fechaInicio}
-                            onChange={e => setFilters(prev => ({ ...prev, fechaInicio: e.target.value }))}
-                            className="input input-sm"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Fin</label>
-                        <input
-                            type="date"
-                            value={filters.fechaFin}
-                            onChange={e => setFilters(prev => ({ ...prev, fechaFin: e.target.value }))}
-                            className="input input-sm"
-                        />
-                    </div>
-                </div>
+                
+                <FiltrosDeBusqueda
+                    filters={filters}
+                    setFilters={setFilters}
+                />
 
                 <div className="grid md:grid-cols-12 gap-4">
 
                     <div className="md:col-span-8 md:order-1 order-2 flex items-center justify-start gap-3 mt-4">
 
-                        <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-orange-600 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
-                            Registrar
-                        </button>
+                        {/* <button
+                            onClick={() => openCustomModal()}
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-orange-600 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+                        >
+                            <FaRegCheckSquare className="mr-2" />Registrar
+                        </button> */}
 
                         {selectedIds.length > 0 && (
                             <div className="relative">
