@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { loadGoogleAnalytics } from '../../utils/utils';
+import { Link } from 'react-router-dom';
 
 const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -33,12 +34,14 @@ const CookieConsent: React.FC = () => {
         aria-labelledby="cookieConsentLabel"
       >
         <div className="flex justify-between items-center max-w-screen-xl mx-auto px-4">
+          <Link to="politicas-de-privacidad">
           <p className="text-sm md:text-base" id="cookieConsentLabel">
             Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestra{' '}
-            <a href="/privacy-policy" className="underline text-blue-400">
+            <button className="underline text-blue-400">
               Política de Privacidad
-            </a>.
+            </button>.
           </p>
+          </Link>
           <div className="gap-4 flex">
             <button
               onClick={handleDeclineCookies}
