@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUser, FaUserCircle } from 'react-icons/fa';
 import { AlertService } from '../../../utils/AlertService';
 
 export const Navbar: React.FC = () => {
@@ -48,7 +48,7 @@ export const Navbar: React.FC = () => {
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
         <div className="flex-1 flex gap-2 items-center">
           <img
-            className="rounded-2xl z-50 w-10 h-10 object-contain hidden lg:flex"
+            className="rounded-2xl bg-secondary px-2 z-50 w-10 h-10 object-contain hidden lg:flex"
             src="logoW_1.png"
             alt="Logo W"
           />
@@ -83,13 +83,8 @@ export const Navbar: React.FC = () => {
                 className="btn btn-ghost btn-circle avatar transition-all duration-300 transform hover:scale-110"
                 aria-label="Abrir menú de usuario"
               >
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Avatar de usuario"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                    className="object-cover" // Asegúrate de que la imagen se recorte y ajuste adecuadamente
-                  />
-                </div>
+                  <FaUser size={25} color='#fff'/>
+               
               </div>
 
               <ul
@@ -102,9 +97,11 @@ export const Navbar: React.FC = () => {
                     <span className="badge">User</span>
                   </button>
                 </li>
-                <li>
+                {user.rol == 'administrador' ? <li>
+                  <button onClick={() => navigate('/dashboard')}>Dashboard</button>
+                </li> : <li>
                   <button onClick={() => navigate('/mi-comercio')}>Mi Comercio</button>
-                </li>
+                </li>}
                 <li>
                   <button onClick={handleLogout}>Cerrar sesión</button>
                 </li>

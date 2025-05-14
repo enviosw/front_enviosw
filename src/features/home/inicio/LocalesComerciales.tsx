@@ -115,7 +115,8 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                 <img
                                     src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : "logo_w_fondo_negro.jpeg"}
                                     alt={comercio.nombre_comercial}
-                                    className="w-full rounded-2xl overflow-hidden h-full object-cover transition-transform min-w-72"
+                                    className="w-full rounded-2xl overflow-hidden h-full object-cover transition-transform min-w-72 break-words break-normal whitespace-nowrap truncate"
+
                                 />
                                 <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
                                     <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}

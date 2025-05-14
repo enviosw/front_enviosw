@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import InputField from '../../../../shared/components/InputField';
 import { FaCheckCircle, FaEdit } from 'react-icons/fa';
 
@@ -21,9 +21,15 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
 
     const [showTelefono, setShowTelefono] = useState(false);
 
-    // Refs para hacer foco en los campos cuando se hace "Editar"
     const direccionInputRef = useRef<HTMLInputElement | null>(null);
     const telefonoInputRef = useRef<HTMLInputElement | null>(null);
+
+    // ✅ Focus al primer input al cargar
+    useEffect(() => {
+        if (tipoString === 'pagos') {
+            direccionInputRef.current?.focus();
+        }
+    }, [tipoString]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -33,8 +39,10 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
     const handleConfirm = (field: FormDataKeys) => {
         if (formData[field]) {
             setCompleted(prev => ({ ...prev, [field]: true }));
+
             if (field === 'direccionRecogidaPago') {
-                setShowTelefono(true);  // Mostrar el siguiente input (teléfono) cuando se confirme el primero
+                setShowTelefono(true);
+                setTimeout(() => telefonoInputRef.current?.focus(), 100);
             }
         }
     };
@@ -42,37 +50,34 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
     const handleEdit = (field: FormDataKeys) => {
         setCompleted(prev => ({ ...prev, [field]: false }));
 
-        // Hacer foco en el input correspondiente cuando se edite
-        if (field === 'direccionRecogidaPago' && direccionInputRef.current) {
-            direccionInputRef.current.focus();
-        } else if (field === 'telefonoRecogidaPago' && telefonoInputRef.current) {
-            telefonoInputRef.current.focus();
-        }
+        setTimeout(() => {
+            if (field === 'direccionRecogidaPago') direccionInputRef.current?.focus();
+            else if (field === 'telefonoRecogidaPago') telefonoInputRef.current?.focus();
+        }, 100);
     };
 
     const handleSubmit = () => {
-        const numeroWhatsApp = '3232205900'; // Cambia por el número real del negocio
+        const numeroWhatsApp = '3232205900';
 
-        // Construir el mensaje con la información del formulario
         const mensaje = `💰¡Hola! Me gustaría solicitar el servicio de pagos:\n\n` +
             `🛵📍Dirección de Recogida: ${formData.direccionRecogidaPago}\n` +
             `📞 Teléfono: ${formData.telefonoRecogidaPago}`;
 
-        // Crear la URL de WhatsApp
         const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-
-        // Abrir el enlace en una nueva pestaña
         window.open(url, '_blank');
     };
 
     if (tipoString !== 'pagos') return null;
 
+    const buttonColor = (completed: boolean) => completed ? 'bg-green-500' : 'bg-[#ff6600]';
+
     return (
         <div className='w-full pb-5'>
-            <h2 className="text-2xl text-left font-bold mb-4">Tramite de Pagos 💰</h2>
+            <h2 className="text-2xl text-left font-bold mb-4">Trámite de Pagos 💰</h2>
             <form className="flex flex-col gap-6 w-full items-center justify-center">
-                {/* Dirección de Recogida */}
                 <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mx-auto'>
+
+                    {/* Dirección de Recogida */}
                     <div className="flex justify-between items-center gap-2 w-full">
                         <InputField
                             label="Dirección de Recogida"
@@ -80,26 +85,22 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
                             value={formData.direccionRecogidaPago}
                             onChange={handleChange}
                             placeholder="¿Dónde recogemos el dinero?"
-                            ref={direccionInputRef}  // Asignar la referencia para el enfoque
+                            ref={direccionInputRef}
                         />
-                        <div>
-                            <button
-                                type="button"
-                                className="btn btn-lg btn-circle text-2xl bg-[#ff6600] text-white"
-                                onClick={() => {
-                                    if (completed.direccionRecogidaPago) {
-                                        handleEdit('direccionRecogidaPago');
-                                    } else {
-                                        handleConfirm('direccionRecogidaPago');
-                                    }
-                                }}
-                            >
-                                {completed.direccionRecogidaPago ? <FaEdit /> : <FaCheckCircle />}
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            className={`btn btn-lg btn-circle text-2xl text-white ${buttonColor(completed.direccionRecogidaPago)}`}
+                            onClick={() =>
+                                completed.direccionRecogidaPago
+                                    ? handleEdit('direccionRecogidaPago')
+                                    : handleConfirm('direccionRecogidaPago')
+                            }
+                        >
+                            {completed.direccionRecogidaPago ? <FaEdit /> : <FaCheckCircle />}
+                        </button>
                     </div>
 
-                    {/* Teléfono de Recogida */}
+                    {/* Teléfono */}
                     {showTelefono && (
                         <div className="flex justify-between items-center gap-2 w-full">
                             <InputField
@@ -108,18 +109,16 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
                                 value={formData.telefonoRecogidaPago}
                                 onChange={handleChange}
                                 placeholder="Teléfono contacto"
-                                ref={telefonoInputRef}  // Asignar la referencia para el enfoque
+                                ref={telefonoInputRef}
                             />
                             <button
                                 type="button"
-                                className="btn btn-lg btn-circle text-2xl bg-[#ff6600] text-white"
-                                onClick={() => {
-                                    if (completed.telefonoRecogidaPago) {
-                                        handleEdit('telefonoRecogidaPago');
-                                    } else {
-                                        handleConfirm('telefonoRecogidaPago');
-                                    }
-                                }}
+                                className={`btn btn-lg btn-circle text-2xl text-white ${buttonColor(completed.telefonoRecogidaPago)}`}
+                                onClick={() =>
+                                    completed.telefonoRecogidaPago
+                                        ? handleEdit('telefonoRecogidaPago')
+                                        : handleConfirm('telefonoRecogidaPago')
+                                }
                             >
                                 {completed.telefonoRecogidaPago ? <FaEdit /> : <FaCheckCircle />}
                             </button>
@@ -127,16 +126,15 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
                     )}
                 </div>
 
-                {(completed.direccionRecogidaPago || formData.direccionRecogidaPago) &&
-                    (completed.telefonoRecogidaPago || formData.telefonoRecogidaPago) && (
-                        <button
-                            type="button"
-                            className="bg-green-500 text-white p-3 w-full rounded-md"
-                            onClick={handleSubmit}
-                        >
-                            Confirmar Servicio
-                        </button>
-                    )}
+                {(completed.direccionRecogidaPago && completed.telefonoRecogidaPago) && (
+                    <button
+                        type="button"
+                        className="bg-green-500 text-white p-3 w-full rounded-md mt-4"
+                        onClick={handleSubmit}
+                    >
+                        Confirmar Servicio
+                    </button>
+                )}
             </form>
         </div>
     );
