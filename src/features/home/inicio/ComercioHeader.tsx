@@ -19,7 +19,7 @@ const ComercioHeader: React.FC<ComercioHeaderProps> = ({
 
     return (
         <div
-            className="w-full shadow-lg mb-4 py-6 md:py-10 relative"
+            className="w-full shadow-lg mb-4 py-2 md:py-6 relative"
             style={{
                 backgroundImage: `url(${imagenFinal})`,
                 backgroundSize: 'cover',

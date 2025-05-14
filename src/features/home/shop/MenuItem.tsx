@@ -55,7 +55,7 @@ const MenuItem: React.FC<any> = ({
     <div
       onClick={openProductModal}
       className={`rounded-3xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${
-        isInCart ? 'bg-orange-200' : 'bg-[#ffffff]'
+        isInCart ? 'bg-[#FFB84D]/50' : 'bg-[#ffffff]'
       }`}
     >
       <div className="avatar">

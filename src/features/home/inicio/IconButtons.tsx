@@ -49,12 +49,12 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                     <div className="flex flex-col items-center">
                         <button
                             aria-label={`Seleccionar servicio ${servicio.nombre}`}
-                            style={{ backgroundColor: servicio.color }}
+                            // style={{ backgroundColor: "#FFF1E0" }}
                             onClick={() => handleClick(servicio)}
-                            className={`hover:bg-opacity-80 text-white rounded-full cursor-pointer p-4 flex items-center justify-center transition-all duration-75
+                            className={`hover:bg-opacity-80 text-primary rounded-full cursor-pointer p-4 flex items-center justify-center transition-all duration-75
                         ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                                    ? 'border-2 border-primary scale-110'
-                                    : 'border-2 border-transparent'
+                                    ? 'border-2 border-primary bg-primary/80 text-white scale-110'
+                                    : 'border-2 border-transparent bg-[#FFF1E0]'
                                 }`}
                         >
                             <Icon iconName={servicio?.icon ?? ''} size={35} />
@@ -64,7 +64,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                             style={{
                                 marginTop: '0.5rem',
                                 color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                                    ? servicio.color
+                                    ? '#FF6600'
                                     : '#000000',
                             }}
                         >
