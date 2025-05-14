@@ -129,20 +129,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                         <FaMapMarkerAlt className="text-green-600" />
                                         <span>{comercio.direccion || 'Sin dirección'}</span>
                                     </div>
-                                    <span className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full">
-                                        {/* Mostrar el estado con íconos y texto */}
-                                        {estado === 'abierto' ? (
-                                            <>
-                                                <FaCheckCircle className="text-green-500" />
-                                                <span className="text-green-500 font-semibold">Abierto</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <FaTimesCircle className="text-red-500" />
-                                                <span className="text-red-500 font-semibold">Cerrado</span>
-                                            </>
-                                        )}
-                                    </span><span
+                                    <span
                                         className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full"
                                         aria-live="polite"  // Para informar cambios de estado
                                     >

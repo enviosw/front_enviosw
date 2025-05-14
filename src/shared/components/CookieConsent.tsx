@@ -28,7 +28,7 @@ const CookieConsent: React.FC = () => {
   return (
     isVisible && (
       <div
-        className="fixed bottom-10 left-0 w-full bg-gray-800 text-white p-4 shadow-lg z-50 transition-all duration-500"
+        className="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg z-50 transition-all duration-500"
         role="dialog"
         aria-labelledby="cookieConsentLabel"
       >
@@ -39,7 +39,7 @@ const CookieConsent: React.FC = () => {
               Política de Privacidad
             </a>.
           </p>
-          <div className="space-x-4">
+          <div className="gap-4 flex">
             <button
               onClick={handleDeclineCookies}
               className="text-sm md:text-base px-4 py-2 bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
