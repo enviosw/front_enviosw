@@ -2,101 +2,129 @@ import React from 'react'
 
 const PoliticasPrivacidad: React.FC = () => {
   return (
-    <>
-      <section className="font-sans leading-relaxed text-gray-800 bg-gray-100">
+    <section className="font-sans leading-relaxed text-gray-800 bg-gray-100 pb-8">
 
-        <nav className="w-full bg-white shadow-md">
-          <div className="container mx-auto px-5 py-4 flex justify-between items-center max-w-4xl">
-            <div className="text-xl font-bold">DomiciliosW</div>
-            <div>
-              <a href="/" className="rounded-md text-gray-800 no-underline py-2 px-4 hover:bg-gray-100 transition duration-150 ease-in-out">Inicio</a>
-            </div>
+      <nav className="w-full bg-white shadow-md">
+        <div className="container mx-auto px-5 py-4 flex justify-between items-center max-w-4xl">
+          <div className="text-xl font-bold">DomiciliosW</div>
+          <div>
+            <a href="/" className="rounded-md text-gray-800 no-underline py-2 px-4 hover:bg-gray-100 transition duration-150 ease-in-out">Inicio</a>
           </div>
-        </nav>
+        </div>
+      </nav>
 
-        <article className="container mx-auto px-12 mt-8 bg-white p-15 rounded-lg shadow-md max-w-4xl">
-          <h1 className="text-3xl font-bold mb-6 text-center text-blue-800">Políticas de Privacidad</h1>
-          <h2 className="text-xl font-semibold mb-4 text-center text-gray-700">DomiciliosW – Pitalito, Huila, Colombia</h2>
+      <div className="container mx-auto px-15 mt-8 bg-white p-20 rounded-lg shadow-md max-w-4xl">
+        <h1 className="text-3xl font-bold mb-4 text-center text-gray-800">Política de Tratamiento de Datos Personales</h1>
+        <h2 className="text-xl font-semibold mb-6 text-center text-gray-700">DomiciliosW S.A.S. – Pitalito, Huila, Colombia</h2>
 
-          <p className="mb-4">En DomiciliosW, nos comprometemos a proteger la privacidad, integridad y confidencialidad de los datos personales de nuestros clientes, usuarios y terceros relacionados, conforme a lo dispuesto en la Ley 1581 de 2012, el Decreto 1377 de 2013, y demás normativas colombianas aplicables sobre protección de datos personales.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">1. Introducción</h2>
+        <p className="mb-4">En DomiciliosW S.A.S. (en adelante, "DomiciliosW"), nos comprometemos a proteger la privacidad y seguridad de los datos personales de nuestros usuarios, domiciliarios, aliados comerciales, proveedores y demás terceros con los que interactuamos. Esta política establece los lineamientos para el tratamiento de datos personales en cumplimiento de la legislación colombiana vigente.</p>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">1. Información que Recopilamos</h2>
-          <p className="mb-4">Con el fin de prestar nuestros servicios de manera adecuada y segura, recolectamos los siguientes datos personales, de manera directa o a través de nuestros canales digitales o físicos:</p>
-          <ul className="list-disc pl-5 mb-4">
-            <li className="mb-1">Nombre completo</li>
-            <li className="mb-1">Número de teléfono</li>
-            <li className="mb-1">Dirección exacta de entrega</li>
-            <li className="mb-1">Indicaciones adicionales para facilitar la ubicación del domicilio (opcional)</li>
-            <li className="mb-1">Información de contacto en caso de reclamos o devoluciones (cuando aplique)</li>
-            <li className="mb-1">Información técnica como dirección IP, tipo de navegador, y datos de uso (cuando interactúe con nuestras plataformas digitales)</li>
-          </ul>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">2. Definiciones</h2>
+        <p className="mb-2"><strong className="font-semibold">Dato Personal:</strong> Cualquier información vinculada o que pueda asociarse a una o varias personas naturales determinadas o determinables.</p>
+        <p className="mb-2"><strong className="font-semibold">Tratamiento:</strong> Cualquier operación sobre datos personales, como la recolección, almacenamiento, uso, circulación o supresión.</p>
+        <p className="mb-2"><strong className="font-semibold">Titular:</strong> Persona natural cuyos datos personales son objeto de tratamiento.</p>
+        <p className="mb-2"><strong className="font-semibold">Responsable del Tratamiento:</strong> Persona natural o jurídica que decide sobre la base de datos y/o el tratamiento de los datos.</p>
+        <p className="mb-4"><strong className="font-semibold">Encargado del Tratamiento:</strong> Persona natural o jurídica que realiza el tratamiento de datos por cuenta del responsable.</p>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">2. Finalidades del Tratamiento de Datos</h2>
-          <p className="mb-4">Utilizamos su información personal exclusivamente para los siguientes propósitos:</p>
-          <ul className="list-disc pl-5 mb-4">
-            <li className="mb-1">Procesar y gestionar los pedidos realizados a través de nuestra plataforma.</li>
-            <li className="mb-1">Facilitar la entrega efectiva mediante la comunicación con domiciliarios.</li>
-            <li className="mb-1">Brindar atención al cliente y gestionar reclamaciones o sugerencias.</li>
-            <li className="mb-1">Mejorar la calidad de nuestros servicios, analizar métricas de desempeño y experiencia del usuario.</li>
-            <li className="mb-1">Cumplir con obligaciones legales, contractuales y regulatorias.</li>
-            <li className="mb-1">Enviar notificaciones importantes relacionadas con el servicio, como confirmaciones de pedido, actualizaciones o cambios.</li>
-            <li className="mb-1">Gestionar encuestas de satisfacción, previo consentimiento.</li>
-          </ul>
-          <p className="mb-4">No se realizará tratamiento de sus datos para fines distintos sin su consentimiento previo, salvo obligación legal.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">3. Principios Rectores</h2>
+        <p className="mb-4">DomiciliosW aplica los siguientes principios en el tratamiento de datos personales:</p>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1"><strong className="font-semibold">Legalidad:</strong> El tratamiento se realiza conforme a la ley.</li>
+          <li className="mb-1"><strong className="font-semibold">Finalidad:</strong> Los datos se recolectan con una finalidad legítima, informada al titular.</li>
+          <li className="mb-1"><strong className="font-semibold">Libertad:</strong> El tratamiento solo se realiza con el consentimiento previo, expreso e informado del titular.</li>
+          <li className="mb-1"><strong className="font-semibold">Veracidad:</strong> La información debe ser veraz, completa, exacta y actualizada.</li>
+          <li className="mb-1"><strong className="font-semibold">Transparencia:</strong> Se garantiza el derecho del titular a obtener información sobre sus datos.</li>
+          <li className="mb-1"><strong className="font-semibold">Seguridad:</strong> Se adoptan medidas para proteger los datos contra acceso no autorizado o fraudulento.</li>
+          <li className="mb-1"><strong className="font-semibold">Confidencialidad:</strong> Todas las personas que intervienen en el tratamiento deben garantizar la reserva de la información.</li>
+        </ul>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">3. Transferencia y Comunicación de Datos a Terceros</h2>
-          <p className="mb-4">Compartimos información únicamente con terceros que colaboran directamente en la operación del servicio, incluyendo:</p>
-          <ul className="list-disc pl-5 mb-4">
-            <li className="mb-1">Domiciliarios autorizados que requieren nombre, número de contacto y dirección para completar las entregas.</li>
-            <li className="mb-1">Proveedores tecnológicos que procesan datos en nuestra plataforma bajo acuerdos de confidencialidad y seguridad.</li>
-          </ul>
-          <p className="mb-4">No vendemos, alquilamos ni compartimos su información con fines comerciales ni publicitarios sin su consentimiento expreso.</p>
-          <p className="mb-4">Podremos compartir información si es requerida por autoridades competentes, en cumplimiento de obligaciones legales o judiciales.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">4. Datos Recolectados</h2>
+        <p className="mb-4">DomiciliosW puede recolectar los siguientes datos personales:</p>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Usuarios:</h3>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">Nombre completo</li>
+          <li className="mb-1">Número de teléfono</li>
+          <li className="mb-1">Dirección de entrega</li>
+          <li className="mb-1">Correo electrónico</li>
+          <li className="mb-1">Información de geolocalización (cuando la aplicación lo requiera)</li>
+        </ul>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Domiciliarios:</h3>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">Nombre completo</li>
+          <li className="mb-1">Número de teléfono</li>
+          <li className="mb-1">Documento de identidad</li>
+          <li className="mb-1">Fotografía</li>
+          <li className="mb-1">Información bancaria para pagos</li>
+        </ul>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Aliados Comerciales y Proveedores:</h3>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">Nombre o razón social</li>
+          <li className="mb-1">Datos de contacto</li>
+          <li className="mb-1">Información financiera y tributaria</li>
+        </ul>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">4. Almacenamiento y Seguridad de la Información</h2>
-          <p className="mb-4">Implementamos medidas técnicas, administrativas y físicas razonables para proteger su información personal. Algunas de estas medidas incluyen:</p>
-          <ul className="list-disc pl-5 mb-4">
-            <li className="mb-1">Uso de servidores seguros y protocolos cifrados (HTTPS).</li>
-            <li className="mb-1">Acceso restringido a datos personales por parte del personal autorizado.</li>
-            <li className="mb-1">Copias de seguridad periódicas.</li>
-            <li className="mb-1">Eliminación segura de la información cuando ya no sea necesaria.</li>
-          </ul>
-          <p className="mb-4">La información será conservada únicamente por el tiempo necesario para cumplir las finalidades del tratamiento o conforme a la ley aplicable.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">5. Finalidades del Tratamiento</h2>
+        <p className="mb-4">Los datos personales recolectados serán utilizados para:</p>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Usuarios:</h3>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">Procesar y entregar pedidos.</li>
+          <li className="mb-1">Brindar soporte y atención al cliente.</li>
+          <li className="mb-1">Enviar notificaciones sobre el estado de los pedidos.</li>
+          <li className="mb-1">Realizar encuestas de satisfacción.</li>
+        </ul>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Domiciliarios:</h3>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">Gestionar el registro y acceso a la plataforma.</li>
+          <li className="mb-1">Procesar pagos y comisiones.</li>
+          <li className="mb-1">Brindar soporte y capacitación.</li>
+          <li className="mb-1">Realizar evaluaciones de desempeño.</li>
+        </ul>
+        <h3 className="text-xl font-semibold mt-4 mb-2 text-gray-700">Aliados Comerciales y Proveedores:</h3>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">Gestionar relaciones comerciales.</li>
+          <li className="mb-1">Procesar pagos y facturación.</li>
+          <li className="mb-1">Cumplir con obligaciones contractuales y legales.</li>
+        </ul>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">5. Derechos de los Titulares de Datos</h2>
-          <p className="mb-4">Como titular de datos personales, usted tiene derecho a:</p>
-          <ul className="list-disc pl-5 mb-4">
-            <li className="mb-1">Acceder gratuitamente a su información.</li>
-            <li className="mb-1">Conocer, actualizar y rectificar los datos tratados.</li>
-            <li className="mb-1">Solicitar la supresión de sus datos o revocar la autorización.</li>
-            <li className="mb-1">Ser informado sobre el uso de su información.</li>
-            <li className="mb-1">Presentar quejas ante la Superintendencia de Industria y Comercio por presuntas infracciones.</li>
-          </ul>
-          <p className="mb-4">Para ejercer estos derechos, puede dirigir una solicitud escrita a través de los canales especificados en la sección de Contacto. El trámite será gratuito y será atendido en los plazos establecidos por la ley.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">6. Transferencia y Transmisión de Datos</h2>
+        <p className="mb-4">DomiciliosW podrá transferir o transmitir datos personales a terceros, dentro o fuera del país, en los siguientes casos:</p>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">A proveedores de servicios tecnológicos y logísticos que apoyen nuestras operaciones.</li>
+          <li className="mb-1">A autoridades competentes, cuando sea requerido por ley.</li>
+          <li className="mb-1">A aliados comerciales, previa autorización del titular.</li>
+        </ul>
+        <p className="mb-4">En todos los casos, se garantizará que los terceros cumplan con las medidas de seguridad y confidencialidad requeridas.</p>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">6. Menores de Edad</h2>
-          <p className="mb-4">Nuestros servicios no están dirigidos a menores de 18 años. En caso de recopilar accidentalmente información de un menor sin autorización de sus padres o tutores, procederemos a su eliminación inmediata tras su verificación.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">7. Derechos de los Titulares</h2>
+        <p className="mb-4">Los titulares de los datos personales tienen derecho a:</p>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1">Conocer, actualizar y rectificar sus datos.</li>
+          <li className="mb-1">Solicitar la supresión de sus datos cuando sea procedente.</li>
+          <li className="mb-1">Revocar la autorización otorgada para el tratamiento de sus datos.</li>
+          <li className="mb-1">Presentar quejas ante la Superintendencia de Industria y Comercio por presuntas infracciones.</li>
+        </ul>
+        <p className="mb-4">Para ejercer estos derechos, los titulares pueden contactar a DomiciliosW a través de los canales indicados en la sección 9.</p>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">7. Uso de Cookies y Tecnologías Similares</h2>
-          <p className="mb-4">En nuestras plataformas digitales, podemos usar cookies u otras tecnologías de rastreo para mejorar la experiencia de navegación, recordar preferencias, y analizar patrones de uso. Puede configurar su navegador para rechazar estas tecnologías, aunque esto podría afectar el funcionamiento de algunos servicios.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">8. Seguridad de la Información</h2>
+        <p className="mb-4">DomiciliosW implementa medidas técnicas, humanas y administrativas para proteger los datos personales contra acceso no autorizado, pérdida, alteración o destrucción.</p>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">8. Cambios a esta Política de Privacidad</h2>
-          <p className="mb-4">Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. En caso de cambios sustanciales, informaremos mediante nuestros canales oficiales. La nueva versión entrará en vigor desde su publicación. Se recomienda revisarla periódicamente.</p>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">9. Contacto</h2>
+        <p className="mb-4">Para consultas, reclamos o ejercicio de derechos relacionados con el tratamiento de datos personales, puede contactarnos en:</p>
+        <ul className="list-disc pl-5 mb-4">
+          <li className="mb-1"><strong className="font-semibold">Correo electrónico:</strong> domicilioswexpress@gmail.com</li>
+          <li className="mb-1"><strong className="font-semibold">Teléfono:</strong> +57 313 4089563</li>
+          <li className="mb-1"><strong className="font-semibold">Dirección:</strong> Carrera 5a #2a-79, Pitalito, Huila, Colombia</li>
+        </ul>
 
-          <h2 className="text-2xl font-semibold mt-6 mb-4 text-blue-800">9. Contacto</h2>
-          <p className="mb-4">Para cualquier solicitud relacionada con el tratamiento de datos personales o para ejercer sus derechos, puede contactarnos a través de los siguientes medios:</p>
-          <ul className="list-disc pl-5 mb-4">
-            <li className="mb-1">Correo electrónico: contacto@domiciliosw.com</li>
-            <li className="mb-1">Teléfono: +57 311 000 0000</li>
-            <li className="mb-1">Dirección: Carrera XX #XX-XX, Pitalito, Huila, Colombia</li>
-            <li className="mb-1">Horario de atención: Lunes a viernes de 8:00 a.m. a 6:00 p.m.</li>
-          </ul>
+        <h2 className="text-2xl font-semibold mt-6 mb-4 text-gray-800">10. Vigencia y Modificaciones</h2>
+        <p className="mb-4">Esta política entra en vigencia a partir del 14 de mayo de 2025 y podrá ser modificada en cualquier momento. Las modificaciones serán publicadas en nuestros canales oficiales. Se recomienda revisarla periódicamente.</p>
 
-          <p className="mt-8 text-sm text-gray-600">Fecha de última actualización: 14 de mayo de 2025</p>
+        <p className="mt-8 text-sm text-gray-600">Fecha de última actualización: 14 de mayo de 2025</p>
 
-        </article>
-      </section>
-    </>
+      </div>
+
+    </section>
   )
 }
 
