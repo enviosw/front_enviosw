@@ -75,7 +75,7 @@ const MenuItem: React.FC<any> = ({
             {mostrarDescuento ? (
               <>
                 <span className="text-sm text-gray-500">
-                  {/* ${precio.toFixed(2)} */}
+                  ${precio.toFixed(2)}
                 </span>
               </>
             ) : (
