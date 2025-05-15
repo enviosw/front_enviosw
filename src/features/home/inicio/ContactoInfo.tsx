@@ -13,7 +13,7 @@ const ContactoInfo: React.FC = () => {
                         href="tel:+573001234567"
                         className="text-sm font-medium text-black hover:underline"
                     >
-                        +57 300 123 4567
+                        +57 3134089563
                     </a>
                 </div>
             </div>
@@ -23,7 +23,7 @@ const ContactoInfo: React.FC = () => {
                 <div className="flex flex-col leading-tight">
                     <span className="text-gray-700 text-xs text-start">Dirección</span>
                     <span className="text-sm font-medium text-black">
-                        Calle 123 #45-67, Bogotá
+                        José Hilario López Main Park Pitalito, Huila
                     </span>
                 </div>
             </div>

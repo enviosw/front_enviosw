@@ -1,8 +1,9 @@
 import { useServicios } from '../../../services/serviciosServices';
 import { Servicio } from '../../../shared/types/serviciosInterface';
-import { Icon } from '../../../shared/components/Icon';
+// import { Icon } from '../../../shared/components/Icon';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Animate } from 'react-simple-animate';
+import { BASE_URL } from '../../../utils/baseUrl';
 
 export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioIdOrNombre: number | string) => void }) => {
     const { data: servicios } = useServicios();
@@ -33,9 +34,22 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
         }
     }, [sortedServicios, selectedServicioId, onSelectServicio]);
 
+
+    const serviciosOrdenados = [...sortedServicios].sort((a, b) => {
+        // Si ambos tienen orden definido, ordenar ascendente
+        if (a.orden != null && b.orden != null) {
+            return a.orden - b.orden;
+        }
+        // Si solo uno tiene orden, priorizarlo
+        if (a.orden != null) return -1;
+        if (b.orden != null) return 1;
+        // Si ninguno tiene orden, no cambiar el orden
+        return 0;
+    });
+
     return (
         <div className="flex justify-start overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full">
-            {sortedServicios.map((servicio: Servicio) => (
+            {serviciosOrdenados.map((servicio: Servicio) => (
                 <Animate
                     key={servicio.id}
                     play
@@ -45,7 +59,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                     end={{ opacity: 1, transform: 'translateY(0px)' }}
                 >
                     <div className="flex flex-col items-center">
-                        <button
+                        {/* <button
                             aria-label={`Seleccionar servicio ${servicio.nombre}`}
                             // style={{ backgroundColor: "#FFF1E0" }}
                             onClick={() => handleClick(servicio)}
@@ -56,11 +70,28 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                                 }`}
                         >
                             <Icon iconName={servicio?.icon ?? ''} size={35} />
+                        </button> */}
+                        <button
+                            aria-label={`Seleccionar servicio ${servicio.nombre}`}
+                            onClick={() => handleClick(servicio)}
+                            className={`hover:bg-opacity-80 w-16 h-16 text-primary rounded-full cursor-pointer p-0.5 flex items-center justify-center transition-all duration-75
+        ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+                                    ? 'border-2 border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-110'
+                                    : 'border-2 border-transparent bg-transparent'
+                                }`}
+                        >
+                            <img
+                                src={servicio.foto ? `${BASE_URL}/${servicio.foto}` : ''}
+                                alt={servicio.nombre}
+                                className="w-full h-full object-contain"
+                            />
                         </button>
+
+
                         <span
                             className="text-sm lg:text-base"
                             style={{
-                                marginTop: '0.5rem',
+                                marginTop: '0.3rem',
                                 color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
                                     ? '#FF6600'
                                     : '#000000',
