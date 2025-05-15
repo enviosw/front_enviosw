@@ -57,9 +57,9 @@ const MenuItem: React.FC<any> = ({
       className={`rounded-3xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${isInCart ? 'bg-[#FFB84D]/50' : 'bg-[#ffffff]'
         }`}
     >
-      <div className="avatar">
+   <div className="avatar">
         <div className="mask mask-squircle bg-white w-24">
-          <img src={image ? `${BASE_URL}/${image}` : defaultImage} alt={nombre} />
+          <img src={`${BASE_URL}/${image}` || defaultImage} alt={nombre} />
         </div>
       </div>
 
