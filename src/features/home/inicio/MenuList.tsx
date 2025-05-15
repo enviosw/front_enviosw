@@ -42,22 +42,22 @@ const MenuList: React.FC = () => {
     };
 
 
-    // const productosAdaptados = productos?.map((producto) => ({
-    //     id: producto.id,
-    //     nombre: producto.nombre,
-    //     descripcion: producto.descripcion,
-    //     precio: parseFloat(String(producto.precio)),
-    //     precio_descuento: producto.precio_descuento
-    //         ? parseFloat(String(producto.precio_descuento))
-    //         : parseFloat(String(producto.precio)),
-    //     categoria: producto.categoria?.nombre || 'Sin Categoría',
-    //     unidad: producto.unidad || 'Unidad',
-    //     estado: producto.estado || 'activo',
-    //     estado_descuento: producto.estado_descuento || 'inactivo',
-    //     fecha_creacion: producto.fecha_creacion,
-    //     fecha_actualizacion: producto.fecha_actualizacion,
-    //     image: producto.imagen_url,
-    // }));
+    const productosAdaptados = productos?.map((producto) => ({
+        id: producto.id,
+        nombre: producto.nombre,
+        descripcion: producto.descripcion,
+        precio: parseFloat(String(producto.precio)),
+        precio_descuento: producto.precio_descuento
+            ? parseFloat(String(producto.precio_descuento))
+            : parseFloat(String(producto.precio)),
+        categoria: producto.categoria?.nombre || 'Sin Categoría',
+        unidad: producto.unidad || 'Unidad',
+        estado: producto.estado || 'activo',
+        estado_descuento: producto.estado_descuento || 'inactivo',
+        fecha_creacion: producto.fecha_creacion,
+        fecha_actualizacion: producto.fecha_actualizacion,
+        image: producto.imagen_url,
+    }));
 
     useEffect(() => {
         if (data) {
@@ -176,7 +176,7 @@ const MenuList: React.FC = () => {
                
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                            {productos.map((item) => (
+                            {productosAdaptados.map((item) => (
                                 <MenuItem key={item.id} {...item} comercioId={id} />
                             ))}
                         </div>

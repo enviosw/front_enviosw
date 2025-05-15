@@ -25,6 +25,9 @@ const MenuItem: React.FC<any> = ({
 
   const defaultImage = 'logo_w_fondo_negro.jpeg';
 
+
+  console.log(image)
+
   const mostrarDescuento = precio_descuento < precio;
   const isInCart = cartItems.some(item => item.id === id); // Verifica si el producto ya está en el carrito
 
@@ -57,7 +60,7 @@ const MenuItem: React.FC<any> = ({
       className={`rounded-3xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${isInCart ? 'bg-[#FFB84D]/50' : 'bg-[#ffffff]'
         }`}
     >
-   <div className="avatar">
+      <div className="avatar">
         <div className="mask mask-squircle bg-white w-24">
           <img src={`${BASE_URL}/${image}` || defaultImage} alt={nombre} />
         </div>
