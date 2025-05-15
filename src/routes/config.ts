@@ -119,5 +119,26 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: false
     },
+    {
+        path: "/terminos-y-condiciones-domiciliosw",
+        element: lazy(() => import('../pages/public/TerminosYCondiciones')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
+    {
+        path: "/autorizacion-tratmiento-de-datos-personales-domiciliosw",
+        element: lazy(() => import('../pages/public/AutorizacionDatosPersonales')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
+    {
+        path: "/politicas-de-cookies-domiciliosw",
+        element: lazy(() => import('../pages/public/PoliticasCookies')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
 
 ];
