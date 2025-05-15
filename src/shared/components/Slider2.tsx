@@ -16,7 +16,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-full bg-[#FFB84D] pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-full bg-[#FFB84D] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     <div className="flex w-[85%] mx-auto relative">
                         <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
@@ -60,7 +60,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-full bg-[#4D4DFF] pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-full bg-[#4D4DFF] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     <div className="flex w-[85%] mx-auto relative">
                         <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
@@ -92,7 +92,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-full bg-[#34B9F1] pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-full bg-[#34B9F1] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     <div className="flex w-[85%] mx-auto relative">
                         <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
@@ -172,14 +172,14 @@ const Slider2: React.FC = () => {
 
             <button
                 onClick={goToPreviousSlide}
-                className="absolute left-3 lg:left-10 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full z-20"
+                className="absolute left-1.5 lg:left-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
                 aria-label="Ir a la diapositiva anterior"
             >
                 <FaChevronLeft />
             </button>
             <button
                 onClick={goToNextSlide}
-                className="absolute right-3 lg:right-10 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800 text-white rounded-full z-20"
+                className="absolute right-1.5 lg:right-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
                 aria-label="Ir a la siguiente diapositiva"
             >
                 <FaChevronRight />
