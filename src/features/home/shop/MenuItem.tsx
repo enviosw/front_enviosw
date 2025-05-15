@@ -54,26 +54,25 @@ const MenuItem: React.FC<any> = ({
   return (
     <div
       onClick={openProductModal}
-      className={`rounded-3xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${
-        isInCart ? 'bg-[#FFB84D]/50' : 'bg-[#ffffff]'
-      }`}
+      className={`rounded-3xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${isInCart ? 'bg-[#FFB84D]/50' : 'bg-[#ffffff]'
+        }`}
     >
       <div className="avatar">
         <div className="mask mask-squircle bg-white w-24">
-          <img src={`${BASE_URL}/${image}` || defaultImage} alt={nombre} />
+          <img src={image ? `${BASE_URL}/${image}` : defaultImage} alt={nombre} />
         </div>
       </div>
 
-      <div className="flex flex-col justify-between flex-1">
-        <h3 className="text-base font-semibold text-gray-800 truncate">{nombre}</h3>
-        <p className="text-sm text-gray-500 line-clamp-2 break-all">{descripcion}</p>
+      <div className="flex flex-col justify-between flex-1 overflow-hidden">
+        <h3 className="text-base font-semibold text-gray-800 break-words truncate">{nombre}</h3>
+        <p className="text-sm text-gray-500 break-words line-clamp-2">{descripcion}</p>
 
         <div className="flex justify-between items-center mt-3">
           <div className="flex flex-col">
             {mostrarDescuento ? (
               <>
                 <span className="text-sm text-gray-500">
-                  ${precio.toFixed(2)}
+                  {/* ${precio.toFixed(2)} */}
                 </span>
               </>
             ) : (

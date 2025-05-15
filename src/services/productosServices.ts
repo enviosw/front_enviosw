@@ -122,22 +122,32 @@ export const useProducto = (id: number) => {
 
 
 // services/productosServices.ts
-export const useProductosPublicos = (comercioId: number | null, categoriaId?: number) => {
+export const useProductosPublicos = (
+  comercioId: number | null,
+  categoriaId?: number,
+  search: string = '',
+  page: number = 1
+) => {
+  console.log("ASSAAS", comercioId);
   const axiosInstance = useAxiosInstance();
 
-  return useQuery<Producto[]>({
-    queryKey: ['productos-publicos', comercioId, categoriaId],
+  return useQuery<{
+    data: Producto[];
+    page: number;
+    lastPage: number;
+  }>({
+    queryKey: ['productos-publicos', comercioId, categoriaId, search, page],
     queryFn: async () => {
-      if (!comercioId) return [];
+      if (!comercioId) return { data: [], page: 1, lastPage: 1 };
 
-      const params: Record<string, number> = { comercio_id: comercioId };
+      const params: Record<string, any> = { comercio_id: comercioId, page };
       if (categoriaId) params.categoria_id = categoriaId;
+      if (search) params.search = search;
 
-      const { data } = await axiosInstance.get<Producto[]>('/productos/comercio', { params });
+      const { data } = await axiosInstance.get('/productos/comercio', { params });
       return data;
     },
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 15,
   });
 };
-
