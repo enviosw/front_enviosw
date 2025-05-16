@@ -16,17 +16,17 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-full bg-[#FFB84D] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
-                    <div className="flex w-[85%] mx-auto relative">
-                        <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
+                <div className="relative w-full h-[32vh] lg:h-[42vh] bg-[#FFB84D] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                    <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
+                        <div className="w-full flex translate-y-10 lg:translate-y-0  flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-sans font-bold uppercase text-white text-left">
-                                    <span className="text-white">Domicilios</span> <span className="text-primary">W</span>
+                                <p className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
+                                    <span className="text-white text-style">Domicilios</span> <span className="text-primary">W</span>
                                 </p>
                             </Animate>
                             <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-xl sm:text-2xl md:text-3xl font-sans font-medium text-white text-center mb-4">
-                                    <span className="text-white">Te ahorramos</span> <span className="text-primary font-bold">Tiempo</span> y sobre todo <span className="text-primary font-bold">Dinero</span>
+                                <p className="text-lg text-style sm:text-2xl md:text-3xl font-sans font-medium text-white text-left mb-4">
+                                    <span className="text-white ">Te ahorramos</span> <span className="text-primary font-bold">Tiempo</span> <br className='lg:hidden' /> y sobre todo <span className="text-primary font-bold">Dinero</span>
                                 </p>
                             </Animate>
                             <div className="items-center hidden lg:flex justify-center right-10 bottom-30 gap-6 z-20">
@@ -41,15 +41,12 @@ const Slider2: React.FC = () => {
                                 </Animate>
                             </div>
                         </div>
-                        <div className="w-full flex justify-end items-center h-full mt-6 md:mt-0 relative z-10">
-                            <img
-                                loading="lazy"
-                                className="w-[100%] sm:w-[60%] lg:w-[45%]"
-                                src="domi.png"
-                                alt="Repartidor en moto"
-                                width="640"  // Ancho explícito en píxeles
-                                height="480" // Alto explícito en píxeles
-                            />                        </div>
+                        <img
+                            loading="lazy"
+                            className="w-[50%] lg:w-[40%] lg:-top-20 absolute -right-5 -bottom-14 lg:right-10"
+                            src="moto2.png"
+                            alt="Repartidor en moto"
+                        />
                     </div>
                     <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-20">
                         <ContactoInfo />
@@ -60,30 +57,27 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-full bg-[#4D4DFF] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
-                    <div className="flex w-[85%] mx-auto relative">
-                        <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
+                <div className="relative w-full h-[32vh] lg:h-[42vh] bg-[#4D4DFF]/50 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                    <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
+                        <div className="w-full flex translate-y-10 lg:translate-y-0 flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-sans font-bold uppercase text-white text-left">
+                                <p className="text-2xl text-style sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
                                     <span className="text-white">Entrega</span> <span className="text-primary">Rápida</span>
                                 </p>
                             </Animate>
                             <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-xl sm:text-2xl md:text-3xl font-sans font-medium text-white text-center mb-4">
-                                    <span className="text-white">Recibe tus productos</span> <span className="text-primary font-bold">en tiempo récord</span>
+                                <p className="text-xl text-style sm:text-2xl md:text-3xl font-sans font-medium text-white mb-4">
+                                    <span className="text-white">Recibe tus productos</span> <br className='lg:hidden' /> <span className="text-primary font-bold">en tiempo récord</span>
                                 </p>
                             </Animate>
                         </div>
-                        <div className="w-full flex justify-end items-center h-full mt-6 md:mt-0 relative z-10">
-                            <img
-                                loading="lazy"
-                                className="w-[100%] sm:w-[60%] lg:w-[45%]"
-                                src="https://images.freeimages.com/image/previews/702/italian-pizza-chef-character-5692723.png"
-                                alt="Repartidor en moto"
-                                width="640"  // Ancho explícito en píxeles
-                                height="480" // Alto explícito en píxeles
-                            />
-                        </div>
+                        <img
+                            loading="lazy"
+                            className="w-[50%] lg:w-[30%] lg:-top-40 absolute  -right-10 -bottom-20 lg:right-10"
+                            src="moto3.png"
+                            alt="Repartidor en moto"
+                        />
+
 
                     </div>
                 </div>
@@ -92,30 +86,27 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-full bg-[#34B9F1] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
-                    <div className="flex w-[85%] mx-auto relative">
-                        <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
+                <div className="relative w-full h-[32vh] lg:h-[42vh] bg-[#34B9F1]/50 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                    <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
+                        <div className="w-full flex translate-y-10 lg:translate-y-0 flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-sans font-bold uppercase text-white text-left">
+                                <p className="text-2xl text-style sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
                                     <span className="text-white">Servicio</span> <span className="text-primary">Seguro</span>
                                 </p>
                             </Animate>
                             <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-xl sm:text-2xl md:text-3xl font-sans font-medium text-white text-center mb-4">
-                                    <span className="text-white">Confía en nosotros</span> <span className="text-primary font-bold">para entregas seguras</span>
+                                <p className="text-xl text-style sm:text-2xl md:text-3xl font-sans font-medium text-white mb-4">
+                                    <span className="text-white">Confía en nosotros</span><br className='lg:hidden' /> <span className="text-primary font-bold">para entregas seguras</span>
                                 </p>
                             </Animate>
                         </div>
-                        <div className="w-full flex justify-end items-center h-full mt-6 md:mt-0 relative z-10">
-                            <img
-                                loading="lazy"
-                                className="w-[100%] sm:w-[60%] lg:w-[45%]"
-                                src="https://static.vecteezy.com/system/resources/previews/008/492/236/non_2x/delivery-cartoon-illustration-png.png"
-                                alt="Entrega segura"
-                                width="640"  // Ancho explícito en píxeles
-                                height="480" // Alto explícito en píxeles
-                            />
-                        </div>
+                        <img
+                            loading="lazy"
+                            className="w-[50%] lg:w-[25%] lg:-top-35 absolute  -right-10 -bottom-20 lg:right-10"
+                            src="moto4.png"
+                            alt="Entrega segura"
+                        />
+
                     </div>
                 </div>
 
@@ -172,14 +163,14 @@ const Slider2: React.FC = () => {
 
             <button
                 onClick={goToPreviousSlide}
-                className="absolute left-1.5 lg:left-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
+                className="hidden lg:flex absolute left-1.5 lg:left-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
                 aria-label="Ir a la diapositiva anterior"
             >
                 <FaChevronLeft />
             </button>
             <button
                 onClick={goToNextSlide}
-                className="absolute right-1.5 lg:right-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
+                className="hidden lg:flex absolute right-1.5 lg:right-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
                 aria-label="Ir a la siguiente diapositiva"
             >
                 <FaChevronRight />

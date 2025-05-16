@@ -125,8 +125,8 @@ const Home: React.FC = () => {
       {/* Contenido principal */}
       <section className="w-full lg:w-[85%] mx-auto px-4 lg:px-10">
 
-        <h2 className="text-center lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-gray-700 font-normal">
-          Selecciona el <span className='text-gray-800'>Servicio!</span> {/* Cambié text-primary a text-gray-800 para mejorar el contraste */}
+      <h2 className="text-center text-service lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-primary font-normal">
+          Selecciona el <span>Servicio!</span> {/* Cambié text-primary a text-gray-800 para mejorar el contraste */}
         </h2>
 
         <IconButtons onSelectServicio={handleSelectServicio} />

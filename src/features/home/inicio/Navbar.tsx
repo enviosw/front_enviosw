@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       // Detectar si el scroll ha superado el 40vh
-      if (window.scrollY > window.innerHeight * 0.4) {
+      if (window.scrollY > window.innerHeight * 0.3) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -47,24 +47,17 @@ export const Navbar: React.FC = () => {
     >
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
         <div className="flex-1 flex gap-2 items-center">
-          <img
-            className="rounded-2xl bg-secondary px-2 z-50 w-10 h-10 object-contain hidden lg:flex"
-            src="logoW_1.png"
-            alt="Logo W"
-          />
+
           <div
-            className={`text-lg hidden lg:flex lg:text-2xl uppercase ${isScrolled ? 'text-white' : 'text-black'
+            className={`rounded-2xl flex justify-center items-center bg-white/70  px-2 z-50 w-10 h-10 ${isScrolled ? 'text-primary' : 'text-primary'
               }`}
           >
-            Domicilios <span className={`${isScrolled ? 'text-black' : 'text-primary'}`}>W</span>
+            <span className='font-black'>W</span>
           </div>
         </div>
 
-        <div className="hidden sm:block text-center text-white text-xl font-medium pt-3">
-          {/* Mejorar el contraste del texto */}
-          <span className="text-white bg-black bg-opacity-60 px-2 py-1 rounded-lg">
-            Pitalito - Huila
-          </span>
+        <div className="bg-white/70 shadow-md rounded-xl p-2 items-end mx-auto flex gap-2">
+          Pitalito - Huila
         </div>
 
         <div className="flex-none ml-4 flex items-center gap-4">
@@ -83,8 +76,8 @@ export const Navbar: React.FC = () => {
                 className="btn btn-ghost btn-circle avatar transition-all duration-300 transform hover:scale-110"
                 aria-label="Abrir menú de usuario"
               >
-                  <FaUser size={25} color='#fff'/>
-               
+                <FaUser size={25} color='#fff' />
+
               </div>
 
               <ul

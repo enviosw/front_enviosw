@@ -6,8 +6,21 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poetsen+One&display=swap');
 
 
+.text-style {
+    font-family: "Pacifico", cursive;
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+.text-service {
+    font-family: "Poetsen One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
 
 
 /* VARIABLES ESTILOS GLOBALES */
