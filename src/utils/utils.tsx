@@ -1,26 +1,42 @@
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
 export const loadGoogleAnalytics = () => {
   if (localStorage.getItem('cookiesAccepted') === 'true') {
-    // Comprobar si ya se ha cargado Google Analytics
-    if (window.dataLayer && window.dataLayer.length > 0) return; // Evita inicialización repetida
+    // Si ya existe gtag (ya cargado), solo actualizamos consentimiento
+    if (window.dataLayer && window.dataLayer.length > 0) {
+      window.gtag?.('consent', 'update', {
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted',
+        'functionality_storage': 'granted',
+        'security_storage': 'granted'
+      });
+      return;
+    }
 
-    // Crear el script solo si el usuario acepta las cookies
+    // Cargar GA4 solo si no está cargado
     const script = document.createElement('script');
     script.src = `https://www.googletagmanager.com/gtag/js?id=G-85W2TDMXTH`;
     script.async = true;
     document.head.appendChild(script);
 
     script.onload = () => {
-      // Inicializamos dataLayer si no está definido
-      window.dataLayer = window.dataLayer ?? [];
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = (...args: any[]) => window.dataLayer.push(args);
 
-      // Declaramos la función gtag fuera de la condición
-      function gtag(...args: any[]) {
-        window.dataLayer.push(args);
-      }
+      // Consentimiento inicial (granted porque ya aceptó)
+      window.gtag('consent', 'default', {
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted',
+        'functionality_storage': 'granted',
+        'security_storage': 'granted'
+      });
 
-      // Inicializar Google Analytics solo una vez
-      gtag('js', new Date()); // Usamos Date correctamente
-      gtag('config', 'G-85W2TDMXTH');
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-85W2TDMXTH');
     };
   }
 };

@@ -10,48 +10,42 @@ interface CategoryCarouselProps {
 const CategoryCarousel: React.FC<CategoryCarouselProps> = ({
   comercioId,
   onSelectCategoria,
-  selectedCategoriaId
+  selectedCategoriaId,
 }) => {
   const { data: categories } = useCategoriasPorComercio(comercioId);
-
 
   const handleClick = (categoriaId?: number) => {
     onSelectCategoria(categoriaId);
   };
 
   return (
-    <div className="flex justify-start overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full">
-      <div className="flex gap-4 whitespace-nowrap flex-nowrap justify-start items-center px-4">
-        <div
-          onClick={() => handleClick(undefined)}
-          className={`rounded-full flex flex-col items-center 
-    w-16 h-16 md:w-20 md:h-20 justify-center shadow-sm cursor-pointer transition
-    ${selectedCategoriaId === undefined ? 'bg-[#FFB84D]' : ' hover:bg-[#FFB84D]'}`}
+    <div className="flex justify-start overflow-x-auto space-x-6 py-2 px-4 scrollbar-hidden w-full">
+      <span
+        onClick={() => handleClick(undefined)}
+        className={`cursor-pointer text-sm md:text-base font-semibold whitespace-nowrap transition-all duration-150
+        ${selectedCategoriaId === undefined
+            ? 'text-primary border-b-2 border-primary'
+            : 'text-gray-500 hover:text-primary hover:border-b-2 hover:border-primary'
+          }`}
+      >
+        Todas
+      </span>
+
+      {categories?.map((category) => (
+        <span
+          key={category.id}
+          onClick={() => handleClick(category.id)}
+          className={`cursor-pointer text-sm md:text-base font-semibold whitespace-nowrap transition-all duration-150
+          ${selectedCategoriaId === category.id
+              ? 'text-primary border-b-2 border-primary'
+              : 'text-gray-500 hover:text-primary hover:border-b-2 hover:border-primary'
+            }`}
         >
-          <div className="text-2xl md:text-3xl">📦</div>
-          <span className="text-[10px] md:text-xs font-medium text-gray-700 mt-1 text-center truncate">
-            Todas
-          </span>
-        </div>
-
-        {categories?.map((category) => (
-          <div
-            key={category.id}
-            onClick={() => handleClick(category.id)}
-            className={`rounded-full flex flex-col items-center 
-    w-16 h-16 md:w-20 md:h-20 justify-center shadow-sm cursor-pointer transition
-    ${selectedCategoriaId === category.id ? 'bg-[#FFB84D]' : ' hover:bg-[#FFB84D]'}`}
-          >
-            <div className="text-2xl md:text-3xl">📦</div>
-            <span className="text-[10px] md:text-xs font-medium text-gray-700 mt-1 text-center truncate">
-              {category.nombre}
-            </span>
-          </div>
-
-        ))}
-      </div>
+          {category.nombre}
+        </span>
+      ))}
     </div>
   );
 };
 
-export default CategoryCarousel
+export default CategoryCarousel;

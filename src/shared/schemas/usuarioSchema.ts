@@ -3,7 +3,8 @@ import { z } from 'zod';
 export const usuarioSchema = z.object({
     nombre: z.string().min(1, 'Requerido'),
     email: z.string().email('Correo no válido'),
-    password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
+    password: z.string()
+        .optional(),
     rol: z.enum(['administrador', 'aliado'], {
         required_error: 'El rol es obligatorio',
     }).optional(),
