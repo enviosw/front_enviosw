@@ -24,7 +24,7 @@ const MenuList: React.FC = () => {
 
 
     // Ahora puedes usar el objeto comercio aquí
-    console.log(comercio);  // Aquí tendrás todos los datos del comercio
+    // console.log(comercio);  // Aquí tendrás todos los datos del comercio
 
 
     const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);

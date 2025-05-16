@@ -20,9 +20,9 @@ const Slider2: React.FC = () => {
                     <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
                         <div className="w-full flex translate-y-10 lg:translate-y-0  flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
+                                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
                                     <span className="text-white text-style">Domicilios</span> <span className="text-primary">W</span>
-                                </p>
+                                </h1>
                             </Animate>
                             <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
                                 <p className="text-lg text-style sm:text-2xl md:text-3xl font-sans font-medium text-white text-left mb-4">
@@ -61,9 +61,9 @@ const Slider2: React.FC = () => {
                     <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
                         <div className="w-full flex translate-y-10 lg:translate-y-0 flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-2xl text-style sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
+                                <h2 className="text-2xl text-style sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
                                     <span className="text-white">Entrega</span> <span className="text-primary">Rápida</span>
-                                </p>
+                                </h2>
                             </Animate>
                             <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
                                 <p className="text-xl text-style sm:text-2xl md:text-3xl font-sans font-medium text-white mb-4">
@@ -90,9 +90,9 @@ const Slider2: React.FC = () => {
                     <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
                         <div className="w-full flex translate-y-10 lg:translate-y-0 flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <p className="text-2xl text-style sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
+                                <h3 className="text-2xl text-style sm:text-4xl md:text-5xl lg:text-7xl font-sans font-bold uppercase text-white text-left">
                                     <span className="text-white">Servicio</span> <span className="text-primary">Seguro</span>
-                                </p>
+                                </h3>
                             </Animate>
                             <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
                                 <p className="text-xl text-style sm:text-2xl md:text-3xl font-sans font-medium text-white mb-4">
