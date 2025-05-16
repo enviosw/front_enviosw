@@ -16,7 +16,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[32vh] lg:h-[42vh] bg-[#FFB84D] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[28vh] lg:h-[42vh] bg-[#FFB84D] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
                         <div className="w-full flex translate-y-10 lg:translate-y-0  flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
@@ -57,7 +57,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[32vh] lg:h-[42vh] bg-[#4D4DFF]/50 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[28vh] lg:h-[42vh] bg-[#4D4DFF]/50 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
                         <div className="w-full flex translate-y-10 lg:translate-y-0 flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
@@ -86,7 +86,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[32vh] lg:h-[42vh] bg-[#34B9F1]/50 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[28vh] lg:h-[42vh] bg-[#34B9F1]/50 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
                         <div className="w-full flex translate-y-10 lg:translate-y-0 flex-col justify-center items-start text-left space-y-2 lg:space-y-4 relative z-10">
                             <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
