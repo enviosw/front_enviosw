@@ -52,24 +52,28 @@ const Home: React.FC = () => {
       {/* <CarouselLayout /> */}
 
       <Slider2 />
-      <h1 className="sr-only">
-        Servicio de domicilios en Pitalito, Huila: comidas rápidas, restaurantes locales y entregas confiables a domicilio.
+      <section className="flex justify-center items-center flex-col text-center absolute opacity-0 top-0">
+        <h1 className="text-3xl md:text-5xl font-extrabold text-gray-800 mb-6">
+          Domicilios rápidos y confiables en Pitalito, Huila
+        </h1>
 
-      </h1>
+        <p className="text-gray-700 text-lg md:text-xl max-w-2xl mx-auto mb-4">
+          ¿Tienes hambre o necesitas hacer compras? También enviamos productos y realizamos trámites por ti.
+          Haz tu pedido y recíbelo en la puerta de tu casa, rápido y seguro.
+        </p>
 
-      <p className="text-gray-600 text-sm md:text-lg mb-6 max-w-md sr-only">
-        ¿Tienes hambre? ¿Necesitas hacer compras? ¿Enviar productos o realizar trámites? ¡Nosotros te ayudamos! Haz tu pedido y recíbelo directamente en tu puerta, de forma rápida y segura.
-      </p>
+        <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto mb-4">
+          En <span className="font-semibold text-gray-800">Domicilios W</span> nos encargamos de todo:
+          contamos con cobertura local, personal capacitado y seguimiento de entregas en tiempo real.
+          Comida, compras o trámites… ¡lo llevamos hasta ti sin complicaciones!
+        </p>
 
-      <p className="text-gray-500 text-sm md:text-base max-w-xl mt-4 sr-only">
-        En <strong>Domicilios W</strong> de Pitalito, nos especializamos en llevarte lo que necesitas sin complicaciones. Contamos con cobertura local, personal capacitado y seguimiento de entregas en tiempo real. Ya sea comida, compras o trámites, estamos para servirte todos los días con rapidez y seguridad.
-      </p>
+        <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto">
+          Disfruta en casa de tus platos favoritos, desde comida tradicional hasta opciones gourmet.
+          Nuestra plataforma conecta los mejores restaurantes de Pitalito con tus antojos, brindando atención personalizada a cada laboyano.
+        </p>
+      </section>
 
-
-
-      <p className="sr-only">
-        En Pitalito, corazón cafetero del Huila, disfrutar de tus platos favoritos nunca fue tan fácil. Con nuestro servicio de domicilios puedes recibir en tu puerta comida tradicional, rápida o gourmet, sin salir de casa. Desde almuerzos locales hasta cenas especiales, nuestra plataforma conecta a los mejores restaurantes con tus antojos, brindando rapidez, seguridad y atención personalizada para todos los laboyanos.
-      </p>
 
       {/* <div className="relative w-full h-[40vh] lg:[50vh] mt-10 bg-secondary flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
 
