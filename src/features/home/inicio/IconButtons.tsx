@@ -20,9 +20,14 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     // useCallback fuera de condicionales, garantizando el mismo orden de hooks
     const handleClick = useCallback((servicio: Servicio) => {
         const servicioSeleccionado = servicio.estado === 'activo' ? Number(servicio.id) : String(servicio.nombre);
-        setSelectedServicioId(servicioSeleccionado);
-        onSelectServicio(servicioSeleccionado);
+
+        setSelectedServicioId(null); // limpia selección visual
+        setTimeout(() => {
+            setSelectedServicioId(servicioSeleccionado);
+            onSelectServicio(servicioSeleccionado);
+        }, 0);
     }, [onSelectServicio]);
+
 
     // Efecto para seleccionar el primer servicio por defecto al cargar
     useEffect(() => {

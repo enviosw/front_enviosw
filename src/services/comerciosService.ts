@@ -58,9 +58,14 @@ interface UseComerciosPublicosProps {
     servicioId: number | null;
     search?: string;
     page?: number;
+    enabled? : boolean
 }
-
-export const useComerciosPublicos = ({ servicioId, search = '', page = 1 }: UseComerciosPublicosProps) => {
+export const useComerciosPublicos = ({
+    servicioId,
+    search = '',
+    page = 1,
+    enabled = true, // ← por defecto true
+}: UseComerciosPublicosProps) => {
     const axiosInstance = useAxiosInstance();
 
     return useQuery<ComerciosPublicosResponse>({
@@ -89,6 +94,7 @@ export const useComerciosPublicos = ({ servicioId, search = '', page = 1 }: UseC
         },
         staleTime: 1000 * 60 * 10,
         gcTime: 1000 * 60 * 15,
+        enabled: !!servicioId && enabled, // ← AQUI USAS EL NUEVO PARAMETRO
     });
 };
 

@@ -125,7 +125,7 @@ const Home: React.FC = () => {
       {/* Contenido principal */}
       <section className="w-full lg:w-[85%] mx-auto px-4 lg:px-10">
 
-      <h2 className="text-center text-service lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-primary font-normal">
+        <h2 className="text-center text-service lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-primary font-normal">
           Selecciona el <span>Servicio!</span> {/* Cambié text-primary a text-gray-800 para mejorar el contraste */}
         </h2>
 
@@ -139,7 +139,8 @@ const Home: React.FC = () => {
 
 
 
-              <LocalesComerciales servicioId={servicioId} />
+              <LocalesComerciales key={servicioId}
+                servicioId={servicioId} />
             </div>
           ) : servicioNombre ? (
             <div className="text-center text-lg font-semibold w-full">
