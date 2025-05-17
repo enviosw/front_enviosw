@@ -52,7 +52,7 @@ const Home: React.FC = () => {
       {/* <CarouselLayout /> */}
 
       <Slider2 />
-      <section className="flex justify-center items-center flex-col text-center absolute opacity-0 top-0">
+      <section className="flex justify-center items-center flex-col text-center">
         <h1 className="text-3xl md:text-5xl font-extrabold text-gray-800 mb-6">
           Domicilios rápidos y confiables en Pitalito, Huila
         </h1>
