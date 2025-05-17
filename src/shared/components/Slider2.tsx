@@ -45,7 +45,7 @@ const Slider2: React.FC = () => {
                             loading="lazy"
                             className="w-[50%] lg:w-[40%] lg:-top-20 absolute -right-5 -bottom-14 lg:right-10"
                             src="moto2.png"
-                            alt="Repartidor en moto"
+                   alt="Repartidor en moto entregando domicilios en Pitalito"
                         />
                     </div>
                     <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-20">
@@ -75,7 +75,7 @@ const Slider2: React.FC = () => {
                             loading="lazy"
                             className="w-[50%] lg:w-[30%] lg:-top-40 absolute  -right-10 -bottom-20 lg:right-10"
                             src="moto3.png"
-                            alt="Repartidor en moto"
+                     alt="Repartidor en moto entregando domicilios en Pitalito"
                         />
 
 
@@ -104,7 +104,7 @@ const Slider2: React.FC = () => {
                             loading="lazy"
                             className="w-[50%] lg:w-[25%] lg:-top-35 absolute  -right-10 -bottom-20 lg:right-10"
                             src="moto4.png"
-                            alt="Entrega segura"
+                  alt="Repartidor en moto entregando domicilios en Pitalito"
                         />
 
                     </div>

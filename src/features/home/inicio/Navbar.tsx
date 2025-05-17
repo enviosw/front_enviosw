@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       // Detectar si el scroll ha superado el 40vh
-      if (window.scrollY > window.innerHeight * 0.3) {
+      if (window.scrollY > window.innerHeight * 0.2) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);

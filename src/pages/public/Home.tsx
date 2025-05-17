@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 
   // Set the page title and meta tags
   useEffect(() => {
-    document.title = "Domicilios en Pitalito | Tu aliado en entregas rápidas";
+    document.title = "Domicilios Pitalito | Entregas Rápidas, Económicas y Seguras | DomiciliosW";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute("content", "Pide comida, haz compras, envía productos o gestiona trámites. Te lo entregamos rápido y fácil en Pitalito.");
@@ -52,6 +52,25 @@ const Home: React.FC = () => {
       {/* <CarouselLayout /> */}
 
       <Slider2 />
+      <h1 className="sr-only">
+        Servicio de domicilios en Pitalito, Huila: comidas rápidas, restaurantes locales y entregas confiables a domicilio.
+
+      </h1>
+
+      <p className="text-gray-600 text-sm md:text-lg mb-6 max-w-md sr-only">
+        ¿Tienes hambre? ¿Necesitas hacer compras? ¿Enviar productos o realizar trámites? ¡Nosotros te ayudamos! Haz tu pedido y recíbelo directamente en tu puerta, de forma rápida y segura.
+      </p>
+
+      <p className="text-gray-500 text-sm md:text-base max-w-xl mt-4 sr-only">
+        En <strong>Domicilios W</strong> de Pitalito, nos especializamos en llevarte lo que necesitas sin complicaciones. Contamos con cobertura local, personal capacitado y seguimiento de entregas en tiempo real. Ya sea comida, compras o trámites, estamos para servirte todos los días con rapidez y seguridad.
+      </p>
+
+
+
+      <p className="sr-only">
+        En Pitalito, corazón cafetero del Huila, disfrutar de tus platos favoritos nunca fue tan fácil. Con nuestro servicio de domicilios puedes recibir en tu puerta comida tradicional, rápida o gourmet, sin salir de casa. Desde almuerzos locales hasta cenas especiales, nuestra plataforma conecta a los mejores restaurantes con tus antojos, brindando rapidez, seguridad y atención personalizada para todos los laboyanos.
+      </p>
+
       {/* <div className="relative w-full h-[40vh] lg:[50vh] mt-10 bg-secondary flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
 
 
