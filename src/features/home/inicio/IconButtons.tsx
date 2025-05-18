@@ -94,12 +94,12 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
 
 
                         <span
-                            className="text-sm lg:text-base"
+                            className="text-sm lg:text-base text-style text-gray-600"
                             style={{
                                 marginTop: '0.3rem',
                                 color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
                                     ? '#FF6600'
-                                    : '#000000',
+                                    : '',
                             }}
                         >
                             {servicio.nombre}
