@@ -46,9 +46,9 @@ export const useCrearProducto = () => {
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      for (const [key, value] of formData.entries()) {
-        console.log(`📦 ${key}:`, value);
-      }
+      // for (const [key, value] of formData.entries()) {
+      //   console.log(`📦 ${key}:`, value);
+      // }
       const { data } = await axiosInstance.post('/productos', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -78,9 +78,9 @@ export const useActualizarProducto = () => {
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      console.log(formData)
+      // console.log(formData)
       const productoId = formData.get('id');
-      console.log("ID", productoId)
+      // console.log("ID", productoId)
       if (!productoId) throw new Error('ID del producto es requerido para actualizar');
 
       const { data } = await axiosInstance.patch(`/productos/${productoId}`, formData, {
@@ -128,7 +128,7 @@ export const useProductosPublicos = (
   search: string = '',
   page: number = 1
 ) => {
-  console.log("ASSAAS", comercioId);
+  // console.log("ASSAAS", comercioId);
   const axiosInstance = useAxiosInstance();
 
   return useQuery<{

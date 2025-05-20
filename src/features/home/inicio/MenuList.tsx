@@ -24,7 +24,7 @@ const MenuList: React.FC = () => {
 
 
     // Ahora puedes usar el objeto comercio aquí
-    console.log(comercio);  // Aquí tendrás todos los datos del comercio
+    // console.log(comercio);  // Aquí tendrás todos los datos del comercio
 
 
     const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);
@@ -175,7 +175,7 @@ const MenuList: React.FC = () => {
                             </div>
                
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
                             {productosAdaptados.map((item) => (
                                 <MenuItem key={item.id} {...item} comercioId={id} />
                             ))}

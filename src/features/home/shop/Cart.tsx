@@ -4,6 +4,7 @@ import { FaPlus, FaMinus, FaTrash, FaTimes, FaShoppingCart } from 'react-icons/f
 import { BASE_URL } from '../../../utils/baseUrl';
 import { useComercioId } from '../../../utils/obtenerComercio';
 import { formatNumber } from '../../../utils/formatNumber';
+import { useComercioIdent } from '../../../services/comerciosService';
 
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart(); // Asegurarse de que clearCart esté disponible
@@ -11,6 +12,8 @@ const Cart: React.FC = () => {
     const [telefono, setTelefono] = useState(''); // Campo para teléfono
     const comercioId = useComercioId();
     // Calcular el total de productos en el carrito
+
+    const { data: comercio } = useComercioIdent(Number(comercioId));
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const handleWhatsAppOrder = () => {
@@ -19,9 +22,8 @@ const Cart: React.FC = () => {
             .map(item => `• ${item.quantity}x ${item.nombre} - $${(parseFloat(item.precio_descuento) * item.quantity).toFixed(2)}`)
             .join('%0A');
 
-        const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido con los siguientes productos:%0A%0A${productos}%0A%0A🔸 Total: $${total.toFixed(2)}%0A📍 Dirección de envío: ${direccion}%0A${
-            telefono ? `📞 Teléfono: ${telefono}` : ''
-        }%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
+        const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido de ${comercio?.nombre_comercial} con los siguientes productos:%0A%0A${productos}%0A%0A🔸 Total: $${total.toFixed(2)}%0A📍 Dirección de envío: ${direccion}%0A${telefono ? `📞 Teléfono: ${telefono}` : ''
+            }%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
 
         const url = `https://wa.me/57${numeroWhatsApp}?text=${mensaje}`;
 
@@ -69,7 +71,7 @@ const Cart: React.FC = () => {
                     <div>
                         {/* Título y cerrar */}
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-3xl font-bold text-gray-800">🛍️ Tu carrito</h2>
+                            <h4 className="text-3xl font-bold text-gray-800">🛍️ Tu carrito de {comercio?.nombre_comercial}</h4>
                             <label htmlFor="cart-drawer" className="cursor-pointer">
                                 <FaTimes className="text-xl text-gray-500 hover:text-red-500 transition" />
                             </label>

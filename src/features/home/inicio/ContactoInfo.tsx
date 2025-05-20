@@ -23,7 +23,7 @@ const ContactoInfo: React.FC = () => {
                 <div className="flex flex-col leading-tight">
                     <span className="text-gray-700 text-xs text-start">Dirección</span>
                     <span className="text-sm font-medium text-black">
-                        José Hilario López Main Park Pitalito, Huila
+                        Centro de Pitalito, Huila
                     </span>
                 </div>
             </div>

@@ -8,20 +8,58 @@ import Skeleton from '../../../utils/Skeleton';
 import { BASE_URL } from '../../../utils/baseUrl';
 import { getEstadoComercio } from '../../../utils/getEstadoComercio';
 
+const getPaginasGuardadas = (): Record<number, number> => {
+    const data = sessionStorage.getItem('paginasPorServicio');
+    return data ? JSON.parse(data) : {};
+};
+
+const guardarPaginaServicio = (servicioId: number, pagina: number) => {
+    const data = getPaginasGuardadas();
+    data[servicioId] = pagina;
+    sessionStorage.setItem('paginasPorServicio', JSON.stringify(data));
+};
+
 const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioId }) => {
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [searchValue, setSearchValue] = useState('');
     const [page, setPage] = useState(1);
+    const [locales, setLocales] = useState<Comercio[]>([]);
 
     const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
-
-    console.log(data)
-
-    const [locales, setLocales] = useState<Comercio[]>([]);
     const lastPage = data?.lastPage || 1;
 
-    // Cuando cambia la data, acumulo resultados si es paginación, si es nueva búsqueda, reseteo.
+    // Al iniciar, recupera la página guardada por servicio si no hay búsqueda
+    useEffect(() => {
+        if (servicioId && search === '') {
+            const paginasGuardadas = getPaginasGuardadas();
+            const paginaFinal = paginasGuardadas[servicioId] || 1;
+
+            // Arranca en la página 1 y carga hasta la última que tenía guardada
+            setPage(1);
+            if (paginaFinal > 1) {
+                // Usamos un pequeño delay entre páginas para dar tiempo al hook a refrescar data
+                let actual = 1;
+                const cargarPaginas = () => {
+                    actual++;
+                    setPage(prev => {
+                        const nueva = prev + 1;
+                        guardarPaginaServicio(servicioId, nueva);
+                        return nueva;
+                    });
+
+                    if (actual < paginaFinal) {
+                        setTimeout(cargarPaginas, 300); // 300ms entre cada "ver más"
+                    }
+                };
+
+                setTimeout(cargarPaginas, 300);
+            }
+        }
+    }, [servicioId]);
+
+
+    // Actualiza los locales cuando llega data nueva
     useEffect(() => {
         if (data) {
             if (page === 1) {
@@ -32,38 +70,38 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         }
     }, [data, page]);
 
-    // Resetear búsqueda cuando se borra el input
+    // Si se borra el input, reinicia búsqueda
     useEffect(() => {
         if (searchValue === '') {
             setSearch('');
             setPage(1);
+            if (servicioId) guardarPaginaServicio(servicioId, 1);
         }
     }, [searchValue]);
 
     const handleSearch = () => {
         setSearch(searchValue.trim());
-        setPage(1); // Reinicia a la primera página
+        setPage(1);
+        if (servicioId) guardarPaginaServicio(servicioId, 1);
     };
 
     const handleClearSearch = () => {
         setSearchValue('');
         setSearch('');
         setPage(1);
+        if (servicioId) guardarPaginaServicio(servicioId, 1);
     };
 
     const handleLoadMore = () => {
-        if (page < lastPage) {
-            setPage(prev => prev + 1);
+        if (page < lastPage && servicioId) {
+            const nuevaPagina = page + 1;
+            setPage(nuevaPagina);
+            guardarPaginaServicio(servicioId, nuevaPagina);
         }
     };
 
-    if (isLoading && page === 1) {
-        return <Skeleton />;
-    }
-
-    if (isError) {
-        return <div>Error al cargar locales</div>;
-    }
+    if (isLoading && page === 1) return <Skeleton />;
+    if (isError) return <div>Error al cargar locales</div>;
 
     return (
         <div className='w-full'>
@@ -79,7 +117,6 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         aria-label="Buscar contenido"
                     />
-                    {/* Botón de búsqueda */}
                     <button
                         onClick={handleSearch}
                         className="absolute right-10 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-all duration-300"
@@ -87,7 +124,6 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                     >
                         <FaSearch />
                     </button>
-                    {/* Botón de limpiar */}
                     {searchValue && (
                         <button
                             onClick={handleClearSearch}
@@ -103,8 +139,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             {/* Lista de locales */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6">
                 {locales?.map((comercio: Comercio) => {
-
-                    const estado = getEstadoComercio(comercio.horarios); // Llamamos a la función con los horarios e id del comercio
+                    const estado = getEstadoComercio(comercio.horarios);
                     return (
                         <div
                             key={comercio.id}
@@ -115,8 +150,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                 <img
                                     src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : "logo_w_fondo_negro.jpeg"}
                                     alt={comercio.nombre_comercial}
-                                    className="w-full rounded-2xl overflow-hidden h-full object-cover transition-transform min-w-72 break-words break-normal whitespace-nowrap truncate"
-
+                                    className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform min-w-72 truncate"
                                 />
                                 <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
                                     <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}
@@ -130,30 +164,19 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                         <FaMapMarkerAlt className="text-green-600" />
                                         <span>{comercio.direccion || 'Sin dirección'}</span>
                                     </div>
-                                    <span
-                                        className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full"
-                                        aria-live="polite"  // Para informar cambios de estado
-                                    >
-                                        {/* Mostrar el estado con íconos y texto */}
+                                    <span className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
                                         {estado === 'abierto' ? (
                                             <>
-                                                <FaCheckCircle
-                                                    className="text-green-500"
-                                                    aria-label="Servicio abierto" // Añadir descripción al icono
-                                                />
+                                                <FaCheckCircle className="text-green-500" aria-label="Servicio abierto" />
                                                 <span className="text-green-500 font-semibold">Abierto</span>
                                             </>
                                         ) : (
                                             <>
-                                                <FaTimesCircle
-                                                    className="text-red-500"
-                                                    aria-label="Servicio cerrado" // Añadir descripción al icono
-                                                />
+                                                <FaTimesCircle className="text-red-500" aria-label="Servicio cerrado" />
                                                 <span className="text-red-500 font-semibold">Cerrado</span>
                                             </>
                                         )}
                                     </span>
-
                                 </div>
                             </div>
                         </div>

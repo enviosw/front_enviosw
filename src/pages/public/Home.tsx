@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from 'react';
-// import CarouselLayout from '../../shared/layout/CarouselLayout';
-import IconButtons from '../../features/home/inicio/IconButtons';
-import LocalesComerciales from '../../features/home/inicio/LocalesComerciales';
-import TipoServicio from '../../features/home/inicio/TipoServicio';
-import WhatsAppFloatButton from '../../shared/components/WhatsAppFloatButton';
-import Slider from '../../shared/components/Slider';
-// import { Animate } from 'react-simple-animate';
-// import InstagramButton from '../../shared/components/buttons/InstagramButton';
-// import WhatsappButton from '../../shared/components/buttons/WhatsappButton';
-// import FacebookButton from '../../shared/components/buttons/FacebookButton';
-// import ContactoInfo from '../../features/home/inicio/ContactoInfo';
-import Slider2 from '../../shared/components/Slider2';
-import CookieConsent from '../../shared/components/CookieConsent';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+const IconButtons = lazy(() => import('../../features/home/inicio/IconButtons'));
+const LocalesComerciales = lazy(() => import('../../features/home/inicio/LocalesComerciales'));
+const TipoServicio = lazy(() => import('../../features/home/inicio/TipoServicio'));
+const WhatsAppFloatButton = lazy(() => import('../../shared/components/WhatsAppFloatButton'));
+const Slider = lazy(() => import('../../shared/components/Slider'));
+const Slider2 = lazy(() => import('../../shared/components/Slider2'));
+const CookieConsent = lazy(() => import('../../shared/components/CookieConsent'));
+
 
 const Home: React.FC = () => {
 
@@ -20,7 +15,7 @@ const Home: React.FC = () => {
 
   // Set the page title and meta tags
   useEffect(() => {
-    document.title = "Domicilios en Pitalito | Tu aliado en entregas rápidas";
+    document.title = "Domicilios Pitalito | Entregas Rápidas, Económicas y Seguras | DomiciliosW";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute("content", "Pide comida, haz compras, envía productos o gestiona trámites. Te lo entregamos rápido y fácil en Pitalito.");
@@ -51,106 +46,71 @@ const Home: React.FC = () => {
     <>
       {/* <CarouselLayout /> */}
 
-      <Slider2 />
-      {/* <div className="relative w-full h-[40vh] lg:[50vh] mt-10 bg-secondary flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
-
-
-        <div className=' flex container mx-auto relative'>
-          <div className="w-full flex flex-col justify-center items-center text-left space-y-2 lg:space-y-4 relative z-10">
-            <Animate play duration={1} start={{ opacity: 0, transform: 'scale(0.8)' }} end={{ opacity: 1, transform: 'scale(1)' }}>
-              <img
-                loading="lazy"
-                className="w-[70%] hidden lg:flex sm:w-[60%] lg:w-[45%] mx-auto filter drop-shadow-2xl rounded-lg"
-                src="logoW_1.png"
-                alt="Logo Domi"
-              />
-            </Animate>
-
-            <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-              <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-sans italic font-bold uppercase text-white text-center">
-                <span className="text-white">Domicilios</span> <span className="text-primary">W</span>
-              </p>
-            </Animate>
-
-            <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-              <p className="text-xl sm:text-2xl md:text-3xl font-sans font-normal text-white text-center px-4 py-0">
-                <span className="text-white">Te ahorramos</span>
-                <span className="text-primary"> Tiempo</span>
-                <span className="text-white"> y sobre todo</span>
-                <span className="text-primary"> Dinero...</span>
-              </p>
-            </Animate>
-          </div>
-
-          <div className="w-full flex justify-center items-center h-full mt-6 md:mt-0 relative z-10">
-            <img
-              loading="lazy"
-              className="w-[100%] sm:w-[60%] lg:w-[45%]"
-              src="domi.png" // Reemplaza con tu imagen
-              alt="Repartidor en moto"
-            />
-          </div>
-
-          <div className="absolute  flex-col items-center hidden lg:flex justify-center right-10 bottom-30 space-y-6 z-20">
-            <Animate play duration={1} delay={0.8} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-              <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quisiera más información sobre su producto." />
-            </Animate>
-
-            <div className="flex flex-col space-y-4">
-              <Animate play duration={1} delay={1.0} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                <InstagramButton username="your_instagram_username" />
-              </Animate>
-
-              <Animate play duration={1} delay={1.2} start={{ opacity: 0, transform: 'translateY(30px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                <FacebookButton pageId="your_facebook_page_id" />
-              </Animate>
-            </div>
-          </div>
-
-
-        </div>
-
-        <div className="absolute hidden lg:flex right-0 lg:right-10 bottom-10 z-20">
-          <ContactoInfo />
-        </div>
-      </div> */}
-
-
-
-
-
-
-      {/* <div className='bg-white rounded-t-4xl z-20 -translate-y-8'> */}
+      <Suspense fallback={<div>Cargando...</div>}>
+        <Slider2 />
+      </Suspense>
 
       {/* Contenido principal */}
-      <section className="w-full lg:w-[85%] mx-auto px-4 lg:px-10">
+      <Suspense fallback={<div>Cargando...</div>}>
+        <section className='w-full'>
+          <div className="w-full lg:w-[85%] mx-auto px-4 lg:px-10">
+            <h2 className="text-center text-service lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-primary font-normal">
+              Selecciona el <span>Servicio!</span>
+            </h2>
+            <IconButtons onSelectServicio={handleSelectServicio} />
+          </div>
+        </section>
+      </Suspense>
+      <Suspense fallback={<div>Cargando...</div>}>
+        <section className="h-auto flex justify-start items-center relative mt-2 lg:mt-5">
+          <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
+            {servicioId !== null ? (
+              <div className="w-full">
+                <LocalesComerciales key={servicioId} servicioId={servicioId} />
+              </div>
+            ) : servicioNombre ? (
+              <div className="text-center text-lg font-semibold w-full">
+                <TipoServicio tipo={String(servicioNombre)} />
+              </div>
+            ) : null}
+          </div>
+        </section>
+      </Suspense>
 
-        <h2 className="text-center lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-gray-700 font-normal">
-          Selecciona el <span className='text-gray-800'>Servicio!</span> {/* Cambié text-primary a text-gray-800 para mejorar el contraste */}
-        </h2>
-
-        <IconButtons onSelectServicio={handleSelectServicio} />
-      </section>
-
-      <section className="h-auto flex justify-start items-center relative mt-2 lg:mt-5">
-        <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
-          {servicioId !== null ? (
-            <div className="w-full">
-
-
-
-              <LocalesComerciales servicioId={servicioId} />
-            </div>
-          ) : servicioNombre ? (
-            <div className="text-center text-lg font-semibold w-full">
-              <TipoServicio tipo={String(servicioNombre)} />
-            </div>
-          ) : null}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto text-center md:text-left py-10">
+        {/* Sección de Beneficios Principal */}
+        <div className="flex flex-col justify-center items-center md:items-start">
+          <h2 className="text-2xl font-bold text-[#374151] mb-4">¡Tu Solución de Domicilios en Pitalito!</h2>
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
+            <span className="font-bold text-[#374151]">Domicilios W</span> se encarga de todo para ti en Pitalito: cobertura local extensa, personal altamente capacitado y un seguimiento en tiempo real para tu tranquilidad.
+          </p>
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+            Desde tus antojos de comida hasta esas diligencias importantes... <span className="font-bold text-[#22C55E]">¡lo llevamos hasta tu puerta sin complicaciones!</span> Confía en la eficiencia y seguridad que solo Domicilios W te puede ofrecer en cada rincón de Pitalito.
+          </p>
         </div>
+
+        {/* Sección de Comida y Conexión Local */}
+        <div className="flex flex-col justify-center items-center md:items-start">
+          <h2 className="text-2xl font-bold text-[#374151] mb-4">Disfruta de la Gastronomía Laboyana en Casa</h2>
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
+            Sumérgete en los sabores de Pitalito sin moverte de tu hogar. Disfruta de una amplia variedad de opciones, desde la deliciosa <span className="text-[#ef4444] font-semibold">comida tradicional</span> que te reconforta, hasta exquisitas propuestas <span className="text-[#6366f1] font-semibold">gourmet</span> para paladares exigentes.
+          </p>
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed">
+            En Domicilios W, conectamos los mejores y más variados restaurantes de Pitalito directamente contigo, atendiendo cada antojo y brindando una <span className="font-bold text-[#F97316]">atención personalizada</span> a cada laboyano que confía en nuestro servicio.
+          </p>
+        </div>
+
+        <button className="bg-[#d97706] hover:bg-[#b45309] text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105">
+          ¡Pedir ahora es fácil!
+        </button>
+
       </section>
+      {/* Botón de llamada a la acción (opcional pero recomendado) */}
+
+
 
       {/* Sección de promoción con imagen y texto */}
-      <div className="w-full relative overflow-hidden px-6 my-10">
+      <section className="w-full relative overflow-hidden px-6 my-10">
         <div className="flex items-center justify-center h-full gap-6 flex-wrap">
           <picture>
             <source srcSet="motoexpress.png" type="image/png" />
@@ -184,12 +144,18 @@ const Home: React.FC = () => {
 
         {/* </div> */}
 
-        <Slider images={images} />
+        <Suspense fallback={<div>Cargando...</div>}>
+          <Slider images={images} />
+        </Suspense>
 
-        <WhatsAppFloatButton />
+        <Suspense fallback={<div>Cargando...</div>}>
+          <WhatsAppFloatButton />
+        </Suspense>
 
-        <CookieConsent />
-      </div>
+        <Suspense fallback={<div>Cargando...</div>}>
+          <CookieConsent />
+        </Suspense>
+      </section>
 
     </>
   );

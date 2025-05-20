@@ -20,9 +20,14 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     // useCallback fuera de condicionales, garantizando el mismo orden de hooks
     const handleClick = useCallback((servicio: Servicio) => {
         const servicioSeleccionado = servicio.estado === 'activo' ? Number(servicio.id) : String(servicio.nombre);
-        setSelectedServicioId(servicioSeleccionado);
-        onSelectServicio(servicioSeleccionado);
+
+        setSelectedServicioId(null); // limpia selección visual
+        setTimeout(() => {
+            setSelectedServicioId(servicioSeleccionado);
+            onSelectServicio(servicioSeleccionado);
+        }, 0);
     }, [onSelectServicio]);
+
 
     // Efecto para seleccionar el primer servicio por defecto al cargar
     useEffect(() => {
@@ -48,7 +53,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     });
 
     return (
-        <div className="flex justify-start overflow-x-auto space-x-4 py-4 scrollbar-hidden w-full">
+        <div className="flex justify-start overflow-x-auto gap-x-6 py-1 scrollbar-hidden w-full">
             {serviciosOrdenados.map((servicio: Servicio) => (
                 <Animate
                     key={servicio.id}
@@ -74,7 +79,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                         <button
                             aria-label={`Seleccionar servicio ${servicio.nombre}`}
                             onClick={() => handleClick(servicio)}
-                            className={`hover:bg-opacity-80 w-16 h-16 text-primary rounded-full cursor-pointer p-0.5 flex items-center justify-center transition-all duration-75
+                            className={`hover:bg-opacity-80 w-[70px] h-[70px] text-primary rounded-full cursor-pointer p-0.5 flex items-center justify-center transition-all duration-75
         ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
                                     ? 'border-2 border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-110'
                                     : 'border-2 border-transparent bg-transparent'
@@ -89,12 +94,12 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
 
 
                         <span
-                            className="text-sm lg:text-base"
+                            className="text-sm lg:text-base text-style text-gray-600"
                             style={{
                                 marginTop: '0.3rem',
                                 color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
                                     ? '#FF6600'
-                                    : '#000000',
+                                    : '',
                             }}
                         >
                             {servicio.nombre}

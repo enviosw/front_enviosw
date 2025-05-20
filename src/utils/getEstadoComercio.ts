@@ -13,20 +13,20 @@ export const getEstadoComercio = (horarios: any) => {
   const dias = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
   const today = dias[diaSemana];
 
-  console.log(`Hoy es: ${today}`); // Verificamos el día actual
+  // console.log(`Hoy es: ${today}`); // Verificamos el día actual
 
   // Accedemos a los horarios dentro de la estructura
   const horario = horarios.horarios[today];
 
   // Verificamos que el horario para el día actual no sea nulo ni indefinido
   if (!horario) {
-    console.log(`No hay horario para el día ${today}`);
+    // console.log(`No hay horario para el día ${today}`);
     return 'cerrado'; // Si no hay horario para ese día, lo consideramos cerrado
   }
 
   // Si alguno de los horarios es "CERRADO", directamente devolvemos "cerrado"
   if (horario.apertura === 'CERRADO' || horario.cierre === 'CERRADO') {
-    console.log(`${today}: El comercio está cerrado.`);
+    // console.log(`${today}: El comercio está cerrado.`);
     return 'cerrado';
   }
 
@@ -34,14 +34,14 @@ export const getEstadoComercio = (horarios: any) => {
   const apertura = convertToDate(horario.apertura);
   const cierre = convertToDate(horario.cierre);
 
-  console.log(`Apertura: ${apertura}, Cierre: ${cierre}, Hora actual: ${currentDate}`);
+  // console.log(`Apertura: ${apertura}, Cierre: ${cierre}, Hora actual: ${currentDate}`);
 
   // Comprobamos si la hora actual está entre la apertura y cierre
   if (currentDate >= apertura && currentDate <= cierre) {
-    console.log(`${today}: El comercio está abierto.`);
+    // console.log(`${today}: El comercio está abierto.`);
     return 'abierto';
   } else {
-    console.log(`${today}: El comercio está cerrado.`);
+    // console.log(`${today}: El comercio está cerrado.`);
     return 'cerrado';
   }
 };
