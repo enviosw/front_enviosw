@@ -26,7 +26,8 @@ const Toast: React.FC<ToastProps> = ({ message, type = "info", duration = 3000 }
                     alert alert-${type} shadow-lg 
                     transition-all duration-500 animate-fade-in 
                     max-w-sm sm:max-w-md md:max-w-lg 
-                    whitespace-normal break-words text-sm
+                    whitespace-normal break-words text-lg
+                     bg-black/80 border-none text-white 
                 `}
             >
                 <span>{message}</span>

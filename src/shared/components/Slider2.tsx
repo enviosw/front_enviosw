@@ -137,7 +137,7 @@ const Slider2: React.FC = () => {
 
     // Función de scroll + toast
     const handleAction = (type: 'pedido' | 'comercio') => {
-        window.scrollBy({ top: window.innerHeight * 0.4, behavior: 'smooth' });
+        window.scrollBy({ top: window.innerHeight * 0.45, behavior: 'smooth' });
 
         if (type === 'pedido') {
             setToast({ message: "¡Realizar tu pedido nunca fue tan fácil con Domicilios W!", type: 'success' });
