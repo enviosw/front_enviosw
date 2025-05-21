@@ -4,6 +4,7 @@ import ContactoInfo from '../../features/home/inicio/ContactoInfo';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
+import Toast from '../../utils/Toast';
 
 const Slider2: React.FC = () => {
     const slides = [
@@ -54,8 +55,8 @@ const Slider2: React.FC = () => {
                             </Animate>
 
                             <div className="flex gap-4 mt-4 z-10">
-                                <PrimaryButton text="Hacer Pedido" onClick={() => console.log("Pedido")} />
-                                <SecondaryButton text="Ver Comercios" onClick={() => console.log("Comercios")} />
+                                <PrimaryButton text="Hacer Pedido" onClick={() => handleAction('pedido')} />
+                                <SecondaryButton text="Ver Comercios" onClick={() => handleAction('comercio')} />
                             </div>
                         </div>
                     </div >
@@ -132,6 +133,21 @@ const Slider2: React.FC = () => {
         },
     ];
 
+    const [toast, setToast] = useState<{ message: string, type?: string } | null>(null);
+
+    // Función de scroll + toast
+    const handleAction = (type: 'pedido' | 'comercio') => {
+        window.scrollBy({ top: window.innerHeight * 0.4, behavior: 'smooth' });
+
+        if (type === 'pedido') {
+            setToast({ message: "¡Realizar tu pedido nunca fue tan fácil con Domicilios W!", type: 'success' });
+        } else {
+            setToast({ message: "Selecciona el comercio y elige tus productos favoritos con Domicilios W.", type: 'info' });
+        }
+
+        setTimeout(() => setToast(null), 4000); // Ocultar toast después de 4s
+    };
+
     const [currentSlide, setCurrentSlide] = useState(0);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -193,6 +209,9 @@ const Slider2: React.FC = () => {
             >
                 <FaChevronRight />
             </button>
+
+            {toast && <Toast message={toast.message} type={toast.type as any} />}
+
         </div>
     );
 };
