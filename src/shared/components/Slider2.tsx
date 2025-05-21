@@ -31,8 +31,7 @@ const Slider2: React.FC = () => {
                             >
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold uppercase text-white leading-tight flex flex-col space-y-1">
                                     <span>¡Domicilios</span>
-                                    <span>Rápidos en</span>
-                                    <span>Pitalito!</span>
+                                    <span>Rápidos en <br className='hidden lg:flex' /> Pitalito!</span>
                                 </h1>
                             </Animate>
 
