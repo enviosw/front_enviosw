@@ -92,7 +92,9 @@ const FormularioCliente: React.FC<FormularioClienteProps> = ({ cliente }) => {
 
                 <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">Rol</label>
-                    <select {...register('rol_id')} value={cliente?.rol_id ?? 3} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                    <select {...register('rol_id')} value={cliente?.rol_id ?? 3} 
+                    className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+                    >
                         <option value={cliente?.rol?.id ?? 3}>{cliente?.rol?.name ?? 'Cliente'}</option>
                     </select>
                     {errors.rol_id && <p className="text-red-500">{errors.rol_id.message}</p>}
@@ -101,7 +103,9 @@ const FormularioCliente: React.FC<FormularioClienteProps> = ({ cliente }) => {
                 {cliente?.id && (
                     <div>
                         <label className="block text-sm font-semibold text-gray-800 mb-2">Estado</label>
-                        <select {...register('status')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                        <select {...register('status')} 
+                        className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+                        >
                             <option value="activo">Activo</option>
                             <option value="inactivo">Inactivo</option>
                         </select>

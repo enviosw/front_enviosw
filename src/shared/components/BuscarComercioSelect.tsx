@@ -46,7 +46,7 @@ const BuscarComercioSelect: React.FC<BuscarComercioSelectProps> = ({ onSelect })
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="col-span-1 md:col-span-2 lg:col-span-3 flex flex-col gap-2">
       <div className="flex gap-2">
         <input
           type="text"

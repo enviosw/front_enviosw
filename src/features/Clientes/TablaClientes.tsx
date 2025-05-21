@@ -21,14 +21,14 @@ const TablaClientes: React.FC = () => {
 
     const [filters, setFilters] = useState({
         search: '',
-        estado: '',
+        estado: 'activo',
         fechaInicio: '',
         fechaFin: '',
     });
 
     const [appliedFilters, setAppliedFilters] = useState({
         search: '',
-        estado: '',
+        estado: 'activo',
         fechaInicio: '',
         fechaFin: '',
     });
