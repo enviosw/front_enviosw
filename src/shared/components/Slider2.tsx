@@ -9,7 +9,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[45vh] lg:h-[60vh] bg-[#FFB84D] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[60vh] bg-[#FFB84D] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
                     <div
                         className="absolute inset-0 bg-cover bg-center z-0"
