@@ -13,10 +13,9 @@ const FacebookButton: React.FC<FacebookButtonProps> = ({ pageId }) => {
             href={facebookUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-3 bg-white backdrop-blur-sm rounded-full text-[#1877F2] hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-md"
+            className="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-black transition-colors duration-300 shadow-md"
         >
-            <FaFacebook size={20} className="text-[#1877F2]" />
-            <span className="font-medium text-sm">Facebook</span>
+            <FaFacebook size={24} className="text-black hover:text-white transition-colors duration-300" />
         </a>
     );
 };

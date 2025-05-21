@@ -12,6 +12,7 @@ const Home: React.FC = () => {
 
   const [servicioId, setServicioId] = useState<number | null>(null);
   const [servicioNombre, setServicioNombre] = useState<string | null>(null);
+  const [open, setOpen] = useState(false)
 
   // Set the page title and meta tags
   useEffect(() => {
@@ -44,19 +45,13 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {/* <CarouselLayout /> */}
-
       <Suspense fallback={<div>Cargando...</div>}>
         <Slider2 />
       </Suspense>
 
-      {/* Contenido principal */}
       <Suspense fallback={<div>Cargando...</div>}>
         <section className='w-full'>
-          <div className="w-full lg:w-[85%] mx-auto px-4 lg:px-10">
-            <h2 className="text-center text-service lg:text-left mb-2 lg:mb-5 text-3xl lg:text-4xl text-primary font-normal">
-              Selecciona el <span>Servicio!</span>
-            </h2>
+          <div className="w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
             <IconButtons onSelectServicio={handleSelectServicio} />
           </div>
         </section>
@@ -77,86 +72,101 @@ const Home: React.FC = () => {
         </section>
       </Suspense>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto text-center md:text-left py-10">
-        {/* Sección de Beneficios Principal */}
-        <div className="flex flex-col justify-center items-center md:items-start">
-          <h2 className="text-2xl font-bold text-[#374151] mb-4">¡Tu Solución de Domicilios en Pitalito!</h2>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
-            <span className="font-bold text-[#374151]">Domicilios W</span> se encarga de todo para ti en Pitalito: cobertura local extensa, personal altamente capacitado y un seguimiento en tiempo real para tu tranquilidad.
-          </p>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-            Desde tus antojos de comida hasta esas diligencias importantes... <span className="font-bold text-[#22C55E]">¡lo llevamos hasta tu puerta sin complicaciones!</span> Confía en la eficiencia y seguridad que solo Domicilios W te puede ofrecer en cada rincón de Pitalito.
-          </p>
-        </div>
-
-        {/* Sección de Comida y Conexión Local */}
-        <div className="flex flex-col justify-center items-center md:items-start">
-          <h2 className="text-2xl font-bold text-[#374151] mb-4">Disfruta de la Gastronomía Laboyana en Casa</h2>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6">
-            Sumérgete en los sabores de Pitalito sin moverte de tu hogar. Disfruta de una amplia variedad de opciones, desde la deliciosa <span className="text-[#ef4444] font-semibold">comida tradicional</span> que te reconforta, hasta exquisitas propuestas <span className="text-[#6366f1] font-semibold">gourmet</span> para paladares exigentes.
-          </p>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed">
-            En Domicilios W, conectamos los mejores y más variados restaurantes de Pitalito directamente contigo, atendiendo cada antojo y brindando una <span className="font-bold text-[#F97316]">atención personalizada</span> a cada laboyano que confía en nuestro servicio.
-          </p>
-        </div>
-
-        <button className="bg-[#d97706] hover:bg-[#b45309] text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105">
-          ¡Pedir ahora es fácil!
+      <div className='flex justify-center items-center'>
+        <button className='cursor-pointer bg-black hover:bg-black-50 text-white font-bold py-2 px-4 rounded' onClick={() => { setOpen(!open) }}>
+          <span>
+            {open ? 'Ver Menos' : 'Ver Mas'}
+          </span>
         </button>
-
-      </section>
-      {/* Botón de llamada a la acción (opcional pero recomendado) */}
+      </div>
 
 
+      <div className={`${open ? 'block' : 'hidden'}`}>
+        <section className="max-w-6xl mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Tarjeta 1 */}
+            <div className="bg-white shadow-md rounded-md p-5 text-center">
+              <h3 className="text-lg font-bold text-[#374151] mb-3">Cobertura Local Extensa</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Operamos en todos los rincones de <span className="font-bold text-[#22C55E]">Pitalito</span>, llevando tu pedido rápido y seguro.
+              </p>
+            </div>
 
-      {/* Sección de promoción con imagen y texto */}
-      <section className="w-full relative overflow-hidden px-6 my-10">
-        <div className="flex items-center justify-center h-full gap-6 flex-wrap">
-          <picture>
-            <source srcSet="motoexpress.png" type="image/png" />
-            <img
-              src="motoexpress.png"
-              alt="Moto Express - Domicilios rápidos en Pitalito"
-              width="640"
-              height="480"
-              loading="lazy"
-            />
-          </picture>
+            {/* Tarjeta 2 */}
+            <div className="bg-white shadow-md rounded-md p-5 text-center">
+              <h3 className="text-lg font-bold text-[#374151] mb-3">Personal Capacitado</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Nuestro equipo está entrenado para brindarte una atención confiable y eficiente cada vez.
+              </p>
+            </div>
 
+            {/* Tarjeta 3 */}
+            <div className="bg-white shadow-md rounded-md p-5 text-center">
+              <h3 className="text-lg font-bold text-[#374151] mb-3">Sabores Laboyanos</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Prueba la mejor <span className="text-[#ef4444] font-semibold">comida tradicional</span> y <span className="text-[#6366f1] font-semibold">gourmet</span> desde casa.
+              </p>
+            </div>
 
-          <div className="flex flex-col justify-center items-start text-left">
-            <h2 className="text-gray-800 text-3xl md:text-5xl font-bold mb-4">
-              ¡Tu Aliado en Domicilios Rápidos y Seguros!
-            </h2>
-            <p className="text-gray-600 text-sm md:text-lg mb-6 max-w-md">
-              ¿Tienes hambre? ¿Necesitas hacer compras? ¿Enviar productos o realizar trámites? ¡Nosotros te ayudamos! Haz tu pedido y recíbelo directamente en tu puerta, de forma rápida y segura.
-            </p>
-            <button
-              aria-label="Realiza tu pedido ahora"
-              className="bg-orange-600 text-white font-semibold py-3 px-5 rounded-full hover:bg-orange-700 transition duration-300 shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400"
-            >
-              ¡Haz tu Pedido Ahora!
-            </button>
-
-
+            {/* Tarjeta 4 */}
+            <div className="bg-white shadow-md rounded-md p-5 text-center">
+              <h3 className="text-lg font-bold text-[#374151] mb-3">Atención Personalizada</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Nos enfocamos en brindar <span className="text-[#F97316] font-semibold">una experiencia única</span> para cada cliente.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* </div> */}
+          {/* Botón */}
+          <div className="flex justify-center mt-10">
+            <button className="bg-[#d97706] hover:bg-[#b45309] text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105">
+              ¡Pedir ahora es fácil!
+            </button>
+          </div>
+        </section>
 
-        <Suspense fallback={<div>Cargando...</div>}>
-          <Slider images={images} />
-        </Suspense>
 
-        <Suspense fallback={<div>Cargando...</div>}>
-          <WhatsAppFloatButton />
-        </Suspense>
+        <section className="w-full relative overflow-hidden px-6 my-10">
+          <div className="flex items-center justify-center h-full gap-6 flex-wrap">
+            <picture>
+              <source srcSet="motoexpress.png" type="image/png" />
+              <img
+                src="motoexpress.png"
+                alt="Moto Express - Domicilios rápidos en Pitalito"
+                width="640"
+                height="480"
+                loading="lazy"
+              />
+            </picture>
+            <div className="flex flex-col justify-center items-start text-left">
+              <h2 className="text-gray-800 text-3xl md:text-5xl font-bold mb-4">
+                ¡Tu Aliado en Domicilios Rápidos y Seguros!
+              </h2>
+              <p className="text-gray-600 text-sm md:text-lg mb-6 max-w-md">
+                ¿Tienes hambre? ¿Necesitas hacer compras? ¿Enviar productos o realizar trámites? ¡Nosotros te ayudamos! Haz tu pedido y recíbelo directamente en tu puerta, de forma rápida y segura.
+              </p>
+              <button
+                aria-label="Realiza tu pedido ahora"
+                className="bg-orange-600 text-white font-semibold py-3 px-5 rounded-full hover:bg-orange-700 transition duration-300 shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              >
+                ¡Haz tu Pedido Ahora!
+              </button>
+            </div>
+          </div>
 
-        <Suspense fallback={<div>Cargando...</div>}>
-          <CookieConsent />
-        </Suspense>
-      </section>
 
+          <Suspense fallback={<div>Cargando...</div>}>
+            <Slider images={images} />
+          </Suspense>
+          <Suspense fallback={<div>Cargando...</div>}>
+            <WhatsAppFloatButton />
+          </Suspense>
+          <Suspense fallback={<div>Cargando...</div>}>
+            <CookieConsent />
+          </Suspense>
+        </section>
+
+      </div>
     </>
   );
 };

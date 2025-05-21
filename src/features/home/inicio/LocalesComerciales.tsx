@@ -107,7 +107,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         <div className='w-full'>
             {/* Buscador */}
             <div className="flex justify-start items-center mb-6">
-                <div className="relative w-full max-w-full flex items-center">
+                <div className="relative w-full max-w-full lg:max-w-sm flex items-center">
                     <input
                         type="text"
                         value={searchValue}

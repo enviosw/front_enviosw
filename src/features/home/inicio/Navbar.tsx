@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { FaUser, FaUserCircle } from 'react-icons/fa';
 import { AlertService } from '../../../utils/AlertService';
+import WhatsappButton from '../../../shared/components/buttons/WhatsappButton';
+import FacebookButton from '../../../shared/components/buttons/FacebookButton';
+import InstagramButton from '../../../shared/components/buttons/InstagramButton';
 
 export const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -42,7 +45,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <div
-      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-[#FFB84D]' : 'bg-transparent'
+      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-[#000000]' : 'bg-transparent'
         } top-0 z-50 transition-all duration-300`}
     >
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
@@ -54,9 +57,19 @@ export const Navbar: React.FC = () => {
           >
             <span className='font-black'>W</span>
           </div>
+          <span className='text-white opacity-80 font-bold text-3xl hidden lg:flex'>Domicilios w</span>
+
         </div>
 
-        <div className="bg-white/70 shadow-md rounded-xl p-2 items-end mx-auto flex gap-2">
+
+        <div className='flex gap-2 mx-2 opacity-70'>
+          <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quiero pedir un domicilio." />
+          <InstagramButton username="your_instagram_username" />
+
+          <FacebookButton pageId="your_facebook_page_id" />
+        </div>
+
+        <div className="bg-white/70 shadow-md rounded-xl hidden lg:flex p-2 items-end mx-auto  gap-2">
           Pitalito - Huila
         </div>
 
