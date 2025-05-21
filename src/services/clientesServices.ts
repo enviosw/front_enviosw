@@ -79,6 +79,27 @@ export const useActualizarCliente = () => {
     });
 };
 
+export const useOcultarClientes = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (ids: number[]) => {
+            const { data } = await axiosInstance.patch(`/clientes/hideCustomers`, {'ids': ids});
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["clientes"] });
+            AlertService.success('Eliminado exitosamente', 'El cliente ha sido eliminado.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError: string[] | string = error.response?.data?.message || "Error al eliminar el cliente";
+            console.error(messageError);
+            AlertService.error('Error al eliminar', messageError);
+        },
+    });
+};
+
 // Eliminar cliente
 export const useEliminarCliente = () => {
     const axiosInstance = useAxiosInstance();
