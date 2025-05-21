@@ -42,7 +42,7 @@ const FondoAnimado = () => {
         };
     }, []);
 
-    return <div ref={vantaRef} className="absolute z-10 inset-0 w-full h-full" />;
+    return <div ref={vantaRef} className="absolute z-10 inset-0 w-full h-full hidden lg:flex" />;
 };
 
 export default FondoAnimado;
