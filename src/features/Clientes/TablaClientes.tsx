@@ -13,7 +13,7 @@ import FiltrosDeBusqueda from "../../shared/components/FiltrosDeBusqueda";
 
 const TablaClientes: React.FC = () => {
 
-    const { mutate: ocultarClientes, isPending: isUpdating, isError: isErrorUpdating, error: errorUpdating } = useOcultarClientes();
+    const { mutate: ocultarClientes } = useOcultarClientes();
     
 
     const [page, setPage] = useState(1);

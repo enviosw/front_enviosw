@@ -23,7 +23,7 @@ const ComprasForm: React.FC<ComprasFormProps> = ({ tipoString }) => {
 
     const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
 
-    const listaComprasRef = useRef<HTMLInputElement | null>(null);
+    const listaComprasRef = useRef<HTMLTextAreaElement | null>(null);
     const direccionEntregaRef = useRef<HTMLInputElement | null>(null);
     const telefonoEntregaRef = useRef<HTMLInputElement | null>(null);
 
@@ -86,24 +86,30 @@ const ComprasForm: React.FC<ComprasFormProps> = ({ tipoString }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
 
                     {/* Lista de Compras */}
-                    <div className="flex justify-between items-center gap-2 w-full">
-                        <InputField
-                        type='text'
-                            label="Lista de Compras"
-                            name="listaCompras"
-                            value={formData.listaCompras}
-                            onChange={handleChange}
-                            placeholder="¿Qué necesitas comprar?"
-                            ref={listaComprasRef}
-                        />
+                    {/* Lista de Compras como <textarea> */}
+                    <div className="flex justify-between items-start gap-2 w-full">
+                        <div className="flex flex-col w-full">
+                            <label htmlFor="listaCompras" className="font-semibold mb-1">Lista de Compras</label>
+                            <textarea
+                                name="listaCompras"
+                                id="listaCompras"
+                                ref={listaComprasRef as React.RefObject<HTMLTextAreaElement>}
+                                value={formData.listaCompras}
+                                onChange={handleChange}
+                                placeholder="¿Qué necesitas comprar?"
+                                rows={4}
+                                className="textarea textarea-bordered w-full"
+                            />
+                        </div>
                         <button
                             type="button"
-                            className={`btn btn-lg btn-circle text-2xl text-white ${buttonColor(completed.listaCompras)}`}
+                            className={`btn btn-lg btn-circle text-2xl text-white self-end ${buttonColor(completed.listaCompras)}`}
                             onClick={() => completed.listaCompras ? handleEdit('listaCompras') : handleConfirm('listaCompras')}
                         >
                             {completed.listaCompras ? <FaEdit /> : <FaCheckCircle />}
                         </button>
                     </div>
+
 
                     {/* Dirección de Entrega */}
                     {(currentStep >= 2) && (
