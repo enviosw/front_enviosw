@@ -5,22 +5,25 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
 import Toast from '../../utils/Toast';
+import FondoAnimado from './FondoAnimado';
 
 const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[60vh] bg-[#FFB84D] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[60vh] bg-[#000000] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
-                    <div
-                        className="absolute inset-0 bg-cover bg-center z-0"
+
+                    <FondoAnimado />
+                    {/* <div
+                        className="absolute inset- bg-cover bg-center z-10 opacity-10"
                         style={{ backgroundImage: 'url(ciudad.jpg)' }}
-                    ></div>
+                    ></div> */}
 
                     {/* Capa oscura */}
-                    <div className="absolute inset-0 bg-black opacity-80 z-0"></div>
+                    {/* <div className="absolute inset-0 bg-black opacity-80 z-0"></div> */}
 
-                    <div className="flex w-[100%] lg:w-[85%] mx-auto" >
+                    <div className="flex w-[100%] lg:w-[85%] mx-auto z-30" >
                         {/* Contenido principal */}
                         <div className="flex-1 flex flex-col justify-center space-y-4 text-left">
                             <Animate
@@ -43,7 +46,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <p className="text-lg sm:text-lg md:text-xl text-white font-light leading-relaxed opacity-85">
+                                <p className="text-lg sm:text-lg md:text-xl text-white font-light leading-relaxed">
                                     ¿Necesitas un{" "}
                                     <span className="text-primary font-semibold">
                                         domicilio rápido y seguro
@@ -62,13 +65,13 @@ const Slider2: React.FC = () => {
                     </div >
                     <img
                         loading="lazy"
-                        className="top-5 absolute w-[40%] hidden lg:flex right-32"
+                        className="top-5 absolute w-[40%] hidden lg:flex right-32 z-30"
                         src="persona.png"
                         alt="Servicio de Domicilios en Pitalito"
                     />
 
                     {/* Información de contacto */}
-                    <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-20">
+                    <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-30">
                         <ContactoInfo />
                     </div>
                 </div >
