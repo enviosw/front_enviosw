@@ -108,6 +108,8 @@ const TablaUsuarios: React.FC = () => {
         openModal();
     };
 
+    const multiOption = true;
+
     return (
         <div className="overflow-x-auto space-y-4">
 
@@ -192,6 +194,7 @@ const TablaUsuarios: React.FC = () => {
                         renderRow={renderRow}
                         allSelected={allSelected}
                         toggleSelectAll={toggleSelectAll}
+                        multiOption={multiOption}
                     />
 
                     <div className="join mt-4">

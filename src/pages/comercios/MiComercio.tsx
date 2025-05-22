@@ -27,7 +27,7 @@ const MiComercio: React.FC = () => {
 
                 </div>
 
-                <input type="radio" name="my_tabs_2" className="tab" aria-label="Tab 3" />
+                <input type="radio" name="my_tabs_2" className="tab" aria-label="Horarios" />
                 <div className="tab-content border-base-300 bg-base-100 p-10">
 
 

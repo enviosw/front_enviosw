@@ -50,12 +50,6 @@ const TablaCategorias: React.FC = () => {
     }
   };
 
-  const toggleSelect = (id: number) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
-  };
-
   const handleEliminarCategoria = async (categoriaId: number) => {
     // Confirmar antes de eliminar
     const confirmed = await AlertService.confirm('¿Estás seguro de eliminar esta categoría?', 'Esta acción no puede deshacerse.');
@@ -72,41 +66,42 @@ const TablaCategorias: React.FC = () => {
 
   const renderRow = (categoria: CategoriaType) => (
     <tr key={categoria.id} className="hover:bg-gray-100 bg-white">
-      <td className="px-2 w-10">
-        <input
-          type="checkbox"
-          className="checkbox"
-          checked={selectedIds.includes(Number(categoria.id))}
-          onChange={() => toggleSelect(Number(categoria.id))}
-        />
-      </td>
-      <TableCell>{categoria.nombre}</TableCell>
+      
+      <TableCell><p className="text-center">{categoria.id}</p></TableCell>
+      <TableCell><p className="text-center">{categoria.nombre}</p></TableCell>
       <TableCell>
+      <div className="text-center">
         <button
           onClick={() => openModalCategoria(categoria)}
-          className="text-blue-600 hover:text-blue-800"
+          className="text-blue-600 hover:text-blue-800 cursor-pointer"
           title="Editar"
         >
           <FaPen />
         </button>
+        </div>
       </TableCell>
       <TableCell>
+      <div className="text-center">
         <button
           onClick={() => handleEliminarCategoria(Number(categoria.id))} // Usar el nuevo método de eliminación
-          className="text-red-600 hover:text-red-800"
+          className="text-red-600 hover:text-red-800 cursor-pointer"
           title="Eliminar"
         >
           <FaTrashAlt />
         </button>
+        </div>
       </TableCell>
     </tr>
   );
 
   const headers = [
-    'Nombre',
+    'No.',
+    'Categoría',
     'Editar',
     'Eliminar',
   ];
+
+  const multiOption = false;
 
   return (
     <div className="overflow-x-auto space-y-4">
@@ -159,6 +154,7 @@ const TablaCategorias: React.FC = () => {
           renderRow={renderRow}
           allSelected={allSelected}
           toggleSelectAll={toggleSelectAll}
+          multiOption={multiOption}
         />
       )}
 

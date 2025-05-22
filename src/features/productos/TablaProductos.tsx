@@ -35,12 +35,6 @@ const TablaProductos: React.FC = () => {
     setModalContent(<FormularioProductos key={key} producto={producto} />);
     openModal();
   };
-
-  const toggleSelect = (id: number) => {
-    setSelectedIds(prev =>
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    );
-  };
   
   const allSelected = !!productos?.data && productos.data.length > 0 && selectedIds.length === productos.data.length;
   
@@ -54,14 +48,7 @@ const TablaProductos: React.FC = () => {
 
   const renderRow = (producto: any) => (
     <tr key={producto.id} className="hover:bg-gray-100 bg-white">
-       <td className="px-2 w-10">
-                <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={selectedIds.includes(producto.id)}
-                    onChange={() => toggleSelect(producto.id)}
-                />
-            </td>
+       
       <TableCell>{producto.id}</TableCell>
       <TableCell>
         <button onClick={() => openCustomModal(producto)}><FaPen /></button>
@@ -76,6 +63,8 @@ const TablaProductos: React.FC = () => {
       <TableCell>{producto.comercio?.nombre_comercial}</TableCell>
     </tr>
   );
+
+  const multiOption = false;
 
   return (
     <div className="overflow-x-auto space-y-4">
@@ -117,13 +106,14 @@ const TablaProductos: React.FC = () => {
         <p className="text-red-600">Error: {(error as Error).message}</p>
       ) : (
         <>
-         <DataTable
-  headers={headers}
-  data={productos?.data ?? []}
-  renderRow={renderRow}
-  allSelected={allSelected}
-  toggleSelectAll={toggleSelectAll}
-/>
+          <DataTable
+            headers={headers}
+            data={productos?.data ?? []}
+            renderRow={renderRow}
+            allSelected={allSelected}
+            toggleSelectAll={toggleSelectAll}
+            multiOption={multiOption}
+          />
           <div className="join mt-4">
             <button onClick={() => setPage(page - 1)} disabled={page <= 1} className="btn join-item">Anterior</button>
             <button className="btn join-item btn-disabled">{page} / {productos?.lastPage}</button>
