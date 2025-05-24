@@ -11,12 +11,12 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#000000] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#121212] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
                     <div
-                        className="absolute inset-0 bg-cover bg-center z-10 opacity-20 lg:opacity-10"
+                        className="absolute inset-0 bg-cover bg-center flex lg:hidden  z-10 opacity-20 lg:opacity-10"
                         style={{ backgroundImage: 'url(ciudad.jpg)' }}
                     ></div>
 
@@ -80,58 +80,121 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[40vh] bg-emerald-500 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
-                    <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
-                        <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3 relative z-10">
-                            <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <h2 className="text-2xl text-style sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white text-left leading-tight mb-2">
-                                    <span className="text-white">Antojos y Más,</span> <span className="text-[#fff] rounded-4xl bg-gray-100/20"> <br />¡Directo a Tu Puerta en Pitalito!</span>
+                <div className="relative w-full h-[50vh] lg:h-[55vh]  bg-emerald-600 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+
+                    {/* Fondo oscuro semitransparente */}
+                    <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
+
+                    {/* Contenedor principal */}
+                    <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
+
+                        {/* Contenido textual */}
+                        <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3">
+                            <Animate
+                                play
+                                duration={1.5}
+                                delay={0.3}
+                                start={{ opacity: 0, transform: 'translateY(20px)' }}
+                                end={{ opacity: 1, transform: 'translateY(0px)' }}
+                            >
+                                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
+                                    <span>Antojos y Más,</span>
+                                    <br />
+                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
+                                        ¡Directo a Tu Puerta en Pitalito!
+                                    </span>
                                 </h2>
                             </Animate>
-                            <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <ul className="list-disc pl-5 text-base text-style sm:text-lg md:text-xl font-medium text-white leading-relaxed">
-                                    <li><span className="text-[#E0F2F1] font-bold">¿Hambre?</span> Pide de tus <span className="text-white">Restaurantes Favoritos</span>.</li>
-                                    <li><span className="text-[#E0F2F1] font-bold">¡Celebra!</span> Licores y bebidas a domicilio, <span className="text-white">sin salir de casa</span>.</li>
-                                    <li><span className="text-[#E0F2F1] font-bold">Un Detalle Especial:</span> Sorprende con regalos entregados <span className="text-white">rápidamente</span>.</li>
+
+                            <Animate
+                                play
+                                duration={1.5}
+                                delay={0.6}
+                                start={{ opacity: 0, transform: 'translateY(20px)' }}
+                                end={{ opacity: 1, transform: 'translateY(0px)' }}
+                            >
+                                <ul className="list-disc pl-5 text-base sm:text-lg md:text-xl font-medium text-white leading-relaxed space-y-1">
+                                    <li>
+                                        <span className="text-[#E0F2F1] font-bold">¿Hambre?</span> Pide de tus <span className="font-semibold">Restaurantes Favoritos</span>.
+                                    </li>
+                                    <li>
+                                        <span className="text-[#E0F2F1] font-bold">¡Celebra!</span> Licores y bebidas a domicilio, <span className="font-semibold">sin salir de casa</span>.
+                                    </li>
+                                    <li>
+                                        <span className="text-[#E0F2F1] font-bold">Un Detalle Especial:</span> Sorprende con regalos entregados <span className="font-semibold">rápidamente</span>.
+                                    </li>
                                 </ul>
                             </Animate>
                         </div>
+
+                        {/* Imagen decorativa */}
                         <img
                             loading="lazy"
-                            className="w-[50%] lg:w-[30%] lg:-top-15 absolute -right-10 -bottom-10 lg:right-10"
-                            src="moto3.png"
-                            alt="Domicilios de Restaurantes, Licores, Detalles y Droguerías en Pitalito"
+                            src="moto3.webp"
+                            alt="Domicilios en Pitalito"
+                            className="absolute hidden lg:block w-[32%] max-w-[380px] -bottom-10 -right-6 z-10"
                         />
                     </div>
                 </div>
             ),
+
         },
         {
             content: (
-                <div className="relative w-full h-[32vh] lg:h-[40vh] bg-[#2563EB] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
-                    <div className="flex w-[100%] lg:w-[85%] mx-auto relative">
-                        <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3 relative z-10">
-                            <Animate play duration={1.5} delay={0.3} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <h3 className="text-2xl text-style sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white text-left leading-tight mb-2">
-                                    <span className="text-white">Tu Aliado en Pitalito</span> <span className="text-primary"> <br />Para Más Que Entregas</span>
+                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#2563EB] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+
+                    {/* Fondo oscuro semitransparente */}
+                    <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
+
+                    <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
+
+                        {/* Contenido textual */}
+                        <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3">
+                            <Animate
+                                play
+                                duration={1.5}
+                                delay={0.3}
+                                start={{ opacity: 0, transform: 'translateY(20px)' }}
+                                end={{ opacity: 1, transform: 'translateY(0px)' }}
+                            >
+                                <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
+                                    <span>Tu Aliado en Pitalito</span>
+                                    <br />
+                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">Para Más Que Entregas</span>
                                 </h3>
                             </Animate>
-                            <Animate play duration={1.5} delay={0.6} start={{ opacity: 0, transform: 'translateY(20px)' }} end={{ opacity: 1, transform: 'translateY(0px)' }}>
-                                <ul className="list-disc pl-5 text-base text-style sm:text-lg md:text-xl font-medium text-white leading-relaxed">
-                                    <li><span className="text-slate-200 font-bold">¿Sin Tiempo?</span> Nosotros hacemos tus <span className="text-white">Compras en Almacenes</span>.</li>
-                                    <li><span className="text-slate-200 font-bold">¡Fácil y Rápido!</span> <span className="text-white">Recogemos</span> lo que necesites donde estés.</li>
-                                    <li><span className="text-slate-200 font-bold">Evita Filas:</span> Realizamos tus <span className="text-white">Pagos</span> por ti.</li>
+
+                            <Animate
+                                play
+                                duration={1.5}
+                                delay={0.6}
+                                start={{ opacity: 0, transform: 'translateY(20px)' }}
+                                end={{ opacity: 1, transform: 'translateY(0px)' }}
+                            >
+                                <ul className="list-disc pl-5 text-base sm:text-lg md:text-xl font-medium text-white leading-relaxed space-y-1">
+                                    <li>
+                                        <span className="text-slate-200 font-bold">¿Sin Tiempo?</span> Nosotros hacemos tus <span className="font-semibold">Compras en Almacenes</span>.
+                                    </li>
+                                    <li>
+                                        <span className="text-slate-200 font-bold">¡Fácil y Rápido!</span> <span className="font-semibold">Recogemos</span> lo que necesites donde estés.
+                                    </li>
+                                    <li>
+                                        <span className="text-slate-200 font-bold">Evita Filas:</span> Realizamos tus <span className="font-semibold">Pagos</span> por ti.
+                                    </li>
                                 </ul>
                             </Animate>
                         </div>
+
+                        {/* Imagen decorativa optimizada */}
                         <img
                             loading="lazy"
-                            className="w-[50%] lg:w-[25%] lg:-top-15 absolute -right-10 -bottom-10 lg:right-10"
-                            src="moto4.png"
+                            src="moto4.webp"
                             alt="Servicios de Compras, Recogidas, Pagos y Envíos en Pitalito"
+                            className="absolute hidden lg:block w-[28%] max-w-[360px] -bottom-10 -right-6 z-10"
                         />
                     </div>
                 </div>
+
             ),
         },
     ];
@@ -148,7 +211,7 @@ const Slider2: React.FC = () => {
             setToast({ message: "Selecciona el comercio y elige tus productos favoritos con Domicilios W.", type: 'info' });
         }
 
-        setTimeout(() => setToast(null), 4000); // Ocultar toast después de 4s
+        setTimeout(() => setToast(null), 7000); // Ocultar toast después de 4s
     };
 
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -200,14 +263,14 @@ const Slider2: React.FC = () => {
 
             <button
                 onClick={goToPreviousSlide}
-                className="hidden lg:flex absolute left-1.5 lg:left-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
+                className="hidden lg:flex absolute left-1.5 lg:left-10 top-1/2 transform -translate-y-1/2 p-2 bg-black/90 text-[#FFB84D] rounded-full z-20"
                 aria-label="Ir a la diapositiva anterior"
             >
                 <FaChevronLeft />
             </button>
             <button
                 onClick={goToNextSlide}
-                className="hidden lg:flex absolute right-1.5 lg:right-10 top-1/2 transform -translate-y-1/2 p-2 bg-white/90 text-[#FFB84D] rounded-full z-20"
+                className="hidden lg:flex absolute right-1.5 lg:right-10 top-1/2 transform -translate-y-1/2 p-2 bg-black/90 text-[#FFB84D] rounded-full z-20"
                 aria-label="Ir a la siguiente diapositiva"
             >
                 <FaChevronRight />

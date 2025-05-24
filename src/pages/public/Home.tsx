@@ -1,4 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
+import Loading from '../../utils/Loading';
+import ToggleButton from '../../shared/components/buttons/ToggleButton';
 const IconButtons = lazy(() => import('../../features/home/inicio/IconButtons'));
 const LocalesComerciales = lazy(() => import('../../features/home/inicio/LocalesComerciales'));
 const TipoServicio = lazy(() => import('../../features/home/inicio/TipoServicio'));
@@ -45,18 +47,19 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Suspense fallback={<div>Cargando...</div>}>
+      <Suspense fallback={<Loading />}>
         <Slider2 />
       </Suspense>
 
-      <Suspense fallback={<div>Cargando...</div>}>
+      <Suspense fallback={<Loading />}>
         <section className='w-full'>
           <div className="w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
             <IconButtons onSelectServicio={handleSelectServicio} />
           </div>
         </section>
       </Suspense>
-      <Suspense fallback={<div>Cargando...</div>}>
+      <Suspense fallback={
+        <Loading />}>
         <section className="h-auto flex justify-start items-center relative mt-2 lg:mt-5">
           <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
             {servicioId !== null ? (
@@ -72,13 +75,13 @@ const Home: React.FC = () => {
         </section>
       </Suspense>
 
-      <div className='flex justify-center items-center'>
-        <button className='cursor-pointer bg-black hover:bg-black-50 text-white font-bold py-2 px-4 rounded' onClick={() => { setOpen(!open) }}>
-          <span>
-            {open ? 'Ver Menos' : 'Ver Mas'}
-          </span>
-        </button>
-      </div>
+
+      <Suspense fallback={<Loading />}>
+        <Slider images={images} />
+      </Suspense>
+
+    <ToggleButton open={open} setOpen={setOpen} />
+
 
 
       <div className={`${open ? 'block' : 'hidden'}`}>
@@ -126,6 +129,7 @@ const Home: React.FC = () => {
         </section>
 
 
+
         <section className="w-full relative overflow-hidden px-6 my-10">
           <div className="flex items-center justify-center h-full gap-6 flex-wrap">
             <picture>
@@ -155,13 +159,11 @@ const Home: React.FC = () => {
           </div>
 
 
-          <Suspense fallback={<div>Cargando...</div>}>
-            <Slider images={images} />
-          </Suspense>
-          <Suspense fallback={<div>Cargando...</div>}>
+
+          <Suspense fallback={<Loading />}>
             <WhatsAppFloatButton />
           </Suspense>
-          <Suspense fallback={<div>Cargando...</div>}>
+          <Suspense fallback={<Loading />}>
             <CookieConsent />
           </Suspense>
         </section>

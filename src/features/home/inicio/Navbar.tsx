@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
         <div className="flex-1 flex gap-2 items-center">
 
           <div
-            className={`rounded-2xl flex justify-center items-center bg-white/70  px-2 z-50 w-10 h-10 ${isScrolled ? 'text-primary' : 'text-primary'
+            className={`rounded-2xl flex justify-center items-center bg-white/70  px-2 z-50 w-10 h-10 ${isScrolled ? 'text-black' : 'text-black'
               }`}
           >
             <span className='font-black'>W</span>
