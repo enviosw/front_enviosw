@@ -34,8 +34,9 @@ const Slider2: React.FC = () => {
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold uppercase text-white leading-tight flex flex-col space-y-1">
-                                    <span>¡Domicilios</span>
-                                    <span className='flex flex-nowrap'>Rápidos en Pitalito!</span>
+                                    <span className="flex whitespace-nowrap">Rápidos en Pitalito!</span>
+                                    <span className="whitespace-nowrap">Rápidos en Pitalito!</span>
+
                                 </h1>
                             </Animate>
 
