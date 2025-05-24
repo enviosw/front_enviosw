@@ -137,7 +137,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             </div>
 
             {/* Lista de locales */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-1 lg:gap-6">
                 {locales?.map((comercio: Comercio) => {
                     const estado = getEstadoComercio(comercio.horarios);
                     return (
