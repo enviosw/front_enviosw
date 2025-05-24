@@ -11,14 +11,14 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#121212] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#FFB380]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
-                    <div
+                    {/* <div
                         className="absolute inset-0 bg-cover bg-center flex lg:hidden  z-10 opacity-20 lg:opacity-10"
                         style={{ backgroundImage: 'url(ciudad.jpg)' }}
-                    ></div>
+                    ></div> */}
 
                     {/* Capa oscura */}
                     {/* <div className="absolute inset-0 bg-black opacity-80 z-0"></div> */}
