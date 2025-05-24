@@ -137,7 +137,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             </div>
 
             {/* Lista de locales */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2 lg:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2.5 lg:gap-6">
                 {locales?.map((comercio: Comercio) => {
                     const estado = getEstadoComercio(comercio.horarios);
                     return (
@@ -150,7 +150,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                 <img
                                     src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : "logo_w_fondo_negro.jpeg"}
                                     alt={comercio.nombre_comercial}
-                                    className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform min-w-72 truncate"
+                                    className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform truncate"
                                 />
                                 <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
                                     <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}
