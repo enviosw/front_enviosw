@@ -11,14 +11,14 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[60vh] bg-[#000000] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#000000] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
-                    {/* <div
-                        className="absolute inset- bg-cover bg-center z-10 opacity-10"
+                    <div
+                        className="absolute inset-0 bg-cover bg-center z-10 opacity-20 lg:opacity-10"
                         style={{ backgroundImage: 'url(ciudad.jpg)' }}
-                    ></div> */}
+                    ></div>
 
                     {/* Capa oscura */}
                     {/* <div className="absolute inset-0 bg-black opacity-80 z-0"></div> */}
@@ -65,8 +65,8 @@ const Slider2: React.FC = () => {
                     </div >
                     <img
                         loading="lazy"
-                        className="top-5 absolute w-[40%] hidden lg:flex right-32 z-30"
-                        src="persona.png"
+                        className="top-5 absolute w-[38%] hidden lg:flex right-32 z-30"
+                        src="persona3.png"
                         alt="Servicio de Domicilios en Pitalito"
                     />
 
