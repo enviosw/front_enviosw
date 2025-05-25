@@ -74,9 +74,9 @@ const Slider2: React.FC = () => {
                         src="persona3.png"
                         alt="Servicio de Domicilios en Pitalito"
                     />
-                    <div className='absolute right-4 bottom-4 flex bg-white p-2 lg:hidden overflow-hidden'>
+                    <div className='absolute right-4 bottom-4 flex bg-white p-2 lg:hidden rounded-full overflow-hidden'>
                         <img
-                            className="mask mask-circle w-20 h-20"
+                            className="mask mask-circle w-20 h-20 p-2"
                             src="motoexpress.png" />
                     </div>
 
