@@ -11,7 +11,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-primary/50 pt-5  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 overflow-hidden">
+                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-primary/50 pt-5  lg:pt-12 flex items-center lg:items-center justify-between px-6 md:px-16 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
@@ -74,9 +74,9 @@ const Slider2: React.FC = () => {
                         src="persona3.png"
                         alt="Servicio de Domicilios en Pitalito"
                     />
-                    <div className='absolute right-2 bottom-4 flex lg:hidden'>
+                    <div className='absolute right-4 bottom-4 flex bg-white p-2 lg:hidden'>
                         <img
-                            className="mask mask-circle w-10 h-10"
+                            className="mask mask-circle w-20 h-20"
                             src="persona3.png" />
                     </div>
 
