@@ -11,7 +11,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[35vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-primary/30  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/60 to-primary/30 pt-6  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
@@ -81,7 +81,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh]  bg-emerald-600 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[40vh] lg:h-[55vh]  bg-emerald-600 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
 
                     {/* Fondo oscuro semitransparente */}
                     <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
@@ -142,7 +142,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#2563EB] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-[#2563EB] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
 
                     {/* Fondo oscuro semitransparente */}
                     <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
@@ -243,7 +243,7 @@ const Slider2: React.FC = () => {
     };
 
     return (
-        <div className="w-full  relative mb-3 lg:mb-8]">
+        <div className="w-full  relative mb-3 lg:mb-8">
 
             {/* Contenedor deslizante */}
             <div
