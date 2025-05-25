@@ -33,7 +33,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold uppercase text-white leading-tight flex flex-col space-y-1">
+                                <h1 className="text-2xl md:text-5xl lg:text-6xl font-sans font-bold uppercase text-white leading-tight flex flex-col space-y-1">
                                     <span>¡Domicilios</span>
                                     <span className="whitespace-nowrap">Rápidos en Pitalito!</span>
 
@@ -49,16 +49,16 @@ const Slider2: React.FC = () => {
                             >
                                 <p className="text-xl text-white font-light leading-relaxed">
                                     ¿Necesitas un{" "}
-                                    <span className="text-primary font-bold">
+                                    <span className="text-[#ffffff] font-bold">
                                         domicilio rápido y seguro
                                     </span>{" "}
                                     en Pitalito? Con{" "}
-                                    <span className="text-primary font-bold">Domicilios W</span>,<br />
-                                    enviamos tus compras, comida y más a tu puerta.
+                                    <span className="text-[#ffffff] font-bold">Domicilios W</span>,<br />
+                                    enviamos tus compras, <br className='flex lg:hidden' /> comida y más a tu puerta.
                                 </p>
                             </Animate>
 
-                            <div className="flex gap-4 mt-4 z-10 hidden lg:flex">
+                            <div className="flex gap-4 mt-2 z-10 hidden lg:flex">
                                 <PrimaryButton text="Hacer Pedido" onClick={() => handleAction('pedido')} />
                                 <SecondaryButton text="Ver Comercios" onClick={() => handleAction('comercio')} />
                             </div>
