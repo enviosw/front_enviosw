@@ -131,7 +131,7 @@ const MenuList: React.FC = () => {
                     />
 
                     {/* Categorías */}
-                  <div className='bg-white rounded-t-3xl -translate-y-14 w-full'>
+                  <div className='bg-white rounded-t-4xl -translate-y-14 w-full'>
                   <section className="w-full container pt-10 lg:pt-0 lg:mt-14 mx-auto flex justify-center items-center px-4">
                         <CategoryCarousel
                             comercioId={Number(id)}
