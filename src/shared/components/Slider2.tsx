@@ -11,7 +11,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#FFB380]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-gradient-to-t from-primary via-primary to-transparent  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
@@ -222,7 +222,7 @@ const Slider2: React.FC = () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length);
-        }, 7000);
+        }, 700000);
     };
 
     useEffect(() => {
