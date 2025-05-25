@@ -11,7 +11,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-transparent  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-transparent  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
@@ -58,7 +58,7 @@ const Slider2: React.FC = () => {
                                 </p>
                             </Animate>
 
-                            <div className="flex gap-4 mt-4 z-10">
+                            <div className="flex gap-4 mt-4 z-10 hidden lg:flex">
                                 <PrimaryButton text="Hacer Pedido" onClick={() => handleAction('pedido')} />
                                 <SecondaryButton text="Ver Comercios" onClick={() => handleAction('comercio')} />
                             </div>
