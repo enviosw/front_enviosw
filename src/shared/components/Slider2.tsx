@@ -11,7 +11,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-primary/50 pt-8  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 overflow-hidden">
+                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-primary/50 pt-5  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
@@ -49,14 +49,18 @@ const Slider2: React.FC = () => {
                             >
                                 <p className="text-xl text-white font-light leading-relaxed">
                                     ¿Necesitas un{" "}
-                                    <span className="text-[#ffffff] font-bold">
+                                    <span className="text-primary font-bold">
                                         domicilio rápido y seguro
                                     </span>{" "}
                                     en Pitalito? Con{" "}
-                                    <span className="text-[#ffffff] font-bold">Domicilios W</span>,<br />
+                                    <span className="text-primary font-bold">Domicilios W</span>,<br />
                                     enviamos tus compras, <br className='flex lg:hidden' /> comida y más a tu puerta.
                                 </p>
                             </Animate>
+
+
+
+
 
                             <div className="flex gap-4 mt-2 z-10 hidden lg:flex">
                                 <PrimaryButton text="Hacer Pedido" onClick={() => handleAction('pedido')} />
@@ -70,6 +74,12 @@ const Slider2: React.FC = () => {
                         src="persona3.png"
                         alt="Servicio de Domicilios en Pitalito"
                     />
+                    <div className='absolute right-2 bottom-4 flex lg:hidden'>
+                        <img
+                            className="mask mask-circle w-10 h-10"
+                            src="persona3.png" />
+                    </div>
+
 
                     {/* Información de contacto */}
                     <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-30">
