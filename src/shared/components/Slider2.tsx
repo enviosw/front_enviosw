@@ -47,7 +47,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <p className="text-xl text-white font-light leading-relaxed">
+                                <p className="text-xl text-white font-bold leading-relaxed">
                                     ¿Necesitas un{" "}
                                     <span className="text-primary font-bold">
                                         domicilio rápido y seguro
