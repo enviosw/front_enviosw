@@ -49,11 +49,11 @@ const Slider2: React.FC = () => {
                             >
                                 <p className="text-xl text-white font-light leading-relaxed">
                                     ¿Necesitas un{" "}
-                                    <span className="text-primary font-semibold">
+                                    <span className="text-black font-bold">
                                         domicilio rápido y seguro
                                     </span>{" "}
                                     en Pitalito? Con{" "}
-                                    <span className="text-primary font-semibold">Domicilios W</span>,<br />
+                                    <span className="text-black font-bold">Domicilios W</span>,<br />
                                     enviamos tus compras, comida y más a tu puerta.
                                 </p>
                             </Animate>
