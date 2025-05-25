@@ -11,7 +11,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-transparent  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[35vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/70 to-primary/30  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <FondoAnimado />
