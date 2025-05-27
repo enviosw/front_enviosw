@@ -21,14 +21,14 @@ const TablaClientes: React.FC = () => {
 
     const [filters, setFilters] = useState({
         search: '',
-        estado: '',
+        estado: 'activo',
         fechaInicio: '',
         fechaFin: '',
     });
 
     const [appliedFilters, setAppliedFilters] = useState({
         search: '',
-        estado: '',
+        estado: 'activo',
         fechaInicio: '',
         fechaFin: '',
     });
@@ -117,6 +117,8 @@ const TablaClientes: React.FC = () => {
         setModalContent(<FormularioCliente key={key} cliente={cliente} />);
         openModal();
     };
+
+    const multiOption = true;
 
     return (
         <div className="overflow-x-auto space-y-4">
@@ -207,6 +209,7 @@ const TablaClientes: React.FC = () => {
                         renderRow={renderRow}
                         allSelected={allSelected}
                         toggleSelectAll={toggleSelectAll}
+                        multiOption={multiOption}
                     />
 
                     <div className="join mt-4">

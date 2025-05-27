@@ -6,6 +6,7 @@ interface DataTableProps<T> {
     renderRow: (item: T, isSelected: boolean, toggleSelect: () => void) => React.ReactNode;
     allSelected?: boolean;
     toggleSelectAll?: () => void;
+    multiOption: boolean;
 }
 
 const DataTable = <T,>({
@@ -13,24 +14,30 @@ const DataTable = <T,>({
     data,
     renderRow,
     allSelected,
-    toggleSelectAll
+    toggleSelectAll,
+    multiOption
 }: DataTableProps<T>) => {
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full bg-[#F8F8F8] rounded-t-md overflow-hidden">
                 <thead>
                     <tr className='bg-gray-800 text-white border-b'>
-                        <th className="px-2 py-0 h-10">
-                            <div className="flex items-center gap-3">
-                                <input 
-                                    type="checkbox" 
-                                    className="checkbox bg-white focus:bg-white focus:outline-none focus:ring-0" 
-                                    checked={allSelected} 
-                                    onChange={toggleSelectAll} 
-                                />
-                                <span className='text-sm'>ACCIONES</span>
-                            </div>
-                        </th>
+                        {
+                            multiOption ?
+                            <th className="px-2 py-0 h-10">
+                                <div className="flex items-center gap-3">
+                                    <input 
+                                        type="checkbox" 
+                                        className="checkbox bg-white focus:bg-white focus:outline-none focus:ring-0" 
+                                        checked={allSelected} 
+                                        onChange={toggleSelectAll} 
+                                    />
+                                    <span className='text-sm'>ACCIONES</span>
+                                </div>
+                            </th>
+                            : ''
+                        }
+                        
                         {headers.map((header, index) => (
                             <th
                                 key={index}

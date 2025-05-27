@@ -80,38 +80,38 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div>
-          <label>Nombre</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Nombre</label>
           <input {...register('nombre')} className="input input-bordered w-full" />
           {errors.nombre && <p className="text-red-500">{errors.nombre.message}</p>}
         </div>
 
         <div>
-          <label>Descripción</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Descripción</label>
           <input {...register('descripcion')} className="input input-bordered w-full" />
           {errors.descripcion && <p className="text-red-500">{errors.descripcion.message}</p>}
         </div>
 
         <div>
-          <label>Precio</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Precio</label>
           <input type="number" step="0.01" {...register('precio')} className="input input-bordered w-full" />
           {errors.precio && <p className="text-red-500">{errors.precio.message}</p>}
         </div>
 
         <div>
-          <label>Precio Descuento (opcional)</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Precio Descuento (opcional)</label>
           <input type="number" step="0.01" {...register('precio_descuento')} className="input input-bordered w-full" />
         </div>
 
         <div>
-          <label>Unidad</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Unidad</label>
           <input {...register('unidad')} className="input input-bordered w-full" />
           {errors.unidad && <p className="text-red-500">{errors.unidad.message}</p>}
         </div>
 
         <div>
-          <label>Categoría</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Categoría</label>
           <select {...register('categoriaId')} className="select select-bordered w-full">
             <option value="">Seleccionar...</option>
             {categorias.map((cat) => (
@@ -124,7 +124,7 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
         {producto?.id && (
           <>
             <div>
-              <label>Estado</label>
+              <label className="block text-sm font-semibold text-gray-800 mb-2">Estado</label>
               <select {...register('estado')} className="select select-bordered w-full">
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
@@ -132,7 +132,7 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
             </div>
 
             <div>
-              <label>Estado Descuento</label>
+              <label className="block text-sm font-semibold text-gray-800 mb-2">Estado Descuento</label>
               <select {...register('estado_descuento')} className="select select-bordered w-full">
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
@@ -142,7 +142,7 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
         )}
 
         <div>
-          <label>Imagen</label>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Imagen</label>
           <input
             name="imagen" // 👈 esto es CRUCIAL para que Multer lo capture
             type="file"
@@ -153,9 +153,11 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
         </div>
       </div>
 
-      <button type="submit" className="btn btn-success">
-        {producto?.id ? 'Actualizar Producto' : 'Registrar Producto'}
-      </button>
+      <div className="flex justify-center mt-8">
+        <button type="submit" className="py-3 px-8 bg-orange-500 text-white font-bold rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed">
+          {producto?.id ? 'Actualizar Producto' : 'Registrar Producto'}
+        </button>
+      </div>
     </form>
   );
 };
