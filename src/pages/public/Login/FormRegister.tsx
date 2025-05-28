@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FormRegisterInterface } from "../../../shared/types/registerLoginInterface";
 import { z } from "zod";
 import { formRegisterLoginSchema, formRegisterSchema } from "../../../shared/schemas/formLoginSchema";
+import { GoArrowLeft } from "react-icons/go";
 
 type FormRegisterSchema = z.infer<typeof formRegisterSchema>;
 type FormRegisterLoginSchema = z.infer<typeof formRegisterLoginSchema>;
@@ -20,11 +21,11 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
 
     const handleContinue = () => {
         const result = formRegisterSchema.safeParse({
-            name: form.nombre,
-            lastName: form.apellido,
-            phone: form.telefono,
-            phone_2: form.telefono2,
-            address: form.direccion,
+            nombre: form.nombre,
+            apellido: form.apellido,
+            telefono: form.telefono,
+            telefono_2: form.telefono2,
+            direccion: form.direccion,
         });
 
         if (result.success) {
@@ -98,9 +99,9 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
                     >
                         <button
                             onClick={() => handleBack()}
-                            className="bg-amber-950 text-white"
+                            className="hover:scale-110 hover:text-blue-900 font-bold hover:transition-discrete cursor-pointer flex items-center gap-2 bold"
                         >
-                            back
+                            <GoArrowLeft /> <span>regresar</span>
                         </button>
 
                         <legend className="fieldset-legend">Correo</legend>
@@ -129,14 +130,16 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
                             <p className="text-red-500 text-sm">{err.password}</p>
                         )}
 
-                        <input
-                            type="checkbox"
-                            onChange={handleCheck}
-                            className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
-                        />
-                        <label className="ml-2 text-sm text-gray-600">
-                            ver contraseña
-                        </label>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                onChange={handleCheck}
+                                className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
+                            />
+                            <label className="ml-2 text-sm text-gray-600">
+                                ver contraseña
+                            </label>
+                        </div>
 
                         <button
                             onClick={handleCompleteRegister}
@@ -164,8 +167,8 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
                             placeholder="Nombre"
                             className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
                         />
-                        {errors.name && (
-                            <p className="text-red-500 text-sm">{errors.name}</p>
+                        {errors.nombre && (
+                            <p className="text-red-500 text-sm">{errors.nombre}</p>
                         )}
 
                         <legend className="fieldset-legend">Apellido</legend>
@@ -178,8 +181,8 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
                             placeholder="Apellido"
                             className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
                         />
-                        {errors.lastName && (
-                            <p className="text-red-500 text-sm">{errors.lastName}</p>
+                        {errors.apellido && (
+                            <p className="text-red-500 text-sm">{errors.apellido}</p>
                         )}
 
                         <legend className="fieldset-legend">Dirección</legend>
@@ -192,8 +195,8 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
                             placeholder="Dirección"
                             className="input w-full bg-gray-50 border border-gray-300 text-gray-700"
                         />
-                        {errors.address && (
-                            <p className="text-red-500 text-sm">{errors.address}</p>
+                        {errors.direccion && (
+                            <p className="text-red-500 text-sm">{errors.direccion}</p>
                         )}
 
                         <legend className="fieldset-legend">Teléfono</legend>
@@ -206,8 +209,8 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
                             placeholder="Número telefónico"
                             className="input w-full bg-gray-50 border border-gray-300 text-gray-700 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                         />
-                        {errors.phone && (
-                            <p className="text-red-500 text-sm">{errors.phone}</p>
+                        {errors.telefono && (
+                            <p className="text-red-500 text-sm">{errors.telefono}</p>
                         )}
 
                         <legend className="fieldset-legend">Teléfono Secundario <span className="font-light text-gray-600">(opcional)</span></legend>
@@ -220,8 +223,8 @@ const FormRegister: React.FC<FormRegisterInterface> = ({ onInputChange, handleRe
                             placeholder="Número telefónico"
                             className="input w-full bg-gray-50 border border-gray-300 text-gray-700 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                         />
-                        {errors.phone_2 && (
-                            <p className="text-red-500 text-sm">{errors.phone_2}</p>
+                        {errors.telefono_2 && (
+                            <p className="text-red-500 text-sm">{errors.telefono_2}</p>
                         )}
 
                         <button

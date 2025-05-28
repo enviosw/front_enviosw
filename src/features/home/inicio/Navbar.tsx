@@ -44,22 +44,20 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <div
+    <nav
       className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-[#000000]' : 'bg-transparent'
         } top-0 z-50 transition-all duration-300`}
     >
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
-        <div className="flex-1 flex gap-2 items-center">
+        <div className='flex flex-1'>
+          <div className={`${isScrolled ? 'flex-1 flex gap-2 items-center' : 'hidden'}`}>
+       
+            <figure>
+              <img src="logoW_1.png" alt="logo domicilios w" className='h-7' />
+            </figure>
 
-          {/* <div
-            className={`rounded-2xl flex justify-center items-center bg-white/70  px-2 z-50 w-10 h-10 ${isScrolled ? 'text-black' : 'text-black'
-              }`}
-          >
-            <span className='font-black'>W</span>
-          </div>
-          <span className='text-white opacity-80 font-bold text-3xl hidden lg:flex'>Domicilios w</span> */}
-          <img src="logoW_1.png" alt="" className='h-10' />
-
+            <span className='text-white opacity-80 font-bold text-3xl hidden lg:flex'>Domicilios w</span>
+            </div>
         </div>
 
 
@@ -117,6 +115,6 @@ export const Navbar: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
