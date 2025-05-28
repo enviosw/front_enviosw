@@ -5,23 +5,21 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
 import Toast from '../../utils/Toast';
-import FondoAnimado from './FondoAnimado';
 
 const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-gradient-to-t from-primary/90 via-primary/55 to-primary/50 pt-5  lg:pt-12 flex items-center lg:items-center justify-between px-6 md:px-16 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
-                    <FondoAnimado />
-                    {/* <div
-                        className="absolute inset-0 bg-cover bg-center flex lg:hidden  z-10 opacity-20 lg:opacity-10"
+                    <div
+                        className="absolute inset-0 bg-cover bg-center flex  z-10 opacity-15"
                         style={{ backgroundImage: 'url(ciudad.jpg)' }}
-                    ></div> */}
+                    ></div>
 
                     {/* Capa oscura */}
-                    {/* <div className="absolute inset-0 bg-black opacity-80 z-0"></div> */}
+                    <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
 
                     <div className="flex w-[100%] lg:w-[85%] mx-auto z-30" >
                         {/* Contenido principal */}
@@ -33,8 +31,8 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <h1 className="text-2xl md:text-5xl lg:text-6xl font-sans font-bold uppercase text-white leading-tight flex flex-col space-y-1">
-                                    <span>¡Domicilios</span>
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold uppercase text-white leading-tight flex flex-col space-y-1">
+                                    <span>¡Domicilios <span className='text-primary'>W</span></span>
                                     <span className="whitespace-nowrap">Rápidos en Pitalito!</span>
 
                                 </h1>
@@ -47,22 +45,18 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <p className="text-xl text-white font-bold leading-relaxed">
+                                <p className="text-lg sm:text-lg md:text-xl text-white font-light leading-relaxed">
                                     ¿Necesitas un{" "}
-                                    <span className="text-primary font-bold">
+                                    <span className="text-primary font-semibold">
                                         domicilio rápido y seguro
                                     </span>{" "}
                                     en Pitalito? Con{" "}
-                                    <span className="text-primary font-bold">Domicilios W</span>,<br />
-                                    enviamos tus compras, <br className='flex lg:hidden' /> comida y más a tu puerta.
+                                    <span className="text-primary font-semibold">Domicilios W</span>,<br />
+                                    enviamos tus compras, comida y más a tu puerta.
                                 </p>
                             </Animate>
 
-
-
-
-
-                            <div className="flex gap-4 mt-2 z-10 hidden lg:flex">
+                            <div className="flex gap-4 mt-4 z-10">
                                 <PrimaryButton text="Hacer Pedido" onClick={() => handleAction('pedido')} />
                                 <SecondaryButton text="Ver Comercios" onClick={() => handleAction('comercio')} />
                             </div>
@@ -74,12 +68,6 @@ const Slider2: React.FC = () => {
                         src="persona3.png"
                         alt="Servicio de Domicilios en Pitalito"
                     />
-                    <div className='absolute right-4 bottom-4 flex bg-white lg:hidden rounded-full overflow-hidden'>
-                        <img
-                            className="mask mask-circle w-20 h-20 p-2"
-                            src="motoexpress.png" />
-                    </div>
-
 
                     {/* Información de contacto */}
                     <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-30">
@@ -91,7 +79,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[40vh] lg:h-[55vh]  bg-emerald-600 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh]  bg-emerald-600 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
 
                     {/* Fondo oscuro semitransparente */}
                     <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
@@ -141,9 +129,9 @@ const Slider2: React.FC = () => {
                         {/* Imagen decorativa */}
                         <img
                             loading="lazy"
-                            src="moto3.webp"
-                            alt="Domicilios en Pitalito"
-                            className="absolute hidden lg:block w-[32%] max-w-[380px] -bottom-10 -right-6 z-10"
+                            className="-top-32 absolute w-[38%] hidden lg:flex right-32 z-30"
+                            src="persona3.png"
+                            alt="Servicio de Domicilios en Pitalito"
                         />
                     </div>
                 </div>
@@ -152,7 +140,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[40vh] lg:h-[55vh] bg-[#2563EB] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#2563EB] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
 
                     {/* Fondo oscuro semitransparente */}
                     <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
@@ -199,9 +187,9 @@ const Slider2: React.FC = () => {
                         {/* Imagen decorativa optimizada */}
                         <img
                             loading="lazy"
-                            src="moto4.webp"
-                            alt="Servicios de Compras, Recogidas, Pagos y Envíos en Pitalito"
-                            className="absolute hidden lg:block w-[28%] max-w-[360px] -bottom-10 -right-6 z-10"
+                            className="-top-32 absolute w-[38%] hidden lg:flex right-32 z-30"
+                            src="persona3.png"
+                            alt="Servicio de Domicilios en Pitalito"
                         />
                     </div>
                 </div>
@@ -232,7 +220,7 @@ const Slider2: React.FC = () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length);
-        }, 700000);
+        }, 7000);
     };
 
     useEffect(() => {
@@ -253,7 +241,7 @@ const Slider2: React.FC = () => {
     };
 
     return (
-        <div className="w-full  relative mb-3 lg:mb-8">
+        <div className="w-full  relative mb-3 lg:mb-8]">
 
             {/* Contenedor deslizante */}
             <div

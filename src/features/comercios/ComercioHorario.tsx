@@ -64,13 +64,13 @@ const ComercioHorario: React.FC<ComercioHorarioComponentProps> = ({ comercioId }
                             <input
                                 value={horarios[dia]?.apertura || ''}
                                 placeholder="Apertura"
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full uppercase"
                                 onChange={(e) => handleChange(dia, 'apertura', e.target.value)} // Actualiza apertura
                             />
                             <input
                                 value={horarios[dia]?.cierre || ''}
                                 placeholder="Cierre"
-                                className="input input-bordered w-full"
+                                className="input input-bordered w-full uppercase"
                                 onChange={(e) => handleChange(dia, 'cierre', e.target.value)} // Actualiza cierre
                             />
                         </div>
