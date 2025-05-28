@@ -9,7 +9,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ text, onClick }) => {
     return (
         <button
             onClick={onClick}
-            className="bg-primary w-full lg:w-auto hover:bg-[#fb8c00] text-white font-semibold py-2.5 px-6 rounded-md shadow-md transition duration-300"
+            className="bg-primary w-full lg:w-auto hover:bg-[#fb8c00] text-white font-semibold py-2.5 px-2 lg:px-6 rounded-md shadow-md transition duration-300"
         >
             {text}
         </button>

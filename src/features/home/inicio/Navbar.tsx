@@ -51,13 +51,14 @@ export const Navbar: React.FC = () => {
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
         <div className="flex-1 flex gap-2 items-center">
 
-          <div
-            className={`rounded-2xl flex justify-center items-center bg-white/70  px-2 z-50 w-10 h-10 ${isScrolled ? 'text-primary' : 'text-primary'
+          {/* <div
+            className={`rounded-2xl flex justify-center items-center bg-white/70  px-2 z-50 w-10 h-10 ${isScrolled ? 'text-black' : 'text-black'
               }`}
           >
             <span className='font-black'>W</span>
           </div>
-          <span className='text-white opacity-80 font-bold text-3xl hidden lg:flex'>Domicilios w</span>
+          <span className='text-white opacity-80 font-bold text-3xl hidden lg:flex'>Domicilios w</span> */}
+          <img src="logoW_1.png" alt="" className='h-10' />
 
         </div>
 

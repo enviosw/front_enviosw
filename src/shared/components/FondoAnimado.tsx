@@ -23,8 +23,9 @@ const FondoAnimado = () => {
                     minWidth: 200.0,
                     scale: 1.0,
                     scaleMobile: 1.0,
-                    color: 0xffa43f,
-                    backgroundColor: 0x000000,
+                    color: 0xff6a00, // nuevo tono de naranja más brillante
+                    backgroundColor: 0xFFB380, // fondo negro
+
                 });
             }
         };
@@ -42,7 +43,7 @@ const FondoAnimado = () => {
         };
     }, []);
 
-    return <div ref={vantaRef} className="absolute z-10 inset-0 w-full h-full hidden lg:flex" />;
+    return <div ref={vantaRef} className="absolute z-10 inset-0 opacity-0 lg:opacity-50 w-full h-full flex" />;
 };
 
 export default FondoAnimado;

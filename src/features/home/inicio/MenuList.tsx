@@ -100,7 +100,7 @@ const MenuList: React.FC = () => {
                 {/* Contenido principal */}
                 <div className="flex-1 flex flex-col items-center md:ml-0">
                     {/* Header */}
-                    <header className="w-full sticky top-0 z-20 bg-[#000000] text-white px-4 py-4 shadow-lg">
+                    <header className="w-full  z-20 bg-[#000000] text-white px-4 py-4 shadow-lg">
                         <div className="container mx-auto flex justify-between items-center">
                             <div className="flex items-center gap-4">
                                 <Link to="/" className="text-white hover:text-[#FFD166] transition">
@@ -131,7 +131,8 @@ const MenuList: React.FC = () => {
                     />
 
                     {/* Categorías */}
-                    <section className="w-full container lg:mt-14 mx-auto flex justify-center items-center px-4">
+                  <div className='bg-white rounded-t-4xl -translate-y-14 w-full'>
+                  <section className="w-full container pt-10 lg:pt-0 lg:mt-14 mx-auto flex justify-center items-center px-4">
                         <CategoryCarousel
                             comercioId={Number(id)}
                             onSelectCategoria={(id) => {
@@ -192,6 +193,7 @@ const MenuList: React.FC = () => {
                             </div>
                         )}
                     </main>
+                  </div>
                 </div>
             </div>
             <Modal />

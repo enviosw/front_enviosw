@@ -6,7 +6,7 @@ interface DataTableProps<T> {
     renderRow: (item: T, isSelected: boolean, toggleSelect: () => void) => React.ReactNode;
     allSelected?: boolean;
     toggleSelectAll?: () => void;
-    multiOption: boolean;
+    multiOption?: boolean;
 }
 
 const DataTable = <T,>({
