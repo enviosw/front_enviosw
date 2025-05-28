@@ -99,13 +99,13 @@ const TablaClientes: React.FC = () => {
             </td>
 
             <TableCell>{cliente.id}</TableCell>
-            <TableCell>{cliente.name}</TableCell>
-            <TableCell>{cliente.lastName}</TableCell>
+            <TableCell>{cliente.nombre}</TableCell>
+            <TableCell>{cliente.apellido}</TableCell>
             <TableCell>{cliente.email}</TableCell>
-            <TableCell>{cliente.phone}</TableCell>
-            <TableCell>{cliente.phone_2}</TableCell>
-            <TableCell>{cliente.address}</TableCell>
-            <TableCell>{cliente.status}</TableCell>
+            <TableCell>{cliente.telefono}</TableCell>
+            <TableCell>{cliente.telefono_2}</TableCell>
+            <TableCell>{cliente.direccion}</TableCell>
+            <TableCell>{cliente.estado}</TableCell>
             <TableCell>{formatDate(cliente.fecha_creacion)}</TableCell>
         </tr>
     );

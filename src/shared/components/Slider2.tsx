@@ -31,11 +31,24 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold uppercase text-white leading-tight flex flex-col space-y-1">
-                                    <span>¡Domicilios <span className='text-primary'>W</span></span>
-                                    <span className="whitespace-nowrap">Rápidos en Pitalito!</span>
+                                <figure className='mb-[-20px]'>
+                                    <img src="logoW_1.png" alt="logo domicilios w" className='h-30' />
+                                </figure>
 
+                            </Animate>
+                            <Animate
+                                play
+                                duration={1.5}
+                                delay={0.3}
+                                start={{ opacity: 0, transform: "translateY(20px)" }}
+                                end={{ opacity: 1, transform: "translateY(0px)" }}
+                            >
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight flex flex-col space-y-1">
+                                    <span>Domicilios <span className='text-primary'>W</span></span>
                                 </h1>
+                                <h2 className='text-xl sm:text-xl md:text-xl lg:text-2xl font-sans mt-[-15px] text-white italic'>
+                                    <span>Te ahorramos <span className='text-primary'>Tiempo</span> y sobre todo <span className='text-primary'>Dinero</span></span>
+                                </h2>
                             </Animate>
 
                             <Animate
@@ -45,13 +58,30 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <p className="text-lg sm:text-lg md:text-xl text-white font-light leading-relaxed">
+                                {/* <p className="text-lg sm:text-lg md:text-xl text-white mt-6 font-light leading-relaxed">
+                                    Te llevamos tu {" "}
+                                    <span className="text-primary font-semibold">
+                                        domicilio
+                                    </span>{" "}
+                                    más {" "}
+                                    <span className="text-primary font-semibold">
+                                        rápido
+                                    </span>{" "}
+                                    y {" "}
+                                    <span className="text-primary font-semibold">
+                                        seguro
+                                    </span>{" "}
+                                     a tu puerta.
+                                </p> */}
+                                <p className="text-lg sm:text-lg md:text-xl text-white mt-6 font-light leading-relaxed">
                                     ¿Necesitas un{" "}
                                     <span className="text-primary font-semibold">
                                         domicilio rápido y seguro
                                     </span>{" "}
-                                    en Pitalito? Con{" "}
-                                    <span className="text-primary font-semibold">Domicilios W</span>,<br />
+                                    en Pitalito? 
+                                    <br />
+                                    Con{" "}
+                                    <span className="text-primary font-semibold">Domicilios W</span>,
                                     enviamos tus compras, comida y más a tu puerta.
                                 </p>
                             </Animate>
@@ -79,10 +109,17 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh]  bg-emerald-600 lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                    {/* Imagen de fondo */}
 
-                    {/* Fondo oscuro semitransparente */}
-                    <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
+                    <div
+                        className="absolute inset-0 bg-cover bg-center flex  z-10 opacity-15"
+                        style={{ backgroundImage: 'url(cafe.jpg)' }}
+                    ></div>
+
+                    {/* Capa oscura */}
+                    <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
+                   
 
                     {/* Contenedor principal */}
                     <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
@@ -140,10 +177,16 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh] bg-[#2563EB] lg:pt-12 flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[50vh] lg:h-[55vh] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                    {/* Imagen de fondo */}
 
-                    {/* Fondo oscuro semitransparente */}
-                    <div className="absolute inset-0 bg-black opacity-50 lg:opacity-20 z-0"></div>
+                    <div
+                        className="absolute inset-0 bg-cover bg-start flex  z-10 opacity-15"
+                        style={{ backgroundImage: 'url(huila.jpg)' }}
+                    ></div>
+
+                    {/* Capa oscura */}
+                    <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
 
                     <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
 
@@ -220,7 +263,7 @@ const Slider2: React.FC = () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length);
-        }, 7000);
+        }, 50000);
     };
 
     useEffect(() => {

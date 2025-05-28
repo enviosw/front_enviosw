@@ -84,15 +84,18 @@ const FormLogin: React.FC<FormLoginInterface> = ({ onInputChange, handleLogin, t
           <p className="text-red-500 text-sm">{errors.password}</p>
       )}
 
-      <input
-        type="checkbox"
-        onChange={handleCheck}
-        className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
-      />
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          onChange={handleCheck}
+          className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
+        />
 
-      <label className="ml-2 text-sm text-gray-600">
-        ver contraseña
-      </label>
+        <label className="ml-2 text-sm text-gray-600">
+          ver contraseña
+        </label>
+
+      </div>
 
 
       <button

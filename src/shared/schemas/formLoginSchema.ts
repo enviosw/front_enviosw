@@ -2,11 +2,11 @@ import { z } from "zod";
 
 
 export const formRegisterSchema = z.object({
-    name: z.string().min(3, 'Debes insertar un nombre válido'),
-    lastName: z.string().min(3, 'Debes insertar un apellido válido'),
-    phone: z.string().min(10, 'El teléfono debe tener al menos 10 caracteres'),
-    phone_2: z.string().optional(),
-    address: z.string().min(5, 'La dirección debe tener al menos 5 caracteres'),
+    nombre: z.string().min(3, 'Debes insertar un nombre válido'),
+    apellido: z.string().min(3, 'Debes insertar un apellido válido'),
+    telefono: z.string().min(10, 'El teléfono debe tener al menos 10 caracteres'),
+    telefono_2: z.string().optional(),
+    direccion: z.string().min(5, 'La dirección debe tener al menos 5 caracteres'),
 });
 
 export const formRegisterLoginSchema = z.object({
