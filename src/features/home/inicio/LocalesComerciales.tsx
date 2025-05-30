@@ -106,13 +106,13 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     return (
         <div className='w-full'>
             {/* Buscador */}
-            <div className="flex justify-start items-center mb-6">
+            <div className="flex justify-center items-center mb-6">
                 <div className="relative w-full max-w-full lg:max-w-sm flex items-center">
                     <input
                         type="text"
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
-                        placeholder="Buscar..."
+                        placeholder="Buscar negocio o servicio"
                         className="w-full py-3 pl-10 pr-20 bg-[#f3f3f3] rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         aria-label="Buscar contenido"

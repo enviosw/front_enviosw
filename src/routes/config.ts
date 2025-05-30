@@ -140,5 +140,18 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: false
     },
-
+    {
+        path: "/comercios/registrar-mi-negocio",
+        element: lazy(() => import('../pages/public/RegistrarNegocioPage')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
+    {
+        path: "/domiciliarios/quiero-ser-domiciliario",
+        element: lazy(() => import('../pages/public/RegistrarDomiciliarioPage')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
 ];
