@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Loading from '../../utils/Loading';
 import ToggleButton from '../../shared/components/buttons/ToggleButton';
+import { GoArrowDown } from "react-icons/go";
 const IconButtons = lazy(() => import('../../features/home/inicio/IconButtons'));
 const LocalesComerciales = lazy(() => import('../../features/home/inicio/LocalesComerciales'));
 const TipoServicio = lazy(() => import('../../features/home/inicio/TipoServicio'));
@@ -52,8 +53,16 @@ const Home: React.FC = () => {
       </Suspense>
 
       <Suspense fallback={<Loading />}>
-        <section className='w-full'>
-          <div className="w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
+        <section className='w-full flex flex-col items-center justify-center text-center py-3 bg-gray-100'>
+          <h3 className='text-2xl font-bold text-gray-600 mb-2'>¡Selecciona el servicio que necesitas!</h3>
+
+          
+          <figure className="text-2xl size-7 animate-bounce rounded-full border-1 p-1 bg-transparent text-orange-500 flex items-center justify-center">
+            <GoArrowDown />
+          </figure>
+          
+
+          <div className="items-center w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
             <IconButtons onSelectServicio={handleSelectServicio} />
           </div>
         </section>
@@ -80,7 +89,7 @@ const Home: React.FC = () => {
         <Slider images={images} />
       </Suspense>
 
-    <ToggleButton open={open} setOpen={setOpen} />
+      <ToggleButton open={open} setOpen={setOpen} />
 
 
 

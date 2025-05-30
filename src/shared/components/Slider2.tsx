@@ -5,6 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
 import Toast from '../../utils/Toast';
+import { useNavigate } from 'react-router-dom';
 
 const Slider2: React.FC = () => {
     const slides = [
@@ -46,7 +47,7 @@ const Slider2: React.FC = () => {
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight flex flex-col space-y-1">
                                     <span>Domicilios <span className='text-primary'>W</span></span>
                                 </h1>
-                                <h2 className='text-xl sm:text-xl md:text-xl lg:text-2xl font-sans mt-[-15px] text-white italic'>
+                                <h2 className='text-xl sm:text-xl md:text-xl lg:text-2xl font-sans mt-[-10px] text-white italic'>
                                     <span>Te ahorramos <span className='text-primary'>Tiempo</span> y sobre todo <span className='text-primary'>Dinero</span></span>
                                 </h2>
                             </Animate>
@@ -58,21 +59,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                {/* <p className="text-lg sm:text-lg md:text-xl text-white mt-6 font-light leading-relaxed">
-                                    Te llevamos tu {" "}
-                                    <span className="text-primary font-semibold">
-                                        domicilio
-                                    </span>{" "}
-                                    más {" "}
-                                    <span className="text-primary font-semibold">
-                                        rápido
-                                    </span>{" "}
-                                    y {" "}
-                                    <span className="text-primary font-semibold">
-                                        seguro
-                                    </span>{" "}
-                                     a tu puerta.
-                                </p> */}
+                                
                                 <p className="text-lg sm:text-lg md:text-xl text-white mt-6 font-light leading-relaxed">
                                     ¿Necesitas un{" "}
                                     <span className="text-primary font-semibold">
@@ -88,7 +75,7 @@ const Slider2: React.FC = () => {
 
                             <div className="flex gap-4 mt-4 z-10">
                                 <PrimaryButton text="Hacer Pedido" onClick={() => handleAction('pedido')} />
-                                <SecondaryButton text="Ver Comercios" onClick={() => handleAction('comercio')} />
+                                <SecondaryButton text="Explorar negocios" onClick={() => handleAction('comercio')} />
                             </div>
                         </div>
                     </div >
@@ -134,10 +121,10 @@ const Slider2: React.FC = () => {
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
                                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
-                                    <span>Antojos y Más,</span>
+                                    <span>¿Tienes un negocio?</span>
                                     <br />
                                     <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
-                                        ¡Directo a Tu Puerta en Pitalito!
+                                        ¡Regístrate y vende!
                                     </span>
                                 </h2>
                             </Animate>
@@ -151,16 +138,26 @@ const Slider2: React.FC = () => {
                             >
                                 <ul className="list-disc pl-5 text-base sm:text-lg md:text-xl font-medium text-white leading-relaxed space-y-1">
                                     <li>
-                                        <span className="text-[#E0F2F1] font-bold">¿Hambre?</span> Pide de tus <span className="font-semibold">Restaurantes Favoritos</span>.
+                                        <span className="text-[#E0F2F1] font-bold">Recibe pedidos</span> <span className="font-semibold">directo a tu negocio</span>.
                                     </li>
                                     <li>
-                                        <span className="text-[#E0F2F1] font-bold">¡Celebra!</span> Licores y bebidas a domicilio, <span className="font-semibold">sin salir de casa</span>.
+                                        <span className="text-[#E0F2F1] font-bold">Publica y vende en línea</span>.
                                     </li>
                                     <li>
-                                        <span className="text-[#E0F2F1] font-bold">Un Detalle Especial:</span> Sorprende con regalos entregados <span className="font-semibold">rápidamente</span>.
+                                        <span className="text-[#E0F2F1] font-bold">Tus clientes te encontrarán aquí</span>.
+                                    </li>
+                                    <li>
+                                        <span className="text-[#E0F2F1] font-bold">¡Es facil, rápido y sin costo!</span>
                                     </li>
                                 </ul>
                             </Animate>
+
+                            <div className="flex gap-4 mt-4 z-10 hover:scale-105 transition-transform duration-300">
+                                <SecondaryButton 
+                                    text="Quiero registrar mi negocio" 
+                                    onClick={() => handleAction('registrar_comercio')} 
+                                />
+                            </div>
                         </div>
 
                         {/* Imagen decorativa */}
@@ -200,9 +197,10 @@ const Slider2: React.FC = () => {
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
                                 <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
-                                    <span>Tu Aliado en Pitalito</span>
+                                    {/* <span>¿Buscas trabajo flexible?</span> */}
+                                    <span>¿Sin empleo?</span>
                                     <br />
-                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">Para Más Que Entregas</span>
+                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">¡Trabaja con nosotros!</span>
                                 </h3>
                             </Animate>
 
@@ -215,16 +213,19 @@ const Slider2: React.FC = () => {
                             >
                                 <ul className="list-disc pl-5 text-base sm:text-lg md:text-xl font-medium text-white leading-relaxed space-y-1">
                                     <li>
-                                        <span className="text-slate-200 font-bold">¿Sin Tiempo?</span> Nosotros hacemos tus <span className="font-semibold">Compras en Almacenes</span>.
+                                        <span className="text-slate-200 font-bold">Únete y empieza a generar ingresos ya.</span>
                                     </li>
                                     <li>
-                                        <span className="text-slate-200 font-bold">¡Fácil y Rápido!</span> <span className="font-semibold">Recogemos</span> lo que necesites donde estés.
+                                        <span className="text-slate-200 font-bold">¡Tú decides cuándo trabajar!</span>
                                     </li>
                                     <li>
-                                        <span className="text-slate-200 font-bold">Evita Filas:</span> Realizamos tus <span className="font-semibold">Pagos</span> por ti.
+                                        <span className="text-slate-200 font-bold">Puedes eligir tus horarios.</span>
                                     </li>
                                 </ul>
                             </Animate>
+                            <div className="flex gap-4 mt-4 z-10 hover:scale-105 transition-transform duration-300">
+                                <PrimaryButton text="Quiero ser domiciliario" onClick={() => handleAction('domiciliario')} />
+                            </div>
                         </div>
 
                         {/* Imagen decorativa optimizada */}
@@ -242,15 +243,22 @@ const Slider2: React.FC = () => {
     ];
 
     const [toast, setToast] = useState<{ message: string, type?: string } | null>(null);
+    const navigate = useNavigate();
 
     // Función de scroll + toast
-    const handleAction = (type: 'pedido' | 'comercio') => {
+    const handleAction = (type: string) => {
         window.scrollBy({ top: window.innerHeight * 0.45, behavior: 'smooth' });
 
         if (type === 'pedido') {
             setToast({ message: "¡Realizar tu pedido nunca fue tan fácil con Domicilios W!", type: 'success' });
-        } else {
+        } else if(type === 'comercio') {
             setToast({ message: "Selecciona el comercio y elige tus productos favoritos con Domicilios W.", type: 'info' });
+        } else if(type === 'registrar_comercio') {
+            setToast({ message: "¡Registra tu comercio y empieza a recibir pedidos con Domicilios W!", type: 'success' });
+            navigate('/comercios/registrar-mi-negocio');
+        } else if(type === 'domiciliario') {
+            setToast({ message: "¡Aplica para trabajar como domiciliario en Domicilios W!", type: 'success' });
+            navigate('/domiciliarios/quiero-ser-domiciliario');
         }
 
         setTimeout(() => setToast(null), 7000); // Ocultar toast después de 4s
