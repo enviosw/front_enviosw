@@ -33,7 +33,7 @@ const Slider2: React.FC = () => {
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
                                 <figure className='mb-[-20px]'>
-                                    <img src="logoW_1.png" alt="logo domicilios w" className='h-30' />
+                                    <img src="logoW_1.png" alt="logo domicilios w" className='h-20 xl:h-30' />
                                 </figure>
 
                             </Animate>
@@ -44,7 +44,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight flex flex-col space-y-1">
+                                <h1 className="text-3xl sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight flex flex-col space-y-1">
                                     <span>Domicilios <span className='text-primary'>W</span></span>
                                 </h1>
                                 <h2 className='text-xl sm:text-xl md:text-xl lg:text-2xl font-sans mt-[-10px] text-white italic'>
