@@ -2,6 +2,7 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Loading from '../../utils/Loading';
 import ToggleButton from '../../shared/components/buttons/ToggleButton';
 import { GoArrowDown } from "react-icons/go";
+import { useImagenes } from '../../services/imagenesService';
 const IconButtons = lazy(() => import('../../features/home/inicio/IconButtons'));
 const LocalesComerciales = lazy(() => import('../../features/home/inicio/LocalesComerciales'));
 const TipoServicio = lazy(() => import('../../features/home/inicio/TipoServicio'));
@@ -16,6 +17,8 @@ const Home: React.FC = () => {
   const [servicioId, setServicioId] = useState<number | null>(null);
   const [servicioNombre, setServicioNombre] = useState<string | null>(null);
   const [open, setOpen] = useState(false)
+  const { data: imagenes } = useImagenes();
+
 
   // Set the page title and meta tags
   useEffect(() => {
@@ -40,7 +43,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const images = [
+  const images2 = [
     "slider1.png",
     "slider2.png",
     "slider3.png",
@@ -56,11 +59,11 @@ const Home: React.FC = () => {
         <section className='w-full flex flex-col items-center justify-center text-center py-3 bg-gray-100'>
           <h3 className='text-2xl font-bold text-gray-600 mb-2'>¡Selecciona el servicio que necesitas!</h3>
 
-          
+
           <figure className="text-2xl size-7 animate-bounce rounded-full border-1 p-1 bg-transparent text-orange-500 flex items-center justify-center">
             <GoArrowDown />
           </figure>
-          
+
 
           <div className="items-center w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
             <IconButtons onSelectServicio={handleSelectServicio} />
@@ -86,7 +89,7 @@ const Home: React.FC = () => {
 
 
       <Suspense fallback={<Loading />}>
-        <Slider images={images} />
+        <Slider images={(imagenes?.map(img => img.ruta)) ?? images2} />
       </Suspense>
 
       <ToggleButton open={open} setOpen={setOpen} />

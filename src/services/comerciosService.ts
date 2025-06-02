@@ -58,7 +58,7 @@ interface UseComerciosPublicosProps {
     servicioId: number | null;
     search?: string;
     page?: number;
-    enabled? : boolean
+    enabled?: boolean
 }
 export const useComerciosPublicos = ({
     servicioId,

@@ -51,21 +51,21 @@ export const Navbar: React.FC = () => {
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
         <div className='flex flex-1'>
           <div className={`${isScrolled ? 'flex-1 flex gap-2 items-center' : 'hidden'}`}>
-       
+
             <figure>
               <img src="logoW_1.png" alt="logo domicilios w" className='h-7' />
             </figure>
 
             <span className='text-white opacity-80 font-bold text-3xl hidden lg:flex'>Domicilios w</span>
-            </div>
+          </div>
         </div>
 
 
         <div className='flex gap-2 mx-2 opacity-70'>
-          <WhatsappButton phoneNumber="573001234567" message="¡Hola! Quiero pedir un domicilio." />
-          <InstagramButton username="your_instagram_username" />
+          <WhatsappButton phoneNumber="573134089563" message="¡Hola! Quiero pedir un domicilio." />
+          <InstagramButton username="/envioswpitalito/" />
 
-          <FacebookButton pageId="your_facebook_page_id" />
+          <FacebookButton pageId="/envioswexpress/" />
         </div>
 
         <div className="bg-white/70 shadow-md rounded-xl hidden lg:flex p-2 items-end mx-auto  gap-2">

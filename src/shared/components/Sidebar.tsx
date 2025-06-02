@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSidebar } from '../../context/SidebarContext';
 import { NavLink, useNavigate } from 'react-router-dom'; // Importar NavLink de React Router
-import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers } from 'react-icons/hi';
+import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers, HiCollection } from 'react-icons/hi';
 import { FiLogOut } from "react-icons/fi";
 import { FaTimes } from 'react-icons/fa';
 import { AlertService } from '../../utils/AlertService';
@@ -15,7 +15,7 @@ const menuItems = [
     { icon: <HiLibrary />, label: 'Comercios', to: '/comercios' },
     { icon: <HiUsers />, label: 'Clientes', to: '/clientes' },
     // { icon: <HiChartBar />, label: 'Configuraciones', to: '/configuraciones' },
-    // { icon: <HiCollection />, label: 'Reportes', to: '/reportes' },
+    { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
     // { icon: <HiShoppingCart />, label: 'Tarifas', to: '/tarifas' },
     // { icon: <HiTag />, label: 'Perfil', to: '/perfil' }
 ];
@@ -78,7 +78,7 @@ const Sidebar: React.FC = () => {
             </ul>
 
             <hr />
-            
+
             <div className='flex items-center hover:bg-gray-600 mt-2 justify-start cursor-pointer hover:text-white rounded-md gap-2 py-2 transition-all duration-300 ease-in-out max-sm:flex-row-reverse' onClick={handleLogOut}>
 
                 <button className="cursor-pointer px-2 ">

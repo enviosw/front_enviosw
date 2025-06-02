@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { BASE_URL } from "../../utils/baseUrl";
 
 type SliderProps = {
     images: string[];
 };
 
 const Slider: React.FC<SliderProps> = ({ images }) => {
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [transitioning, setTransitioning] = useState(false);
+
     const totalImages = images.length;
 
     useEffect(() => {
         const interval = setInterval(() => {
             handleNext();
-        }, 3000);
+        }, 6000);
         return () => clearInterval(interval);
     }, []);
 
@@ -33,8 +36,12 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
         setTransitioning(false);
     };
 
+    const imageUrls = images.map((img) => `${BASE_URL.replace(/\/$/, '')}/${img}`);
+
+    console.log(imageUrls)
+
     return (
-        <div className="my-20 relative w-full overflow-hidden max-h-[60vh]">
+        <div className="my-20 bg-neutral-100 relative w-full overflow-hidden max-h-[60vh]">
             <div
                 className="flex transition-transform duration-1000 ease-in-out"
                 style={{
@@ -42,12 +49,12 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                 }}
                 onTransitionEnd={onTransitionEnd}
             >
-                {images.map((image, index) => (
+                {imageUrls.map((image, index) => (
                     <img
                         key={index}
                         src={image}
                         alt={`Slide ${index}`}
-                        className="w-full flex-shrink-0"
+                        className="w-full flex-shrink-0 object-cover"
                         loading="lazy"  // Lazy load
                         width="100%" // Ajusta según sea necesario
                         height="auto" // Mantén las proporciones
@@ -83,7 +90,7 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                     />
                 ))}
             </div>
-            <div className="blur-bottom"></div>
+            {/* <div className="blur-bottom"></div> */}
         </div>
     );
 };
