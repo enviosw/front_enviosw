@@ -81,8 +81,8 @@ const Slider2: React.FC = () => {
                     </div >
                     <img
                         loading="lazy"
-                        className="top-5 absolute w-[38%] hidden lg:flex right-32 z-30"
-                        src="persona3.png"
+                        className="top-5 absolute w-[45%] hidden lg:flex right-32 z-30"
+                        src="domi11.png"
                         alt="Servicio de Domicilios en Pitalito"
                     />
 
