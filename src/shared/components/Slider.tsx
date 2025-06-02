@@ -41,7 +41,7 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
     console.log(imageUrls)
 
     return (
-        <div className="my-20 bg-neutral-100 relative w-full overflow-hidden max-h-[60vh]">
+        <div className="my-6 lg:my-20 bg-neutral-100 relative w-full overflow-hidden max-h-[60vh]">
             <div
                 className="flex transition-transform duration-1000 ease-in-out"
                 style={{
