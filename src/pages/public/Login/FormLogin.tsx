@@ -99,6 +99,7 @@ const FormLogin: React.FC<FormLoginInterface> = ({ onInputChange, handleLogin, t
 
 
       <button
+      type="button"
         onClick={handleCompletedLogin}
         className="btn w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white border-none"
       >

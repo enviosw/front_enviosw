@@ -17,7 +17,7 @@ const Home: React.FC = () => {
   const [servicioId, setServicioId] = useState<number | null>(null);
   const [servicioNombre, setServicioNombre] = useState<string | null>(null);
   const [open, setOpen] = useState(false)
-  const { data: imagenes } = useImagenes();
+  const { data: imagenes, isLoading, isError } = useImagenes();
 
 
   // Set the page title and meta tags
@@ -49,6 +49,15 @@ const Home: React.FC = () => {
     "slider3.png",
   ];
 
+
+
+  if (isLoading) {
+    return <Loading />; // Muestra el loading si las imágenes están siendo cargadas
+  }
+
+  if (isError) {
+    return <div>Error al cargar las imágenes</div>; // Muestra un error si la carga falla
+  }
   return (
     <>
       <Suspense fallback={<Loading />}>

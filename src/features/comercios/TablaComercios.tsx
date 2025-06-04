@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useComercios } from '../../services/comerciosService';
+import { useComercios, useToggleActivarNumeroComercio } from '../../services/comerciosService';
 import Loader from '../../utils/Loader';
 import { formatDate } from '../../utils/formatearFecha';
 import DataTable from '../../shared/components/DataTable';
@@ -13,6 +13,7 @@ import FiltrosDeBusqueda from '../../shared/components/FiltrosDeBusqueda';
 const TablaComercios: React.FC = () => {
     const [page, setPage] = useState(1);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const { mutate: toggleActivar } = useToggleActivarNumeroComercio();
 
 
     const [filters, setFilters] = useState({
@@ -58,6 +59,7 @@ const TablaComercios: React.FC = () => {
     const headers = [
         'ID',
         'Nombre',
+        'Number',
         'Razón',
         'NIT',
         'Responsable',
@@ -68,6 +70,7 @@ const TablaComercios: React.FC = () => {
         'estado',
         'Fecha',
         'Tipo de Comercio',
+        'Empresa',
     ];
 
     const handleEliminarSeleccionados = () => {
@@ -79,22 +82,22 @@ const TablaComercios: React.FC = () => {
     const renderRow = (comercio: any) => (
         <tr key={comercio.id} className="hover:bg-gray-100 bg-white">
             <td className="px-2 text-sm text-gray-700 border-gray-300 border-b">
-                            <div className="flex items-center gap-3">
-                                <input
-                                    type="checkbox"
-                                    className="checkbox"
-                                    checked={selectedIds.includes(comercio.id)}
-                                    onChange={() => toggleSelect(comercio.id)}
-                                />
-            
-                                <button 
-                                    className="flex items-center gap-1 hover:underline cursor-pointer text-orange-600 hover:text-orange-900 mr-4" 
-                                    onClick={() => openCustomModal(comercio)}
-                                >
-                                    <FaPen /> <span>Editar</span>
-                                </button>
-                            </div>
-                        </td>
+                <div className="flex items-center gap-3">
+                    <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={selectedIds.includes(comercio.id)}
+                        onChange={() => toggleSelect(comercio.id)}
+                    />
+
+                    <button
+                        className="flex items-center gap-1 hover:underline cursor-pointer text-orange-600 hover:text-orange-900 mr-4"
+                        onClick={() => openCustomModal(comercio)}
+                    >
+                        <FaPen /> <span>Editar</span>
+                    </button>
+                </div>
+            </td>
 
             <TableCell>{comercio.id}</TableCell>
             <TableCell>{comercio.nombre_comercial}</TableCell>
@@ -108,6 +111,14 @@ const TablaComercios: React.FC = () => {
             <TableCell>{comercio.estado}</TableCell>
             <TableCell>{formatDate(comercio.fecha_creacion)}</TableCell>
             <TableCell>{comercio.servicio?.nombre ?? ''}</TableCell>
+
+            <TableCell> <input
+                type="checkbox"
+                className="toggle toggle-info"
+                checked={comercio.activar_numero === 1}
+                onChange={() => toggleActivar(comercio.id)}
+            /></TableCell>
+
         </tr>
     );
 
@@ -123,7 +134,7 @@ const TablaComercios: React.FC = () => {
         <div className="overflow-x-auto w-full space-y-4">
             {/* Filtros */}
             <div className="mb-6 p-4 bg-gray-50 rounded-lg shadow-sm overflow-auto scroll-auto">
-                
+
                 <FiltrosDeBusqueda
                     filters={filters}
                     setFilters={setFilters}

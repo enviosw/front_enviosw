@@ -17,7 +17,9 @@ const Cart: React.FC = () => {
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const handleWhatsAppOrder = () => {
-        const numeroWhatsApp = '3232205900'; // Cambia por el número real del negocio
+        const numeroWhatsApp = comercio?.activar_numero === 1
+            ? comercio?.telefono_secundario
+            : comercio?.telefono;
         const productos = cartItems
             .map(item => `• ${item.quantity}x ${item.nombre} - $${(parseFloat(item.precio_descuento) * item.quantity).toFixed(2)}`)
             .join('%0A');

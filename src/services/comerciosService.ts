@@ -235,3 +235,23 @@ export const useActualizarHorariosComercio = () => {
         },
     });
 };
+
+export const useToggleActivarNumeroComercio = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (id: number) => {
+            const { data } = await axiosInstance.patch(`/comercios/${id}/toggle-activar-numero`);
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['comercios'] });
+            AlertService.success('Actualizado', 'El estado activar_numero fue modificado.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError = error.response?.data?.message || 'Error al cambiar activar_numero';
+            AlertService.error('Error', messageError);
+        },
+    });
+};

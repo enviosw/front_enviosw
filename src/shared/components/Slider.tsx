@@ -38,7 +38,6 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
 
     const imageUrls = images.map((img) => `${BASE_URL.replace(/\/$/, '')}/${img}`);
 
-    console.log(imageUrls)
 
     return (
         <div className="my-6 lg:my-20 bg-neutral-100 relative w-full overflow-hidden max-h-[60vh]">

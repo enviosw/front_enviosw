@@ -17,6 +17,7 @@ export interface Comercio {
   servicio?: any
   servicio_id?: number | undefined | string
   horarios?: any
+  activar_numero? : any
 }
 
 
