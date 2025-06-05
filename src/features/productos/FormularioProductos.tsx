@@ -42,17 +42,17 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
     const formData = new FormData();
 
     for (const key in data) {
-        const valor = data[key as keyof ProductoFormData];
-        if (valor !== undefined && valor !== null && valor !== '') {
-          formData.append(key, String(valor));
-        }
+      const valor = data[key as keyof ProductoFormData];
+      if (valor !== undefined && valor !== null && valor !== '') {
+        formData.append(key, String(valor));
       }
-      
+    }
 
-      // for (const [key, value] of formData.entries()) {
-      //   console.log(`${key}:`, value);
-      // }
-      
+
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
+
 
     // console.log("---------", formData)
 
@@ -99,14 +99,14 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
           {errors.precio && <p className="text-red-500">{errors.precio.message}</p>}
         </div>
 
-        <div>
+        <div className='hidden'>
           <label className="block text-sm font-semibold text-gray-800 mb-2">Precio Descuento (opcional)</label>
-          <input type="number" step="0.01" {...register('precio_descuento')} className="input input-bordered w-full" />
+          <input type="hidden" step="0.01" {...register('precio_descuento')} className="input input-bordered w-full" />
         </div>
 
-        <div>
+        <div className='hidden'>
           <label className="block text-sm font-semibold text-gray-800 mb-2">Unidad</label>
-          <input {...register('unidad')} className="input input-bordered w-full" />
+          <input type='hidden' defaultValue="unidad" {...register('unidad')} className="input input-bordered w-full" />
           {errors.unidad && <p className="text-red-500">{errors.unidad.message}</p>}
         </div>
 

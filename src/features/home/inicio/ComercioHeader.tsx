@@ -35,9 +35,9 @@ const ComercioHeader: React.FC<ComercioHeaderProps> = ({
                 <div className="text-white text-center md:text-left space-y-2 md:space-y-3 flex-1">
                     <h1 className="text-2xl sm:text-3xl uppercase md:text-4xl font-bold">{nombre}</h1>
                     <p className="text-sm sm:text-base md:text-lg uppercase text-primary">{descripcion}</p>
-                    <span className="text-xs sm:text-sm md:text-base text-gray-400 italic">
+                    {/* <span className="text-xs sm:text-sm md:text-base text-gray-400 italic">
                         ⏰ {horario}
-                    </span>
+                    </span> */}
                 </div>
 
                 {/* Imagen a la derecha */}

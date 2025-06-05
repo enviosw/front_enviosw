@@ -39,7 +39,8 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
             ...(comercioId && { comercio_id: comercioId }), // ⬅️ Solo si hay comercio
         };
 
-        if (!comercioId) {
+
+        if (!usuario?.id && !comercioId) {
             setComercioError('Debes seleccionar un comercio');
             return;
         }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { BASE_URL } from "../../utils/baseUrl";
 
@@ -7,29 +7,43 @@ type SliderProps = {
 };
 
 const Slider: React.FC<SliderProps> = ({ images }) => {
-
     const [currentIndex, setCurrentIndex] = useState(0);
     const [transitioning, setTransitioning] = useState(false);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const totalImages = images.length;
 
-    useEffect(() => {
-        const interval = setInterval(() => {
+    const resetInterval = () => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        intervalRef.current = setInterval(() => {
             handleNext();
         }, 6000);
-        return () => clearInterval(interval);
+    };
+
+    useEffect(() => {
+        resetInterval();
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
     }, []);
 
     const handleNext = () => {
         if (transitioning) return;
         setTransitioning(true);
         setCurrentIndex((prevIndex) => (prevIndex + 1) % totalImages);
+        resetInterval(); // Reiniciar el intervalo al hacer clic
     };
 
     const handlePrev = () => {
         if (transitioning) return;
         setTransitioning(true);
         setCurrentIndex((prevIndex) => (prevIndex - 1 + totalImages) % totalImages);
+        resetInterval(); // Reiniciar el intervalo al hacer clic
+    };
+
+    const goToSlide = (index: number) => {
+        setCurrentIndex(index);
+        resetInterval(); // Reiniciar el intervalo al hacer clic
     };
 
     const onTransitionEnd = () => {
@@ -38,14 +52,11 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
 
     const imageUrls = images.map((img) => `${BASE_URL.replace(/\/$/, '')}/${img}`);
 
-
     return (
         <div className="my-6 lg:my-20 bg-neutral-100 relative w-full overflow-hidden max-h-[60vh]">
             <div
                 className="flex transition-transform duration-1000 ease-in-out"
-                style={{
-                    transform: `translateX(-${currentIndex * 100}%)`,
-                }}
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 onTransitionEnd={onTransitionEnd}
             >
                 {imageUrls.map((image, index) => (
@@ -54,9 +65,7 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                         src={image}
                         alt={`Slide ${index}`}
                         className="w-full flex-shrink-0 object-cover"
-                        loading="lazy"  // Lazy load
-                        width="100%" // Ajusta según sea necesario
-                        height="auto" // Mantén las proporciones
+                        loading="lazy"
                     />
                 ))}
             </div>
@@ -65,14 +74,14 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                 <button
                     onClick={handlePrev}
                     className="text-white text-xl bg-black/60 p-3 rounded-full"
-                    aria-label="Ir a la diapositiva anterior"
+                    aria-label="Anterior"
                 >
                     <FaChevronLeft />
                 </button>
                 <button
                     onClick={handleNext}
                     className="text-white text-xl bg-black/60 p-3 rounded-full"
-                    aria-label="Ir a la siguiente diapositiva"
+                    aria-label="Siguiente"
                 >
                     <FaChevronRight />
                 </button>
@@ -82,14 +91,12 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                 {images.map((_, index) => (
                     <button
                         key={index}
-                        onClick={() => setCurrentIndex(index)}
-                        className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-white" : "bg-black"
-                            }`}
-                        aria-label={`Ir a la diapositiva ${index + 1}`}
+                        onClick={() => goToSlide(index)}
+                        className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-white" : "bg-black"}`}
+                        aria-label={`Slide ${index + 1}`}
                     />
                 ))}
             </div>
-            {/* <div className="blur-bottom"></div> */}
         </div>
     );
 };

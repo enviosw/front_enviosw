@@ -59,7 +59,6 @@ const TablaComercios: React.FC = () => {
     const headers = [
         'ID',
         'Nombre',
-        'Number',
         'Razón',
         'NIT',
         'Responsable',
