@@ -10,7 +10,6 @@ interface ComercioHeaderProps {
 const ComercioHeader: React.FC<ComercioHeaderProps> = ({
     nombre,
     descripcion,
-    horario,
     imagen,
 }) => {
     const imagenFinal =
