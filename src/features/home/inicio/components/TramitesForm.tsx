@@ -64,7 +64,7 @@ const TramitesForm: React.FC<TramitesFormProps> = ({ tipoString }) => {
     };
 
     const handleSubmit = () => {
-        const numeroWhatsApp = '3232205900';
+        const numeroWhatsApp = '3134089563';
 
         const mensaje = `📦 ¡Hola! Me gustaría realizar un trámite:\n\n` +
             `🔧 Descripción del Trámite: ${formData.descripcionTramite}\n` +

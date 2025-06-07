@@ -57,7 +57,7 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
     };
 
     const handleSubmit = () => {
-        const numeroWhatsApp = '3232205900';
+        const numeroWhatsApp = '3134089563';
 
         const mensaje = `💰¡Hola! Me gustaría solicitar el servicio de pagos:\n\n` +
             `🛵📍Dirección de Recogida: ${formData.direccionRecogidaPago}\n` +
