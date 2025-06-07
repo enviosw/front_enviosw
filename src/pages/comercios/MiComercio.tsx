@@ -26,10 +26,10 @@ const MiComercio: React.FC = () => {
 
     return (
         <>
-            <div className="flex justify-end p-4 fixed top-10 right-10">
+            <div className="flex justify-end p-4 fixed -top-2 -right-2">
                 <button
                     onClick={handleLogOut}
-                    className="flex items-center gap-2 px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-md transition-all"
+                    className="flex items-center gap-2 px-4 py-0.5 text-white bg-red-600 hover:bg-red-700 rounded-md transition-all"
                 >
                     <FiLogOut size={20} />
                     <span>Salir</span>
@@ -38,17 +38,17 @@ const MiComercio: React.FC = () => {
 
             <div className="tabs tabs-border">
                 <input type="radio" name="my_tabs_2" className="tab" aria-label="Productos" defaultChecked />
-                <div className="tab-content border-base-300 bg-base-100 p-10">
+                <div className="tab-content border-base-300 bg-base-100 p-2 lg:p-10">
                     <TablaProductos />
                 </div>
 
                 <input type="radio" name="my_tabs_2" className="tab" aria-label="Categorias" />
-                <div className="tab-content border-base-300 bg-base-100 p-10">
+                <div className="tab-content border-base-300 bg-base-100 p-2 lg:p-10">
                     <TablaCategorias />
                 </div>
 
                 <input type="radio" name="my_tabs_2" className="tab" aria-label="Horarios" />
-                <div className="tab-content border-base-300 bg-base-100 p-10">
+                <div className="tab-content border-base-300 bg-base-100 p-2 lg:p-10">
                     <ComercioHorario comercioId={Number(comercioId)} />
                 </div>
             </div>

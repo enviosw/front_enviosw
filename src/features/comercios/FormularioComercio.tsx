@@ -75,7 +75,7 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
 
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-0 lg:p-4 bg-white">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">Nombre Comercial</label>
@@ -116,8 +116,15 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
                 </div>
 
                 <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono Secundario</label>
-                    <input {...register('telefono_secundario')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono envios w</label>
+                    <input
+                        {...register('telefono_secundario')}
+                        defaultValue={comercio?.id ? comercio.telefono_secundario : '3134089563'}
+                        disabled={!comercio?.id}
+                        className={`p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out 
+    focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 
+    ${!comercio?.id ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                    />
                 </div>
 
                 <div>
@@ -156,9 +163,9 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
 
                 <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">Tipo de Comercio</label>
-                    <select {...register('servicio_id')} 
+                    <select {...register('servicio_id')}
                         className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
-                        >
+                    >
                         {tiposComercio?.filter(t => t.estado === 'activo').map(t => (
                             <option key={t.id} value={t.id}>
                                 {t.nombre}

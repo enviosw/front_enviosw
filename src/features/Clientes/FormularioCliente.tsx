@@ -45,7 +45,7 @@ const FormularioCliente: React.FC<FormularioClienteProps> = ({ cliente }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-0 lg:p-4 bg-white">
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">Nombre</label>

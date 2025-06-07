@@ -7,6 +7,7 @@ import { useCrearUsuario, useActualizarUsuario } from '../../services/usuariosSe
 import { useRolesUsuario } from '../../services/rolesServices'; // Hook para obtener los roles de los usuarios
 import { Usuario } from '../../shared/types/usuariosInterface';
 import BuscarComercioSelect from '../../shared/components/BuscarComercioSelect';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 interface FormularioUsuarioProps {
     usuario?: Usuario; // Usuario opcional para editar
@@ -20,6 +21,7 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
     const { data: roles, isLoading } = useRolesUsuario(); // Obtenemos los roles de los usuarios
     const [comercioId, setComercioId] = useState<number | null>(null);
     const [comercioError, setComercioError] = useState('');
+    const [showPass, setShowPass] = useState(false)
 
     // Hook de react-hook-form con validaciones usando Zod
     const { register, handleSubmit, formState: { errors }, reset } = useForm<UsuarioFormData>({
@@ -29,16 +31,22 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
 
     useEffect(() => {
         if (usuario) {
-            reset(usuario); // Resetear los valores del formulario cuando el `usuario` cambia
+            const { password, ...restoUsuario } = usuario;
+            reset(restoUsuario); // ⬅️ NO reseteamos el password
         }
     }, [usuario, reset]);
+
 
     const onSubmit = (data: UsuarioFormData) => {
         const payload = {
             ...data,
-            ...(comercioId && { comercio_id: comercioId }), // ⬅️ Solo si hay comercio
+            ...(comercioId && { comercio_id: comercioId }),
         };
 
+        // Si estamos actualizando y el password está vacío, lo quitamos del payload
+        if (usuario?.id && !data.password) {
+            delete payload.password;
+        }
 
         if (!usuario?.id && !comercioId) {
             setComercioError('Debes seleccionar un comercio');
@@ -52,6 +60,7 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
         }
     };
 
+
     if (isLoading) {
         return <div>Cargando roles...</div>;
     }
@@ -62,7 +71,7 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-0 lg:p-4 bg-white">
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                 <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">Nombre</label>
@@ -84,15 +93,20 @@ const FormularioUsuario: React.FC<FormularioUsuarioProps> = ({ usuario }) => {
                     />
                     {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                 </div>
-
-                <div>
+                <div className="relative">
                     <label className="block text-sm font-semibold text-gray-800 mb-2">Contraseña</label>
                     <input
                         {...register('password')}
-                        type="password"
-                        className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+                        type={showPass ? 'text' : 'password'}
+                        className="p-3 pr-10 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
                         placeholder="Contraseña"
                     />
+                    <div
+                        onClick={() => setShowPass(!showPass)}
+                        className="absolute right-3 top-10 cursor-pointer text-gray-500"
+                    >
+                        {showPass ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                    </div>
                     {errors.password && <p className="text-red-500">{errors.password.message}</p>}
                 </div>
 
