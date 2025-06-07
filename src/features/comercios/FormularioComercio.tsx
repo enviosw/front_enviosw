@@ -153,7 +153,7 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
                         <select {...register('estado')}
                             className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
                         >
-                            <option value="activo">Activo</option>
+                            <option selected value="activo">Activo</option>
                             <option value="inactivo">Inactivo</option>
                         </select>
                         {errors.estado && <p className="text-red-500">{errors.estado.message}</p>}
