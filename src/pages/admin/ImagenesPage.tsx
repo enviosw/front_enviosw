@@ -13,6 +13,7 @@ const ImagenesPage = () => {
     e.currentTarget.reset();
   };
 
+  console.log(imagenes)
   return (
     <div className="w-full mx-auto p-6 space-y-8">
       <form onSubmit={handleUpload} className="bg-white p-6 rounded-lg shadow-md space-y-4 border">
@@ -50,7 +51,7 @@ const ImagenesPage = () => {
             {imagenes?.map((img: any) => (
               <div key={img.id} className="bg-white rounded-lg shadow-md overflow-hidden border hover:shadow-lg transition">
                 <img
-                  src={`${BASE_URL}/${img.ruta}`}
+                  src={`${img.ruta}`}
                   alt={img.nombre}
                   className="w-full h-48 object-cover"
                 />
