@@ -184,12 +184,13 @@ const Home: React.FC = () => {
           <Suspense fallback={<Loading />}>
             <WhatsAppFloatButton />
           </Suspense>
-          <Suspense fallback={<Loading />}>
-            <CookieConsent />
-          </Suspense>
+
         </section>
 
       </div>
+                <Suspense fallback={<Loading />}>
+            <CookieConsent />
+          </Suspense>
     </>
   );
 };
