@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useProductosPublicos } from '../../../services/productosServices';
 import MenuItem from '../shop/MenuItem';
 import Cart from '../shop/Cart';
@@ -32,6 +32,7 @@ const MenuList: React.FC = () => {
 
 
     const { data } = useProductosPublicos(Number(id), categoriaId, search, page); const lastPage = data?.lastPage || 1;
+    const navigate = useNavigate();
 
 
     // FALTA ESTA FUNCIÓN:
@@ -103,9 +104,12 @@ const MenuList: React.FC = () => {
                     <header className="w-full  z-20 bg-[#000000] text-white px-4 py-4 shadow-lg">
                         <div className="container mx-auto flex justify-between items-center">
                             <div className="flex items-center gap-4">
-                                <Link to="/" className="text-white hover:text-[#FFD166] transition">
+                                <button
+                                    onClick={() => navigate(-1)}
+                                    className="text-white hover:text-[#FFD166] transition"
+                                >
                                     <FaArrowLeft size={20} />
-                                </Link>
+                                </button>
                                 <img
                                     className="w-10 h-10 rounded-full border-2 border-white"
                                     src={`${BASE_URL}/${comercio?.logo_url}`}
@@ -131,20 +135,20 @@ const MenuList: React.FC = () => {
                     />
 
                     {/* Categorías */}
-                  <div className='bg-white rounded-t-4xl -translate-y-14 w-full'>
-                  <section className="w-full container pt-10 lg:pt-0 lg:mt-14 mx-auto flex justify-center items-center px-4">
-                        <CategoryCarousel
-                            comercioId={Number(id)}
-                            onSelectCategoria={(id) => {
-                                setCategoriaId(id);
-                                setSelectedCategoriaId(id);
-                            }}
-                            selectedCategoriaId={selectedCategoriaId}
-                        />
-                    </section>
+                    <div className='bg-white rounded-t-4xl -translate-y-14 w-full'>
+                        <section className="w-full container pt-10 lg:pt-0 lg:mt-14 mx-auto flex justify-center items-center px-4">
+                            <CategoryCarousel
+                                comercioId={Number(id)}
+                                onSelectCategoria={(id) => {
+                                    setCategoriaId(id);
+                                    setSelectedCategoriaId(id);
+                                }}
+                                selectedCategoriaId={selectedCategoriaId}
+                            />
+                        </section>
 
-                    {/* Lista de productos */}
-                    <main className="w-full container mx-auto px-4 py-6">
+                        {/* Lista de productos */}
+                        <main className="w-full container mx-auto px-4 py-6">
                             <div className="flex justify-start items-center mb-3">
                                 <div className="relative w-full flex items-center">
                                     <input
@@ -174,26 +178,26 @@ const MenuList: React.FC = () => {
                                     )}
                                 </div>
                             </div>
-               
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
-                            {productosAdaptados.map((item) => (
-                                <MenuItem key={item.id} {...item} comercioId={id} />
-                            ))}
-                        </div>
 
-                        {page < lastPage && (
-                            <div className="flex justify-center mt-8">
-                                <button
-                                    onClick={handleLoadMore}
-                                    className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full shadow-md"
-                                >
-                                    Ver más productos
-                                </button>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
+                                {productosAdaptados.map((item) => (
+                                    <MenuItem key={item.id} {...item} comercioId={id} />
+                                ))}
                             </div>
-                        )}
-                    </main>
-                  </div>
+
+                            {page < lastPage && (
+                                <div className="flex justify-center mt-8">
+                                    <button
+                                        onClick={handleLoadMore}
+                                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full shadow-md"
+                                    >
+                                        Ver más productos
+                                    </button>
+                                </div>
+                            )}
+                        </main>
+                    </div>
                 </div>
             </div>
             <Modal />
