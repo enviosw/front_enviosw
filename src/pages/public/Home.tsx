@@ -58,6 +58,7 @@ const Home: React.FC = () => {
   if (isError) {
     return <div>Error al cargar las imágenes</div>; // Muestra un error si la carga falla
   }
+
   return (
     <>
       <Suspense fallback={<Loading />}>
@@ -98,8 +99,9 @@ const Home: React.FC = () => {
 
 
       <Suspense fallback={<Loading />}>
-        <Slider images={(imagenes?.map(img => img.ruta)) ?? images2} />
+        <Slider images={imagenes?.length ? imagenes.map(img => img.ruta) : images2} />
       </Suspense>
+
 
       <ToggleButton open={open} setOpen={setOpen} />
 
@@ -188,9 +190,9 @@ const Home: React.FC = () => {
         </section>
 
       </div>
-                <Suspense fallback={<Loading />}>
-            <CookieConsent />
-          </Suspense>
+      <Suspense fallback={<Loading />}>
+        <CookieConsent />
+      </Suspense>
     </>
   );
 };

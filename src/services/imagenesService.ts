@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { AlertService } from "../utils/AlertService";
 import { ServerError } from "../shared/types/serverErrorInterface";
 import { useModal } from "../context/ModalContext";
+import { BASE_URL } from "../utils/baseUrl";
 
 // Tipo para las imágenes
 export interface Imagen {
@@ -21,12 +22,18 @@ export const useImagenes = () => {
     queryKey: ["imagenes"],
     queryFn: async () => {
       const { data } = await axiosInstance.get("/imagenes");
-      return data;
+
+      // 🔁 Adjunta la BASE_URL a cada ruta de imagen
+      return data.map((img: any) => ({
+        ...img,
+        ruta: `${BASE_URL.replace(/\/$/, '')}/${img.ruta.replace(/^\//, '')}`,
+      }));
     },
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 15,
   });
 };
+
 
 // 📤 Crear imagen
 export const useCrearImagen = () => {

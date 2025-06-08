@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { BASE_URL } from "../../utils/baseUrl";
 
 type SliderProps = {
     images: string[];
@@ -50,7 +49,6 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
         setTransitioning(false);
     };
 
-    const imageUrls = images.map((img) => `${BASE_URL.replace(/\/$/, '')}/${img}`);
 
     return (
         <div className="my-6 lg:my-20 bg-neutral-100 relative w-full overflow-hidden max-h-[60vh]">
@@ -59,7 +57,7 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
                 onTransitionEnd={onTransitionEnd}
             >
-                {imageUrls.map((image, index) => (
+                {images.map((image, index) => (
                     <img
                         key={index}
                         src={image}
