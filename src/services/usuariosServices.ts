@@ -23,8 +23,8 @@ export const useCrearUsuario = () => {
     const axiosInstance = useAxiosInstance();
     const queryClient = useQueryClient();
 
-        const { closeModal, setModalTitle, setModalContent } = useModal();
-    
+    const { closeModal, setModalTitle, setModalContent } = useModal();
+
 
     return useMutation({
         mutationFn: async (usuario: Usuario) => {
@@ -94,6 +94,27 @@ export const useEliminarUsuario = () => {
             const messageError: string[] | string = error.response?.data?.message || "Error al eliminar el usuario";
             console.error(messageError);
             AlertService.error('Error al eliminar', messageError);
+        },
+    });
+};
+
+
+export const useToggleEstadosUsuarios = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (ids: number[]) => {
+            const { data } = await axiosInstance.patch('/usuarios/toggle-estados', { ids });
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['usuarios'] });
+            AlertService.success('Estado actualizado', 'Los estados de los usuarios han sido actualizados.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError = error.response?.data?.message || 'Error al actualizar los estados';
+            AlertService.error('Error', messageError);
         },
     });
 };

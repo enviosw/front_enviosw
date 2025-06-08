@@ -254,4 +254,28 @@ export const useToggleActivarNumeroComercio = () => {
             AlertService.error('Error', messageError);
         },
     });
+
+
 };
+
+
+export const useToggleEstadosComercios = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (ids: number[]) => {
+            const { data } = await axiosInstance.patch('/comercios/toggle-estados', { ids });
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['comercios'] });
+            AlertService.success('Estado actualizado', 'Los estados de los comercios han sido actualizados.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError = error.response?.data?.message || 'Error al actualizar los estados';
+            AlertService.error('Error', messageError);
+        },
+    });
+};
+

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useClientes, useOcultarClientes } from "../../services/clientesServices";
+import { useClientes, useToggleEstadosClientes } from "../../services/clientesServices";
 import { useModal } from "../../context/ModalContext";
 import TableCell from "../../shared/components/TableCell";
 import { FaPen } from "react-icons/fa";
@@ -13,7 +13,8 @@ import FiltrosDeBusqueda from "../../shared/components/FiltrosDeBusqueda";
 
 const TablaClientes: React.FC = () => {
 
-    const { mutate: ocultarClientes } = useOcultarClientes();
+    const { mutate: toggleClientes } = useToggleEstadosClientes();
+
 
 
     const [page, setPage] = useState(1);
@@ -75,7 +76,7 @@ const TablaClientes: React.FC = () => {
         console.log('IDs seleccionados:', selectedIds);
         // Aquí puedes llamar a tu servicio para eliminar los clientes seleccionados
 
-        ocultarClientes(selectedIds);
+        toggleClientes(selectedIds);
     };
 
     const renderRow = (cliente: any) => (

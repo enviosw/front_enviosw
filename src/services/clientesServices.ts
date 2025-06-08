@@ -23,13 +23,13 @@ export const useCrearCliente = () => {
     const axiosInstance = useAxiosInstance();
     const queryClient = useQueryClient();
 
-        const { closeModal, setModalTitle, setModalContent } = useModal();
-    
+    const { closeModal, setModalTitle, setModalContent } = useModal();
+
 
     return useMutation({
         mutationFn: async (cliente: Cliente) => {
             console.log(cliente);
-            
+
             const { data } = await axiosInstance.post("/clientes", cliente);
             return data;
         },
@@ -61,7 +61,7 @@ export const useActualizarCliente = () => {
             if (!clienteId) throw new Error('ID del cliente es requerido para actualizar');
 
             const { data } = await axiosInstance.patch(`/clientes/${clienteId}`, cliente);
-            
+
             return data;
         },
         onSuccess: async () => {
@@ -85,7 +85,7 @@ export const useOcultarClientes = () => {
 
     return useMutation({
         mutationFn: async (ids: number[]) => {
-            const { data } = await axiosInstance.patch(`/clientes/hideCustomers`, {'ids': ids});
+            const { data } = await axiosInstance.patch(`/clientes/hideCustomers`, { 'ids': ids });
             return data;
         },
         onSuccess: async () => {
@@ -118,6 +118,27 @@ export const useEliminarCliente = () => {
             const messageError: string[] | string = error.response?.data?.message || "Error al eliminar el cliente";
             console.error(messageError);
             AlertService.error('Error al eliminar', messageError);
+        },
+    });
+};
+
+
+export const useToggleEstadosClientes = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (ids: number[]) => {
+            const { data } = await axiosInstance.patch('/clientes/toggle-estados', { ids });
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['clientes'] });
+            AlertService.success('Estado actualizado', 'Los estados de los clientes han sido modificados.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError = error.response?.data?.message || 'Error al actualizar los estados';
+            AlertService.error('Error', messageError);
         },
     });
 };

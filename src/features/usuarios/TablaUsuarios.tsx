@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUsuarios } from '../../services/usuariosServices'; // Asegúrate de que la ruta sea correcta
+import { useToggleEstadosUsuarios, useUsuarios } from '../../services/usuariosServices'; // Asegúrate de que la ruta sea correcta
 import Loader from '../../utils/Loader';
 import { formatDate } from '../../utils/formatearFecha';
 import DataTable from '../../shared/components/DataTable';
@@ -13,6 +13,8 @@ import FiltrosDeBusqueda from '../../shared/components/FiltrosDeBusqueda';
 const TablaUsuarios: React.FC = () => {
     const [page, setPage] = useState(1);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
+    const { mutate: toggleEstadosUsuarios } = useToggleEstadosUsuarios();
+
 
     const [filters, setFilters] = useState({
         search: '',
@@ -66,7 +68,8 @@ const TablaUsuarios: React.FC = () => {
 
     const handleEliminarSeleccionados = () => {
         console.log('IDs seleccionados:', selectedIds);
-        // Aquí puedes llamar a tu servicio para eliminar los usuarios seleccionados
+        toggleEstadosUsuarios(selectedIds);
+
     };
 
     const renderRow = (usuario: any) => (
@@ -126,30 +129,6 @@ const TablaUsuarios: React.FC = () => {
 
                         <div className="grid md:grid-cols-12 gap-4">
 
-                            <div className="md:col-span-8 md:order-1 order-2 flex items-center justify-start gap-3 mt-4">
-
-
-                                {selectedIds.length > 0 && (
-                                    <div className="relative">
-                                        <div className="bg-red-100 border border-red-300 text-red-700 px-3 py-1 rounded-md flex items-center gap-1 text-sm">
-                                            <span>Seleccionados: {selectedIds.length}</span>
-                                            <button
-                                                onClick={handleEliminarSeleccionados}
-                                                className="btn btn-error btn-xs ml-2"
-                                            >
-                                                Eliminar
-                                            </button>
-                                            <button
-                                                onClick={() => setSelectedIds([])}
-                                                className="text-red-500 hover:text-red-700 text-xs font-bold ml-1 cursor-pointer"
-                                                title="Deseleccionar todo"
-                                            >
-                                                ✕
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
 
                             <div className="md:col-span-4 md:order-2 order-1 flex justify-end gap-2 mt-4">
 
@@ -188,6 +167,32 @@ const TablaUsuarios: React.FC = () => {
 
 
             </div>
+
+            <div className="md:col-span-8 md:order-1 order-2 flex items-center justify-start gap-3 mt-4">
+
+
+                {selectedIds.length > 0 && (
+                    <div className="relative">
+                        <div className="bg-red-100 border border-red-300 text-red-700 px-3 py-1 rounded-md flex items-center gap-1 text-sm">
+                            <span>Seleccionados: {selectedIds.length}</span>
+                            <button
+                                onClick={handleEliminarSeleccionados}
+                                className="btn btn-error btn-xs ml-2"
+                            >
+                                Cambiar Estado
+                            </button>
+                            <button
+                                onClick={() => setSelectedIds([])}
+                                className="text-red-500 hover:text-red-700 text-xs font-bold ml-1 cursor-pointer"
+                                title="Deseleccionar todo"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
 
             <button onClick={() => openCustomModal()} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-orange-600 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
                 Registrar
