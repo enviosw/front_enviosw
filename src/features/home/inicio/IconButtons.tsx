@@ -53,7 +53,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     });
 
     return (
-        <div className="flex justify-start md:justify-center overflow-x-auto gap-x-6 py-1 scrollbar-hidden w-full">
+        <div className="flex justify-start md:justify-center overflow-x-auto gap-x-6 pl-1.5 py-1 scrollbar-hidden w-full">
             {serviciosOrdenados.map((servicio: Servicio) => (
                 <Animate
                     key={servicio.id}
