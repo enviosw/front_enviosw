@@ -1,5 +1,4 @@
 import { useImagenes, useCrearImagen, useEliminarImagen } from '../../services/imagenesService';
-import { BASE_URL } from '../../utils/baseUrl';
 
 const ImagenesPage = () => {
   const { data: imagenes, isLoading } = useImagenes();
