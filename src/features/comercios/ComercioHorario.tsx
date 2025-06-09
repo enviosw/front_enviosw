@@ -30,7 +30,7 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
             const nuevosHorarios = { ...horarios };
 
             diasSemana.forEach((dia) => {
-                const horarioDia = datos.find((h: any) => h.dia === dia);
+                const horarioDia = datos.find((h) => h.dia === dia);
                 const apertura = horarioDia?.apertura || '';
                 const cierre = horarioDia?.cierre || '';
                 nuevosHorarios[dia] = {
@@ -42,9 +42,10 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
 
             setHorarios(nuevosHorarios);
         } else {
-            console.warn('⚠️ horarios.horarios no es un array:', datos);
+            console.warn('⚠️ El campo horarios.horarios no es un array:', datos);
         }
     }, [comercio]);
+
 
 
 
