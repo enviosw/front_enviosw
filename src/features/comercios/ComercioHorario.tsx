@@ -23,10 +23,10 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
             diasSemana.map((dia) => [dia, { apertura: '', cierre: '', cerrado: false }])
         ) as Horarios
     );
-
     useEffect(() => {
-        if (comercio?.horarios?.horarios) {
-            const datos = comercio.horarios.horarios;
+        const datos = comercio?.horarios?.horarios;
+
+        if (Array.isArray(datos)) {
             const nuevosHorarios = { ...horarios };
 
             diasSemana.forEach((dia) => {
@@ -41,8 +41,11 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
             });
 
             setHorarios(nuevosHorarios);
+        } else {
+            console.warn('⚠️ horarios.horarios no es un array:', datos);
         }
     }, [comercio]);
+
 
 
     const convertirHora12 = (hora24: string) => {
