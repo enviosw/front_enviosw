@@ -59,12 +59,15 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
   };
 
   useEffect(() => {
-    if (comercio?.horarios?.horarios) {
-      const datos = comercio.horarios.horarios;
-      const nuevosHorarios = { ...horarios };
+    const horariosApi = comercio?.horarios?.horarios;
 
+    if (!horariosApi) return;
+
+    const nuevosHorarios = { ...horarios };
+
+    if (Array.isArray(horariosApi)) {
       diasSemana.forEach((dia) => {
-        const horarioDia = datos.find((h: any) => h.dia === dia);
+        const horarioDia = horariosApi.find((h: any) => h.dia === dia);
         const apertura = horarioDia?.apertura ? convertirHora24(horarioDia.apertura) : '';
         const cierre = horarioDia?.cierre ? convertirHora24(horarioDia.cierre) : '';
         nuevosHorarios[dia] = {
@@ -73,9 +76,20 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
           cerrado: !apertura && !cierre,
         };
       });
-
-      setHorarios(nuevosHorarios);
+    } else if (typeof horariosApi === 'object') {
+      diasSemana.forEach((dia) => {
+        const horarioDia = horariosApi[dia];
+        const apertura = horarioDia?.apertura ? convertirHora24(horarioDia.apertura) : '';
+        const cierre = horarioDia?.cierre ? convertirHora24(horarioDia.cierre) : '';
+        nuevosHorarios[dia] = {
+          apertura,
+          cierre,
+          cerrado: !apertura && !cierre,
+        };
+      });
     }
+
+    setHorarios(nuevosHorarios);
   }, [comercio]);
 
   const handleChange = (dia: DiaSemana, tipo: 'apertura' | 'cierre', value: string) => {
@@ -145,7 +159,7 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
               <div className="relative">
                 <input
                   type="time"
-                  className="input input-bordered w-28 pr-6"
+                  className="input input-bordered pr-6"
                   value={horarios[dia].apertura}
                   onChange={(e) => handleChange(dia, 'apertura', e.target.value)}
                 />
@@ -162,7 +176,7 @@ const ComercioHorario: React.FC<{ comercioId: number }> = ({ comercioId }) => {
               <div className="relative">
                 <input
                   type="time"
-                  className="input input-bordered w-28 pr-6"
+                  className="input input-bordered pr-6"
                   value={horarios[dia].cierre}
                   onChange={(e) => handleChange(dia, 'cierre', e.target.value)}
                 />
