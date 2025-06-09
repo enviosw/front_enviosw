@@ -12,10 +12,10 @@ import { useAuth } from '../../context/AuthContext';
 
 const TablaProductos: React.FC = () => {
 
-  const { user } = useAuth()
-  const comercioId = user?.comercioId || 0
+    const {user} = useAuth()
+    const comercioId = user?.comercioId || 0
 
-
+    
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({ search: '', estado: '', categoriaId: undefined });
   const [appliedFilters, setAppliedFilters] = useState({ ...filters });
@@ -35,24 +35,20 @@ const TablaProductos: React.FC = () => {
     setModalContent(<FormularioProductos key={key} producto={producto} />);
     openModal();
   };
-
-  const allSelected = Array.isArray(productos?.data) && productos.data.length > 0 && selectedIds.length === productos.data.length;
-
+  
+  const allSelected = !!productos?.data && productos.data.length > 0 && selectedIds.length === productos.data.length;
+  
   const toggleSelectAll = () => {
     if (allSelected) {
       setSelectedIds([]);
     } else {
-      setSelectedIds(Array.isArray(productos?.data) ? productos.data.map((p) => p.id) : []);
+      setSelectedIds(productos?.data.map((p) => p.id) || []);
     }
   };
 
-
-  { !Array.isArray(productos?.data) && <p className="text-red-500">Error: Formato inesperado de datos</p> }
-
-
   const renderRow = (producto: any) => (
     <tr key={producto.id} className="hover:bg-gray-100 bg-white">
-
+       
       <TableCell>{producto.id}</TableCell>
       <TableCell>
         <button onClick={() => openCustomModal(producto)}><FaPen /></button>

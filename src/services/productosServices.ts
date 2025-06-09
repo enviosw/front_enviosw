@@ -31,11 +31,15 @@ export const useProductos = (filters: ProductoFilters) => {
     queryKey: ['productos', filters],
     queryFn: async () => {
       const { data } = await axiosInstance.get('/productos', { params: filters });
-      return data;
+
+      return {
+        ...data,
+        data: Array.isArray(data.data) ? data.data : [], // ✅ aseguramos que siempre sea array
+      };
     },
-    // keepPreviousData: true, // opcional
   });
 };
+
 
 
 export const useCrearProducto = () => {
