@@ -129,29 +129,29 @@ const Home: React.FC = () => {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-bold  dark:text-white mb-2">Cobertura Local Extensa</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Cobertura Local Extensa</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                   Operamos en todos los rincones de <span className="font-semibold text-indigo-500">Pitalito</span>, llevando tu pedido rápido y seguro.
                 </p>
               </div>
 
               {/* Tarjeta 2 */}
-              <div className="group bg-white  rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700 hover:border-green-500">
+              <div className="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700 hover:border-green-500">
                 <div className="flex items-center justify-center h-12 w-12 rounded-full bg-green-100 dark:bg-green-900 mb-5">
                   <svg className="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
-                <h3 className="text-lg font-bold  dark:text-white mb-2">Personal Capacitado</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Personal Capacitado</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                   Nuestro equipo está entrenado para brindarte una atención confiable y eficiente cada vez.
                 </p>
               </div>
 
               {/* Tarjeta 3 */}
-              <div className="group bg-white  rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700 hover:border-red-500">
+              <div className="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-200 dark:border-gray-700 hover:border-red-500">
                 <div className="flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900 mb-5">
                   <svg className="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0c-.454-.303-.977-.454-1.5-.454V5.454c0-.523.151-1.046.454-1.5a2.704 2.704 0 013 0 2.704 2.704 0 003 0 2.704 2.704 0 013 0 2.704 2.704 0 003 0c.303.454.454.977.454 1.5v10.092zM15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
-                <h3 className="text-lg font-bold  dark:text-white mb-2">Sabores Laboyanos</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Sabores Laboyanos</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                   Prueba la mejor <span className="text-red-500 font-semibold">comida tradicional</span> y <span className="text-purple-400 font-semibold">gourmet</span> desde casa.
                 </p>
@@ -162,7 +162,7 @@ const Home: React.FC = () => {
                 <div className="flex items-center justify-center h-12 w-12 rounded-full bg-amber-100 dark:bg-amber-900 mb-5">
                   <svg className="h-6 w-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                 </div>
-                <h3 className="text-lg font-bold  dark:text-white mb-2">Atención Personalizada</h3>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Atención Personalizada</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
                   Nos enfocamos en brindar <span className="text-amber-500 font-semibold">una experiencia única</span> para cada cliente.
                 </p>
