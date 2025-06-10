@@ -100,6 +100,9 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         }
     };
 
+    const defaultImage = '/logo_w_fondo_negro.jpeg';
+
+
     if (isLoading && page === 1) return <Skeleton />;
     if (isError) return <div>Error al cargar locales</div>;
 
@@ -148,7 +151,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                         >
                             <div className="relative h-[120px] lg:h-[180px]">
                                 <img
-                                    src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : "logo_w_fondo_negro.jpeg"}
+                                    src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage}
                                     alt={comercio.nombre_comercial}
                                     className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform truncate"
                                 />

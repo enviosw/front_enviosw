@@ -23,7 +23,7 @@ const MenuItem: React.FC<any> = ({
   const { addToCart, cartItems } = useCart();
   const { openModal, setModalTitle, setModalContent } = useModal();
 
-  const defaultImage = 'logo_w_fondo_negro.jpeg';
+  const defaultImage = '/logo_w_fondo_negro.jpeg';
 
   // const mostrarDescuento = precio_descuento < precio;
   const isInCart = cartItems.some(item => item.id === id); // Verifica si el producto ya está en el carrito
@@ -58,7 +58,10 @@ const MenuItem: React.FC<any> = ({
     >
       <div className="avatar">
         <div onClick={openProductModal} className="mask mask-squircle bg-white w-24">
-          <img src={`${BASE_URL}/${image}` || defaultImage} alt={nombre} />
+          <img
+            src={image ? `${BASE_URL}/${image}` : defaultImage}
+            alt={nombre}
+          />
         </div>
       </div>
 
