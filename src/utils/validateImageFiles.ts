@@ -1,25 +1,29 @@
 // utils/validateImageFiles.ts
-export interface ValidateImageResult {
-  validFiles: File[];
-  errors: string[];
-}
+import Swal from 'sweetalert2';
 
-export const validateImageFiles = (
-  files: FileList | File[],
-  maxSizeKB: number = 500
-): ValidateImageResult => {
-  const validFiles: File[] = [];
-  const errors: string[] = [];
+export const validateImageFilesWithClean = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  maxSizeKB: number = 500,
+  onValid: (file: File) => void
+) => {
+  const files = e.target.files;
+  if (!files || files.length === 0) return;
 
-  Array.from(files).forEach((file) => {
-    const sizeInKB = file.size / 1024;
+  const file = files[0];
+  const sizeInKB = file.size / 1024;
 
-    if (sizeInKB > maxSizeKB) {
-      errors.push(`"${file.name}" supera los ${maxSizeKB} KB`);
-    } else {
-      validFiles.push(file);
-    }
-  });
+  if (sizeInKB > maxSizeKB) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Archivo demasiado grande',
+      html: `"${file.name}" supera los ${maxSizeKB} KB permitidos`,
+      confirmButtonColor: '#f97316',
+      confirmButtonText: 'Aceptar',
+    });
 
-  return { validFiles, errors };
+    e.target.value = ''; // 👈 limpia el input para que no quede cargado
+    return;
+  }
+
+  onValid(file); // solo se llama si el archivo es válido
 };

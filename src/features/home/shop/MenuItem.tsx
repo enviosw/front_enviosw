@@ -25,7 +25,7 @@ const MenuItem: React.FC<any> = ({
 
   const defaultImage = 'logo_w_fondo_negro.jpeg';
 
-  const mostrarDescuento = precio_descuento < precio;
+  // const mostrarDescuento = precio_descuento < precio;
   const isInCart = cartItems.some(item => item.id === id); // Verifica si el producto ya está en el carrito
 
   const openProductModal = () => {
@@ -68,7 +68,7 @@ const MenuItem: React.FC<any> = ({
 
         <div className="flex justify-between items-center mt-3">
           <div className="flex flex-col">
-            {mostrarDescuento ? (
+            {/* {mostrarDescuento ? (
               <>
                 <span className="text-sm text-gray-500">
                   ${precio.toFixed(2)}
@@ -78,7 +78,11 @@ const MenuItem: React.FC<any> = ({
               <span className="text-base text-orange-600 font-bold">
                 ${formatNumber(precio)}
               </span>
-            )}
+            )} */}
+
+            <span className="text-base text-orange-600 font-bold">
+              ${formatNumber(precio)}
+            </span>
           </div>
 
           <button

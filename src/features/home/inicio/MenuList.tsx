@@ -6,7 +6,7 @@ import Cart from '../shop/Cart';
 import WhatsappButton from '../../../shared/components/buttons/WhatsappButton';
 import { FaArrowLeft, FaSearch, FaTimes } from 'react-icons/fa';
 import Ubicacion from './Ubicacion';
-import CartaMenu from '../shop/CartaMenu';
+// import CartaMenu from '../shop/CartaMenu';
 import CategoryCarousel from '../shop/CategoryCarousel';
 import ComercioHeader from './ComercioHeader';
 import { BASE_URL } from '../../../utils/baseUrl';
@@ -120,7 +120,7 @@ const MenuList: React.FC = () => {
                             <div className="hidden lg:flex gap-4">
                                 <Ubicacion />
                                 <WhatsappButton phoneNumber={comercio?.telefono ?? ''} message="Hola, quiero hacer un pedido" />
-                                <CartaMenu />
+                                {/* <CartaMenu /> */}
                             </div>
                             <div className="fixed bottom-10 right-6 z-50">
                                 <Cart />

@@ -6,6 +6,8 @@ import { productoSchema } from '../../shared/schemas/productoSchema';
 import { useCategoriasPorComercio } from '../../services/categoriasServices';
 import { useCrearProducto, useActualizarProducto } from '../../services/productosServices';
 import { useAuth } from '../../context/AuthContext';
+import { validateImageFilesWithClean } from '../../utils/validateImageFiles';
+import { formatMiles, unformatMiles } from '../../utils/numberFormat';
 
 type ProductoFormData = z.infer<typeof productoSchema>;
 
@@ -19,6 +21,9 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
   const [imagen, setImagen] = useState<File | null>(null);
   const { user } = useAuth();
   const comercioId = user?.comercioId || 0;
+const [precioVisual, setPrecioVisual] = useState<string>(
+  producto?.precio ? formatMiles(producto.precio) : ''
+);
 
   const { data: categorias = [] } = useCategoriasPorComercio(comercioId);
 
@@ -26,6 +31,7 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<ProductoFormData>({
     resolver: zodResolver(productoSchema),
@@ -93,11 +99,24 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
           {errors.descripcion && <p className="text-red-500">{errors.descripcion.message}</p>}
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-800 mb-2">Precio</label>
-          <input type="number" step="0.01" {...register('precio')} className="input input-bordered w-full" />
-          {errors.precio && <p className="text-red-500">{errors.precio.message}</p>}
-        </div>
+        <input
+          type="text"
+          value={precioVisual}
+          onChange={(e) => {
+            const raw = e.target.value.replace(/[^\d.]/g, ''); // solo números y puntos
+            const unformatted = unformatMiles(raw);
+            if (!isNaN(unformatted)) {
+              setPrecioVisual(formatMiles(unformatted));
+            }
+          }}
+          onBlur={() => {
+            // sincroniza con el formulario cuando pierde foco
+            const raw = unformatMiles(precioVisual);
+            setValue('precio', raw); // setea en react-hook-form
+          }}
+          className="input input-bordered w-full"
+        />
+
 
         <div className='hidden'>
           <label className="block text-sm font-semibold text-gray-800 mb-2">Precio Descuento (opcional)</label>
@@ -144,12 +163,13 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
         <div>
           <label className="block text-sm font-semibold text-gray-800 mb-2">Imagen</label>
           <input
-            name="imagen" // 👈 esto es CRUCIAL para que Multer lo capture
             type="file"
             accept="image/*"
-            onChange={(e) => setImagen(e.target.files?.[0] || null)}
+            name="logo"
+            onChange={(e) => validateImageFilesWithClean(e, 500, setImagen)}
             className="file-input file-input-bordered w-full"
           />
+
         </div>
       </div>
 
