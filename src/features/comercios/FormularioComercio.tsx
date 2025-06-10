@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { comercioSchema } from '../../shared/schemas/comercioSchema';
 import { useActualizarComercio, useCrearComercio } from '../../services/comerciosService';
 import { useServicios } from '../../services/serviciosServices';
+import { validateImageFilesWithClean } from '../../utils/validateImageFiles';
 
 
 interface FormularioComercioProps {
@@ -61,10 +62,9 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
             reset();
         }
     };
-
-    const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) setLogo(e.target.files[0]);
-    };
+const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  validateImageFilesWithClean(e, 500, setLogo);
+};
 
     const isPending = comercio?.id ? actualizarMutation.isPending : crearMutation.isPending;
     const isError = comercio?.id ? actualizarMutation.isError : crearMutation.isError;

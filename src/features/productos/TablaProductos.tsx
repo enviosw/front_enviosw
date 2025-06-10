@@ -9,6 +9,7 @@ import Modal from '../../shared/components/Modal';
 import FormularioProductos from './FormularioProductos';
 import { FaPen, FaRegCheckSquare } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
+import { formatMiles } from '../../utils/numberFormat';
 
 const TablaProductos: React.FC = () => {
 
@@ -55,7 +56,7 @@ const TablaProductos: React.FC = () => {
       </TableCell>
       <TableCell>{producto.nombre}</TableCell>
       <TableCell>{producto.descripcion}</TableCell>
-      <TableCell>{producto.precio}</TableCell>
+      <TableCell>{formatMiles(producto.precio)}</TableCell>
       <TableCell>{producto.estado}</TableCell>
       <TableCell>{producto.unidad}</TableCell>
       <TableCell>{formatDate(producto.fecha_creacion)}</TableCell>
