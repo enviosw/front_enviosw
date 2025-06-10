@@ -21,9 +21,9 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
   const [imagen, setImagen] = useState<File | null>(null);
   const { user } = useAuth();
   const comercioId = user?.comercioId || 0;
-const [precioVisual, setPrecioVisual] = useState<string>(
-  producto?.precio ? formatMiles(producto.precio) : ''
-);
+  const [precioVisual, setPrecioVisual] = useState<string>(
+    producto?.precio ? formatMiles(producto.precio) : ''
+  );
 
   const { data: categorias = [] } = useCategoriasPorComercio(comercioId);
 
@@ -99,23 +99,29 @@ const [precioVisual, setPrecioVisual] = useState<string>(
           {errors.descripcion && <p className="text-red-500">{errors.descripcion.message}</p>}
         </div>
 
-        <input
-          type="text"
-          value={precioVisual}
-          onChange={(e) => {
-            const raw = e.target.value.replace(/[^\d.]/g, ''); // solo números y puntos
-            const unformatted = unformatMiles(raw);
-            if (!isNaN(unformatted)) {
-              setPrecioVisual(formatMiles(unformatted));
-            }
-          }}
-          onBlur={() => {
-            // sincroniza con el formulario cuando pierde foco
-            const raw = unformatMiles(precioVisual);
-            setValue('precio', raw); // setea en react-hook-form
-          }}
-          className="input input-bordered w-full"
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Precio</label>
+
+          <input
+            type="text"
+            value={precioVisual}
+            onChange={(e) => {
+              const raw = e.target.value.replace(/[^\d.]/g, ''); // solo números y puntos
+              const unformatted = unformatMiles(raw);
+              if (!isNaN(unformatted)) {
+                setPrecioVisual(formatMiles(unformatted));
+              }
+            }}
+            onBlur={() => {
+              // sincroniza con el formulario cuando pierde foco
+              const raw = unformatMiles(precioVisual);
+              setValue('precio', raw); // setea en react-hook-form
+            }}
+            className="input input-bordered w-full"
+          />
+          {errors.precio && <p className="text-red-500">{errors.precio.message}</p>}
+        </div>
+
 
 
         <div className='hidden'>

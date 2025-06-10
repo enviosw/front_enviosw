@@ -7,14 +7,20 @@ interface ComercioHeaderProps {
     imagen?: string;
 }
 
+
+const defaultImage = '/logo_w_fondo_negro.jpeg';
+
+
 const ComercioHeader: React.FC<ComercioHeaderProps> = ({
     nombre,
     descripcion,
     imagen,
 }) => {
     const imagenFinal =
-        imagen ||
-        'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=80';
+        imagen && imagen.trim() !== '' && imagen !== 'null' && imagen !== 'undefined'
+            ? imagen
+            : defaultImage;
+
 
     return (
         <div

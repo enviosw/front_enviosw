@@ -146,7 +146,6 @@ export const useProductosPublicos = (
 
       const { data } = await axiosInstance.get('/productos/comercio', { params });
 
-      console.log(data)
       return data;
     },
     staleTime: 1000 * 60 * 10,
