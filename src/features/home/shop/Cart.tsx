@@ -30,8 +30,8 @@ const Cart: React.FC = () => {
 
 
 
-        const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido desde *Domicilios W*%0A a *${comercio?.nombre_comercial}*%0A con los siguientes productos:%0A%0A${productos}%0A%0A🔸 *Total:*%0A $${formatNumber(total)} %2B *domicilio*%0A📍 *Dirección de envío:*%0A ${direccion}%0A${telefono ? `📞 *Teléfono:*%0A ${telefono}` : ''
-            }%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
+        const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido desde *Domicilios W* a *${comercio?.nombre_comercial}* con los siguientes productos:%0A%0A${productos}%0A%0A🔸 *Total:* $${formatNumber(total)} %2B *domicilio*%0A📍 *Dirección de envío:* ${direccion}%0A${telefono ? `📞 *Teléfono:* ${telefono}` : ''}%0A%0A¿Me puedes confirmar si todo está bien? ¡Gracias! 🙌`;
+
 
         const url = `https://wa.me/57${numeroWhatsApp}?text=${mensaje}`;
 
