@@ -21,8 +21,13 @@ const Cart: React.FC = () => {
             ? comercio?.telefono_secundario
             : comercio?.telefono;
         const productos = cartItems
-            .map(item => `• ${item.quantity}x ${item.nombre} - $${(parseFloat(String(item.precio)) * item.quantity)}`)
+            .map(item => {
+                const precio = parseFloat(item.precio ?? '0'); // Asegura número
+                const subtotal = precio * item.quantity;
+                return `• ${item.quantity}x ${item.nombre} - $${formatNumber(subtotal)}`;
+            })
             .join('%0A');
+
 
 
         const mensaje = `¡Hola! 👋 Me gustaría hacer un pedido de ${comercio?.nombre_comercial} con los siguientes productos:%0A%0A${productos}%0A%0A🔸 Total: $${formatNumber(total)} %2B *domicilio*%0A📍 Dirección de envío: ${direccion}%0A${telefono ? `📞 Teléfono: ${telefono}` : ''
