@@ -21,7 +21,7 @@ const Cart: React.FC = () => {
             ? comercio?.telefono_secundario
             : comercio?.telefono;
         const productos = cartItems
-            .map(item => `• ${item.quantity}x ${item.nombre} - $${(parseFloat(String(formatNumber(Number(item.precio)))) * item.quantity)}`)
+            .map(item => `• ${item.quantity}x ${item.nombre} - $${(parseFloat(String(item.precio)) * item.quantity)}`)
             .join('%0A');
 
 
