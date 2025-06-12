@@ -11,6 +11,8 @@ const Slider2: React.FC = () => {
     const sliderRef = useRef<HTMLDivElement | null>(null);
     const [touchStartX, setTouchStartX] = useState<number | null>(null);
     const [touchEndX, setTouchEndX] = useState<number | null>(null);
+    const [imgLoaded, setImgLoaded] = useState(false);
+
 
     const slides = [
         {
@@ -83,12 +85,21 @@ const Slider2: React.FC = () => {
                             </div>
                         </div>
                     </div >
+                    {!imgLoaded && (
+                        <div
+                            className="top-5 absolute w-[45%] hidden lg:flex right-32 z-30 bg-orange-100 animate-pulse rounded-lg h-[240px]"
+                            aria-hidden="true"
+                        />
+                    )}
+
                     <img
                         loading="lazy"
-                        className="top-5 absolute w-[45%] hidden lg:flex right-32 z-30"
+                        className={`top-5 absolute w-[45%] hidden lg:flex right-32 z-30 transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                         src="domi11.png"
                         alt="Servicio de Domicilios en Pitalito"
+                        onLoad={() => setImgLoaded(true)}
                     />
+
 
                     {/* Información de contacto */}
                     <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-30">

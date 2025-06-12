@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../../../context/CartContext';
 import { FaPlus } from 'react-icons/fa';
 import { BASE_URL } from '../../../utils/baseUrl';
@@ -22,6 +22,7 @@ const MenuItem: React.FC<any> = ({
 }) => {
   const { addToCart, cartItems } = useCart();
   const { openModal, setModalTitle, setModalContent } = useModal();
+  const [loaded, setLoaded] = useState(false);
 
   const defaultImage = '/logo_w_fondo_negro.jpeg';
 
@@ -57,12 +58,23 @@ const MenuItem: React.FC<any> = ({
         }`}
     >
       <div className="avatar">
-        <div onClick={openProductModal} className="mask mask-squircle bg-white w-24">
+        <div onClick={openProductModal} className="mask mask-squircle bg-white w-24 relative">
+          {!loaded && (
+            <img
+              src={defaultImage}
+              alt="loading"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
           <img
             src={image ? `${BASE_URL}/${image}` : defaultImage}
             alt={nombre}
+            onLoad={() => setLoaded(true)}
+            onError={() => setLoaded(true)} // si falla, también ocultamos el loader
+            className={`w-full h-full object-cover transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
+
       </div>
 
       <div className="flex flex-col justify-between flex-1 overflow-hidden">
