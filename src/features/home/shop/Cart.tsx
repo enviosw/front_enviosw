@@ -202,8 +202,13 @@ const Cart: React.FC = () => {
                                 value={direccion}
                                 onChange={e => setDireccion(e.target.value)}
                                 placeholder="Ej: Calle 123 #45-67"
+                                autoComplete="off"
+                                autoCorrect="off"
+                                autoCapitalize="off"
+                                spellCheck={false}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                             />
+
                         </div>
 
                         {/* Input de Teléfono (opcional) */}
@@ -218,8 +223,13 @@ const Cart: React.FC = () => {
                                 value={telefono}
                                 onChange={e => setTelefono(e.target.value)}
                                 placeholder="Ej: 3001234567"
+                                autoComplete="off"
+                                autoCorrect="off"
+                                autoCapitalize="off"
+                                spellCheck={false}
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                             />
+
                         </div>
 
                         <button
