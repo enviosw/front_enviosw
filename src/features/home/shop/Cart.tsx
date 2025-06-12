@@ -209,7 +209,7 @@ const Cart: React.FC = () => {
                                 Teléfono (requerido)
                             </label>
                             <input
-                                type="text"
+                                type="number"
                                 id="telefono"
                                 name="telefono"
                                 value={telefono}
