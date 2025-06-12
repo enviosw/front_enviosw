@@ -275,7 +275,7 @@ const Slider2: React.FC = () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length);
-        }, 5000);
+        }, 8000);
     };
 
     useEffect(() => {
@@ -296,7 +296,7 @@ const Slider2: React.FC = () => {
     };
 
     return (
-        <div className="w-full  relative mb-3 lg:mb-8]">
+        <div className="w-full  relative">
 
             {/* Contenedor deslizante */}
             <div

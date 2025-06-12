@@ -197,7 +197,7 @@
     transform: rotate(45deg);
 }
 
-.loader-square {
+/* .loader-square {
     position: absolute;
     top: 0;
     left: 0;
@@ -207,16 +207,23 @@
     border-radius: 0;
     background: white;
     animation: square-animation 10s ease-in-out infinite both;
-}
+} */
 
 
 /* styles.css */
 @keyframes slideRight {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(20px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(20px);
+    }
 }
 
 .arrow-slide {
-  font-size: 2rem;
-  animation: slideRight 1s ease-in-out infinite;
+    font-size: 2rem;
+    animation: slideRight 1s ease-in-out infinite;
 }
