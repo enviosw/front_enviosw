@@ -9,11 +9,14 @@ import { useNavigate } from 'react-router-dom';
 
 const Slider2: React.FC = () => {
     const sliderRef = useRef<HTMLDivElement | null>(null);
-    const [touchStartX, setTouchStartX] = useState<number | null>(null);
-    const [touchEndX, setTouchEndX] = useState<number | null>(null);
     const [imgLoaded, setImgLoaded] = useState(false);
+
+
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
     const [touchStartY, setTouchStartY] = useState<number | null>(null);
-    const [isHorizontalSwipe, setIsHorizontalSwipe] = useState<boolean>(false);
+    const [touchEndX, setTouchEndX] = useState<number | null>(null);
+    const [touchEndY, setTouchEndY] = useState<number | null>(null);
+
 
 
 
@@ -318,38 +321,38 @@ const Slider2: React.FC = () => {
                     const touch = e.changedTouches[0];
                     setTouchStartX(touch.clientX);
                     setTouchStartY(touch.clientY);
-                    setIsHorizontalSwipe(false); // Resetear
                 }}
 
                 onTouchMove={(e) => {
                     const touch = e.changedTouches[0];
-                    const deltaX = Math.abs(touch.clientX - (touchStartX ?? 0));
-                    const deltaY = Math.abs(touch.clientY - (touchStartY ?? 0));
-
-                    // Si se está deslizando más en X que en Y, marcamos como swipe horizontal
-                    if (deltaX > deltaY && deltaX > 10) {
-                        setIsHorizontalSwipe(true);
-                        setTouchEndX(touch.clientX);
-                        e.preventDefault(); // 🚫 Previene el scroll solo si es horizontal
-                    }
+                    setTouchEndX(touch.clientX);
+                    setTouchEndY(touch.clientY);
                 }}
 
                 onTouchEnd={() => {
-                    if (!isHorizontalSwipe || touchStartX === null || touchEndX === null) return;
+                    if (
+                        touchStartX === null || touchEndX === null ||
+                        touchStartY === null || touchEndY === null
+                    ) return;
 
-                    const distance = touchStartX - touchEndX;
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
 
-                    if (distance > 50) {
-                        goToNextSlide();
-                    } else if (distance < -50) {
-                        goToPreviousSlide();
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                        if (deltaX < 0) {
+                            goToNextSlide();
+                        } else {
+                            goToPreviousSlide();
+                        }
                     }
 
+                    // Reset
                     setTouchStartX(null);
                     setTouchEndX(null);
                     setTouchStartY(null);
-                    setIsHorizontalSwipe(false);
+                    setTouchEndY(null);
                 }}
+
 
             >
                 {slides.map((slide, index) => (
