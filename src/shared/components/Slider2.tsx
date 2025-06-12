@@ -86,10 +86,7 @@ const Slider2: React.FC = () => {
                         </div>
                     </div >
                     {!imgLoaded && (
-                        <div
-                            className="top-5 absolute w-[45%] hidden lg:flex right-32 z-30 bg-orange-100 animate-pulse rounded-lg h-[240px]"
-                            aria-hidden="true"
-                        />
+                        <></>
                     )}
 
                     <img
