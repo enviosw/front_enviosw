@@ -104,9 +104,22 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
     const defaultImage = '/logo_w_fondo_negro.jpeg';
 
+    useEffect(() => {
+        const savedImages = sessionStorage.getItem('loadedImages');
+        if (savedImages) {
+            setLoadedImages(JSON.parse(savedImages));
+        }
+    }, []);
+
+    // Guardar cada vez que cambia
+    useEffect(() => {
+        sessionStorage.setItem('loadedImages', JSON.stringify(loadedImages));
+    }, [loadedImages]);
 
     if (isLoading && page === 1) return <Skeleton />;
     if (isError) return <div>Error al cargar locales</div>;
+
+
 
     return (
         <div className='w-full'>
@@ -165,12 +178,11 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                         />
                                     )}
                                     <img
+                                        loading="lazy"
                                         src={logoSrc}
                                         alt={comercio.nombre_comercial}
                                         onLoad={() => setLoadedImages(prev => ({ ...prev, [Number(comercio.id)]: true }))}
-                                        onError={() => setLoadedImages(prev => ({ ...prev, [Number(comercio.id)]: true }))}
-
-                                        className={`w-full h-full object-cover rounded-2xl transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+                                        className={`w-full h-full object-cover rounded-2xl transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
                                     />
                                 </div>
 
