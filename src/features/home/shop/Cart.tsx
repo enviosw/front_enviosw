@@ -12,6 +12,8 @@ const Cart: React.FC = () => {
     const [telefono, setTelefono] = useState(''); // Campo para teléfono
     const comercioId = useComercioId();
     const [showToast, setShowToast] = useState(false);
+    const [showToast2, setShowToast2] = useState(false);
+
 
     // Calcular el total de productos en el carrito
 
@@ -23,6 +25,12 @@ const Cart: React.FC = () => {
         if (!direccion) {
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000); // Ocultar luego de 3s
+            return;
+        }
+
+        if (!telefono) {
+            setShowToast2(true);
+            setTimeout(() => setShowToast2(false), 3000); // Ocultar luego de 3s
             return;
         }
 
@@ -70,6 +78,19 @@ const Cart: React.FC = () => {
                         <div className="flex flex-col text-left">
                             <span>Te falta la dirección.</span>
                             <span>Escríbela para poder enviar el pedido.</span>
+                        </div>
+                    </div>
+                </div>
+
+            )}
+
+            {showToast2 && (
+                <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Te falta el telefono.</span>
+                            <span>Escríbelo para poder enviar el pedido.</span>
                         </div>
                     </div>
                 </div>
@@ -169,7 +190,7 @@ const Cart: React.FC = () => {
                         {/* Input de Dirección */}
                         <div className="mb-4">
                             <label htmlFor="direccion" className="block text-sm font-medium text-gray-700 mb-1">
-                                Dirección de envío
+                                Dirección de envío (requerida)
                             </label>
                             <input
                                 type="text"
@@ -185,7 +206,7 @@ const Cart: React.FC = () => {
                         {/* Input de Teléfono (opcional) */}
                         <div className="mb-4">
                             <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">
-                                Teléfono (opcional)
+                                Teléfono (requerido)
                             </label>
                             <input
                                 type="text"
