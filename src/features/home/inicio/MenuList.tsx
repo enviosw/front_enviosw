@@ -33,6 +33,9 @@ const MenuList: React.FC = () => {
 
     const { data } = useProductosPublicos(Number(id), categoriaId, search, page); const lastPage = data?.lastPage || 1;
     const navigate = useNavigate();
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
 
 
     // FALTA ESTA FUNCIÓN:
