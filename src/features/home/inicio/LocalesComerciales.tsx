@@ -25,8 +25,6 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     const [searchValue, setSearchValue] = useState('');
     const [page, setPage] = useState(1);
     const [locales, setLocales] = useState<Comercio[]>([]);
-    const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
-
 
     const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
     const lastPage = data?.lastPage || 1;
@@ -104,22 +102,9 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
     const defaultImage = '/logo_w_fondo_negro.jpeg';
 
-    useEffect(() => {
-        const savedImages = sessionStorage.getItem('loadedImages');
-        if (savedImages) {
-            setLoadedImages(JSON.parse(savedImages));
-        }
-    }, []);
-
-    // Guardar cada vez que cambia
-    useEffect(() => {
-        sessionStorage.setItem('loadedImages', JSON.stringify(loadedImages));
-    }, [loadedImages]);
 
     if (isLoading && page === 1) return <Skeleton />;
     if (isError) return <div>Error al cargar locales</div>;
-
-
 
     return (
         <div className='w-full'>
@@ -158,34 +143,18 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
                 {locales?.map((comercio: Comercio) => {
                     const estado = getEstadoComercio(comercio.horarios);
-                    const logoSrc = comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage;
-                    const comercioId = comercio.id?.toString() ?? '';
-                    const loaded = loadedImages[comercioId] || false;
                     return (
-
                         <div
                             key={comercio.id}
                             onClick={() => navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } })}
                             className="cursor-pointer bg-white border-b-[1px] border-gray-200 rounded-2xl shadow-xl transition duration-300 overflow-hidden relative"
                         >
                             <div className="relative h-[120px] lg:h-[180px]">
-                                <div className="relative w-full h-full">
-                                    {!loaded && (
-                                        <img
-                                            src={defaultImage}
-                                            alt="Cargando..."
-                                            className="absolute inset-0 w-full h-full object-cover z-10"
-                                        />
-                                    )}
-                                    <img
-                                        loading="lazy"
-                                        src={logoSrc}
-                                        alt={comercio.nombre_comercial}
-                                        onLoad={() => setLoadedImages(prev => ({ ...prev, [Number(comercio.id)]: true }))}
-                                        className={`w-full h-full object-cover rounded-2xl transition-opacity duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
-                                    />
-                                </div>
-
+                                <img
+                                    src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage}
+                                    alt={comercio.nombre_comercial}
+                                    className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform truncate"
+                                />
                                 <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
                                     <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}
                                 </div>

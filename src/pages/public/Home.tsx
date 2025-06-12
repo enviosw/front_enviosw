@@ -62,9 +62,9 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Suspense fallback={<Loading />}>
-        <Slider2 key="slider2-main" />
-      </Suspense>
+
+      <Slider2 key="slider2-main" />
+
 
 
       <Suspense fallback={<Loading />}>
