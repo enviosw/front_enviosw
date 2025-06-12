@@ -317,7 +317,11 @@ const Slider2: React.FC = () => {
             <div
                 ref={sliderRef}
                 className="flex transition-transform duration-1000 ease-in-out touch-pan-x"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                style={{
+                    transform: `translateX(-${currentSlide * 100}%)`,
+                    touchAction: 'pan-y'
+                }}
+
                 onTouchStart={(e) => {
                     const touch = e.changedTouches[0];
                     setTouchStartX(touch.clientX);
