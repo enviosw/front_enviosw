@@ -11,12 +11,21 @@ const Cart: React.FC = () => {
     const [direccion, setDireccion] = useState('');
     const [telefono, setTelefono] = useState(''); // Campo para teléfono
     const comercioId = useComercioId();
+    const [showToast, setShowToast] = useState(false);
+
     // Calcular el total de productos en el carrito
 
     const { data: comercio } = useComercioIdent(Number(comercioId));
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const handleWhatsAppOrder = () => {
+
+        if (!direccion) {
+            setShowToast(true);
+            setTimeout(() => setShowToast(false), 3000); // Ocultar luego de 3s
+            return;
+        }
+
         const numeroWhatsApp = comercio?.activar_numero === 1
             ? comercio?.telefono_secundario
             : comercio?.telefono;
@@ -50,10 +59,24 @@ const Cart: React.FC = () => {
         clearCart(); // Vacía el carrito en el contexto de React
     };
 
-    const defaultImage = 'logo_w_fondo_negro.jpeg';
+    const defaultImage = '/logo_w_fondo_negro.jpeg';
 
     return (
         <div className="drawer drawer-end z-50">
+            {showToast && (
+                <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Te falta la dirección.</span>
+                            <span>Escríbela para poder enviar el pedido.</span>
+                        </div>
+                    </div>
+                </div>
+
+            )}
+
+
             <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
 
             {/* Botón flotante con número de productos */}
@@ -79,7 +102,7 @@ const Cart: React.FC = () => {
                     <div>
                         {/* Título y cerrar */}
                         <div className="flex items-center justify-between mb-6">
-                            <h4 className="text-3xl font-bold text-gray-800">🛍️ Tu carrito de {comercio?.nombre_comercial}</h4>
+                            <h4 className="text-2xl font-bold text-gray-800">🛍️ Tu carrito de {comercio?.nombre_comercial}</h4>
                             <label htmlFor="cart-drawer" className="cursor-pointer">
                                 <FaTimes className="text-xl text-gray-500 hover:text-red-500 transition" />
                             </label>
@@ -93,7 +116,7 @@ const Cart: React.FC = () => {
                                 {cartItems.map(item => (
                                     <div key={item.id} className="flex items-start gap-3 border-b pb-4">
                                         <img
-                                            src={`${BASE_URL}/${item.image}` || defaultImage}
+                                            src={item.image ? `${BASE_URL}/${item.image}` : defaultImage}
                                             alt={item.nombre}
                                             className="w-16 h-16 object-cover rounded-md border"
                                         />
@@ -176,9 +199,9 @@ const Cart: React.FC = () => {
                         </div>
 
                         <button
-                            disabled={cartItems.length === 0 || !direccion}
+                            // disabled={cartItems.length === 0 || !direccion}
                             onClick={handleWhatsAppOrder}
-                            className="w-full bg-success text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-700 transition"
+                            className="w-full bg-success text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-500 transition"
                         >
                             Finalizar pedido por WhatsApp
                         </button>
