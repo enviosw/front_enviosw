@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import { Navbar } from '../../features/home/inicio/Navbar';
 import { Contenido } from '../types/childrenInterface';
 
-// Footer se carga solo cuando se necesita
 const LazyFooter = lazy(() => import('../components/Footer'));
 
 const MainLayout: React.FC<Contenido> = ({ children }) => {
@@ -10,43 +9,42 @@ const MainLayout: React.FC<Contenido> = ({ children }) => {
     const footerTriggerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setShowFooter(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
+        let hasShown = false;
 
-        if (footerTriggerRef.current) {
-            observer.observe(footerTriggerRef.current);
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && !hasShown) {
+                hasShown = true;
+                setShowFooter(true);
+            }
+        }, { threshold: 0.1 });
+
+        const target = footerTriggerRef.current;
+        if (target) {
+            observer.observe(target);
         }
 
         return () => {
-            if (footerTriggerRef.current) {
-                observer.unobserve(footerTriggerRef.current);
-            }
+            if (target) observer.unobserve(target);
         };
     }, []);
 
     return (
-        <>
-            <div className="w-full flex flex-col overflow-x-hidden">
-                <Navbar />
-                {children}
+        <div className="w-full flex flex-col overflow-x-hidden">
+            <Navbar />
+            {children}
 
-                {/* Punto de activación para el footer */}
-                <div ref={footerTriggerRef} className="w-full h-[100px]" />
+            {/* Activador para cargar el footer */}
+            <div ref={footerTriggerRef} className="w-full h-[100px]" />
 
-                {/* Footer diferido */}
-                {showFooter && (
-                    <Suspense fallback={<></>}>
+            {/* Footer diferido con nodo DOM estable */}
+            {showFooter && (
+                <div key="footer-stable" className="w-full">
+                    <Suspense fallback={<div className="h-20 bg-gray-100" />}>
                         <LazyFooter />
                     </Suspense>
-                )}
-            </div>
-        </>
+                </div>
+            )}
+        </div>
     );
 };
 
