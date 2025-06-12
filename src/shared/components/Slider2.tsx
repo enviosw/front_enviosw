@@ -8,6 +8,10 @@ import Toast from '../../utils/Toast';
 import { useNavigate } from 'react-router-dom';
 
 const Slider2: React.FC = () => {
+    const sliderRef = useRef<HTMLDivElement | null>(null);
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
     const slides = [
         {
             content: (
@@ -59,13 +63,13 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                
+
                                 <p className="text-lg sm:text-lg md:text-xl text-white mt-0 lg:mt-6 font-light leading-relaxed">
                                     ¿Necesitas un{" "}
                                     <span className="text-primary font-semibold">
                                         domicilio rápido y seguro
                                     </span>{" "}
-                                    en Pitalito? 
+                                    en Pitalito?
                                     <br />
                                     Con{" "}
                                     <span className="text-primary font-semibold">Domicilios W</span>,
@@ -106,7 +110,7 @@ const Slider2: React.FC = () => {
 
                     {/* Capa oscura */}
                     <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
-                   
+
 
                     {/* Contenedor principal */}
                     <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
@@ -153,9 +157,9 @@ const Slider2: React.FC = () => {
                             </Animate>
 
                             <div className="flex gap-4 mt-4 z-10 hover:scale-105 transition-transform duration-300">
-                                <SecondaryButton 
-                                    text="Quiero registrar mi negocio" 
-                                    onClick={() => handleAction('registrar_comercio')} 
+                                <SecondaryButton
+                                    text="Quiero registrar mi negocio"
+                                    onClick={() => handleAction('registrar_comercio')}
                                 />
                             </div>
                         </div>
@@ -251,12 +255,12 @@ const Slider2: React.FC = () => {
 
         if (type === 'pedido') {
             setToast({ message: "¡Realizar tu pedido nunca fue tan fácil con Domicilios W!", type: 'success' });
-        } else if(type === 'comercio') {
+        } else if (type === 'comercio') {
             setToast({ message: "Selecciona el comercio y elige tus productos favoritos con Domicilios W.", type: 'info' });
-        } else if(type === 'registrar_comercio') {
+        } else if (type === 'registrar_comercio') {
             setToast({ message: "¡Registra tu comercio y empieza a recibir pedidos con Domicilios W!", type: 'success' });
             navigate('/comercios/registrar-mi-negocio');
-        } else if(type === 'domiciliario') {
+        } else if (type === 'domiciliario') {
             setToast({ message: "¡Aplica para trabajar como domiciliario en Domicilios W!", type: 'success' });
             navigate('/domiciliarios/quiero-ser-domiciliario');
         }
@@ -271,7 +275,7 @@ const Slider2: React.FC = () => {
         if (intervalRef.current) clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
             setCurrentSlide(prev => (prev + 1) % slides.length);
-        }, 50000);
+        }, 5000);
     };
 
     useEffect(() => {
@@ -296,20 +300,34 @@ const Slider2: React.FC = () => {
 
             {/* Contenedor deslizante */}
             <div
-                className="flex transition-transform duration-1000 ease-in-out"
-                style={{
-                    transform: `translateX(-${currentSlide * 100}%)`
+                ref={sliderRef}
+                className="flex transition-transform duration-1000 ease-in-out touch-pan-x"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
+                onTouchMove={(e) => setTouchEndX(e.touches[0].clientX)}
+                onTouchEnd={() => {
+                    if (!touchStartX || !touchEndX) return;
+                    const distance = touchStartX - touchEndX;
+
+                    if (distance > 50) {
+                        // Deslizó hacia la izquierda
+                        goToNextSlide();
+                    } else if (distance < -50) {
+                        // Deslizó hacia la derecha
+                        goToPreviousSlide();
+                    }
+
+                    setTouchStartX(null);
+                    setTouchEndX(null);
                 }}
             >
                 {slides.map((slide, index) => (
-                    <div
-                        key={index}
-                        className="w-full flex-shrink-0"
-                    >
+                    <div key={index} className="w-full flex-shrink-0">
                         {slide.content}
                     </div>
                 ))}
             </div>
+
 
             <button
                 onClick={goToPreviousSlide}
