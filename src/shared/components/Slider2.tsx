@@ -16,15 +16,15 @@ const Slider2: React.FC = () => {
 
                     <div
                         className="absolute inset-0 bg-cover bg-center flex  z-10 opacity-15"
-                        style={{ backgroundImage: 'url(ciudad.jpg)' }}
+                        style={{ backgroundImage: 'url(pitalito.png)' }}
                     ></div>
 
                     {/* Capa oscura */}
-                    <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
+                    <div className="absolute inset-0 bg-black opacity-85 z-0"></div>
 
                     <div className="flex w-[100%] lg:w-[85%] mx-auto z-30" >
                         {/* Contenido principal */}
-                        <div className="flex-1 flex flex-col justify-center space-y-4 text-left">
+                        <div className="flex-1 flex flex-col justify-center pt-5 space-y-4 text-left">
                             <Animate
                                 play
                                 duration={1.5}
@@ -33,7 +33,7 @@ const Slider2: React.FC = () => {
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
                                 <figure className='mb-[-20px]'>
-                                    <img src="logoW_1.png" alt="logo domicilios w" className='h-14 md:h-24 2xl:h-30' />
+                                    <img src="logoW_1.png" alt="logo domicilios w" className='h-10 md:h-24 2xl:h-30 mb-2' />
                                 </figure>
 
                             </Animate>
