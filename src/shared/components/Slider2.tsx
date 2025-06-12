@@ -303,23 +303,31 @@ const Slider2: React.FC = () => {
                 ref={sliderRef}
                 className="flex transition-transform duration-1000 ease-in-out touch-pan-x"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                onTouchStart={(e) => setTouchStartX(e.touches[0].clientX)}
-                onTouchMove={(e) => setTouchEndX(e.touches[0].clientX)}
+                onTouchStart={(e) => {
+                    const touch = e.changedTouches[0];
+                    setTouchStartX(touch.clientX);
+                }}
+
+                onTouchMove={(e) => {
+                    const touch = e.changedTouches[0];
+                    setTouchEndX(touch.clientX);
+                }}
+
                 onTouchEnd={() => {
-                    if (!touchStartX || !touchEndX) return;
+                    if (touchStartX === null || touchEndX === null) return;
+
                     const distance = touchStartX - touchEndX;
 
                     if (distance > 50) {
-                        // Deslizó hacia la izquierda
                         goToNextSlide();
                     } else if (distance < -50) {
-                        // Deslizó hacia la derecha
                         goToPreviousSlide();
                     }
 
                     setTouchStartX(null);
                     setTouchEndX(null);
                 }}
+
             >
                 {slides.map((slide, index) => (
                     <div key={index} className="w-full flex-shrink-0">
