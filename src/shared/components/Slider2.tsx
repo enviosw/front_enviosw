@@ -9,8 +9,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Slider2: React.FC = () => {
     const sliderRef = useRef<HTMLDivElement | null>(null);
-    const [touchStartX, setTouchStartX] = useState<number | null>(null);
-    const [touchEndX, setTouchEndX] = useState<number | null>(null);
+    // const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    // const [touchEndX, setTouchEndX] = useState<number | null>(null);
     const [imgLoaded, setImgLoaded] = useState(false);
 
 
@@ -303,6 +303,9 @@ const Slider2: React.FC = () => {
         startAutoSlide(); // reinicia contador
     };
 
+    const [touchStart, setTouchStart] = useState<{ x: number, y: number } | null>(null);
+    const [touchEnd, setTouchEnd] = useState<{ x: number, y: number } | null>(null);
+
     return (
         <div className="w-full  relative">
 
@@ -313,27 +316,28 @@ const Slider2: React.FC = () => {
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 onTouchStart={(e) => {
                     const touch = e.changedTouches[0];
-                    setTouchStartX(touch.clientX);
+                    setTouchStart({ x: touch.clientX, y: touch.clientY });
                 }}
 
                 onTouchMove={(e) => {
                     const touch = e.changedTouches[0];
-                    setTouchEndX(touch.clientX);
+                    setTouchEnd({ x: touch.clientX, y: touch.clientY });
                 }}
 
                 onTouchEnd={() => {
-                    if (touchStartX === null || touchEndX === null) return;
+                    if (!touchStart || !touchEnd) return;
 
-                    const distance = touchStartX - touchEndX;
+                    const deltaX = touchEnd.x - touchStart.x;
+                    const deltaY = touchEnd.y - touchStart.y;
 
-                    if (distance > 50) {
-                        goToNextSlide();
-                    } else if (distance < -50) {
-                        goToPreviousSlide();
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                        // Solo ejecutar si es swipe horizontal
+                        if (deltaX < -50) goToNextSlide();      // Swipe hacia la izquierda
+                        else if (deltaX > 50) goToPreviousSlide(); // Swipe hacia la derecha
                     }
 
-                    setTouchStartX(null);
-                    setTouchEndX(null);
+                    setTouchStart(null);
+                    setTouchEnd(null);
                 }}
 
             >
