@@ -24,7 +24,7 @@ const Slider2: React.FC = () => {
 
                     <div className="flex w-[100%] lg:w-[85%] mx-auto z-30" >
                         {/* Contenido principal */}
-                        <div className="flex-1 flex flex-col justify-center pt-5 space-y-4 text-left">
+                        <div className="flex-1 flex flex-col justify-center space-y-4 text-left">
                             <Animate
                                 play
                                 duration={1.5}
@@ -47,7 +47,7 @@ const Slider2: React.FC = () => {
                                 <h1 className="text-3xl hidden lg:flex sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight  flex-col space-y-1">
                                     <span>Domicilios <span className='text-primary'>W</span></span>
                                 </h1>
-                                <h2 className='text-xl sm:text-xl md:text-xl lg:text-2xl font-sans mt-[-10px] text-white italic'>
+                                <h2 className='text-xl sm:text-xl md:text-xl lg:text-2xl font-sans mt-[-10px] pt-4 text-white italic'>
                                     <span>Te ahorramos <span className='text-primary'>Tiempo</span> y sobre todo <span className='text-primary'>Dinero</span></span>
                                 </h2>
                             </Animate>
