@@ -310,7 +310,8 @@ const Slider2: React.FC = () => {
     };
 
     return (
-        <div className="w-full  relative">
+        <div className="w-full relative overflow-x-hidden">
+
 
             {/* Contenedor deslizante */}
             <div
