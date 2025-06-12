@@ -5,6 +5,7 @@ import { BASE_URL } from '../../../utils/baseUrl';
 import { useComercioId } from '../../../utils/obtenerComercio';
 import { formatNumber } from '../../../utils/formatNumber';
 import { useComercioIdent } from '../../../services/comerciosService';
+import { limpiarTextoWhatsApp } from '../../../utils/eliminarCaracteresEspeciales';
 
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart(); // Asegurarse de que clearCart esté disponible
@@ -47,7 +48,8 @@ const Cart: React.FC = () => {
 
 
 
-        const mensaje = `¡👋Hola! Me gustaría hacer un pedido desde *Domicilios W* a *${comercio?.nombre_comercial}* con los siguientes productos:%0A%0A${productos}%0A%0A🔸 *Total:* $${formatNumber(total)} %2B *domicilio*%0A📍 *Dirección de envío:* ${direccion}%0A📞 *Teléfono:* ${telefono}%0A%0A¿Me puedes *CONFIRMAR ?*`;
+        const mensaje = `¡👋Hola! Me gustaría hacer un pedido desde *Domicilios W* a *${limpiarTextoWhatsApp(String(comercio?.nombre_comercial))}* con los siguientes productos:%0A%0A${productos}%0A%0A🔸 *Total:* $${formatNumber(total)} %2B *domicilio*%0A📍 *Dirección de envío:* ${direccion}%0A📞 *Teléfono:* ${telefono}%0A%0A¿Me puedes *CONFIRMAR ?*`;
+
 
 
         const url = `https://wa.me/57${numeroWhatsApp}?text=${mensaje}`;
@@ -58,6 +60,7 @@ const Cart: React.FC = () => {
 
         window.open(url, '_blank');
     };
+
 
     // Actualiza el estado y el localStorage al limpiar el carrito
     const handleClearCart = () => {
