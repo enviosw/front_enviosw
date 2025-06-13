@@ -62,7 +62,7 @@ const Slider: React.FC<SliderProps> = ({ images }) => {
                         key={index}
                         src={image}
                         alt={`Slide ${index}`}
-                        className="w-full flex-shrink-0 object-contain bg-dark max-h-[60vh]"
+                        className="w-full flex-shrink-0 object-contain bg-black max-h-[60vh]"
                         loading="lazy"
                     />
                 ))}
