@@ -29,6 +29,9 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
     const telefonoRecogerRef = useRef<HTMLInputElement | null>(null);
     const direccionEntregaRef = useRef<HTMLInputElement | null>(null);
     const telefonoEntregaRef = useRef<HTMLInputElement | null>(null);
+    const [showToast, setShowToast] = useState(false);
+    const [showToast2, setShowToast2] = useState(false);
+    const [showToast3, setShowToast3] = useState(false);
 
     // ✅ Focus al primer input al cargar
     useEffect(() => {
@@ -43,20 +46,33 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
     };
 
     const handleConfirm = (field: FormDataKeys) => {
-        if (formData[field]) {
-            setCompleted(prev => ({ ...prev, [field]: true }));
-
-            // Cambiar de paso y hacer focus al siguiente input
+        if (formData[field].trim() === '') {
+            // Mostrar toast según el campo vacío
             if (field === 'direccionRecoger') {
-                setCurrentStep(2);
-                setTimeout(() => telefonoRecogerRef.current?.focus(), 100);
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 1500);
             } else if (field === 'telefonoRecoger') {
-                setCurrentStep(3);
-                setTimeout(() => direccionEntregaRef.current?.focus(), 100);
+                setShowToast2(true);
+                setTimeout(() => setShowToast2(false), 1500);
             } else if (field === 'direccionEntrega') {
-                setCurrentStep(4);
-                setTimeout(() => telefonoEntregaRef.current?.focus(), 100);
+                setShowToast3(true);
+                setTimeout(() => setShowToast3(false), 1500);
             }
+            return; // Evita continuar si está vacío
+        }
+
+        setCompleted(prev => ({ ...prev, [field]: true }));
+
+        // Cambiar de paso y hacer focus al siguiente input
+        if (field === 'direccionRecoger') {
+            setCurrentStep(2);
+            setTimeout(() => telefonoRecogerRef.current?.focus(), 100);
+        } else if (field === 'telefonoRecoger') {
+            setCurrentStep(3);
+            setTimeout(() => direccionEntregaRef.current?.focus(), 100);
+        } else if (field === 'direccionEntrega') {
+            setCurrentStep(4);
+            setTimeout(() => telefonoEntregaRef.current?.focus(), 100);
         }
     };
 
@@ -91,6 +107,61 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
 
     return (
         <div className='w-full pb-5'>
+            {showToast && (
+                <div
+                    style={{
+                        marginTop: '80px', // Ajusta la distancia de la parte superior
+                    }}
+                    className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300"
+                >
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Te falta la dirección de recogida.</span>
+                            <span>Escríbela para poder enviar el pedido.</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showToast2 && (
+                <div
+                    style={{
+                        marginTop: '80px', // Ajusta la distancia de la parte superior
+                    }}
+                    className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300"
+                >
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Te falta el teléfono de recogida.</span>
+                            <span>Escríbelo para poder enviar el pedido.</span>
+
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showToast3 && (
+                <div
+                    style={{
+                        marginTop: '80px', // Ajusta la distancia de la parte superior
+                    }}
+                    className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300"
+                >
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Te falta la dirección de entrega.</span>
+                            <span>Escríbelo para poder enviar el pedido.</span>
+
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+
             <h2 className="text-2xl text-left font-bold mb-4">Recogidas 🛵</h2>
             <form className="flex flex-col w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
@@ -118,6 +189,7 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
                     {(currentStep >= 2) && (
                         <div className="flex justify-between items-center gap-2 w-full">
                             <InputField
+                                type='number'
                                 label="Teléfono de Recoger"
                                 name="telefonoRecoger"
                                 value={formData.telefonoRecoger}
@@ -160,6 +232,7 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
                     {(currentStep >= 4) && completed.direccionEntrega && (
                         <div className="flex justify-between items-center gap-2 w-full">
                             <InputField
+                                type='number'
                                 label="Teléfono de Entrega"
                                 name="telefonoEntrega"
                                 value={formData.telefonoEntrega}

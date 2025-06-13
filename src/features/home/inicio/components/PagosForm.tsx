@@ -23,6 +23,8 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
 
     const direccionInputRef = useRef<HTMLInputElement | null>(null);
     const telefonoInputRef = useRef<HTMLInputElement | null>(null);
+    const [showToast, setShowToast] = useState(false);
+    const [showToast2, setShowToast2] = useState(false);
 
     // ✅ Focus al primer input al cargar
     useEffect(() => {
@@ -37,15 +39,27 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
     };
 
     const handleConfirm = (field: FormDataKeys) => {
-        if (formData[field]) {
-            setCompleted(prev => ({ ...prev, [field]: true }));
+        const value = formData[field].trim();
 
+        if (!value) {
             if (field === 'direccionRecogidaPago') {
-                setShowTelefono(true);
-                setTimeout(() => telefonoInputRef.current?.focus(), 100);
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 1500);
+            } else if (field === 'telefonoRecogidaPago') {
+                setShowToast2(true);
+                setTimeout(() => setShowToast2(false), 1500);
             }
+            return; // No continuar si el campo está vacío
+        }
+
+        setCompleted(prev => ({ ...prev, [field]: true }));
+
+        if (field === 'direccionRecogidaPago') {
+            setShowTelefono(true);
+            setTimeout(() => telefonoInputRef.current?.focus(), 100);
         }
     };
+
 
     const handleEdit = (field: FormDataKeys) => {
         setCompleted(prev => ({ ...prev, [field]: false }));
@@ -73,6 +87,41 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
 
     return (
         <div className='w-full pb-5'>
+            {showToast && (
+                <div
+                    style={{
+                        marginTop: '80px', // Ajusta la distancia de la parte superior
+                    }}
+                    className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300"
+                >
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Te falta la dirección.</span>
+                            <span>Escríbela para poder enviar el pedido.</span>
+
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showToast2 && (
+                <div
+                    style={{
+                        marginTop: '80px', // Ajusta la distancia de la parte superior
+                    }}
+                    className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300"
+                >
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Te falta el teléfono.</span>
+                            <span>Escríbelo para poder enviar el pedido.</span>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <h2 className="text-2xl text-left font-bold mb-4">Trámite de Pagos 💰</h2>
             <form className="flex flex-col gap-6 w-full items-center justify-center">
                 <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mx-auto'>
@@ -104,6 +153,7 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
                     {showTelefono && (
                         <div className="flex justify-between items-center gap-2 w-full">
                             <InputField
+                                type='number'
                                 label="Teléfono"
                                 name="telefonoRecogidaPago"
                                 value={formData.telefonoRecogidaPago}
