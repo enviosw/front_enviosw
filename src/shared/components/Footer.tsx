@@ -41,13 +41,26 @@ const Footer: React.FC = () => {
                 </div>
             </nav>
 
-            <div className="mt-10 text-center">
-                <p className="text-sm">
-                    &copy; {new Date().getFullYear()} Domicilios W. Todos los derechos reservados.
-                    <br />
-                    Desarrollado por <strong>Dev M Desarrollo de Software</strong>, Pitalito - Tel: <a className='underline' href="tel:+573208729276">3208729276</a>
-                </p>
-            </div>
+       <div className="mt-10 text-center">
+    <p className="text-sm">
+        &copy; {new Date().getFullYear()} Domicilios W. Todos los derechos reservados.
+        <br />
+        Desarrollado por <strong>Dev M Desarrollo de Software</strong>, Pitalito - Tel: 
+        <a className="underline" href="tel:+573208729276">3208729276</a>
+    </p>
+    <div className="mt-4">
+        <a 
+            href="https://wa.me/573134089563" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="flex items-center justify-center text-white bg-green-500 hover:bg-green-600 p-2 rounded"
+            aria-label="Contactar por WhatsApp"
+        >
+            <FaWhatsapp size={24} className="mr-2" />
+            Contactar por WhatsApp
+        </a>
+    </div>
+</div>
         </footer>
     );
 };
