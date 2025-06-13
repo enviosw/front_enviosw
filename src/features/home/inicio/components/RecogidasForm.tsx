@@ -50,13 +50,13 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
             // Mostrar toast según el campo vacío
             if (field === 'direccionRecoger') {
                 setShowToast(true);
-                setTimeout(() => setShowToast(false), 1500);
+                setTimeout(() => setShowToast(false), 2500);
             } else if (field === 'telefonoRecoger') {
                 setShowToast2(true);
-                setTimeout(() => setShowToast2(false), 1500);
+                setTimeout(() => setShowToast2(false), 2500);
             } else if (field === 'direccionEntrega') {
                 setShowToast3(true);
-                setTimeout(() => setShowToast3(false), 1500);
+                setTimeout(() => setShowToast3(false), 2500);
             }
             return; // Evita continuar si está vacío
         }

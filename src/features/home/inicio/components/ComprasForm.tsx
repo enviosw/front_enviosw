@@ -46,13 +46,13 @@ const ComprasForm: React.FC<ComprasFormProps> = ({ tipoString }) => {
         if (formData[field].trim() === '') {
             if (field === 'listaCompras') {
                 setShowToast(true);
-                setTimeout(() => setShowToast(false), 1500);
+                setTimeout(() => setShowToast(false), 2500);
             } else if (field === 'direccionEntrega') {
                 setShowToast2(true);
-                setTimeout(() => setShowToast2(false), 1500);
+                setTimeout(() => setShowToast2(false), 2500);
             } else if (field === 'telefonoEntrega') {
                 setShowToast3(true);
-                setTimeout(() => setShowToast3(false), 1500);
+                setTimeout(() => setShowToast3(false), 2500);
             }
             return; // Evita continuar si está vacío
         }

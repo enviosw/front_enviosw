@@ -44,10 +44,10 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
         if (!value) {
             if (field === 'direccionRecogidaPago') {
                 setShowToast(true);
-                setTimeout(() => setShowToast(false), 1500);
+                setTimeout(() => setShowToast(false), 2500);
             } else if (field === 'telefonoRecogidaPago') {
                 setShowToast2(true);
-                setTimeout(() => setShowToast2(false), 1500);
+                setTimeout(() => setShowToast2(false), 2500);
             }
             return; // No continuar si el campo está vacío
         }
