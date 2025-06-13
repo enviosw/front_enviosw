@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
         Desarrollado por <strong>Dev M Desarrollo de Software</strong>, Pitalito - Tel: 
         <a className="underline" href="tel:+573208729276">3208729276</a>
     </p>
-    <div className="mt-4">
+    <div className="mt-4 flex justify-end">
         <a 
             href="https://wa.me/573134089563" 
             target="_blank" 
@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
             aria-label="Contactar por WhatsApp"
         >
             <FaWhatsapp size={24} className="mr-2" />
-            Contactar por WhatsApp
+            Contactar
         </a>
     </div>
 </div>
