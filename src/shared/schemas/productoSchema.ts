@@ -13,4 +13,5 @@ export const productoSchema = z.object({
   precio_descuento: z.any().optional(),
   estado: z.enum(['activo', 'inactivo']).optional(),
   estado_descuento: z.enum(['activo', 'inactivo']).optional(),
+    imagen_url: z.any(),
 });

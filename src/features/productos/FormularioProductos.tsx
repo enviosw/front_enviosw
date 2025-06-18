@@ -8,6 +8,7 @@ import { useCrearProducto, useActualizarProducto } from '../../services/producto
 import { useAuth } from '../../context/AuthContext';
 import { validateImageFilesWithClean } from '../../utils/validateImageFiles';
 import { formatMiles, unformatMiles } from '../../utils/numberFormat';
+import { BASE_URL } from '../../utils/baseUrl';
 
 type ProductoFormData = z.infer<typeof productoSchema>;
 
@@ -83,6 +84,8 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
 
     reset();
   };
+
+  console.log(producto?.imagen_url)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-0 lg:p-4 bg-white">
@@ -177,6 +180,21 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
           />
 
         </div>
+
+
+
+
+        {(imagen || producto?.imagen_url) && (
+          <div className="mt-4 flex flex-col items-center justify-center">
+            <p className="text-sm  text-gray-700 mb-2">Vista previa:</p>
+            <img
+              src={imagen ? URL.createObjectURL(imagen) : `${BASE_URL}/${producto?.imagen_url}`}
+              alt="Vista previa"
+              className="w-40 h-40 object-cover border rounded-md"
+            />
+          </div>
+        )}
+
       </div>
 
       <div className="flex justify-center mt-8">
