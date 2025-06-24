@@ -45,7 +45,7 @@ const Card = ({
   return (
     <motion.div
       ref={ref}
-      className={`group ${color} rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 border-2 border-transparent hover:${border} transform hover:-translate-y-1`}
+      className={`group ${color} rounded-2xl  hover:shadow-xl transition-all duration-300 p-8 border-2 ${border} hover:${border} transform hover:-translate-y-1`}
       custom={index}
       initial="hidden"
       animate={controls}
