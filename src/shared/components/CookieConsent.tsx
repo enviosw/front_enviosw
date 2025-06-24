@@ -5,54 +5,62 @@ import { Link } from 'react-router-dom';
 const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  // Efecto para verificar si el usuario ya aceptó las cookies
   useEffect(() => {
     const accepted = localStorage.getItem('cookiesAccepted');
     if (accepted !== 'true') {
       setIsVisible(true);
     } else {
-      loadGoogleAnalytics(); // Cargar Google Analytics si ya se ha aceptado
+      loadGoogleAnalytics();
     }
   }, []);
 
   const handleAcceptCookies = () => {
     localStorage.setItem('cookiesAccepted', 'true');
     setIsVisible(false);
-    loadGoogleAnalytics(); // Cargar Google Analytics cuando se acepte
+    loadGoogleAnalytics();
   };
 
   const handleDeclineCookies = () => {
     localStorage.setItem('cookiesAccepted', 'false');
     setIsVisible(false);
+    // Podrías considerar no cargar Analytics si se rechazan las cookies de forma explícita.
+    // Esto ya lo estás manejando implícitamente al no llamar loadGoogleAnalytics() aquí.
   };
 
   return (
     isVisible && (
       <div
-        className="fixed bottom-0 left-0 w-full bg-gray-800 text-white p-4 shadow-lg z-50 transition-all duration-500"
+        // Fondo más oscuro pero no totalmente negro, con una transparencia sutil si quieres un efecto "frosted glass" (requiere backdrop-filter)
+        // Borde superior sutil para definirlo del resto del contenido.
+        className="fixed bottom-10 left-0 w-full bg-gray-900 bg-opacity-95 text-white p-4 shadow-2xl z-[999]
+                   transform translate-y-0 transition-transform duration-500 ease-out"
         role="dialog"
         aria-labelledby="cookieConsentLabel"
       >
-        <div className="flex justify-between items-center max-w-screen-xl mx-auto px-4">
-          <Link to="politicas-de-privacidad">
-          <p className="text-sm md:text-base" id="cookieConsentLabel">
+        <div className="flex flex-col md:flex-row justify-between items-center max-w-screen-xl mx-auto px-4 gap-4">
+          <p className="text-sm md:text-base text-center md:text-left leading-relaxed" id="cookieConsentLabel">
             Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestra{' '}
-            <button className="underline text-blue-400">
+            {/* El botón de la política de privacidad se convierte en un Link con un estilo más integrado */}
+            <Link to="politicas-de-privacidad" className="font-semibold text-orange-400 hover:text-orange-300 underline transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-300">
               Política de Privacidad
-            </button>.
+            </Link>.
           </p>
-          </Link>
-          <div className="gap-4 flex">
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-3 md:mt-0">
             <button
               onClick={handleDeclineCookies}
-              className="text-sm md:text-base px-4 py-2 bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
+              className="w-full sm:w-auto text-sm md:text-base px-6 py-2 border border-gray-600 text-gray-300 rounded-lg
+                         hover:bg-gray-700 hover:border-gray-500 hover:text-white
+                         transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500"
               aria-label="Rechazar el uso de cookies"
             >
               Rechazar
             </button>
             <button
               onClick={handleAcceptCookies}
-              className="text-sm md:text-base px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300"
+              // Botón de Aceptar con un gradiente vibrante, más prominente
+              className="w-full sm:w-auto text-sm md:text-base px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg
+                         shadow-md hover:from-orange-600 hover:to-red-600 hover:shadow-lg
+                         transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-300"
               aria-label="Aceptar el uso de cookies"
             >
               Aceptar
