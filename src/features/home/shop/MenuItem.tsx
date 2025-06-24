@@ -53,12 +53,15 @@ const MenuItem: React.FC<any> = ({
 
   return (
     <div
-      className={`rounded-3xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${isInCart ? 'bg-[#FFB84D]/50' : 'bg-[#ffffff]'
+      className={`rounded-3xl shadow cursor-pointer border-b border-gray-200 p-2 transition w-full lg:max-w-72 flex items-center gap-4 ${isInCart
+        ? 'bg-orange-50 border-2 border-orange-400 shadow-lg' // Fondo suave naranja, borde más visible y sombra
+        : 'bg-white border border-gray-200 hover:shadow-lg hover:border-gray-300' // Fondo blanco, borde sutil, y efecto hover
         }`}
     >
       <div className="avatar">
-        <div onClick={openProductModal} className="mask mask-squircle bg-white w-24">
+        <div onClick={openProductModal} className="mask mask-squircle  bg-white w-24">
           <img
+            className='bg-white'
             src={image ? `${BASE_URL}/${image}` : defaultImage}
             alt={nombre}
           />

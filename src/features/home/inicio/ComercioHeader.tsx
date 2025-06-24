@@ -50,7 +50,7 @@ const ComercioHeader: React.FC<ComercioHeaderProps> = ({
                     <img
                         src={imagenFinal}
                         alt={`Foto del comercio ${nombre}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover border-2 p-1 bg-orange-400 border-orange-400 overflow-hidden"
                     />
                 </div>
             </div>
