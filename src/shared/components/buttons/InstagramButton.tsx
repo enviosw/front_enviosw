@@ -13,7 +13,7 @@ const InstagramButton: React.FC<InstagramButtonProps> = ({ username }) => {
             href={instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 flex items-center justify-center bg-white rounded-full hover:bg-black transition-colors duration-300 shadow-md"
+            className="w-9 h-9 flex items-center justify-center bg-white rounded-full hover:bg-black transition-colors duration-300 shadow-md"
         >
             <FaInstagram size={24} className="text-black hover:text-white transition-colors duration-300" />
         </a>

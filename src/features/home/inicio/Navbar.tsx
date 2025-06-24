@@ -45,7 +45,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav
-      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-[#000000]' : 'bg-transparent'
+      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-[#161616]' : 'bg-transparent'
         } top-0 z-50 transition-all duration-300`}
     >
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
@@ -72,10 +72,10 @@ export const Navbar: React.FC = () => {
           Pitalito - Huila
         </div>
 
-        <div className="flex-none ml-4 flex items-center gap-4">
+        <div className="flex-none flex items-center gap-4">
           {!user ? (
             <button
-              className="btn btn-square text-primary lg:text-white btn-ghost transition-all duration-300 transform hover:scale-110"
+              className="btn btn-square text-primary scale-90 lg:text-white btn-ghost transition-all duration-300 transform hover:scale-110"
               onClick={() => navigate('/login')}
             >
               <FaUserCircle size={40} />
@@ -85,11 +85,10 @@ export const Navbar: React.FC = () => {
               <div
                 tabIndex={0}
                 role="button"
-                className="btn btn-ghost btn-circle avatar transition-all duration-300 transform hover:scale-110"
+                className="btn btn-ghost btn-circlen avatar transition-all duration-300 transform hover:scale-110"
                 aria-label="Abrir menú de usuario"
               >
-                <FaUser size={25} color='#fff' />
-
+                <FaUser size={22} color='#fff' />
               </div>
 
               <ul

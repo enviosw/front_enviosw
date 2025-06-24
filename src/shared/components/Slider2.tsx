@@ -23,7 +23,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[45vh] lg:h-[55vh] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <div
@@ -32,11 +32,11 @@ const Slider2: React.FC = () => {
                     ></div>
 
                     {/* Capa oscura */}
-                    <div className="absolute inset-0 bg-black opacity-85 z-0"></div>
+                    <div className="absolute inset-0 bg-black opacity-95 z-0"></div>
 
-                    <div className="flex w-[100%] lg:w-[85%] mx-auto z-30" >
+                    <div className="flex w-[100%] lg:w-[85%] mx-auto z-30">
                         {/* Contenido principal */}
-                        <div className="flex-1 flex flex-col justify-center space-y-4 text-left">
+                        <div className="flex-1 flex flex-col justify-center space-y-4 text-left translate-y-3.5">
                             <Animate
                                 play
                                 duration={1.5}
@@ -114,7 +114,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[45vh] lg:h-[55vh]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <div
@@ -192,7 +192,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[50vh] lg:h-[55vh] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[45vh] lg:h-[55vh] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
                     {/* Imagen de fondo */}
 
                     <div
