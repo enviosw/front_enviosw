@@ -12,6 +12,7 @@ import ComercioHeader from './ComercioHeader';
 import { BASE_URL } from '../../../utils/baseUrl';
 import Modal from '../../../shared/components/Modal';
 import { Producto } from '../../../shared/types/productosInterface';
+import ToastNotification from './components/ToastNotification';
 
 const MenuList: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // Aquí `id` es el id del comercio
@@ -29,7 +30,8 @@ const MenuList: React.FC = () => {
 
     const [categoriaId, setCategoriaId] = useState<number | undefined>(undefined);
     const [selectedCategoriaId, setSelectedCategoriaId] = useState<number | undefined>(undefined);
-
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
 
     const { data } = useProductosPublicos(Number(id), categoriaId, search, page); const lastPage = data?.lastPage || 1;
     const navigate = useNavigate();
@@ -97,6 +99,12 @@ const MenuList: React.FC = () => {
             setPage(1);
         }
     }, [searchValue]);
+
+    const triggerToast = (message: string) => {
+        setToastMessage(message);
+        setShowToast(true);
+    };
+
 
     return (
         <div className="w-full min-h-screen bg-[#fafafa] text-gray-900">
@@ -185,7 +193,8 @@ const MenuList: React.FC = () => {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
                                 {productosAdaptados.map((item) => (
-                                    <MenuItem key={item.id} {...item} comercioId={id} />
+                                    <MenuItem key={item.id} {...item} comercioId={id} onAddToCartSuccess={triggerToast} // ⬅️ Nueva prop
+                                    />
                                 ))}
                             </div>
 
@@ -204,6 +213,13 @@ const MenuList: React.FC = () => {
                 </div>
             </div>
             <Modal />
+
+            <ToastNotification
+                message={toastMessage}
+                isVisible={showToast}
+                onClose={() => setShowToast(false)}
+            />
+
         </div>
     );
 };

@@ -19,6 +19,8 @@ const MenuItem: React.FC<any> = ({
   estado_descuento,
   fecha_creacion,
   fecha_actualizacion,
+  onAddToCartSuccess,
+
 }) => {
   const { addToCart, cartItems } = useCart();
   const { openModal, setModalTitle, setModalContent } = useModal();
@@ -110,6 +112,10 @@ const MenuItem: React.FC<any> = ({
                   fecha_actualizacion,
                   quantity: 1,
                 });
+
+                if (onAddToCartSuccess) {
+                  onAddToCartSuccess(`¡${nombre} añadido al carrito!`);
+                }
               }
             }}
             className="bg-[#E63946] cursor-pointer text-white text-sm size-10 flex justify-center items-center rounded-full hover:bg-orange-600 transition"
