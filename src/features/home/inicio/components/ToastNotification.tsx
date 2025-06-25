@@ -14,7 +14,7 @@ const ToastNotification: React.FC<ToastNotificationProps> = ({
   message,
   isVisible,
   onClose,
-  duration = 3000,
+  duration = 800,
 }) => {
   useEffect(() => {
     if (isVisible) {

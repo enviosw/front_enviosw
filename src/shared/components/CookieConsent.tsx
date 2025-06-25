@@ -32,7 +32,7 @@ const CookieConsent: React.FC = () => {
       <div
         // Fondo más oscuro pero no totalmente negro, con una transparencia sutil si quieres un efecto "frosted glass" (requiere backdrop-filter)
         // Borde superior sutil para definirlo del resto del contenido.
-        className="fixed bottom-10 left-0 w-full bg-gray-900 bg-opacity-95 text-white p-4 shadow-2xl z-[999]
+        className="fixed bottom-10 lg:bottom-0 left-0 w-full bg-gray-900 bg-opacity-95 text-white p-4 shadow-2xl z-[999]
                    transform translate-y-0 transition-transform duration-500 ease-out"
         role="dialog"
         aria-labelledby="cookieConsentLabel"

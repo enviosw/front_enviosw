@@ -21,7 +21,10 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     const handleClick = useCallback((servicio: Servicio) => {
         const servicioSeleccionado = servicio.estado === 'activo' ? Number(servicio.id) : String(servicio.nombre);
 
-        setSelectedServicioId(null); // limpia selección visual
+        // Guardar en localStorage
+        localStorage.setItem('ultimoServicioSeleccionado', JSON.stringify(servicioSeleccionado));
+
+        setSelectedServicioId(null);
         setTimeout(() => {
             setSelectedServicioId(servicioSeleccionado);
             onSelectServicio(servicioSeleccionado);
@@ -29,15 +32,30 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     }, [onSelectServicio]);
 
 
+
     // Efecto para seleccionar el primer servicio por defecto al cargar
     useEffect(() => {
         if (sortedServicios.length > 0 && selectedServicioId === null) {
+            const guardado = localStorage.getItem('ultimoServicioSeleccionado');
+            if (guardado) {
+                try {
+                    const servicioSeleccionado = JSON.parse(guardado);
+                    setSelectedServicioId(servicioSeleccionado);
+                    onSelectServicio(servicioSeleccionado);
+                    return;
+                } catch (error) {
+                    console.error('Error leyendo localStorage', error);
+                }
+            }
+
+            // Fallback si no hay guardado
             const firstServicio = sortedServicios[0];
             const servicioSeleccionado = firstServicio.estado === 'activo' ? Number(firstServicio.id) : String(firstServicio.nombre);
             setSelectedServicioId(servicioSeleccionado);
             onSelectServicio(servicioSeleccionado);
         }
     }, [sortedServicios, selectedServicioId, onSelectServicio]);
+
 
 
     const serviciosOrdenados = [...sortedServicios].sort((a, b) => {
@@ -64,7 +82,7 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
                     end={{ opacity: 1, transform: 'translateY(0px)' }}
                 >
                     <div className="flex flex-col items-center">
-                    
+
                         <button
                             style={{ backgroundColor: servicio.color }}
                             aria-label={`Seleccionar servicio ${servicio.nombre}`}

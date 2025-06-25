@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCart } from '../../../context/CartContext';
 import { FaPlus, FaMinus, FaTrash, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import { BASE_URL } from '../../../utils/baseUrl';
@@ -6,6 +6,7 @@ import { useComercioId } from '../../../utils/obtenerComercio';
 import { formatNumber } from '../../../utils/formatNumber';
 import { useComercioIdent } from '../../../services/comerciosService';
 import { limpiarTextoWhatsApp } from '../../../utils/eliminarCaracteresEspeciales';
+
 
 const Cart: React.FC = () => {
     const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart(); // Asegurarse de que clearCart esté disponible
@@ -72,6 +73,36 @@ const Cart: React.FC = () => {
 
     const defaultImage = '/logo_w_fondo_negro.jpeg';
 
+
+    useEffect(() => {
+        const handlePopState = () => {
+            const drawerCheckbox = document.getElementById('cart-drawer') as HTMLInputElement;
+            if (drawerCheckbox?.checked) {
+                drawerCheckbox.checked = false;
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, []);
+
+
+    useEffect(() => {
+        const drawerCheckbox = document.getElementById('cart-drawer') as HTMLInputElement;
+        const handleChange = () => {
+            if (drawerCheckbox?.checked) {
+                window.history.pushState(null, '', window.location.href);
+            }
+        };
+
+        drawerCheckbox?.addEventListener('change', handleChange);
+        return () => drawerCheckbox?.removeEventListener('change', handleChange);
+    }, []);
+
+
     return (
         <div className="drawer drawer-end z-50">
             {showToast && (
@@ -107,9 +138,9 @@ const Cart: React.FC = () => {
             <div className="drawer-content">
                 <label
                     htmlFor="cart-drawer"
-                    className="relative flex items-center size-12 justify-center bg-white backdrop-blur-xl rounded-full text-[#25D366] hover:bg-green-500 hover:text-white transition-all duration-300 shadow-md"
+                    className="relative flex items-center size-14 justify-center bg-white backdrop-blur-xl rounded-full text-[#25D366] hover:bg-green-500 hover:text-white transition-all duration-300 shadow-md"
                 >
-                    <FaShoppingCart size={25} className="text-xl text-red-500 hover:text-red-500 transition" />
+                    <FaShoppingCart size={40} className="text-xl text-primary hover:text-red-500 transition" />
                     {totalItems > 0 && (
                         <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
                             {totalItems}

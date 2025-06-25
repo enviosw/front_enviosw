@@ -112,17 +112,17 @@ const MenuList: React.FC = () => {
                 {/* Contenido principal */}
                 <div className="flex-1 flex flex-col items-center md:ml-0">
                     {/* Header */}
-                    <header className="w-full  z-20 bg-[#000000] text-white px-4 py-4 shadow-lg">
+                    <header className="w-full  z-20 bg-transparent text-gray-900 px-4 py-4 shadow-lg">
                         <div className="container mx-auto flex justify-between items-center">
                             <div className="flex items-center gap-4">
                                 <button
                                     onClick={() => navigate(-1)}
-                                    className="text-white hover:text-[#FFD166] transition"
+                                    className="text-gray-900 hover:text-[#FFD166] transition"
                                 >
                                     <FaArrowLeft size={20} />
                                 </button>
                                 <img
-                                    className="w-10 h-10 rounded-full border-2 border-white"
+                                    className="w-10 h-10 rounded-full border-2 text-gray-900"
                                     src={`${BASE_URL}/${comercio?.logo_url}`}
                                     alt="Logo"
                                 />
