@@ -117,7 +117,7 @@ const MenuList: React.FC = () => {
                             <div className="flex items-center gap-4">
                                 <button
                                     onClick={() => navigate(-1)}
-                                    className="text-gray-900 hover:text-[#FFD166] transition"
+                                    className="text-white hover:text-[#FFD166] transition"
                                 >
                                     <FaArrowLeft size={20} />
                                 </button>
@@ -126,7 +126,7 @@ const MenuList: React.FC = () => {
                                     src={`${BASE_URL}/${comercio?.logo_url}`}
                                     alt="Logo"
                                 />
-                                <h1 className="text-xl font-bold">{comercio?.nombre_comercial ?? 'Nombre Comercial'}</h1>
+                                {/* <h1 className="text-xl font-bold">{comercio?.nombre_comercial ?? 'Nombre Comercial'}</h1> */}
                             </div>
                             <div className="hidden gap-4">
                                 <Ubicacion />
