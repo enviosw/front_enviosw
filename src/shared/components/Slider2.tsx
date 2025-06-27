@@ -23,7 +23,7 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[30vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
+                <div className="relative w-full h-[35vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
                     {/* Imagen de fondo */}
                     <div
                         className="absolute inset-0 bg-cover bg-center z-10 opacity-15"
@@ -99,7 +99,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full h-[30vh] md:h-[40vh] pt-10 lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
+                <div className="relative w-full h-[35vh] md:h-[40vh] pt-10 lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
                     {/* Imagen de fondo */}
                     <div
                         className="absolute inset-0 bg-cover bg-center z-10 opacity-15"
@@ -175,7 +175,7 @@ const Slider2: React.FC = () => {
         },
         {
             content: (
-                <div className="relative w-full pt-10 h-[30vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
+                <div className="relative w-full pt-10 h-[35vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
                     {/* Imagen de fondo */}
                     <div
                         className="absolute inset-0 bg-cover bg-start z-10 opacity-15"
