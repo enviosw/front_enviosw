@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Loading from '../../utils/Loading';
 // import ToggleButton from '../../shared/components/buttons/ToggleButton';
-// import { GoArrowDown } from "react-icons/go";
+import { GoArrowDown } from "react-icons/go";
 import { useImagenes } from '../../services/imagenesService';
 const IconButtons = lazy(() => import('../../features/home/inicio/IconButtons'));
 const LocalesComerciales = lazy(() => import('../../features/home/inicio/LocalesComerciales'));
@@ -72,13 +72,13 @@ const Home: React.FC = () => {
           key="select-servicio"
           className="w-full flex flex-col items-center justify-center text-center py-3 bg-[#ffffff]"
         >
-          <h3 className="text-xl font-bold text-gray-600 mb-2">
+          <h3 className="text-2xl font-medium text-gray-900 mb-2 w-[80%]">
             ¡Selecciona el servicio que necesitas!
           </h3>
 
-          {/* <figure className="text-2xl size-7 animate-bounce rounded-full border-1 p-1 bg-transparent text-orange-500 flex items-center justify-center">
+          <figure className="text-2xl size-7 animate-bounce rounded-full font-extrabold border-1 p-1 bg-transparent text-orange-500 flex items-center justify-center">
             <GoArrowDown />
-          </figure> */}
+          </figure>
 
           <div className="items-center w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
             <IconButtons onSelectServicio={handleSelectServicio} />
