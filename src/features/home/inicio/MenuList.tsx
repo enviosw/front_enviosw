@@ -112,7 +112,7 @@ const MenuList: React.FC = () => {
                 {/* Contenido principal */}
                 <div className="flex-1 flex flex-col items-center md:ml-0">
                     {/* Header */}
-                    <header className="w-full  z-20 bg-transparent text-gray-900 px-4 py-4 shadow-lg">
+                    <header className="w-full fixed top-0 z-20 bg-transparent text-white px-4 py-4">
                         <div className="container mx-auto flex justify-between items-center">
                             <div className="flex items-center gap-4">
                                 <button
@@ -128,7 +128,7 @@ const MenuList: React.FC = () => {
                                 />
                                 <h1 className="text-xl font-bold">{comercio?.nombre_comercial ?? 'Nombre Comercial'}</h1>
                             </div>
-                            <div className="hidden lg:flex gap-4">
+                            <div className="hidden gap-4">
                                 <Ubicacion />
                                 <WhatsappButton phoneNumber={comercio?.telefono ?? ''} message="Hola, quiero hacer un pedido" />
                                 {/* <CartaMenu /> */}
