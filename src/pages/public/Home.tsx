@@ -89,7 +89,7 @@ const Home: React.FC = () => {
       <Suspense fallback={<Loading />}>
         <section
           key={servicioId !== null ? `servicio-${servicioId}` : `tipo-${servicioNombre}`}
-          className="h-auto flex bg-gray-100 justify-start items-center relative mt-2 lg:mt-5"
+          className="h-auto flex bg-gray-50 justify-start items-center relative mt-2 lg:mt-5"
         >
           <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-10 lg:pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
             <div className="w-full">
