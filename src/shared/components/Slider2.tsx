@@ -23,20 +23,19 @@ const Slider2: React.FC = () => {
     const slides = [
         {
             content: (
-                <div className="relative w-full h-[45vh] lg:h-[55vh] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[30vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
                     {/* Imagen de fondo */}
-
                     <div
-                        className="absolute inset-0 bg-cover bg-center flex  z-10 opacity-15"
+                        className="absolute inset-0 bg-cover bg-center z-10 opacity-15"
                         style={{ backgroundImage: 'url(pitalito.png)' }}
                     ></div>
 
                     {/* Capa oscura */}
-                    <div className="absolute inset-0 bg-black opacity-95 z-0"></div>
+                    <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
 
-                    <div className="flex w-[100%] lg:w-[85%] mx-auto z-30">
-                        {/* Contenido principal */}
-                        <div className="flex-1 flex flex-col justify-center space-y-4 text-left translate-y-3.5">
+                    {/* Contenido principal */}
+                    <div className="flex w-full lg:w-[85%] mx-auto z-30">
+                        <div className="flex-1 flex flex-col justify-center space-y-3 text-left">
                             <Animate
                                 play
                                 duration={1.5}
@@ -44,11 +43,11 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <figure className='mb-[-20px]'>
-                                    <img src="logoW_1.png" alt="logo domicilios w" className='h-10 md:h-24 2xl:h-30 mb-2' />
+                                <figure className="mb-[-10px]">
+                                    <img src="logoW_1.png" alt="logo domicilios w" className="h-8 sm:h-10 md:h-16 lg:h-24" />
                                 </figure>
-
                             </Animate>
+
                             <Animate
                                 play
                                 duration={1.5}
@@ -56,11 +55,11 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <h1 className="text-3xl hidden lg:flex sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight  flex-col space-y-1">
-                                    <span>Domicilios <span className='text-primary'>W</span></span>
+                                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight hidden sm:flex flex-col">
+                                    <span>Domicilios <span className="text-primary">W</span></span>
                                 </h1>
-                                <h2 className='text-xl sm:text-xl md:text-xl lg:text-2xl font-sans mt-[-10px] pt-4 text-white italic'>
-                                    <span>Te ahorramos <span className='text-primary'>Tiempo</span> y sobre todo <span className='text-primary'>Dinero</span></span>
+                                <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans text-white italic pt-2">
+                                    Te ahorramos <span className="text-primary">Tiempo</span> y sobre todo <span className="text-primary">Dinero</span>
                                 </h2>
                             </Animate>
 
@@ -71,64 +70,47 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-
-                                <p className="text-lg sm:text-lg md:text-xl text-white mt-0 lg:mt-6 font-light leading-relaxed">
-                                    ¿Necesitas un{" "}
-                                    <span className="text-primary font-semibold">
-                                        domicilio rápido y seguro
-                                    </span>{" "}
-                                    en Pitalito?
+                                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white font-light leading-relaxed">
+                                    ¿Necesitas un <span className="text-primary font-semibold">domicilio rápido y seguro</span> en Pitalito?
                                     <br />
-                                    Con{" "}
-                                    <span className="text-primary font-semibold">Domicilios W</span>,
-                                    enviamos tus compras, comida y más a tu puerta.
+                                    Con <span className="text-primary font-semibold">Domicilios W</span>, enviamos tus compras, comida y más a tu puerta.
                                 </p>
                             </Animate>
-
-                            <div className="flex gap-4 mt-4 z-10">
-                                <PrimaryButton text="Hacer Pedido" onClick={() => handleAction('pedido')} />
-                                <SecondaryButton text="Explorar negocios" onClick={() => handleAction('comercio')} />
-                            </div>
                         </div>
-                    </div >
-                    {!imgLoaded && (
-                        <></>
-                    )}
+                    </div>
 
+                    {/* Imagen decorativa (escritorio) */}
                     <img
                         loading="lazy"
-                        className={`top-5 absolute w-[45%] hidden lg:flex right-32 z-30 transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        className={`absolute top-5 right-10 w-[40%] hidden lg:block z-30 transition-opacity duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
                         src="domi11.png"
                         alt="Servicio de Domicilios en Pitalito"
                         onLoad={() => setImgLoaded(true)}
                     />
 
-
-                    {/* Información de contacto */}
+                    {/* Contacto (escritorio) */}
                     <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-30">
                         <ContactoInfo />
                     </div>
-                </div >
+                </div>
+
 
             ),
         },
         {
             content: (
-                <div className="relative w-full h-[45vh] lg:h-[55vh]  lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[30vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
                     {/* Imagen de fondo */}
-
                     <div
-                        className="absolute inset-0 bg-cover bg-center flex  z-10 opacity-15"
+                        className="absolute inset-0 bg-cover bg-center z-10 opacity-15"
                         style={{ backgroundImage: 'url(cafe.jpg)' }}
                     ></div>
 
                     {/* Capa oscura */}
                     <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
 
-
                     {/* Contenedor principal */}
                     <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
-
                         {/* Contenido textual */}
                         <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3">
                             <Animate
@@ -138,7 +120,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: 'translateY(20px)' }}
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
-                                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
+                                <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
                                     <span>¿Tienes un negocio?</span>
                                     <br />
                                     <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
@@ -154,7 +136,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: 'translateY(20px)' }}
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
-                                <ul className="list-disc pl-5 text-base sm:text-lg md:text-xl font-medium text-white leading-relaxed space-y-1">
+                                <ul className="list-disc pl-4 sm:pl-5 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-white leading-relaxed space-y-1">
                                     <li>
                                         <span className="text-[#E0F2F1] font-bold">Recibe pedidos</span> <span className="font-semibold">directo a tu negocio</span>.
                                     </li>
@@ -165,12 +147,12 @@ const Slider2: React.FC = () => {
                                         <span className="text-[#E0F2F1] font-bold">Tus clientes te encontrarán aquí</span>.
                                     </li>
                                     <li>
-                                        <span className="text-[#E0F2F1] font-bold">¡Es facil, rápido y sin costo!</span>
+                                        <span className="text-[#E0F2F1] font-bold">¡Es fácil, rápido y sin costo!</span>
                                     </li>
                                 </ul>
                             </Animate>
 
-                            <div className="flex gap-4 mt-4 z-10 hover:scale-105 transition-transform duration-300">
+                            <div className="flex gap-4 mt-3 sm:mt-4 z-10 hover:scale-105 transition-transform duration-300">
                                 <SecondaryButton
                                     text="Quiero registrar mi negocio"
                                     onClick={() => handleAction('registrar_comercio')}
@@ -178,33 +160,33 @@ const Slider2: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Imagen decorativa */}
+                        {/* Imagen decorativa (solo escritorio) */}
                         <img
                             loading="lazy"
-                            className="-top-32 absolute w-[38%] hidden lg:flex right-32 z-30"
+                            className="absolute -top-32 right-10 w-[38%] hidden lg:flex z-30"
                             src="persona3.png"
                             alt="Servicio de Domicilios en Pitalito"
                         />
                     </div>
                 </div>
+
             ),
 
         },
         {
             content: (
-                <div className="relative w-full h-[45vh] lg:h-[55vh] lg:pt-12 flex items-end lg:items-center justify-between px-6 md:px-16 py-8 overflow-hidden">
+                <div className="relative w-full h-[30vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
                     {/* Imagen de fondo */}
-
                     <div
-                        className="absolute inset-0 bg-cover bg-start flex  z-10 opacity-15"
+                        className="absolute inset-0 bg-cover bg-start z-10 opacity-15"
                         style={{ backgroundImage: 'url(huila.jpg)' }}
                     ></div>
 
                     {/* Capa oscura */}
                     <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
 
+                    {/* Contenedor principal */}
                     <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
-
                         {/* Contenido textual */}
                         <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3">
                             <Animate
@@ -214,11 +196,12 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: 'translateY(20px)' }}
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
-                                <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
-                                    {/* <span>¿Buscas trabajo flexible?</span> */}
+                                <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
                                     <span>¿Sin empleo?</span>
                                     <br />
-                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">¡Trabaja con nosotros!</span>
+                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
+                                        ¡Trabaja con nosotros!
+                                    </span>
                                 </h3>
                             </Animate>
 
@@ -229,7 +212,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: 'translateY(20px)' }}
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
-                                <ul className="list-disc pl-5 text-base sm:text-lg md:text-xl font-medium text-white leading-relaxed space-y-1">
+                                <ul className="list-disc pl-4 sm:pl-5 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-white leading-relaxed space-y-1">
                                     <li>
                                         <span className="text-slate-200 font-bold">Únete y empieza a generar ingresos ya.</span>
                                     </li>
@@ -237,24 +220,29 @@ const Slider2: React.FC = () => {
                                         <span className="text-slate-200 font-bold">¡Tú decides cuándo trabajar!</span>
                                     </li>
                                     <li>
-                                        <span className="text-slate-200 font-bold">Puedes eligir tus horarios.</span>
+                                        <span className="text-slate-200 font-bold">Puedes elegir tus horarios.</span>
                                     </li>
                                 </ul>
                             </Animate>
-                            <div className="flex gap-4 mt-4 z-10 hover:scale-105 transition-transform duration-300">
-                                <PrimaryButton text="Quiero ser domiciliario" onClick={() => handleAction('domiciliario')} />
+
+                            <div className="flex gap-4 mt-3 sm:mt-4 z-10 hover:scale-105 transition-transform duration-300">
+                                <PrimaryButton
+                                    text="Quiero ser domiciliario"
+                                    onClick={() => handleAction('domiciliario')}
+                                />
                             </div>
                         </div>
 
-                        {/* Imagen decorativa optimizada */}
+                        {/* Imagen decorativa (solo escritorio) */}
                         <img
                             loading="lazy"
-                            className="-top-32 absolute w-[38%] hidden lg:flex right-32 z-30"
+                            className="absolute -top-32 right-10 w-[38%] hidden lg:flex z-30"
                             src="persona3.png"
                             alt="Servicio de Domicilios en Pitalito"
                         />
                     </div>
                 </div>
+
 
             ),
         },
