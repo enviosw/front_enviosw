@@ -55,7 +55,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight hidden sm:flex flex-col">
+                                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight flex flex-col">
                                     <span>Domicilios <span className="text-primary">W</span></span>
                                 </h1>
                                 <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans text-white italic pt-2">
@@ -120,10 +120,10 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: 'translateY(20px)' }}
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
-                                <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
+                                <h2 className="text-xl sm:text-xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
                                     <span>¿Tienes un negocio?</span>
                                     <br />
-                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
+                                    <span className="rounded-xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
                                         ¡Regístrate y vende!
                                     </span>
                                 </h2>
@@ -152,7 +152,7 @@ const Slider2: React.FC = () => {
                                 </ul>
                             </Animate>
 
-                            <div className="flex gap-4 mt-3 sm:mt-4 z-10 hover:scale-105 transition-transform duration-300">
+                            <div className="flex gap-4 mt-3 sm:mt-2 z-10 hover:scale-105 transition-transform duration-300">
                                 <SecondaryButton
                                     text="Quiero registrar mi negocio"
                                     onClick={() => handleAction('registrar_comercio')}
@@ -196,10 +196,10 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: 'translateY(20px)' }}
                                 end={{ opacity: 1, transform: 'translateY(0px)' }}
                             >
-                                <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
+                                <h3 className="text-xl sm:text-xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
                                     <span>¿Sin empleo?</span>
                                     <br />
-                                    <span className="rounded-2xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
+                                    <span className="rounded-xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">
                                         ¡Trabaja con nosotros!
                                     </span>
                                 </h3>
@@ -225,7 +225,7 @@ const Slider2: React.FC = () => {
                                 </ul>
                             </Animate>
 
-                            <div className="flex gap-4 mt-3 sm:mt-4 z-10 hover:scale-105 transition-transform duration-300">
+                            <div className="flex gap-4 mt-3 sm:mt-2 z-10 hover:scale-105 transition-transform duration-300">
                                 <PrimaryButton
                                     text="Quiero ser domiciliario"
                                     onClick={() => handleAction('domiciliario')}
