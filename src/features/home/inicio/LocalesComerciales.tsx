@@ -116,7 +116,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
                         placeholder="Buscar negocio o servicio"
-                        className="w-full py-3 pl-3 pr-3 bg-[#ffffff] border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
+                        className="w-full py-3 pl-3 pr-3 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
                         onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         aria-label="Buscar contenido"
                     />
