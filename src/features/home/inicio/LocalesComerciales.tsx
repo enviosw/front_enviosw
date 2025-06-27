@@ -122,7 +122,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                     />
                     <button
                         onClick={handleSearch}
-                        className="absolute right-5 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-all duration-300"
+                        className="absolute right-8 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-all duration-300"
                         aria-label="Realizar búsqueda"
                     >
                         <FaSearch />
