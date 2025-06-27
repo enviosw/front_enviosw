@@ -58,7 +58,7 @@ const Slider2: React.FC = () => {
                                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight flex flex-col">
                                     <span>Domicilios <span className="text-primary">W</span></span>
                                 </h1>
-                                <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans text-white italic pt-2">
+                                <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl font-sans text-white italic pt-2">
                                     Te ahorramos <span className="text-primary">Tiempo</span> y sobre todo <span className="text-primary">Dinero</span>
                                 </h2>
                             </Animate>
@@ -70,7 +70,7 @@ const Slider2: React.FC = () => {
                                 start={{ opacity: 0, transform: "translateY(20px)" }}
                                 end={{ opacity: 1, transform: "translateY(0px)" }}
                             >
-                                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white font-light leading-relaxed">
+                                <p className="text-base sm:text-base md:text-lg lg:text-xl text-white font-light leading-relaxed">
                                     ¿Necesitas un <span className="text-primary font-semibold">domicilio rápido y seguro</span> en Pitalito?
                                     <br />
                                     Con <span className="text-primary font-semibold">Domicilios W</span>, enviamos tus compras, comida y más a tu puerta.
