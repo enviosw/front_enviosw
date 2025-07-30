@@ -63,7 +63,7 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
         }
     };
 const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  validateImageFilesWithClean(e, 500, setLogo);
+  validateImageFilesWithClean(e, 200, setLogo);
 };
 
     const isPending = comercio?.id ? actualizarMutation.isPending : crearMutation.isPending;

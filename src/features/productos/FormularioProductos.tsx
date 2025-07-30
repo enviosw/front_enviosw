@@ -175,7 +175,7 @@ const FormularioProductos: React.FC<FormularioProductosProps> = ({ producto }) =
             type="file"
             accept="image/*"
             name="logo"
-            onChange={(e) => validateImageFilesWithClean(e, 500, setImagen)}
+            onChange={(e) => validateImageFilesWithClean(e, 200, setImagen)}
             className="file-input file-input-bordered w-full"
           />
 

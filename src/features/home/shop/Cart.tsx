@@ -16,6 +16,7 @@ const Cart: React.FC = () => {
     const [showToast, setShowToast] = useState(false);
     const [showToast2, setShowToast2] = useState(false);
 
+    const [showToast3, setShowToast3] = useState(false);
 
     // Calcular el total de productos en el carrito
 
@@ -24,11 +25,19 @@ const Cart: React.FC = () => {
 
     const handleWhatsAppOrder = () => {
 
+        if (cartItems.length === 0) {
+            setShowToast3(true);
+            setTimeout(() => setShowToast3(false), 3000); // Ocultar luego de 3s
+            return;
+        }
+
+
         if (!direccion) {
             setShowToast(true);
             setTimeout(() => setShowToast(false), 3000); // Ocultar luego de 3s
             return;
         }
+
 
         if (!telefono) {
             setShowToast2(true);
@@ -125,6 +134,21 @@ const Cart: React.FC = () => {
                         <div className="flex flex-col text-left">
                             <span>Te falta el telefono.</span>
                             <span>Escríbelo para poder enviar el pedido.</span>
+                        </div>
+                    </div>
+                </div>
+
+            )}
+
+
+            {showToast3 && (
+                <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
+                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
+                        <span className="text-xl">❗</span>
+                        <div className="flex flex-col text-left">
+                            <span>Carrito vacio!!.</span>
+                            <span>Selecciona almenos un producto.</span>
+
                         </div>
                     </div>
                 </div>
@@ -264,7 +288,7 @@ const Cart: React.FC = () => {
                         </div>
 
                         <button
-                            // disabled={cartItems.length === 0 || !direccion}
+                            // disabled={cartItems.length === 0}
                             onClick={handleWhatsAppOrder}
                             className="w-full bg-success text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-500 transition"
                         >
