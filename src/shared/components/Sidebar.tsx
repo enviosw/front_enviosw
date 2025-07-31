@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSidebar } from '../../context/SidebarContext';
 import { NavLink, useNavigate } from 'react-router-dom'; // Importar NavLink de React Router
-import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers, HiCollection } from 'react-icons/hi';
+import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers, HiCollection, HiTag } from 'react-icons/hi';
 import { FiLogOut } from "react-icons/fi";
 import { FaTimes } from 'react-icons/fa';
 import { AlertService } from '../../utils/AlertService';
@@ -17,7 +17,7 @@ const menuItems = [
     // { icon: <HiChartBar />, label: 'Configuraciones', to: '/configuraciones' },
     { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
     // { icon: <HiShoppingCart />, label: 'Tarifas', to: '/tarifas' },
-    // { icon: <HiTag />, label: 'Perfil', to: '/perfil' }
+    { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' }
 ];
 
 const Sidebar: React.FC = () => {
