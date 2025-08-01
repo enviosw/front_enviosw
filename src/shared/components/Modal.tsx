@@ -7,7 +7,7 @@ const Modal: React.FC = () => {
 
     return (
         <div className={`modal p-0  rounded--none lg:p-8 bg-white   overflow-hidden  ${isOpen ? 'modal-open' : ''}`} role="dialog">
-            <div className="modal-box w-full h-full  lg:w-11/12lg: max-w-5xl relative">
+            <div className="modal-box w-full min-h-[80vh]  lg:w-11/12lg: max-w-5xl relative">
                 <h3 className="text-3xl font-extrabold text-gray-900 text-center mb-4">{modalTitle}</h3>
                 <div className="py-4">{modalContent}</div>
                 <div className="modal-action absolute top-0 right-5">

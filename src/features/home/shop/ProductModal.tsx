@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../../../context/CartContext';
 import { BASE_URL } from '../../../utils/baseUrl';
-import { FaPlus, FaMinus, FaTimes } from 'react-icons/fa';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 import { formatNumber } from '../../../utils/formatNumber';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useModal } from '../../../context/ModalContext'; // Asumo que aquí tienes closeModal
@@ -39,29 +39,21 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm border-none flex shadow-none justify-center items-center"
+        className="fixed inset-0 z-50 border-none flex shadow-none bg-transparent justify-center items-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={closeModal}
       >
         <motion.div
-          className="w-full max-h-[90%] bg-white rounded-3xl shadow-lg p-5 overflow-y-auto"
+          className="w-full max-h-[90%] bg-white rounded-3xl p-5 overflow-y-auto"
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ type: 'spring', stiffness: 260, damping: 20 }}
           onClick={(e) => e.stopPropagation()} // Previene cerrar al hacer click dentro
         >
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-xl font-bold text-gray-800">{product.nombre}</h1>
-            <button
-              onClick={closeModal}
-              className="text-gray-400 hover:text-red-500 transition"
-            >
-              <FaTimes size={20} />
-            </button>
-          </div>
+
 
           <motion.img
             src={product.image ? `${BASE_URL}/${product.image}` : defaultImage}
