@@ -72,9 +72,14 @@ const Home: React.FC = () => {
           key="select-servicio"
           className="w-full flex flex-col items-center justify-center text-center pt-1.5 bg-[#ffffff]"
         >
-          <h3 className="text-2xl font-black text-gray-700 w-[80%]">
+          {/* <h3 className="text-2xl font-black text-gray-700 w-[80%]">
             ¡Selecciona el servicio que necesitas!
-          </h3>
+          </h3> */}
+
+            <h2 className="text-xl font-medium text-gray-600 mx-auto w-[80%] lg:m-0 tracking-wide">
+            ¡Selecciona el servicio que necesitas!
+                                </h2>
+
 
           {/* <figure className="text-2xl size-7 animate-bounce rounded-full font-extrabold border-1 p-1 bg-transparent text-orange-500 flex items-center justify-center">
             <GoArrowDown />

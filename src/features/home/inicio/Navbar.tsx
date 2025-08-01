@@ -45,7 +45,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav
-      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-gray-900' : 'bg-transparent'
+      className={`navbar border-none w-full mx-auto flex fixed left-0 right-0 ${isScrolled ? 'bg-[#1E293B]/95 backdrop-blur-md shadow-md' : 'bg-transparent'
         } top-0 z-50 transition-all duration-300`}
     >
       <div className="w-full flex lg:w-[80%] mx-auto items-center justify-between">
