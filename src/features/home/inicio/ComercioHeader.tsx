@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion'; // 👈 importar framer motion
 
 interface ComercioHeaderProps {
   nombre: string;
@@ -45,14 +46,19 @@ const ComercioHeader: React.FC<ComercioHeaderProps> = ({
           </p>
         </div>
 
-        {/* Imagen circular flotante */}
-        <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-full border-4 border-white overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 bg-white">
-          <img
+        {/* Imagen circular animada */}
+        <motion.div
+          className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-full border-4 border-white overflow-hidden shadow-lg bg-white"
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
+          <motion.img
             src={imagenFinal}
             alt={`Foto del comercio ${nombre}`}
             className="w-full h-full object-cover"
           />
-        </div>
+        </motion.div>
       </div>
     </div>
   );

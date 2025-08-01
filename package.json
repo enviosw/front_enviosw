@@ -15,7 +15,7 @@
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-query": "^5.74.4",
     "axios": "^1.9.0",
-    "framer-motion": "^12.7.4",
+    "framer-motion": "^12.23.12",
     "jwt-decode": "^4.0.0",
     "numeral": "^2.0.6",
     "primereact": "^10.9.5",
