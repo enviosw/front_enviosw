@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useProductosPublicos } from '../../../services/productosServices';
 import MenuItem from '../shop/MenuItem';
@@ -36,6 +36,7 @@ const MenuList: React.FC = () => {
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const { data: comercio } = useComercioIdent(Number(id));
+    const loaderRef = useRef<HTMLDivElement | null>(null);
 
     const { data } = useProductosPublicos(Number(id), categoriaId, search, page); const lastPage = data?.lastPage || 1;
     const navigate = useNavigate();
@@ -105,6 +106,34 @@ const MenuList: React.FC = () => {
             setPage(1);
         }
     }, [searchValue]);
+
+
+    useEffect(() => {
+    const observer = new IntersectionObserver(
+        entries => {
+            if (entries[0].isIntersecting && page < lastPage) {
+                setPage(prev => prev + 1);
+            }
+        },
+        {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0,
+        }
+    );
+
+    if (loaderRef.current) {
+        observer.observe(loaderRef.current);
+    }
+
+    return () => {
+        if (loaderRef.current) {
+            observer.unobserve(loaderRef.current);
+        }
+    };
+}, [loaderRef.current, page, lastPage]);
+
+
 
     const triggerToast = (message: string) => {
         setToastMessage(message);
@@ -221,7 +250,7 @@ const MenuList: React.FC = () => {
                             </div>
 
                             {page < lastPage && (
-                                <div className="flex justify-center mt-8">
+                                <div className="hidden justify-center mt-8">
                                     <button
                                         onClick={handleLoadMore}
                                         className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full shadow-md"
@@ -230,6 +259,12 @@ const MenuList: React.FC = () => {
                                     </button>
                                 </div>
                             )}
+
+
+                            <div ref={loaderRef} className="h-10 mt-8 flex justify-center items-center">
+                                {page < lastPage && <p className="text-sm text-gray-500">Cargando más productos...</p>}
+                            </div>
+
                         </main>
                     </div>
                 </div>

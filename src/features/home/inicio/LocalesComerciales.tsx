@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { AiFillStar } from 'react-icons/ai';
@@ -25,6 +25,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     const [searchValue, setSearchValue] = useState('');
     const [page, setPage] = useState(1);
     const [locales, setLocales] = useState<Comercio[]>([]);
+    const loaderRef = useRef<HTMLDivElement | null>(null);
 
     const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
     const lastPage = data?.lastPage || 1;
@@ -99,6 +100,35 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             guardarPaginaServicio(servicioId, nuevaPagina);
         }
     };
+
+
+    useEffect(() => {
+    const observer = new IntersectionObserver(
+        entries => {
+            if (entries[0].isIntersecting && page < lastPage && !isLoading) {
+                const nuevaPagina = page + 1;
+                setPage(nuevaPagina);
+                if (servicioId) guardarPaginaServicio(servicioId, nuevaPagina);
+            }
+        },
+        {
+            root: null,
+            rootMargin: '0px',
+            threshold: 1.0,
+        }
+    );
+
+    if (loaderRef.current) {
+        observer.observe(loaderRef.current);
+    }
+
+    return () => {
+        if (loaderRef.current) {
+            observer.unobserve(loaderRef.current);
+        }
+    };
+}, [loaderRef.current, page, lastPage, isLoading, servicioId]);
+
 
     const defaultImage = '/logo_w_fondo_negro.jpeg';
 
@@ -195,7 +225,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
             {/* Ver más locales */}
             {page < lastPage && (
-                <div className="flex justify-center mt-8">
+                <div className=" justify-center mt-8 hidden">
                     <button
                         onClick={handleLoadMore}
                         className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full shadow-md"
@@ -204,6 +234,12 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                     </button>
                 </div>
             )}
+
+
+            <div ref={loaderRef} className="h-10 mt-8 flex justify-center items-center">
+                {isLoading && <p className="text-gray-500 text-sm">Cargando más locales...</p>}
+            </div>
+
         </div>
     );
 };
