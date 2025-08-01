@@ -12,7 +12,8 @@ import { BASE_URL } from '../../../utils/baseUrl';
 import Modal from '../../../shared/components/Modal';
 import { Producto } from '../../../shared/types/productosInterface';
 import ToastNotification from './components/ToastNotification';
-import WhatsappShareIconButton from '../../../shared/components/WhatsappShareButton';
+// import WhatsappShareIconButton from '../../../shared/components/WhatsappShareButton';
+import SocialShareModalButton from '../../../shared/components/SocialShareModalButton';
 
 const MenuList: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // Aquí `id` es el id del comercio
@@ -131,9 +132,15 @@ const MenuList: React.FC = () => {
                             </div>
                             <div className="gap-4">
                                 {/* <Ubicacion /> */}
-<WhatsappShareIconButton
+{/* <WhatsappShareIconButton
   message={`Hola, te comparto el menú de *${comercio?.nombre_comercial ?? 'este comercio'}*: ${BASE_URL}${location.pathname}`}
-/>                                {/* <CartaMenu /> */}
+/> */}
+
+<SocialShareModalButton
+  message={`Hola, mira el menú de *${comercio?.nombre_comercial ?? 'este comercio'}*:`}
+  url={`${BASE_URL}${location.pathname}`}
+/>
+                     {/* <CartaMenu /> */}
                             </div>
                             <div className="fixed bottom-16 right-6 z-50">
                                 <Cart />
