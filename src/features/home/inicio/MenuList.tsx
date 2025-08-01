@@ -137,9 +137,10 @@ const MenuList: React.FC = () => {
 /> */}
 
 <SocialShareModalButton
-  message={`Hola, mira el menú de ${comercio?.nombre_comercial ?? 'este comercio'}:`}
+  message={`Hola, mira el menú de ${comercio?.nombre_comercial ?? 'este comercio'}:\n`}
   url={`${BASE_URL}${location.pathname}`}
 />
+
                      {/* <CartaMenu /> */}
                             </div>
                             <div className="fixed bottom-16 right-6 z-50">
