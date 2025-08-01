@@ -3,7 +3,6 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useProductosPublicos } from '../../../services/productosServices';
 import MenuItem from '../shop/MenuItem';
 import Cart from '../shop/Cart';
-import WhatsappButton from '../../../shared/components/buttons/WhatsappButton';
 import { FaArrowLeft, FaSearch, FaTimes } from 'react-icons/fa';
 // import Ubicacion from './Ubicacion';
 // import CartaMenu from '../shop/CartaMenu';
@@ -13,6 +12,7 @@ import { BASE_URL } from '../../../utils/baseUrl';
 import Modal from '../../../shared/components/Modal';
 import { Producto } from '../../../shared/types/productosInterface';
 import ToastNotification from './components/ToastNotification';
+import WhatsappShareIconButton from '../../../shared/components/WhatsappShareButton';
 
 const MenuList: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // Aquí `id` es el id del comercio
@@ -22,8 +22,9 @@ const MenuList: React.FC = () => {
     const { comercio } = state || {};  // Accediendo al comercio desde location.state
     const [search, setSearch] = useState('');
     const [searchValue, setSearchValue] = useState('');
+    const location = useLocation();
 
-
+    console.log(location)
     // Ahora puedes usar el objeto comercio aquí
     // console.log(comercio);  // Aquí tendrás todos los datos del comercio
 
@@ -130,8 +131,9 @@ const MenuList: React.FC = () => {
                             </div>
                             <div className="gap-4">
                                 {/* <Ubicacion /> */}
-                                <WhatsappButton text='text-white' color='bg-success' phoneNumber={comercio?.telefono ?? ''} message="Hola, quisiera realizar un pedido. ¿Están disponibles?" />
-                                {/* <CartaMenu /> */}
+<WhatsappShareIconButton
+  message={`Hola, te comparto el menú de *${comercio?.nombre_comercial ?? 'este comercio'}*: ${BASE_URL}${location.pathname}`}
+/>                                {/* <CartaMenu /> */}
                             </div>
                             <div className="fixed bottom-16 right-6 z-50">
                                 <Cart />
