@@ -79,7 +79,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product }) => {
               ${formatNumber(product.precio * quantityToAdd)}
             </span>
 
-            <div className="flex items-center border border-gray-300 rounded-full overflow-hidden">
+            <div className=" items-center hidden border border-gray-300 rounded-full overflow-hidden">
               <button
                 onClick={() => setQuantityToAdd(Math.max(1, quantityToAdd - 1))}
                 className="px-3 py-1 text-gray-700 hover:bg-gray-200 transition"
