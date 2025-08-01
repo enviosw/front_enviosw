@@ -227,3 +227,13 @@
     font-size: 2rem;
     animation: slideRight 1s ease-in-out infinite;
 }
+
+
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}

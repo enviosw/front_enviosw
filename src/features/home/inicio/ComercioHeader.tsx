@@ -1,61 +1,61 @@
 import React from 'react';
 
 interface ComercioHeaderProps {
-    nombre: string;
-    descripcion: string;
-    horario: string;
-    imagen?: string;
+  nombre: string;
+  descripcion: string;
+  horario: string;
+  imagen?: string;
 }
-
 
 const defaultImage = '/logo_w_fondo_negro.jpeg';
 
-
 const ComercioHeader: React.FC<ComercioHeaderProps> = ({
-    nombre,
-    descripcion,
-    imagen,
+  nombre,
+  descripcion,
+  imagen,
 }) => {
-    const imagenFinal =
-        imagen && imagen.trim() !== '' && imagen !== 'null' && imagen !== 'undefined'
-            ? imagen
-            : defaultImage;
+  const imagenFinal =
+    imagen && imagen.trim() !== '' && imagen !== 'null' && imagen !== 'undefined'
+      ? imagen
+      : defaultImage;
 
+  return (
+    <div
+      className="w-full relative mb-8 overflow-hidden"
+      style={{
+        backgroundImage: `url(${imagenFinal})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Capa oscura de fondo */}
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-0" />
 
-    return (
-        <div
-            className="w-full shadow-lg mb-4 py-2 pt-16 md:py-6 relative"
-            style={{
-                backgroundImage: `url(${imagenFinal})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-            }}
-        >
-            {/* Capa oscura sobre la imagen */}
-            <div className="absolute inset-0 bg-black opacity-80"></div>
-
-            <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-                {/* Texto a la izquierda */}
-                <div className="text-white text-center md:text-left space-y-2 md:space-y-3 flex-1">
-                    <h1 className="text-2xl sm:text-3xl uppercase md:text-4xl font-bold">{nombre}</h1>
-                    <p className="text-sm sm:text-base md:text-lg uppercase text-primary">{descripcion}</p>
-                    {/* <span className="text-xs sm:text-sm md:text-base text-gray-400 italic">
-                        ⏰ {horario}
-                    </span> */}
-                </div>
-
-                {/* Imagen a la derecha */}
-                <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-52 md:h-52 rounded-full overflow-hidden lg:translate-y-28 shrink-0">
-                    <img
-                        src={imagenFinal}
-                        alt={`Foto del comercio ${nombre}`}
-                        className="w-full h-full object-cover border-2 p-1 bg-orange-400 border-orange-400 overflow-hidden"
-                    />
-                </div>
-            </div>
+      {/* Contenido sobre la imagen */}
+      <div className="relative z-10 container mx-auto px-4 py-10 md:py-16 flex flex-col-reverse md:flex-row items-center justify-between gap-6">
+        
+        {/* Información del comercio */}
+        <div className="text-white flex-1 text-center md:text-left space-y-2 md:space-y-4">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-wide uppercase">
+            {nombre}
+          </h1>
+          <p className="text-base md:text-lg text-gray-300 tracking-wide">
+            {descripcion}
+          </p>
         </div>
-    );
+
+        {/* Imagen circular flotante */}
+        <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-full border-4 border-white overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105 bg-white">
+          <img
+            src={imagenFinal}
+            alt={`Foto del comercio ${nombre}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ComercioHeader;

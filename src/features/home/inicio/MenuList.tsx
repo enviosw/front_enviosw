@@ -5,7 +5,7 @@ import MenuItem from '../shop/MenuItem';
 import Cart from '../shop/Cart';
 import WhatsappButton from '../../../shared/components/buttons/WhatsappButton';
 import { FaArrowLeft, FaSearch, FaTimes } from 'react-icons/fa';
-import Ubicacion from './Ubicacion';
+// import Ubicacion from './Ubicacion';
 // import CartaMenu from '../shop/CartaMenu';
 import CategoryCarousel from '../shop/CategoryCarousel';
 import ComercioHeader from './ComercioHeader';
@@ -107,7 +107,7 @@ const MenuList: React.FC = () => {
 
 
     return (
-        <div className="w-full min-h-screen bg-[#fafafa] text-gray-900">
+        <div className="w-full min-h-screen bg-[#F3F4F6] text-gray-900">
             <div className="flex flex-col md:flex-row">
                 {/* Contenido principal */}
                 <div className="flex-1 flex flex-col items-center md:ml-0">
@@ -122,15 +122,15 @@ const MenuList: React.FC = () => {
                                     <FaArrowLeft size={20} />
                                 </button>
                                 <img
-                                    className="w-10 h-10 rounded-full border-2 text-gray-900"
+                                    className="w-10 h-10 rounded-full border-2  text-gray-900"
                                     src={`${BASE_URL}/${comercio?.logo_url}`}
                                     alt="Logo"
                                 />
                                 {/* <h1 className="text-xl font-bold">{comercio?.nombre_comercial ?? 'Nombre Comercial'}</h1> */}
                             </div>
-                            <div className="hidden gap-4">
-                                <Ubicacion />
-                                <WhatsappButton phoneNumber={comercio?.telefono ?? ''} message="Hola, quiero hacer un pedido" />
+                            <div className="gap-4">
+                                {/* <Ubicacion /> */}
+                                <WhatsappButton text='text-white' color='bg-success' phoneNumber={comercio?.telefono ?? ''} message="Hola, quisiera realizar un pedido. ¿Están disponibles?" />
                                 {/* <CartaMenu /> */}
                             </div>
                             <div className="fixed bottom-16 right-6 z-50">
@@ -146,16 +146,24 @@ const MenuList: React.FC = () => {
                     />
 
                     {/* Categorías */}
-                    <div className='bg-white rounded-t-4xl -translate-y-14 w-full'>
-                        <section className="w-full container pt-10 lg:pt-0 lg:mt-14 mx-auto flex justify-center items-center px-4">
-                            <CategoryCarousel
-                                comercioId={Number(id)}
-                                onSelectCategoria={(id) => {
-                                    setCategoriaId(id);
-                                    setSelectedCategoriaId(id);
-                                }}
-                                selectedCategoriaId={selectedCategoriaId}
-                            />
+                    <div className=' rounded-t-4xl -translate-y-14 w-full h-full'>
+                        <section className="w-full container pt-10 lg:pt-0 lg:mt-14 mx-auto px-4">
+                            <div className="flex flex-col items-start space-y-2">
+                                {/* Título pequeño */}
+                                <h2 className="text-md font-medium text-gray-500 mx-auto lg:m-0 tracking-wide">
+                                    Selecciona una categoría
+                                </h2>
+
+                                {/* Carrusel de categorías */}
+                                <CategoryCarousel
+                                    comercioId={Number(id)}
+                                    onSelectCategoria={(id) => {
+                                        setCategoriaId(id);
+                                        setSelectedCategoriaId(id);
+                                    }}
+                                    selectedCategoriaId={selectedCategoriaId}
+                                />
+                            </div>
                         </section>
 
                         {/* Lista de productos */}
