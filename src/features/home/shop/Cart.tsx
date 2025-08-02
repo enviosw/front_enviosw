@@ -45,24 +45,19 @@ const Cart: React.FC = () => {
             return;
         }
 
-        const numeroWhatsApp = comercio?.activar_numero === 1
-            ? comercio?.telefono_secundario
-            : comercio?.telefono;
-        const productos = cartItems
-            .map(item => {
-                const precio = parseFloat(item.precio ?? '0'); // Asegura número
-                const subtotal = precio * item.quantity;
-                return `• ${item.quantity}x ${item.nombre} - $${formatNumber(subtotal)}`;
-            })
-            .join('%0A');
+        const numeroWhatsApp = "3208729276"
+const productos = cartItems
+    .map(item => {
+        const precio = parseFloat(item.precio ?? '0');
+        const subtotal = precio * item.quantity;
+        return `* ${item.quantity}x ${item.nombre} - $${formatNumber(subtotal)}`;
+    })
+    .join('\n'); // SIN espacio entre ítems
 
+const mensaje = `¡Hola! Me gustaría hacer un pedido desde Domicilios W a *${limpiarTextoWhatsApp(String(comercio?.nombre_comercial))}* con los siguientes productos:\n\n${productos}\n\n🔸 *Total:* $${formatNumber(total)} + *domicilio*\n📍 *Dirección de envío:* ${direccion}\n📞 *Teléfono:* ${telefono}\n\n¿Me puedes *CONFIRMAR*?`;
 
+const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
-        const mensaje = `¡👋Hola! Me gustaría hacer un pedido desde *Domicilios W* a *${limpiarTextoWhatsApp(String(comercio?.nombre_comercial))}* con los siguientes productos:%0A%0A${productos}%0A%0A🔸 *Total:* $${formatNumber(total)} %2B *domicilio*%0A📍 *Dirección de envío:* ${direccion}%0A📞 *Teléfono:* ${telefono}%0A%0A¿Me puedes *CONFIRMAR ?*`;
-
-
-
-        const url = `https://wa.me/57${numeroWhatsApp}?text=${mensaje}`;
 
         if (comercioId) {
             localStorage.removeItem(`cart_${comercioId}`);
