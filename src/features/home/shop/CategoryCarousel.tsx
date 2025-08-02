@@ -58,7 +58,7 @@ const CategoryBadge: React.FC<CategoryBadgeProps> = ({ text, isSelected, onClick
         border 
         ${
           isSelected
-            ? 'bg-orange-100 text-orange-600 border-orange-300 shadow-sm'
+            ? 'bg-orange-300 text-orange-700 border-orange-300 shadow-sm'
             : 'bg-white text-gray-600 border-gray-200 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-500'
         }
       `}
