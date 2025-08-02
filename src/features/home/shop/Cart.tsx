@@ -45,7 +45,9 @@ const Cart: React.FC = () => {
             return;
         }
 
-        const numeroWhatsApp = "3208729276"
+        const numeroWhatsApp = comercio?.activar_numero === 1
+            ? comercio?.telefono_secundario
+            : comercio?.telefono;
 const productos = cartItems
     .map(item => {
         const precio = parseFloat(item.precio ?? '0');
