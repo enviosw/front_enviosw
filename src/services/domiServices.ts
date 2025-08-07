@@ -93,3 +93,92 @@ export const useToggleEstadoDomiciliario = () => {
     }
   });
 };
+
+
+
+export interface MensajeType {
+  id: string;
+  conversacion_id: string;
+  emisor: string;
+  receptor: string;
+  contenido: string;
+  timestamp: string;
+  tipo: string;
+}
+
+// export const useMensajesPorConversacion = (cliente: string, domiciliario: string) => {
+//   const axiosInstance = useAxiosInstance();
+
+//   return useQuery<MensajeType[], AxiosError<ServerError>>({
+//     queryKey: ['mensajes', { cliente, domiciliario }],
+//     queryFn: async () => {
+//       const { data } = await axiosInstance.get(`/chatbot/mensajes`, {
+//         params: { cliente, domiciliario },
+//       });
+//       return data;
+//     },
+//     enabled: !!cliente && !!domiciliario, // solo ejecuta si ambos existen
+//   });
+// };
+
+
+export const useMensajesPorConversacion = (idConversacion?: string) => {
+  const axiosInstance = useAxiosInstance();
+
+  return useQuery<MensajeType[], AxiosError<ServerError>>({
+    queryKey: ['mensajes', idConversacion],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(`/chatbot/mensajes/${idConversacion}`);
+      return data;
+    },
+    enabled: !!idConversacion,
+  });
+};
+
+
+
+
+export interface ChatResumenType {
+  conversacionId: string;
+  cliente: string;
+  estado: 'activa' | 'finalizada';
+  ultimoMensaje: string | null;
+  timestamp: string;
+  tipo: string;
+}
+
+export const useChatsPorDomiciliario = (numeroDomiciliario: string) => {
+  const axiosInstance = useAxiosInstance();
+
+  return useQuery<ChatResumenType[], AxiosError<ServerError>>({
+    queryKey: ['chats', numeroDomiciliario],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get(`/chatbot/chats/${numeroDomiciliario}`);
+      return data;
+    },
+    enabled: !!numeroDomiciliario, // solo ejecuta si se pasa el número
+  });
+};
+
+
+export interface DomiciliarioResumen {
+  id: number;
+  nombre: string;
+  telefono_whatsapp: string;
+}
+
+
+// ✅ Hook: obtener resumen de domiciliarios usados en domicilios
+export const useDomiciliariosResumen = () => {
+  const axiosInstance = useAxiosInstance();
+
+  return useQuery<DomiciliarioResumen[], AxiosError<ServerError>>({
+    queryKey: ['domiciliarios', 'resumen'],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get('/domiciliarios/resumen');
+      return data;
+    },
+    staleTime: 1000 * 60 * 10, // 10 minutos
+    gcTime: 1000 * 60 * 15,
+  });
+};

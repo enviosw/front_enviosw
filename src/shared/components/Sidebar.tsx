@@ -2,7 +2,7 @@ import React from 'react';
 import { useSidebar } from '../../context/SidebarContext';
 import { NavLink, useNavigate } from 'react-router-dom'; // Importar NavLink de React Router
 import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers, HiCollection, HiTag } from 'react-icons/hi';
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiMessageSquare } from "react-icons/fi";
 import { FaTimes } from 'react-icons/fa';
 import { AlertService } from '../../utils/AlertService';
 import { useAuth } from '../../context/AuthContext';
@@ -17,7 +17,8 @@ const menuItems = [
     // { icon: <HiChartBar />, label: 'Configuraciones', to: '/configuraciones' },
     { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
     // { icon: <HiShoppingCart />, label: 'Tarifas', to: '/tarifas' },
-    { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' }
+    { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' },
+        { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' }
 ];
 
 const Sidebar: React.FC = () => {

@@ -5,18 +5,18 @@ import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 // Animación base para las tarjetas
-const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.2,
-      duration: 0.6,
-      ease: 'easeOut',
-    },
-  }),
-};
+// const cardVariants = {
+//   hidden: { opacity: 0, y: 50 },
+//   visible: (i: number) => ({
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       delay: i * 0.2,
+//       duration: 0.6,
+//       ease: 'easeOut',
+//     },
+//   }),
+// };
 
 const Card = ({
   icon,
@@ -49,7 +49,6 @@ const Card = ({
       custom={index}
       initial="hidden"
       animate={controls}
-      variants={cardVariants}
     >
       <div className={`flex items-center justify-center h-16 w-16 rounded-full ${color.replace('50', '100')} mb-6 shadow-md`}>
         {icon}

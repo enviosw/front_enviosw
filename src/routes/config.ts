@@ -72,6 +72,14 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
+        {
+        path: '/chats',
+        element: lazy(() => import('../pages/admin/ChatApp')),
+        requiresAuth: true,
+        rol: 'administrador',
+        useLayout: false,
+        useAdminLayout: true
+    },
     {
         path: '/clientes',
         element: lazy(() => import('../pages/admin/Clientes')),
