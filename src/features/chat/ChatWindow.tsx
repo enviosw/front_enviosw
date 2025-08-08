@@ -8,12 +8,8 @@ interface Props {
 }
 
 const ChatWindow = ({ domiciliario, id }: Props) => {
-
-  console.log("ee",id)
   
   const { data, isLoading } = useMensajesPorConversacion(id);
-
-  console.log("data22222222",data)
 
   if (isLoading) return <p className="p-4">Cargando mensajes...</p>;
 
