@@ -242,7 +242,7 @@ useEffect(() => {
                                     value={searchValue}
                                     onChange={(e) => setSearchValue(e.target.value)}
                                     placeholder="Buscar productos..."
-                    className="w-full py-3 pl-3 pr-3 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                    className="w-full py-3 pl-3 pr-3 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                                     />
 
                                     <button
