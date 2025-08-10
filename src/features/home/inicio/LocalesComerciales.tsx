@@ -8,6 +8,21 @@ import Skeleton from '../../../utils/Skeleton';
 import { BASE_URL } from '../../../utils/baseUrl';
 import { getEstadoComercio } from '../../../utils/getEstadoComercio';
 
+type ComercioConEstado = Comercio & {
+  _estado: 'abierto' | 'cerrado';
+  _isOpen: boolean;
+};
+
+const ordenarLocales = (arr: ComercioConEstado[]) =>
+  [...arr].sort((a, b) => Number(b._isOpen) - Number(a._isOpen));
+
+const anotarEstado = (arr: Comercio[]): ComercioConEstado[] =>
+  arr.map((c) => {
+    const estado = getEstadoComercio(c.horarios);
+    return { ...c, _estado: estado, _isOpen: estado === 'abierto' };
+  });
+
+  
 const getPaginasGuardadas = (): Record<number, number> => {
     const data = sessionStorage.getItem('paginasPorServicio');
     return data ? JSON.parse(data) : {};
@@ -24,7 +39,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     const [search, setSearch] = useState('');
     const [searchValue, setSearchValue] = useState('');
     const [page, setPage] = useState(1);
-    const [locales, setLocales] = useState<Comercio[]>([]);
+const [locales, setLocales] = useState<ComercioConEstado[]>([]);
     const loaderRef = useRef<HTMLDivElement | null>(null);
 
     const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
@@ -61,15 +76,17 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
 
     // Actualiza los locales cuando llega data nueva
-    useEffect(() => {
-        if (data) {
-            if (page === 1) {
-                setLocales(data.data);
-            } else {
-                setLocales((prev) => [...prev, ...data.data]);
-            }
-        }
-    }, [data, page]);
+useEffect(() => {
+  if (!data) return;
+  const lote = anotarEstado(data.data);
+
+  if (page === 1) {
+    setLocales(ordenarLocales(lote));
+  } else {
+    setLocales((prev) => ordenarLocales([...prev, ...lote]));
+  }
+}, [data, page]);
+
 
     // Si se borra el input, reinicia búsqueda
     useEffect(() => {
@@ -192,9 +209,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
             {/* Lista de locales */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
-                {locales?.map((comercio: Comercio) => {
-                    const estado = getEstadoComercio(comercio.horarios);
-                    return (
+                {locales?.map((comercio: ComercioConEstado) =>  (
                         <div
                             key={comercio.id}
                             onClick={() => navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } })}
@@ -225,23 +240,23 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                                         <span>{comercio.direccion || 'Sin dirección'}</span>
                                     </div>
                                     <span className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
-                                        {estado === 'abierto' ? (
-                                            <>
-                                                <FaCheckCircle className="text-green-500" aria-label="Servicio abierto" />
-                                                <span className="text-green-500 font-semibold">Abierto</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <FaTimesCircle className="text-red-500" aria-label="Servicio cerrado" />
-                                                <span className="text-red-500 font-semibold">Cerrado</span>
-                                            </>
-                                        )}
+ {comercio._estado === 'abierto' ? (
+      <>
+        <FaCheckCircle className="text-green-500" />
+        <span className="text-green-500 font-semibold">Abierto</span>
+      </>
+    ) : (
+      <>
+        <FaTimesCircle className="text-red-500" />
+        <span className="text-red-500 font-semibold">Cerrado</span>
+      </>
+    )}
                                     </span>
                                 </div>
                             </div>
                         </div>
                     )
-                })}
+                )}
             </div>
 
             {/* Ver más locales */}
