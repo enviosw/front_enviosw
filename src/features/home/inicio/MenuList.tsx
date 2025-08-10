@@ -141,6 +141,30 @@ const MenuList: React.FC = () => {
     };
 
 
+    const DEBOUNCE_MS = 300; // ajusta a gusto (300–500ms suele ir bien)
+
+useEffect(() => {
+  const v = searchValue.trim();
+
+  // si está vacío, ya tienes otro efecto que lo maneja
+  if (v === '' && search !== '') {
+    // opcional: dejar que el otro efecto lo haga, o forzarlo acá:
+    setSearch('');
+    setPage(1);
+    return;
+  }
+
+  // evita disparar si no cambió realmente
+  if (v === search) return;
+
+  const t = setTimeout(() => {
+    setSearch(v);
+    setPage(1);
+  }, DEBOUNCE_MS);
+
+  return () => clearTimeout(t); // limpia el timeout si sigue escribiendo
+}, [searchValue, search]);
+
     return (
         <div className="w-full min-h-screen bg-[#F3F4F6] text-gray-900">
             <div className="flex flex-col md:flex-row">
@@ -213,15 +237,14 @@ const MenuList: React.FC = () => {
                         <main className="w-full container mx-auto px-4 py-6">
                             <div className="flex justify-start items-center mb-3">
                                 <div className="relative w-full flex items-center">
-                                    <input
-                                        type="text"
-                                        value={searchValue}
-                                        onChange={(e) => setSearchValue(e.target.value)}
-                                        placeholder="Buscar productos..."
-                                        className="w-full py-3 pl-10 pr-20 bg-[#FFB84D]/20 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
-                                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                        aria-label="Buscar productos"
+                            <input
+                                    type="text"
+                                    value={searchValue}
+                                    onChange={(e) => setSearchValue(e.target.value)}
+                                    placeholder="Buscar productos..."
+                    className="w-full py-3 pl-3 pr-3 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                                     />
+
                                     <button
                                         onClick={handleSearch}
                                         className="absolute right-10 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-all duration-300"

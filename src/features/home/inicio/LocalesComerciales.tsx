@@ -133,6 +133,28 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     const defaultImage = '/logo_w_fondo_negro.jpeg';
 
 
+    // arriba, junto a tus imports/useState:
+    const DEBOUNCE_MS = 300;
+
+    // justo después de tus otros useEffect (p.ej. debajo del que resetea si searchValue === '')
+    useEffect(() => {
+    const v = searchValue.trim();
+
+    // si quedó vacío, ya lo manejas en el otro useEffect (el que limpia search)
+    if (v === '') return;
+
+    // evita llamadas innecesarias si no cambió realmente
+    if (v === search) return;
+
+    const t = setTimeout(() => {
+        setSearch(v);
+        setPage(1);
+        if (servicioId) guardarPaginaServicio(servicioId, 1);
+    }, DEBOUNCE_MS);
+
+    return () => clearTimeout(t);
+    }, [searchValue, search, servicioId]);
+
     if (isLoading && page === 1) return <Skeleton />;
     if (isError) return <div>Error al cargar locales</div>;
 
@@ -141,15 +163,14 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
             {/* Buscador */}
             <div className="flex justify-center items-center mb-3.5">
                 <div className="relative w-full max-w-full lg:max-w-sm flex items-center">
-                    <input
-                        type="text"
-                        value={searchValue}
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        placeholder="Buscar negocio o servicio"
-                        className="w-full py-3 pl-3 pr-3 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition duration-200 ease-in-out"
-                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                        aria-label="Buscar contenido"
+                <input
+                    type="text"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Buscar negocio o servicio"
+                    className="w-full py-3 pl-3 pr-3 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                     />
+
                     <button
                         onClick={handleSearch}
                         className="absolute right-8 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-all duration-300"
