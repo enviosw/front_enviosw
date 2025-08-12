@@ -6,304 +6,311 @@ import { useComercioId } from '../../../utils/obtenerComercio';
 import { formatNumber } from '../../../utils/formatNumber';
 import { useComercioIdent } from '../../../services/comerciosService';
 import { limpiarTextoWhatsApp } from '../../../utils/eliminarCaracteresEspeciales';
+import { useRegistrarDomiPlataforma } from '../../../services/domiServices'; // ⬅️ hook para POST /domicilios/plataforma
 
+const ESTADO_PROCESO = 3; // PROCESO
 
 const Cart: React.FC = () => {
-    const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart(); // Asegurarse de que clearCart esté disponible
-    const [direccion, setDireccion] = useState('');
-    const [telefono, setTelefono] = useState(''); // Campo para teléfono
-    const comercioId = useComercioId();
-    const [showToast, setShowToast] = useState(false);
-    const [showToast2, setShowToast2] = useState(false);
+  const { cartItems, increment, decrement, removeFromCart, total, clearCart } = useCart();
+  const [direccion, setDireccion] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const comercioId = useComercioId();
 
-    const [showToast3, setShowToast3] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [showToast2, setShowToast2] = useState(false);
+  const [showToast3, setShowToast3] = useState(false);
 
-    // Calcular el total de productos en el carrito
+  const { data: comercio } = useComercioIdent(Number(comercioId));
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-    const { data: comercio } = useComercioIdent(Number(comercioId));
-    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const registrarDomi = useRegistrarDomiPlataforma(); // ⬅️ instancia del hook
 
-    const handleWhatsAppOrder = () => {
+  const handleWhatsAppOrder = () => {
+    if (cartItems.length === 0) {
+      setShowToast3(true);
+      setTimeout(() => setShowToast3(false), 3000);
+      return;
+    }
 
-        if (cartItems.length === 0) {
-            setShowToast3(true);
-            setTimeout(() => setShowToast3(false), 3000); // Ocultar luego de 3s
-            return;
-        }
+    if (!direccion) {
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+      return;
+    }
 
+    if (!telefono) {
+      setShowToast2(true);
+      setTimeout(() => setShowToast2(false), 3000);
+      return;
+    }
 
-        if (!direccion) {
-            setShowToast(true);
-            setTimeout(() => setShowToast(false), 3000); // Ocultar luego de 3s
-            return;
-        }
+    const numeroWhatsApp = comercio?.activar_numero === 1
+      ? comercio?.telefono_secundario
+      : comercio?.telefono;
 
-
-        if (!telefono) {
-            setShowToast2(true);
-            setTimeout(() => setShowToast2(false), 3000); // Ocultar luego de 3s
-            return;
-        }
-
-        const numeroWhatsApp = comercio?.activar_numero === 1
-            ? comercio?.telefono_secundario
-            : comercio?.telefono;
-const productos = cartItems
-    .map(item => {
+    const productos = cartItems
+      .map(item => {
         const precio = parseFloat(item.precio ?? '0');
         const subtotal = precio * item.quantity;
         return `* ${item.quantity}x ${item.nombre} - $${formatNumber(subtotal)}`;
-    })
-    .join('\n'); // SIN espacio entre ítems
+      })
+      .join('\n');
 
-const mensaje = `¡Hola! Me gustaría hacer un pedido desde Domicilios W a *${limpiarTextoWhatsApp(String(comercio?.nombre_comercial))}* con los siguientes productos:\n\n${productos}\n\n🔸 *Total:* $${formatNumber(total)} + *domicilio*\n📍 *Dirección de envío:* ${direccion}\n📞 *Teléfono:* ${telefono}\n\n¿Me puedes *CONFIRMAR*?`;
-
-const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-
-
-        if (comercioId) {
-            localStorage.removeItem(`cart_${comercioId}`);
-        }
-
-        window.open(url, '_blank');
+    // ✅ Payload para /domicilios/plataforma
+    const payload = {
+      estado: ESTADO_PROCESO,                  // 3 = PROCESO
+      fecha: new Date().toISOString(),         // ISO 8601
+      numero_cliente: telefono,                // número del cliente (input)
+        tipo_servicio: 3,                         // ⬅️ ahora numérico
+      origen_direccion:
+        (comercio as any)?.direccion ||
+        (comercio as any)?.nombre_comercial ||
+        'Origen no especificado',
+      destino_direccion: direccion,            // dirección de envío (input)
+      detalles_pedido:
+        `Comercio: ${comercio?.nombre_comercial ?? 'N/D'}\n` +
+        `${productos}\n\n` +
+        `Total: $${formatNumber(total)} + domicilio`,
     };
 
+    // 🔥 Disparar el registro (no bloquea el flujo de WhatsApp)
+    registrarDomi.mutate(payload);
 
-    // Actualiza el estado y el localStorage al limpiar el carrito
-    const handleClearCart = () => {
-        if (comercioId) {
-            localStorage.removeItem(`cart_${comercioId}`);
-        }
-        clearCart(); // Vacía el carrito en el contexto de React
+    const mensaje =
+      `¡Hola! Me gustaría hacer un pedido desde Domicilios W a *${limpiarTextoWhatsApp(String(comercio?.nombre_comercial))}* con los siguientes productos:\n\n${productos}\n\n` +
+      `🔸 *Total:* $${formatNumber(total)} + *domicilio*\n` +
+      `📍 *Dirección de envío:* ${direccion}\n` +
+      `📞 *Teléfono:* ${telefono}\n\n` +
+      `¿Me puedes *CONFIRMAR*?`;
+
+    const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+
+    if (comercioId) {
+      localStorage.removeItem(`cart_${comercioId}`);
+    }
+
+    window.open(url, '_blank');
+  };
+
+  // Limpia carrito manualmente
+  const handleClearCart = () => {
+    if (comercioId) {
+      localStorage.removeItem(`cart_${comercioId}`);
+    }
+    clearCart();
+  };
+
+  const defaultImage = '/logo_w_fondo_negro.jpeg';
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const drawerCheckbox = document.getElementById('cart-drawer') as HTMLInputElement;
+      if (drawerCheckbox?.checked) {
+        drawerCheckbox.checked = false;
+      }
     };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
-    const defaultImage = '/logo_w_fondo_negro.jpeg';
+  useEffect(() => {
+    const drawerCheckbox = document.getElementById('cart-drawer') as HTMLInputElement;
+    const handleChange = () => {
+      if (drawerCheckbox?.checked) {
+        window.history.pushState(null, '', window.location.href);
+      }
+    };
+    drawerCheckbox?.addEventListener('change', handleChange);
+    return () => drawerCheckbox?.removeEventListener('change', handleChange);
+  }, []);
 
-
-    useEffect(() => {
-        const handlePopState = () => {
-            const drawerCheckbox = document.getElementById('cart-drawer') as HTMLInputElement;
-            if (drawerCheckbox?.checked) {
-                drawerCheckbox.checked = false;
-            }
-        };
-
-        window.addEventListener('popstate', handlePopState);
-
-        return () => {
-            window.removeEventListener('popstate', handlePopState);
-        };
-    }, []);
-
-
-    useEffect(() => {
-        const drawerCheckbox = document.getElementById('cart-drawer') as HTMLInputElement;
-        const handleChange = () => {
-            if (drawerCheckbox?.checked) {
-                window.history.pushState(null, '', window.location.href);
-            }
-        };
-
-        drawerCheckbox?.addEventListener('change', handleChange);
-        return () => drawerCheckbox?.removeEventListener('change', handleChange);
-    }, []);
-
-
-    return (
-        <div className="drawer drawer-end z-50">
-            {showToast && (
-                <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
-                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
-                        <span className="text-xl">❗</span>
-                        <div className="flex flex-col text-left">
-                            <span>Te falta la dirección.</span>
-                            <span>Escríbela para poder enviar el pedido.</span>
-                        </div>
-                    </div>
-                </div>
-
-            )}
-
-            {showToast2 && (
-                <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
-                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
-                        <span className="text-xl">❗</span>
-                        <div className="flex flex-col text-left">
-                            <span>Te falta el telefono.</span>
-                            <span>Escríbelo para poder enviar el pedido.</span>
-                        </div>
-                    </div>
-                </div>
-
-            )}
-
-
-            {showToast3 && (
-                <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
-                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
-                        <span className="text-xl">❗</span>
-                        <div className="flex flex-col text-left">
-                            <span>Carrito vacio!!.</span>
-                            <span>Selecciona almenos un producto.</span>
-
-                        </div>
-                    </div>
-                </div>
-
-            )}
-
-
-            <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
-
-            {/* Botón flotante con número de productos */}
-            <div className="drawer-content">
-                <label
-                    htmlFor="cart-drawer"
-                    className="relative flex items-center size-14 justify-center bg-white backdrop-blur-xl rounded-full text-[#25D366] hover:bg-green-500 hover:text-white transition-all duration-300 shadow-md"
-                >
-                    <FaShoppingCart size={40} className="text-xl text-primary hover:text-red-500 transition" />
-                    {totalItems > 0 && (
-                        <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
-                            {totalItems}
-                        </span>
-                    )}
-                </label>
+  return (
+    <div className="drawer drawer-end z-50">
+      {showToast && (
+        <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
+          <div className="alert alert-warning shadow-lg flex items-start gap-2">
+            <span className="text-xl">❗</span>
+            <div className="flex flex-col text-left">
+              <span>Te falta la dirección.</span>
+              <span>Escríbela para poder enviar el pedido.</span>
             </div>
-
-            {/* Drawer lateral */}
-            <div className="drawer-side">
-                <label htmlFor="cart-drawer" aria-label="close sidebar" className="drawer-overlay" />
-
-                <div className="bg-white text-base-content min-h-full w-full md:w-96 p-6 flex flex-col justify-between shadow-lg">
-                    <div>
-                        {/* Título y cerrar */}
-                        <div className="flex items-center justify-between mb-6">
-                            <h4 className="text-2xl font-bold text-gray-800">🛍️ Tu carrito de {comercio?.nombre_comercial}</h4>
-                            <label htmlFor="cart-drawer" className="cursor-pointer">
-                                <FaTimes className="text-xl text-gray-500 hover:text-red-500 transition" />
-                            </label>
-                        </div>
-
-                        {/* Contenido del carrito */}
-                        {cartItems.length === 0 ? (
-                            <p className="text-gray-500">Tu carrito está vacío.</p>
-                        ) : (
-                            <div className="space-y-4">
-                                {cartItems.map(item => (
-                                    <div key={item.id} className="flex items-start gap-3 border-b pb-4">
-                                        <img
-                                            src={item.image ? `${BASE_URL}/${item.image}` : defaultImage}
-                                            alt={item.nombre}
-                                            className="w-16 h-16 object-cover rounded-md border"
-                                        />
-                                        <div className="flex-1">
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <h4 className="text-lg font-semibold text-gray-800">{item.nombre}</h4>
-                                                    <p className="text-sm text-gray-500 mt-1">
-                                                        {formatNumber((parseFloat(item.precio || '0') * item.quantity))}
-                                                    </p>
-                                                </div>
-                                                <button
-                                                    onClick={() => removeFromCart(Number(item.id))} // Usando id en lugar de name
-                                                    className="text-red-500 hover:text-red-600"
-                                                >
-                                                    <FaTrash className="text-base" />
-                                                </button>
-                                            </div>
-                                            <div className="flex items-center gap-2 mt-3">
-                                                <button
-                                                    onClick={() => decrement(Number(item.id))} // Usando id en lugar de name
-                                                    className="p-1 bg-gray-200 rounded-full hover:bg-gray-300"
-                                                >
-                                                    <FaMinus />
-                                                </button>
-                                                <span className="font-medium">{item.quantity}</span>
-                                                <button
-                                                    onClick={() => increment(Number(item.id))} // Usando id en lugar de name
-                                                    className="p-1 bg-gray-200 rounded-full hover:bg-gray-300"
-                                                >
-                                                    <FaPlus />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="mt-6 pt-4  mb-10 lg:mb-0">
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-xl font-bold">Total:</span>
-                            <span className="text-2xl font-extrabold text-orange-600">
-                                ${formatNumber(total)}
-                            </span>
-                        </div>
-
-                        {/* Input de Dirección */}
-                        <div className="mb-4">
-                            <label htmlFor="direccion" className="block text-sm font-medium text-gray-700 mb-1">
-                                Dirección de envío (requerida)
-                            </label>
-                            <input
-                                type="text"
-                                id="direccion"
-                                name="direccion"
-                                value={direccion}
-                                onChange={e => setDireccion(e.target.value)}
-                                placeholder="Ej: Calle 123 #45-67"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                autoCapitalize="off"
-                                spellCheck={false}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
-                            />
-
-                        </div>
-
-                        {/* Input de Teléfono (opcional) */}
-                        <div className="mb-4">
-                            <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">
-                                Teléfono (requerido)
-                            </label>
-                            <input
-                                type="number"
-                                id="telefono"
-                                name="telefono"
-                                value={telefono}
-                                onChange={e => setTelefono(e.target.value)}
-                                placeholder="Ej: 3001234567"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                autoCapitalize="off"
-                                spellCheck={false}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
-                            />
-
-                        </div>
-
-                        <button
-                            // disabled={cartItems.length === 0}
-                            onClick={handleWhatsAppOrder}
-                            className="w-full bg-success text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-500 transition"
-                        >
-                            Finalizar pedido por WhatsApp
-                        </button>
-
-                        {/* Botón para limpiar el carrito */}
-                        <button
-                            onClick={handleClearCart} // Función para limpiar el carrito
-                            className="mt-4 w-full bg-error text-white py-3 rounded-xl font-semibold text-lg hover:bg-red-700 transition"
-                        >
-                            Vaciar carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
-    );
+      )}
+
+      {showToast2 && (
+        <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
+          <div className="alert alert-warning shadow-lg flex items-start gap-2">
+            <span className="text-xl">❗</span>
+            <div className="flex flex-col text-left">
+              <span>Te falta el telefono.</span>
+              <span>Escríbelo para poder enviar el pedido.</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showToast3 && (
+        <div className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300">
+          <div className="alert alert-warning shadow-lg flex items-start gap-2">
+            <span className="text-xl">❗</span>
+            <div className="flex flex-col text-left">
+              <span>Carrito vacio!!.</span>
+              <span>Selecciona almenos un producto.</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
+
+      {/* Botón flotante con número de productos */}
+      <div className="drawer-content">
+        <label
+          htmlFor="cart-drawer"
+          className="relative flex items-center size-14 justify-center bg-white backdrop-blur-xl rounded-full text-[#25D366] hover:bg-green-500 hover:text-white transition-all duration-300 shadow-md"
+        >
+          <FaShoppingCart size={40} className="text-xl text-primary hover:text-red-500 transition" />
+          {totalItems > 0 && (
+            <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+              {totalItems}
+            </span>
+          )}
+        </label>
+      </div>
+
+      {/* Drawer lateral */}
+      <div className="drawer-side">
+        <label htmlFor="cart-drawer" aria-label="close sidebar" className="drawer-overlay" />
+
+        <div className="bg-white text-base-content min-h-full w-full md:w-96 p-6 flex flex-col justify-between shadow-lg">
+          <div>
+            {/* Título y cerrar */}
+            <div className="flex items-center justify-between mb-6">
+              <h4 className="text-2xl font-bold text-gray-800">🛍️ Tu carrito de {comercio?.nombre_comercial}</h4>
+              <label htmlFor="cart-drawer" className="cursor-pointer">
+                <FaTimes className="text-xl text-gray-500 hover:text-red-500 transition" />
+              </label>
+            </div>
+
+            {/* Contenido del carrito */}
+            {cartItems.length === 0 ? (
+              <p className="text-gray-500">Tu carrito está vacío.</p>
+            ) : (
+              <div className="space-y-4">
+                {cartItems.map(item => (
+                  <div key={item.id} className="flex items-start gap-3 border-b pb-4">
+                    <img
+                      src={item.image ? `${BASE_URL}/${item.image}` : defaultImage}
+                      alt={item.nombre}
+                      className="w-16 h-16 object-cover rounded-md border"
+                    />
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="text-lg font-semibold text-gray-800">{item.nombre}</h4>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {formatNumber((parseFloat(item.precio || '0') * item.quantity))}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => removeFromCart(Number(item.id))}
+                          className="text-red-500 hover:text-red-600"
+                        >
+                          <FaTrash className="text-base" />
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-2 mt-3">
+                        <button
+                          onClick={() => decrement(Number(item.id))}
+                          className="p-1 bg-gray-200 rounded-full hover:bg-gray-300"
+                        >
+                          <FaMinus />
+                        </button>
+                        <span className="font-medium">{item.quantity}</span>
+                        <button
+                          onClick={() => increment(Number(item.id))}
+                          className="p-1 bg-gray-200 rounded-full hover:bg-gray-300"
+                        >
+                          <FaPlus />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="mt-6 pt-4  mb-10 lg:mb-0">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xl font-bold">Total:</span>
+              <span className="text-2xl font-extrabold text-orange-600">
+                ${formatNumber(total)}
+              </span>
+            </div>
+
+            {/* Input de Dirección */}
+            <div className="mb-4">
+              <label htmlFor="direccion" className="block text-sm font-medium text-gray-700 mb-1">
+                Dirección de envío (requerida)
+              </label>
+              <input
+                type="text"
+                id="direccion"
+                name="direccion"
+                value={direccion}
+                onChange={e => setDireccion(e.target.value)}
+                placeholder="Ej: Calle 123 #45-67"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              />
+            </div>
+
+            {/* Input de Teléfono */}
+            <div className="mb-4">
+              <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">
+                Teléfono (requerido)
+              </label>
+              <input
+                type="number"
+                id="telefono"
+                name="telefono"
+                value={telefono}
+                onChange={e => setTelefono(e.target.value)}
+                placeholder="Ej: 3001234567"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              />
+            </div>
+
+            <button
+              onClick={handleWhatsAppOrder}
+              className="w-full bg-success text-white py-3 rounded-xl font-semibold text-lg hover:bg-green-500 transition"
+              disabled={registrarDomi.isPending} // opcional: deshabilita mientras envía
+            >
+              {registrarDomi.isPending ? 'Enviando...' : 'Finalizar pedido por WhatsApp'}
+            </button>
+
+            {/* Botón para limpiar el carrito */}
+            <button
+              onClick={handleClearCart}
+              className="mt-4 w-full bg-error text-white py-3 rounded-xl font-semibold text-lg hover:bg-red-700 transition"
+            >
+              Vaciar carrito
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Cart;

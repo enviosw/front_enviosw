@@ -3,23 +3,23 @@ import { useSidebar } from '../../context/SidebarContext';
 import { NavLink, useNavigate } from 'react-router-dom'; // Importar NavLink de React Router
 import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers, HiCollection, HiTag } from 'react-icons/hi';
 import { FiLogOut, FiMessageSquare } from "react-icons/fi";
-import { FaTimes } from 'react-icons/fa';
+import { FaHome, FaTimes } from 'react-icons/fa';
 import { AlertService } from '../../utils/AlertService';
 import { useAuth } from '../../context/AuthContext';
 // import { HiMenu, HiHome, HiUser, HiCube, HiChartBar, HiCollection, HiShoppingCart, HiTag } from 'react-icons/hi';
 
 // Actualiza los elementos del menú con sus rutas
 const menuItems = [
-    { icon: <HiHome />, label: 'Dashboard', to: '/dashboard' },
-    { icon: <HiUser />, label: 'Usuarios', to: '/usuarios' },
-    { icon: <HiLibrary />, label: 'Comercios', to: '/comercios' },
-    { icon: <HiUsers />, label: 'Clientes', to: '/clientes' },
-    // { icon: <HiChartBar />, label: 'Configuraciones', to: '/configuraciones' },
-    { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
-    // { icon: <HiShoppingCart />, label: 'Tarifas', to: '/tarifas' },
-    { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' },
-        { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' }
+  { icon: <HiHome />, label: 'Dashboard', to: '/dashboard' },
+  { icon: <HiUser />, label: 'Usuarios', to: '/usuarios' },
+  { icon: <HiLibrary />, label: 'Comercios', to: '/comercios' },
+  { icon: <HiUsers />, label: 'Clientes', to: '/clientes' },
+  { icon: <FaHome />, label: 'Domicilios', to: '/domicilios' },
+  { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' },
+  { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' },
+  { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
 ];
+
 
 const Sidebar: React.FC = () => {
     const { isOpen, toggleSidebar } = useSidebar();

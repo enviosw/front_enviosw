@@ -29,9 +29,9 @@ const ChatApp = () => {
   };
 
   return (
-    <div className="h-[95vh] w-full overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100">
+    <div className="h-[95vh] w-full overflow-hidden">
       {/* App shell */}
-      <div className="mx-auto h-full max-w-full px-3 py-3 md:py-4">
+      <div className="mx-auto h-full max-w-full">
         <div className="mb-3 flex items-center justify-between rounded-2xl border border-blue-100/60 bg-white/70 px-4 py-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/50">
           <h1 className="text-base md:text-lg font-semibold text-blue-800 tracking-tight">Chat Operaciones</h1>
           <div className="text-[10px] md:text-xs text-gray-500">v1</div>

@@ -182,3 +182,88 @@ export const useDomiciliariosResumen = () => {
     gcTime: 1000 * 60 * 15,
   });
 };
+
+
+
+
+
+/** Si ya tienes este enum en "shared", impórtalo desde allí */
+export enum DomicilioEstado {
+  PENDIENTE = 0,
+  ASIGNADO = 1,
+  CANCELADO_TIMEOUT = -1,
+  PROCESO = 3,
+
+}
+
+/** DTO que envía el front al endpoint /domicilios/plataforma */
+export interface RegistrarDomiPlataformaDto {
+  estado: DomicilioEstado | number;   // puedes dejar number si prefieres
+  fecha?: string;                      // ISO 8601 (ej. new Date().toISOString())
+  numero_cliente: string;
+  tipo_servicio: number;
+  origen_direccion: string;
+  destino_direccion: string;
+  detalles_pedido?: string;
+}
+
+/** Respuesta mínima esperada (ajústala a tu modelo si la necesitas) */
+export interface DomicilioResponse {
+  id: number;
+  estado?: number;
+  fecha?: string;
+  numero_cliente: string;
+tipo_servicio: number;
+  origen_direccion: string;
+  destino_direccion: string;
+  detalles_pedido?: string;
+  // ...otros campos que devuelva el backend
+}
+
+/** ✅ Hook: registrar domicilio desde la plataforma */
+export const useRegistrarDomiPlataforma = () => {
+  const axiosInstance = useAxiosInstance();
+  const { closeModal, setModalTitle, setModalContent } = useModal();
+  const queryClient = useQueryClient();
+
+  return useMutation<DomicilioResponse, AxiosError<ServerError>, RegistrarDomiPlataformaDto>({
+    mutationFn: async (payload: RegistrarDomiPlataformaDto) => {
+      const { data } = await axiosInstance.post('/domicilios/plataforma', payload);
+      return data;
+    },
+    onSuccess: async () => {
+      // Invalida listas relacionadas para que refresquen (ajusta keys a tu app)
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['domicilios'] }),
+        queryClient.invalidateQueries({ queryKey: ['domicilios', 'pendientes'] }),
+      ]);
+      AlertService.success('Domicilio registrado', 'Se creó el domicilio correctamente.');
+      closeModal();
+      setModalTitle('');
+      setModalContent('');
+    },
+    onError: (error) => {
+      AlertService.error('Error al registrar', error.response?.data?.message || error.message);
+    },
+  });
+};
+
+
+
+/** ✅ Hook: listar SOLO domicilios de plataforma (tipo_servicio=3) con estado=3 (PROCESO) */
+export const useDomiciliosPlataformaProceso = () => {
+  const axiosInstance = useAxiosInstance();
+
+  return useQuery<DomicilioResponse[], AxiosError<ServerError>>({
+    queryKey: ['domicilios', 'plataforma', { estado: 3 }],
+    queryFn: async () => {
+      // GET /domicilios/plataforma?estado=3
+      const { data } = await axiosInstance.get('/domicilios/plataforma', {
+        params: { estado: 3 }, // ← solo enviamos estado=3
+      });
+      return data;
+    },
+    staleTime: 1000 * 60 * 10, // 10 min
+    gcTime: 1000 * 60 * 15,
+  });
+};
