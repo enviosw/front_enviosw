@@ -5,7 +5,7 @@ import { BASE_URL } from '../../../utils/baseUrl';
 import { useComercioId } from '../../../utils/obtenerComercio';
 import { formatNumber } from '../../../utils/formatNumber';
 import { useComercioIdent } from '../../../services/comerciosService';
-import { limpiarTextoWhatsApp } from '../../../utils/eliminarCaracteresEspeciales';
+import { limpiarTextoWhatsApp, negritaSegura } from '../../../utils/eliminarCaracteresEspeciales';
 import { useRegistrarDomiPlataforma } from '../../../services/domiServices'; // ⬅️ hook para POST /domicilios/plataforma
 
 const ESTADO_PROCESO = 3; // PROCESO
@@ -61,7 +61,7 @@ const Cart: React.FC = () => {
       estado: ESTADO_PROCESO,                  // 3 = PROCESO
       fecha: new Date().toISOString(),         // ISO 8601
       numero_cliente: telefono,                // número del cliente (input)
-        tipo_servicio: 3,                         // ⬅️ ahora numérico
+      tipo_servicio: 3,                         // ⬅️ ahora numérico
       origen_direccion:
         (comercio as any)?.direccion ||
         (comercio as any)?.nombre_comercial ||
@@ -77,11 +77,14 @@ const Cart: React.FC = () => {
     registrarDomi.mutate(payload);
 
     const mensaje =
-      `¡Hola! Me gustaría hacer un pedido desde Domicilios W a *${limpiarTextoWhatsApp(String(comercio?.nombre_comercial))}* con los siguientes productos:\n\n${productos}\n\n` +
-      `🔸 *Total:* $${formatNumber(total)} + *domicilio*\n` +
-      `📍 *Dirección de envío:* ${direccion}\n` +
-      `📞 *Teléfono:* ${telefono}\n\n` +
+      `*PEDIDO* desde Domiciliosw.com\n` +
+      `${comercio?.telefono_secundario} a ${negritaSegura(comercio?.nombre_comercial)} con los siguientes productos:\n\n` +
+      `${productos}\n\n` +
+      `🔸 Total: $${formatNumber(total)} + *Domicilio*\n` +
+      `📍 Dirección de envío: ${limpiarTextoWhatsApp(direccion)}\n` +
+      `📞 Teléfono: ${telefono}\n\n` +
       `¿Me puedes *CONFIRMAR*?`;
+
 
     const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
