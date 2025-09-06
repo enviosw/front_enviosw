@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { DomiciliarioType } from '../../shared/types/domiInterface';
 import { useRegistrarDomiciliario, useActualizarDomiciliario } from '../../services/domiServices';
 
-// Esquema de validación con Zod
 const domiciliarioSchema = z.object({
   nombre: z.string().min(1, { message: "El nombre es requerido" }),
   apellido: z.string().min(1, { message: "El apellido es requerido" }),
@@ -14,38 +13,56 @@ const domiciliarioSchema = z.object({
   direccion_residencia: z.string().min(1, { message: "Dirección requerida" }),
   estado: z.coerce.boolean(),
   disponible: z.coerce.boolean(),
+  turno_orden: z.coerce.number().int().optional(), // lo usas abajo; añade input si es requerido
 });
 
 interface Props {
   domiciliario?: DomiciliarioType;
 }
 
+const empty: DomiciliarioType = {
+  id: undefined,
+  nombre: '',
+  apellido: '',
+  alias: '',
+  telefono_whatsapp: '',
+  placa_moto: '',
+  numero_chaqueta: 0,
+  direccion_residencia: '',
+  estado: true,
+  disponible: true,
+  turno_orden: 0,
+};
+
 const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
   const { mutate: registrarDomiciliario } = useRegistrarDomiciliario();
   const { mutate: actualizarDomiciliario } = useActualizarDomiciliario();
+  const [formState, setFormState] = useState<DomiciliarioType>(empty);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setFormState(domiciliario ? { ...empty, ...domiciliario } : empty);
+  }, [domiciliario]);
+
+  const onChange =
+    (name: keyof DomiciliarioType) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const target = e.target;
+      const value =
+        target.type === 'checkbox'
+          ? (target as HTMLInputElement).checked
+          : target.type === 'number'
+          ? Number(target.value)
+          : target.value;
+      setFormState((s) => ({ ...s, [name]: value }));
+    };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
 
-    const data: DomiciliarioType = {
-      id: domiciliario?.id,
-      nombre: formData.get('nombre') as string,
-      apellido: formData.get('apellido') as string,
-      alias: formData.get('alias') as string,
-      telefono_whatsapp: formData.get('telefono_whatsapp') as string,
-      placa_moto: formData.get('placa_moto') as string,
-      numero_chaqueta: Number(formData.get('numero_chaqueta')),
-      direccion_residencia: formData.get('direccion_residencia') as string,
-      estado: formData.get('estado') === 'on',
-      disponible: formData.get('disponible') === 'on',
-      turno_orden: Number(formData.get('turno_orden')),
-    };
+    const data: DomiciliarioType = { ...formState, id: domiciliario?.id };
 
     const result = domiciliarioSchema.safeParse(data);
-
     if (!result.success) {
       setError(result.error.errors[0].message);
       return;
@@ -58,26 +75,30 @@ const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
     }
 
     setError(null);
-    form.reset();
+    // Limpia a vacío tras guardar si estás en modo “crear”
+    setFormState(empty);
   };
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       {[
-        { label: 'Nombre', name: 'nombre' },
-        { label: 'Apellido', name: 'apellido' },
-        { label: 'Alias', name: 'alias' },
-        { label: 'Teléfono WhatsApp', name: 'telefono_whatsapp' },
-        { label: 'Placa Moto', name: 'placa_moto' },
-        { label: 'Número Chaqueta', name: 'numero_chaqueta', type: 'number' },
-        { label: 'Dirección', name: 'direccion_residencia' },
+        { label: 'Nombre', name: 'nombre' as const },
+        { label: 'Apellido', name: 'apellido' as const },
+        { label: 'Alias', name: 'alias' as const },
+        { label: 'Teléfono WhatsApp', name: 'telefono_whatsapp' as const },
+        { label: 'Placa Moto', name: 'placa_moto' as const },
+        { label: 'Número Chaqueta', name: 'numero_chaqueta' as const, type: 'number' },
+        { label: 'Dirección', name: 'direccion_residencia' as const },
+        // Si usas turno_orden, añade su input:
+        { label: 'Turno Orden', name: 'turno_orden' as const, type: 'number' },
       ].map(({ label, name, type = 'text' }) => (
         <div key={name}>
           <label className="label">{label}</label>
           <input
             type={type}
             name={name}
-            defaultValue={(domiciliario as any)?.[name] || ''}
+            value={(formState as any)[name] ?? (type === 'number' ? 0 : '')}
+            onChange={onChange(name)}
             className="input input-bordered w-full"
           />
         </div>
@@ -88,7 +109,8 @@ const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
           <input
             type="checkbox"
             name="estado"
-            defaultChecked={domiciliario?.estado ?? true}
+            checked={!!formState.estado}
+            onChange={onChange('estado')}
             className="checkbox checkbox-sm"
           />
           <span className="ml-2">Activo</span>
@@ -98,7 +120,8 @@ const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
           <input
             type="checkbox"
             name="disponible"
-            defaultChecked={domiciliario?.disponible ?? true}
+            checked={!!formState.disponible}
+            onChange={onChange('disponible')}
             className="checkbox checkbox-sm"
           />
           <span className="ml-2">Disponible</span>
