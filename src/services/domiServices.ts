@@ -267,3 +267,61 @@ export const useDomiciliosPlataformaProceso = () => {
     gcTime: 1000 * 60 * 15,
   });
 };
+
+
+
+
+// ✅ Listar por orden de disponibilidad (disponibles primero, luego turno_orden)
+export const useDomiciliariosPorDisponibilidad = () => {
+  const axiosInstance = useAxiosInstance();
+
+  return useQuery<DomiciliarioType[], AxiosError<ServerError>>({
+    queryKey: ['domiciliarios', 'orden', 'disponibilidad'],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get('/domiciliarios/orden/disponibilidad');
+      return data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 min
+    gcTime: 1000 * 60 * 15,
+  });
+};
+
+// ✅ Ver el siguiente disponible SIN asignar (útil para UI)
+export const useSiguienteDomiciliario = () => {
+  const axiosInstance = useAxiosInstance();
+
+  return useQuery<DomiciliarioType | null, AxiosError<ServerError>>({
+    queryKey: ['domiciliarios', 'siguiente'],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get('/domiciliarios/siguiente');
+      return data; // puede venir null si no hay disponibles
+    },
+    staleTime: 1000 * 30, // 30s: suele cambiar seguido
+    gcTime: 1000 * 60 * 10,
+  });
+};
+
+// ♻️ Reiniciar turnos a 0 y dejar NO disponibles (POST /domiciliarios/reiniciar-a-cero)
+export const useReiniciarTurnosACero = () => {
+  const axiosInstance = useAxiosInstance();
+  const queryClient = useQueryClient();
+
+  return useMutation<void, AxiosError<ServerError>, void>({
+    mutationFn: async () => {
+      await axiosInstance.post('/domiciliarios/reiniciar-a-cero');
+    },
+    onSuccess: async () => {
+      // Invalida listas relacionadas para refrescar la UI
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios'] }),
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios', 'resumen'] }),
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios', 'orden', 'disponibilidad'] }),
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios', 'siguiente'] }),
+      ]);
+      AlertService.success('Reinicio completado', 'Turnos a 0 y todos no disponibles.');
+    },
+    onError: (error) => {
+      AlertService.error('Error al reiniciar', error.response?.data?.message || error.message);
+    },
+  });
+};

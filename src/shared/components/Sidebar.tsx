@@ -17,6 +17,7 @@ const menuItems = [
   { icon: <FaHome />, label: 'Domicilios', to: '/domicilios' },
   { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' },
   { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' },
+    { icon: <HiTag />, label: 'Turnos', to: '/turnos-domi' },
   { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
 ];
 
