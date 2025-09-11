@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FaMapMarkerAlt, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { AiFillStar } from 'react-icons/ai';
 import { useComerciosPublicos } from '../../../services/comerciosService';
@@ -7,6 +7,8 @@ import { Comercio } from '../../../shared/types/comercioInterface';
 import Skeleton from '../../../utils/Skeleton';
 import { BASE_URL } from '../../../utils/baseUrl';
 import { getEstadoComercio } from '../../../utils/getEstadoComercio';
+
+/** ------- Tipos y helpers ------- */
 
 type ComercioConEstado = Comercio & {
   _estado: 'abierto' | 'cerrado';
@@ -22,187 +24,181 @@ const anotarEstado = (arr: Comercio[]): ComercioConEstado[] =>
     return { ...c, _estado: estado, _isOpen: estado === 'abierto' };
   });
 
-const getPaginasGuardadas = (): Record<number, number> => {
-  const data = sessionStorage.getItem('paginasPorServicio');
-  return data ? JSON.parse(data) : {};
+type ListaState = {
+  search: string;
+  page: number;
+  locales: ComercioConEstado[];
+  scrollY: number;
 };
 
-const guardarPaginaServicio = (servicioId: number, pagina: number) => {
-  const data = getPaginasGuardadas();
-  data[servicioId] = pagina;
-  sessionStorage.setItem('paginasPorServicio', JSON.stringify(data));
+const KEY = (servicioId?: number | null) => `listaLocales:${servicioId ?? 'null'}`;
+
+const saveState = (servicioId: number | null, s: ListaState) => {
+  try {
+    sessionStorage.setItem(KEY(servicioId), JSON.stringify(s));
+  } catch {}
 };
 
-const PAGINATION_DELAY_MS = 1000; // 1s entre páginas
-const DEBOUNCE_MS = 300; // ya lo tenías
+const loadState = (servicioId: number | null): ListaState | null => {
+  try {
+    const raw = sessionStorage.getItem(KEY(servicioId));
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
-const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+/** ------- Componente ------- */
 
 const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioId }) => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
-  const [searchValue, setSearchValue] = useState('');
-  const [page, setPage] = useState(1);
+  const [sp, setSp] = useSearchParams();
+
+  // URL como fuente de verdad inicial
+  const qInicial = sp.get('q') ?? '';
+  const pInicial = Math.max(1, Number(sp.get('p') ?? '1') || 1);
+
+  // estado UI
+  const [searchValue, setSearchValue] = useState(qInicial);
+  const [search, setSearch] = useState(qInicial);
+  const [page, setPage] = useState(pInicial);
   const [locales, setLocales] = useState<ComercioConEstado[]>([]);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  // flags/refs para controlar paginación y scroll
-  const [isPaging, setIsPaging] = useState(false);
-  const preserveScrollRef = useRef(false);
-  const pendingScrollTopRef = useRef<number | null>(null);
-
+  // fetch datos (no asumimos opciones extra del hook)
   const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
   const lastPage = data?.lastPage || 1;
 
-  // Al iniciar, recupera la página guardada por servicio si no hay búsqueda
+  const defaultImage = '/logo_w_fondo_negro.jpeg';
+  const DEBOUNCE_MS = 300;
+
+  /** ------ Restauración de snapshot (si existe) ------ */
   useEffect(() => {
-    if (servicioId && search === '') {
-      const paginasGuardadas = getPaginasGuardadas();
-      const paginaFinal = paginasGuardadas[servicioId] || 1;
-
-      // Arranca en la página 1 y carga hasta la última que tenía guardada
-      setPage(1);
-
-      if (paginaFinal > 1) {
-        preserveScrollRef.current = true; // anclamos scroll durante la recuperación
-
-        (async () => {
-          for (let target = 2; target <= paginaFinal; target++) {
-            // guardamos el scroll actual y esperamos 1s antes de pedir la siguiente página
-            pendingScrollTopRef.current = window.scrollY;
-            setIsPaging(true);
-            await wait(PAGINATION_DELAY_MS);
-            setPage((prev) => {
-              const nueva = prev + 1;
-              guardarPaginaServicio(servicioId, nueva);
-              return nueva;
-            });
-            setIsPaging(false);
-          }
-
-          // al terminar, desanclamos
-          preserveScrollRef.current = false;
-          pendingScrollTopRef.current = null;
-        })();
-      }
+    const st = loadState(servicioId);
+    if (st) {
+      // Si hay snapshot, úsalo completo
+      setSearchValue(st.search);
+      setSearch(st.search);
+      setPage(st.page);
+      setLocales(st.locales);
+      // Restaurar scroll tras el primer paint
+      requestAnimationFrame(() => {
+        try {
+          // @ts-ignore: 'instant' no está tipado pero funciona en navegadores modernos
+          window.scrollTo({ top: st.scrollY, behavior: 'instant' });
+        } catch {
+          window.scrollTo(0, st.scrollY || 0);
+        }
+      });
+    } else {
+      // Si no hay snapshot, respeta lo que venga en URL
+      setSearchValue(qInicial);
+      setSearch(qInicial);
+      setPage(pInicial);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [servicioId]);
+  }, [servicioId]); // solo al montar/cambiar servicio
 
-  // Actualiza los locales cuando llega data nueva
+  /** ------ Sincroniza estado -> URL sin recargar ------ */
+  useEffect(() => {
+    const next = new URLSearchParams(sp);
+    next.set('p', String(page));
+    next.set('q', search);
+    if (servicioId != null) next.set('servicio', String(servicioId));
+    setSp(next, { replace: true }); // no contaminar historial en cada tecleo/página
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, page, servicioId]);
+
+  /** ------ Debounce del input ------ */
+  useEffect(() => {
+    const v = searchValue.trim();
+    if (v === search) return;
+    const t = setTimeout(() => {
+      setSearch(v);
+      setPage(1);
+      // no limpiamos locales aquí; dejamos que el efecto de datos se encargue
+    }, DEBOUNCE_MS);
+    return () => clearTimeout(t);
+  }, [searchValue, search]);
+
+  /** ------ Si input queda vacío, resetea búsqueda ------ */
+  useEffect(() => {
+    if (searchValue === '' && search !== '') {
+      setSearch('');
+      setPage(1);
+    }
+  }, [searchValue]); // intencional
+
+  /** ------ Aplica lote nuevo al llegar data ------ */
   useEffect(() => {
     if (!data) return;
     const lote = anotarEstado(data.data);
-
-    if (page === 1) {
-      setLocales(ordenarLocales(lote));
-    } else {
-      setLocales((prev) => ordenarLocales([...prev, ...lote]));
-    }
+    setLocales((prev) => (page === 1 ? ordenarLocales(lote) : [...prev, ...lote]));
   }, [data, page]);
 
-  // Restaurar el scroll si estamos en recuperación automática (antes de pintar para evitar "saltos")
-  useLayoutEffect(() => {
-    if (!preserveScrollRef.current) return;
-    if (pendingScrollTopRef.current == null) return;
-    window.scrollTo(0, pendingScrollTopRef.current);
-  }, [locales]);
-
-  // Si se borra el input, reinicia búsqueda
+  /** ------ Guardar snapshot al desmontar ------ */
   useEffect(() => {
-    if (searchValue === '') {
-      setSearch('');
-      setPage(1);
-      if (servicioId) guardarPaginaServicio(servicioId, 1);
-    }
-  }, [searchValue, servicioId]);
+    return () => {
+      const s: ListaState = { search, page, locales, scrollY: window.scrollY };
+      saveState(servicioId, s);
+    };
+    // incluir todas las dependencias que cambian la lista
+  }, [search, page, locales, servicioId]);
 
+  /** ------ Navegación al detalle: guarda snapshot antes ------ */
+  const goToComercio = useCallback(
+    (comercio: ComercioConEstado) => {
+      const s: ListaState = { search, page, locales, scrollY: window.scrollY };
+      saveState(servicioId, s);
+      navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } });
+    },
+    [navigate, search, page, locales, servicioId]
+  );
+
+  /** ------ Infinite scroll con IntersectionObserver ------ */
+  useEffect(() => {
+    if (!loaderRef.current) return;
+
+    const el = loaderRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (!first?.isIntersecting) return;
+        if (isLoading) return;
+        if (page >= lastPage) return;
+        setPage((p) => Math.min(p + 1, lastPage));
+      },
+      { root: null, rootMargin: '0px', threshold: 1.0 }
+    );
+
+    observer.observe(el);
+    return () => observer.unobserve(el);
+  }, [isLoading, page, lastPage]);
+
+  /** ------ Handlers de búsqueda manual ------ */
   const handleSearch = () => {
-    setSearch(searchValue.trim());
+    const v = searchValue.trim();
+    setSearch(v);
     setPage(1);
-    if (servicioId) guardarPaginaServicio(servicioId, 1);
   };
 
   const handleClearSearch = () => {
     setSearchValue('');
     setSearch('');
     setPage(1);
-    if (servicioId) guardarPaginaServicio(servicioId, 1);
   };
 
-  const handleLoadMore = async () => {
-    if (isPaging || isLoading) return;
-    if (page < lastPage && servicioId) {
-      setIsPaging(true);
-      await wait(PAGINATION_DELAY_MS);
-      setPage((prev) => {
-        const nuevaPagina = prev + 1;
-        guardarPaginaServicio(servicioId, nuevaPagina);
-        return nuevaPagina;
-      });
-      setIsPaging(false);
-    }
+  const handleLoadMore = () => {
+    if (page < lastPage) setPage(page + 1);
   };
 
-  // Infinite scroll con IntersectionObserver y delay de 1s
-  useEffect(() => {
-    const node = loaderRef.current;
-    if (!node) return;
+  /** ------ UI ------ */
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const isVisible = entries[0]?.isIntersecting;
-        // Solo pagina si el usuario llegó al sentinel (bajó),
-        // y no estamos ya paginando ni cargando.
-        if (isVisible && page < lastPage && !isLoading && !isPaging) {
-          setIsPaging(true);
-          setTimeout(() => {
-            setPage((prev) => {
-              const nueva = prev + 1;
-              if (servicioId) guardarPaginaServicio(servicioId, nueva);
-              return nueva;
-            });
-            setIsPaging(false);
-          }, PAGINATION_DELAY_MS);
-        }
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0,
-      }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [page, lastPage, isLoading, isPaging, servicioId]);
-
-  // Búsqueda con debounce (manteniendo tu lógica)
-  useEffect(() => {
-    const v = searchValue.trim();
-
-    // si quedó vacío, ya lo manejas en el otro useEffect (el que limpia search)
-    if (v === '') return;
-
-    // evita llamadas innecesarias si no cambió realmente
-    if (v === search) return;
-
-    const t = setTimeout(() => {
-      setSearch(v);
-      setPage(1);
-      if (servicioId) guardarPaginaServicio(servicioId, 1);
-    }, DEBOUNCE_MS);
-
-    return () => clearTimeout(t);
-  }, [searchValue, search, servicioId]);
-
-  if (isLoading && page === 1) return <Skeleton />;
+  if (isLoading && page === 1 && locales.length === 0) return <Skeleton />;
   if (isError) return <div>Error al cargar locales</div>;
 
-  const defaultImage = '/logo_w_fondo_negro.jpeg';
-
   return (
-    <div className='w-full'>
+    <div className="w-full">
       {/* Buscador */}
       <div className="flex justify-center items-center mb-3.5">
         <div className="relative w-full max-w-full lg:max-w-sm flex items-center">
@@ -221,6 +217,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
           >
             <FaSearch />
           </button>
+
           {searchValue && (
             <button
               onClick={handleClearSearch}
@@ -235,10 +232,10 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
       {/* Lista de locales */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
-        {locales?.map((comercio: ComercioConEstado) =>  (
+        {locales?.map((comercio: ComercioConEstado) => (
           <div
             key={comercio.id}
-            onClick={() => navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } })}
+            onClick={() => goToComercio(comercio)}
             className="cursor-pointer bg-[#ffffff] border-[1px] shadow-lg border-gray-200 rounded-2xl transition duration-300 overflow-hidden relative"
           >
             <div className="relative h-[120px] lg:h-[180px]">
@@ -251,6 +248,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                 <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}
               </div>
             </div>
+
             <div className="pb-3 pt-1 px-2">
               <h3 className="text-base font-bold text-[#2E2C36] line-clamp-1 md:line-clamp-2 break-words max-w-full">
                 {comercio.nombre_comercial}
@@ -265,7 +263,11 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                   <FaMapMarkerAlt className="text-green-600" />
                   <span>{comercio.direccion || 'Sin dirección'}</span>
                 </div>
-                <span className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
+
+                <span
+                  className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full"
+                  aria-live="polite"
+                >
                   {comercio._estado === 'abierto' ? (
                     <>
                       <FaCheckCircle className="text-green-500" />
@@ -284,9 +286,9 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         ))}
       </div>
 
-      {/* Ver más locales */}
+      {/* Ver más locales (fallback al infinite scroll) */}
       {page < lastPage && (
-        <div className=" justify-center mt-8 hidden">
+        <div className="justify-center mt-8 hidden">
           <button
             onClick={handleLoadMore}
             className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full shadow-md"
@@ -296,10 +298,10 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         </div>
       )}
 
+      {/* Loader & target del IntersectionObserver */}
       <div ref={loaderRef} className="h-10 mt-8 flex justify-center items-center">
-        {(isLoading || isPaging) && <p className="text-gray-500 text-sm">Cargando más locales...</p>}
+        {isLoading && <p className="text-gray-500 text-sm">Cargando más locales...</p>}
       </div>
-
     </div>
   );
 };
