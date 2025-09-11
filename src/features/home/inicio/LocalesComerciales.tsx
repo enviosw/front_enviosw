@@ -1,5 +1,4 @@
-// LocalesComerciales.tsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { AiFillStar } from 'react-icons/ai';
@@ -23,7 +22,6 @@ const anotarEstado = (arr: Comercio[]): ComercioConEstado[] =>
     return { ...c, _estado: estado, _isOpen: estado === 'abierto' };
   });
 
-// ---- Persistencia de página por servicio ----
 const getPaginasGuardadas = (): Record<number, number> => {
   const data = sessionStorage.getItem('paginasPorServicio');
   return data ? JSON.parse(data) : {};
@@ -35,12 +33,10 @@ const guardarPaginaServicio = (servicioId: number, pagina: number) => {
   sessionStorage.setItem('paginasPorServicio', JSON.stringify(data));
 };
 
-// ---- Persistencia de scroll por servicio ----
-const getScrollGuardado = (servicioId: number) =>
-  Number(sessionStorage.getItem(`scroll:serv:${servicioId}`) ?? 0);
+const PAGINATION_DELAY_MS = 1000; // 1s entre páginas
+const DEBOUNCE_MS = 300; // ya lo tenías
 
-const guardarScroll = (servicioId: number, y: number) =>
-  sessionStorage.setItem(`scroll:serv:${servicioId}`, String(y));
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioId }) => {
   const navigate = useNavigate();
@@ -50,135 +46,163 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
   const [locales, setLocales] = useState<ComercioConEstado[]>([]);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  // 🔒 bloquea auto-carga mientras se restaura estado/scroll
-  const isRestoringRef = useRef<boolean>(true);
+  // flags/refs para controlar paginación y scroll
+  const [isPaging, setIsPaging] = useState(false);
+  const preserveScrollRef = useRef(false);
+  const pendingScrollTopRef = useRef<number | null>(null);
 
   const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
   const lastPage = data?.lastPage || 1;
 
-  // Restaura página + scroll cuando cambia servicio (sin auto-paginación en bucle)
+  // Al iniciar, recupera la página guardada por servicio si no hay búsqueda
   useEffect(() => {
-    if (!servicioId) return;
+    if (servicioId && search === '') {
+      const paginasGuardadas = getPaginasGuardadas();
+      const paginaFinal = paginasGuardadas[servicioId] || 1;
 
-    isRestoringRef.current = true; // bloquear infinitescroll
-    const paginasGuardadas = getPaginasGuardadas();
-    const paginaFinal = paginasGuardadas[servicioId] || 1;
+      // Arranca en la página 1 y carga hasta la última que tenía guardada
+      setPage(1);
 
-    setPage(paginaFinal);
-    guardarPaginaServicio(servicioId, paginaFinal);
+      if (paginaFinal > 1) {
+        preserveScrollRef.current = true; // anclamos scroll durante la recuperación
 
-    const y = getScrollGuardado(servicioId);
+        (async () => {
+          for (let target = 2; target <= paginaFinal; target++) {
+            // guardamos el scroll actual y esperamos 1s antes de pedir la siguiente página
+            pendingScrollTopRef.current = window.scrollY;
+            setIsPaging(true);
+            await wait(PAGINATION_DELAY_MS);
+            setPage((prev) => {
+              const nueva = prev + 1;
+              guardarPaginaServicio(servicioId, nueva);
+              return nueva;
+            });
+            setIsPaging(false);
+          }
 
-    // 2 frames para asegurar layout estable antes de habilitar el observer
-    requestAnimationFrame(() => {
-      window.scrollTo(0, y);
-      requestAnimationFrame(() => {
-        isRestoringRef.current = false; // desbloquear
-      });
-    });
+          // al terminar, desanclamos
+          preserveScrollRef.current = false;
+          pendingScrollTopRef.current = null;
+        })();
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [servicioId]);
 
-  // Actualiza locales cuando llega data nueva
+  // Actualiza los locales cuando llega data nueva
   useEffect(() => {
     if (!data) return;
     const lote = anotarEstado(data.data);
-    if (page === 1) setLocales(ordenarLocales(lote));
-    else setLocales((prev) => ordenarLocales([...prev, ...lote]));
+
+    if (page === 1) {
+      setLocales(ordenarLocales(lote));
+    } else {
+      setLocales((prev) => ordenarLocales([...prev, ...lote]));
+    }
   }, [data, page]);
 
-  // Si se borra el input, reinicia búsqueda y scroll
+  // Restaurar el scroll si estamos en recuperación automática (antes de pintar para evitar "saltos")
+  useLayoutEffect(() => {
+    if (!preserveScrollRef.current) return;
+    if (pendingScrollTopRef.current == null) return;
+    window.scrollTo(0, pendingScrollTopRef.current);
+  }, [locales]);
+
+  // Si se borra el input, reinicia búsqueda
   useEffect(() => {
     if (searchValue === '') {
       setSearch('');
       setPage(1);
-      if (servicioId) {
-        guardarPaginaServicio(servicioId, 1);
-        sessionStorage.removeItem(`scroll:serv:${servicioId}`);
-      }
-      window.scrollTo({ top: 0 });
+      if (servicioId) guardarPaginaServicio(servicioId, 1);
     }
   }, [searchValue, servicioId]);
-
-  // Debounce búsqueda (300ms)
-  useEffect(() => {
-    const v = searchValue.trim();
-    if (v === '' || v === search) return;
-
-    const t = setTimeout(() => {
-      setSearch(v);
-      setPage(1);
-      if (servicioId) {
-        guardarPaginaServicio(servicioId, 1);
-        sessionStorage.removeItem(`scroll:serv:${servicioId}`);
-      }
-      window.scrollTo({ top: 0 });
-    }, 300);
-
-    return () => clearTimeout(t);
-  }, [searchValue, search, servicioId]);
-
-  // IntersectionObserver para auto-cargar más (evita disparo “en frío” al volver)
-  useEffect(() => {
-    const el = loaderRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (isRestoringRef.current) return; // no auto-cargar durante restauración
-        const first = entries[0];
-        if (first.isIntersecting && page < lastPage && !isLoading) {
-          const nuevaPagina = page + 1;
-          setPage(nuevaPagina);
-          if (servicioId) guardarPaginaServicio(servicioId, nuevaPagina);
-        }
-      },
-      {
-        root: null,
-        rootMargin: '0px 0px -40% 0px', // evita que el sentinel cuente como visible demasiado pronto
-        threshold: 0.01,
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [page, lastPage, isLoading, servicioId]);
 
   const handleSearch = () => {
     setSearch(searchValue.trim());
     setPage(1);
-    if (servicioId) {
-      guardarPaginaServicio(servicioId, 1);
-      sessionStorage.removeItem(`scroll:serv:${servicioId}`);
-    }
-    window.scrollTo({ top: 0 });
+    if (servicioId) guardarPaginaServicio(servicioId, 1);
   };
 
   const handleClearSearch = () => {
     setSearchValue('');
     setSearch('');
     setPage(1);
-    if (servicioId) {
-      guardarPaginaServicio(servicioId, 1);
-      sessionStorage.removeItem(`scroll:serv:${servicioId}`);
-    }
-    window.scrollTo({ top: 0 });
+    if (servicioId) guardarPaginaServicio(servicioId, 1);
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = async () => {
+    if (isPaging || isLoading) return;
     if (page < lastPage && servicioId) {
-      const nuevaPagina = page + 1;
-      setPage(nuevaPagina);
-      guardarPaginaServicio(servicioId, nuevaPagina);
+      setIsPaging(true);
+      await wait(PAGINATION_DELAY_MS);
+      setPage((prev) => {
+        const nuevaPagina = prev + 1;
+        guardarPaginaServicio(servicioId, nuevaPagina);
+        return nuevaPagina;
+      });
+      setIsPaging(false);
     }
   };
 
-  const defaultImage = '/logo_w_fondo_negro.jpeg';
+  // Infinite scroll con IntersectionObserver y delay de 1s
+  useEffect(() => {
+    const node = loaderRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries[0]?.isIntersecting;
+        // Solo pagina si el usuario llegó al sentinel (bajó),
+        // y no estamos ya paginando ni cargando.
+        if (isVisible && page < lastPage && !isLoading && !isPaging) {
+          setIsPaging(true);
+          setTimeout(() => {
+            setPage((prev) => {
+              const nueva = prev + 1;
+              if (servicioId) guardarPaginaServicio(servicioId, nueva);
+              return nueva;
+            });
+            setIsPaging(false);
+          }, PAGINATION_DELAY_MS);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1.0,
+      }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [page, lastPage, isLoading, isPaging, servicioId]);
+
+  // Búsqueda con debounce (manteniendo tu lógica)
+  useEffect(() => {
+    const v = searchValue.trim();
+
+    // si quedó vacío, ya lo manejas en el otro useEffect (el que limpia search)
+    if (v === '') return;
+
+    // evita llamadas innecesarias si no cambió realmente
+    if (v === search) return;
+
+    const t = setTimeout(() => {
+      setSearch(v);
+      setPage(1);
+      if (servicioId) guardarPaginaServicio(servicioId, 1);
+    }, DEBOUNCE_MS);
+
+    return () => clearTimeout(t);
+  }, [searchValue, search, servicioId]);
 
   if (isLoading && page === 1) return <Skeleton />;
   if (isError) return <div>Error al cargar locales</div>;
 
+  const defaultImage = '/logo_w_fondo_negro.jpeg';
+
   return (
-    <div className="w-full">
+    <div className='w-full'>
       {/* Buscador */}
       <div className="flex justify-center items-center mb-3.5">
         <div className="relative w-full max-w-full lg:max-w-sm flex items-center">
@@ -210,23 +234,15 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
       </div>
 
       {/* Lista de locales */}
-      <div
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6"
-        style={{ overflowAnchor: 'none' }} // evita que el navegador empuje el viewport al agregar ítems
-      >
-        {locales?.map((comercio: ComercioConEstado) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
+        {locales?.map((comercio: ComercioConEstado) =>  (
           <div
             key={comercio.id}
-            onClick={() => {
-              if (servicioId) guardarScroll(servicioId, window.scrollY);
-              navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } });
-            }}
-            className="cursor-pointer bg-white border-[1px] shadow-lg border-gray-200 rounded-2xl transition duration-300 overflow-hidden relative"
+            onClick={() => navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } })}
+            className="cursor-pointer bg-[#ffffff] border-[1px] shadow-lg border-gray-200 rounded-2xl transition duration-300 overflow-hidden relative"
           >
             <div className="relative h-[120px] lg:h-[180px]">
               <img
-                loading="lazy"
-                decoding="async"
                 src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage}
                 alt={comercio.nombre_comercial}
                 className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform truncate"
@@ -249,7 +265,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                   <FaMapMarkerAlt className="text-green-600" />
                   <span>{comercio.direccion || 'Sin dirección'}</span>
                 </div>
-                <span className="flex items-center gap-1 bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
+                <span className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
                   {comercio._estado === 'abierto' ? (
                     <>
                       <FaCheckCircle className="text-green-500" />
@@ -268,9 +284,9 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         ))}
       </div>
 
-      {/* Ver más locales (fallback manual oculto) */}
+      {/* Ver más locales */}
       {page < lastPage && (
-        <div className="justify-center mt-8 hidden">
+        <div className=" justify-center mt-8 hidden">
           <button
             onClick={handleLoadMore}
             className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-full shadow-md"
@@ -280,10 +296,10 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         </div>
       )}
 
-      {/* Sentinel para IntersectionObserver */}
       <div ref={loaderRef} className="h-10 mt-8 flex justify-center items-center">
-        {isLoading && <p className="text-gray-500 text-sm">Cargando más locales...</p>}
+        {(isLoading || isPaging) && <p className="text-gray-500 text-sm">Cargando más locales...</p>}
       </div>
+
     </div>
   );
 };
