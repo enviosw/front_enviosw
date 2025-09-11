@@ -24,7 +24,8 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
   }, [sortedServicios]);
 
   // Número de columnas (mitad arriba, mitad abajo)
-  const numCols = Math.ceil(serviciosOrdenados.length / 2);
+  const half = Math.ceil(serviciosOrdenados.length / 2);
+  const numCols = half;
 
   const handleClick = useCallback((servicio: Servicio) => {
     const servicioSeleccionado = servicio.estado === 'activo' ? Number(servicio.id) : String(servicio.nombre);
@@ -57,60 +58,62 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
     }
   }, [serviciosOrdenados, selectedServicioId, onSelectServicio]);
 
+  const defaultImage = '/logo_w_fondo_negro.jpeg';
+
   // Item reutilizable (icono + texto)
   const Item = ({ servicio }: { servicio: Servicio }) => (
- 
-      <div className="w-[clamp(64px,10vw,88px)] overflow-y-hidden">
-        <div className="flex flex-col items-center overflow-y-hidden">
-          <button
-            style={{ backgroundColor: servicio.color }}
-            aria-label={`Seleccionar servicio ${servicio.nombre}`}
-            onClick={() => handleClick(servicio)}
-            className={`
-              hover:bg-opacity-80
-              rounded-full cursor-pointer p-0.5 flex items-center justify-center
-              transition-transform duration-75
-              border ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                ? 'border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-105'
-                : 'border-transparent bg-transparent'}
-            `}
-          >
-            <div className="size-[clamp(36px,7.5vw,48px)]">
-              <img
-                src={servicio.foto ? `${BASE_URL}/${servicio.foto}` : ''}
-                alt={servicio.nombre}
-                className="w-full h-full object-contain"
-                loading="lazy"
-              />
-            </div>
-          </button>
+    <div className="w-[clamp(64px,10vw,88px)] md:w-[clamp(80px,8vw,110px)] overflow-y-hidden">
+      <div className="flex flex-col items-center overflow-y-hidden">
+        <button
+          style={{ backgroundColor: servicio.color }}
+          aria-label={`Seleccionar servicio ${servicio.nombre}`}
+          onClick={() => handleClick(servicio)}
+          className={`
+            hover:bg-opacity-80
+            rounded-full cursor-pointer mt-3 p-0.5 md:p-1 flex items-center justify-center
+            transition-transform duration-75
+            border ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+              ? 'border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-105 md:scale-110'
+              : 'border-transparent bg-transparent'}
+          `}
+        >
+<div className="size-[clamp(36px,7.5vw,48px)] md:size-[clamp(44px,5.5vw,60px)] overflow-hidden">
+  <img
+    src={servicio.foto ? `${BASE_URL}/${servicio.foto}` : defaultImage}
+    alt={servicio.nombre}
+    className="w-full h-full object-contain rounded-full"
+    loading="lazy"
+  />
+</div>
 
-          <span
-            className="text-[clamp(9px,2.2vw,12px)] text-gray-700 leading-tight text-center"
-            style={{ marginTop: '0.2rem', color: (selectedServicioId === servicio.id || selectedServicioId === servicio.nombre) ? '#FF6600' : undefined }}
-          >
-            {servicio.nombre}
-          </span>
-        </div>
+        </button>
+
+        <span
+          className="text-[clamp(9px,2.2vw,12px)] md:text-[clamp(10px,1.4vw,14px)] text-gray-700 leading-tight text-center"
+          style={{ marginTop: '0.2rem', color: (selectedServicioId === servicio.id || selectedServicioId === servicio.nombre) ? '#FF6600' : undefined }}
+        >
+          {servicio.nombre}
+        </span>
       </div>
-
+    </div>
   );
 
   return (
-    // Scroll horizontal, dos filas fijas, columnas por pares (2*i y 2*i+1)
+    // Scroll horizontal, dos filas fijas: 1..half arriba, half+1..n abajo
     <div className="w-full overflow-x-auto overscroll-x-contain snap-x snap-mandatory scrollbar-thin">
-      <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-x-3 gap-y-1 px-1 py-1">
+      <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-x-3 md:gap-x-4 gap-y-1 px-1 py-1">
         {Array.from({ length: numCols }).map((_, i) => {
-          const topIdx = 2 * i;
-          const bottomIdx = 2 * i + 1;
+          // 🔁 Cambio clave: índices por mitades
+          const topIdx = i;              // 0..half-1
+          const bottomIdx = i + half;    // half..n-1
+
           const topItem = serviciosOrdenados[topIdx];
           const bottomItem = serviciosOrdenados[bottomIdx];
 
           return (
-            // Cada par forma una columna: top (fila 1), bottom (fila 2)
             <div key={`col-${i}`} className="contents">
               {topItem && (
-                <div className="snap-start">
+                <div className="snap-start row-start-1">
                   <Item servicio={topItem} />
                 </div>
               )}
