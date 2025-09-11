@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense, useCallback } from 'react';
 import Loading from '../../utils/Loading';
 // import ToggleButton from '../../shared/components/buttons/ToggleButton';
 // import { GoArrowDown } from "react-icons/go";
@@ -34,15 +34,10 @@ const Home: React.FC = () => {
     }
   }, []);
 
-  const handleSelectServicio = (servicioIdOrNombre: number | string) => {
-    if (typeof servicioIdOrNombre === 'number') {
-      setServicioId(servicioIdOrNombre);
-      setServicioNombre(null); // Limpiar el nombre si recibimos un ID
-    } else {
-      setServicioNombre(servicioIdOrNombre);
-      setServicioId(null); // Limpiar el ID si recibimos un nombre
-    }
-  };
+const handleSelectServicio = useCallback((v: number | string) => {
+  if (typeof v === 'number') { setServicioId(v); setServicioNombre(null); }
+  else { setServicioNombre(v); setServicioId(null); }
+}, []);
 
   const images2 = [
     "slider1.png",
@@ -76,9 +71,9 @@ const Home: React.FC = () => {
             ¡Selecciona el servicio que necesitas!
           </h3> */}
 
-            <h2 className="text-xl font-medium text-gray-600 mx-auto w-[80%] lg:m-0 tracking-wide">
+          <h2 className="text-xl font-medium text-gray-600 mx-auto w-[80%] lg:m-0 tracking-wide">
             ¡Selecciona el servicio que necesitas!
-                                </h2>
+          </h2>
 
 
           {/* <figure className="text-2xl size-7 animate-bounce rounded-full font-extrabold border-1 p-1 bg-transparent text-orange-500 flex items-center justify-center">
@@ -93,18 +88,19 @@ const Home: React.FC = () => {
 
       <Suspense fallback={<Loading />}>
         <section
-          key={servicioId !== null ? `servicio-${servicioId}` : `tipo-${servicioNombre}`}
+          // key={servicioId !== null ? `servicio-${servicioId}` : `tipo-${servicioNombre}`}
           className="h-auto flex bg-[#ffffff] justify-start items-center relative mt-2 lg:mt-5"
         >
           <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-10 lg:pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
             <div className="w-full">
-              {servicioId !== null && (
-                <LocalesComerciales servicioId={servicioId} />
-              )}
-              {servicioNombre && (
-                <TipoServicio tipo={String(servicioNombre)} />
-              )}
+              <div style={{ display: servicioId !== null ? 'block' : 'none' }}>
+                <LocalesComerciales servicioId={servicioId as number} />
+              </div>
+              <div style={{ display: servicioNombre ? 'block' : 'none' }}>
+                <TipoServicio tipo={String(servicioNombre ?? '')} />
+              </div>
             </div>
+
           </div>
         </section>
       </Suspense>
