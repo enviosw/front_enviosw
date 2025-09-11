@@ -61,42 +61,49 @@ export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioI
   const defaultImage = '/logo_w_fondo_negro.jpeg';
 
   // Item reutilizable (icono + texto)
-  const Item = ({ servicio }: { servicio: Servicio }) => (
-    <div className="w-[clamp(64px,10vw,88px)] md:w-[clamp(80px,8vw,110px)] overflow-y-hidden">
-      <div className="flex flex-col items-center overflow-y-hidden">
-        <button
-          style={{ backgroundColor: servicio.color }}
-          aria-label={`Seleccionar servicio ${servicio.nombre}`}
-          onClick={() => handleClick(servicio)}
-          className={`
-            hover:bg-opacity-80
-            rounded-full cursor-pointer mt-3 p-0.5 md:p-1 flex items-center justify-center
-            transition-transform duration-75
-            border ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-              ? 'border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-105 md:scale-110'
-              : 'border-transparent bg-transparent'}
-          `}
-        >
-<div className="size-[clamp(36px,7.5vw,48px)] md:size-[clamp(44px,5.5vw,60px)] overflow-hidden">
-  <img
-    src={servicio.foto ? `${BASE_URL}/${servicio.foto}` : defaultImage}
-    alt={servicio.nombre}
-    className="w-full h-full object-contain rounded-full"
-    loading="lazy"
-  />
-</div>
+ const Item = ({ servicio }: { servicio: Servicio }) => (
+  <div className="w-[clamp(72px,12vw,96px)] md:w-[clamp(80px,8vw,110px)] overflow-y-hidden">
+    <div className="flex flex-col items-center overflow-y-hidden">
+      <button
+        style={{ backgroundColor: servicio.color }}
+        aria-label={`Seleccionar servicio ${servicio.nombre}`}
+        onClick={() => handleClick(servicio)}
+        className={`
+          hover:bg-opacity-80
+          rounded-full cursor-pointer mt-3 p-0.5 md:p-1 flex items-center justify-center
+          transition-transform duration-75
+          border ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+            ? 'border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-105 md:scale-110'
+            : 'border-transparent bg-transparent'}
+        `}
+      >
+        <div className="size-[clamp(42px,9vw,56px)] md:size-[clamp(44px,5.5vw,60px)] overflow-hidden">
+          <img
+            src={servicio.foto ? `${BASE_URL}/${servicio.foto}` : defaultImage}
+            alt={servicio.nombre}
+            className="w-full h-full object-contain rounded-full"
+            loading="lazy"
+          />
+        </div>
+      </button>
 
-        </button>
-
-        <span
-          className="text-[clamp(9px,2.2vw,12px)] md:text-[clamp(10px,1.4vw,14px)] text-gray-700 leading-tight text-center"
-          style={{ marginTop: '0.2rem', color: (selectedServicioId === servicio.id || selectedServicioId === servicio.nombre) ? '#FF6600' : undefined }}
-        >
-          {servicio.nombre}
-        </span>
-      </div>
+      <span
+        className="text-[clamp(10px,2.6vw,13px)] md:text-[clamp(10px,1.4vw,14px)] text-gray-700 leading-tight text-center"
+        style={{
+          marginTop: '0.2rem',
+          color:
+            selectedServicioId === servicio.id ||
+            selectedServicioId === servicio.nombre
+              ? '#FF6600'
+              : undefined,
+        }}
+      >
+        {servicio.nombre}
+      </span>
     </div>
-  );
+  </div>
+);
+
 
   return (
     // Scroll horizontal, dos filas fijas: 1..half arriba, half+1..n abajo
