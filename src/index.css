@@ -237,3 +237,47 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
+
+
+
+
+/* Scrollbar horizontal ultradelgado solo con la barrita */
+.scrollbar-thin {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #FF6600 transparent;
+}
+
+/* Webkit (Chrome, Edge, Safari) */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 3px;               /* delgadito */
+  background: transparent;   /* sin fondo */
+}
+
+/* ❌ Quitar botones/flechas de los extremos */
+.scrollbar-thin::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ❌ Quitar esquina inferior derecha cuando hay ambos scrolls */
+.scrollbar-thin::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+/* ❌ Quitar track (fondo) por completo */
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: none !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+/* ✅ Solo la barrita naranja */
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #FF6600;
+  border-radius: 9999px; /* redondeado */
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #e65c00;
+}
