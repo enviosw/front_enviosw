@@ -1,123 +1,140 @@
 import { useServicios } from '../../../services/serviciosServices';
 import { Servicio } from '../../../shared/types/serviciosInterface';
-// import { Icon } from '../../../shared/components/Icon';
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Animate } from 'react-simple-animate';
 import { BASE_URL } from '../../../utils/baseUrl';
 
 export const IconButtons = ({ onSelectServicio }: { onSelectServicio: (servicioIdOrNombre: number | string) => void }) => {
-    const { data: servicios } = useServicios();
+  const { data: servicios } = useServicios();
+  const [selectedServicioId, setSelectedServicioId] = useState<number | string | null>(null);
 
-    // Estado para el servicio seleccionado
-    const [selectedServicioId, setSelectedServicioId] = useState<number | string | null>(null);
+  // Orden base por id (copia segura)
+  const sortedServicios = useMemo(() => {
+    if (!Array.isArray(servicios)) return [];
+    return servicios.slice().sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
+  }, [servicios]);
 
-    // UseMemo para memorizar la lista de servicios ordenada
-    const sortedServicios = useMemo(() => {
-        if (!Array.isArray(servicios)) return [];
-        return servicios.sort((a, b) => (a.id ?? 0) - (b.id ?? 0));
-    }, [servicios]);
-
-    // useCallback fuera de condicionales, garantizando el mismo orden de hooks
-    const handleClick = useCallback((servicio: Servicio) => {
-        const servicioSeleccionado = servicio.estado === 'activo' ? Number(servicio.id) : String(servicio.nombre);
-
-        // Guardar en localStorage
-        localStorage.setItem('ultimoServicioSeleccionado', JSON.stringify(servicioSeleccionado));
-
-        setSelectedServicioId(null);
-        setTimeout(() => {
-            setSelectedServicioId(servicioSeleccionado);
-            onSelectServicio(servicioSeleccionado);
-        }, 0);
-    }, [onSelectServicio]);
-
-
-
-    // Efecto para seleccionar el primer servicio por defecto al cargar
-    useEffect(() => {
-        if (sortedServicios.length > 0 && selectedServicioId === null) {
-            const guardado = localStorage.getItem('ultimoServicioSeleccionado');
-            if (guardado) {
-                try {
-                    const servicioSeleccionado = JSON.parse(guardado);
-                    setSelectedServicioId(servicioSeleccionado);
-                    onSelectServicio(servicioSeleccionado);
-                    return;
-                } catch (error) {
-                    console.error('Error leyendo localStorage', error);
-                }
-            }
-
-            // Fallback si no hay guardado
-            const firstServicio = sortedServicios[0];
-            const servicioSeleccionado = firstServicio.estado === 'activo' ? Number(firstServicio.id) : String(firstServicio.nombre);
-            setSelectedServicioId(servicioSeleccionado);
-            onSelectServicio(servicioSeleccionado);
-        }
-    }, [sortedServicios, selectedServicioId, onSelectServicio]);
-
-
-
-    const serviciosOrdenados = [...sortedServicios].sort((a, b) => {
-        // Si ambos tienen orden definido, ordenar ascendente
-        if (a.orden != null && b.orden != null) {
-            return a.orden - b.orden;
-        }
-        // Si solo uno tiene orden, priorizarlo
-        if (a.orden != null) return -1;
-        if (b.orden != null) return 1;
-        // Si ninguno tiene orden, no cambiar el orden
-        return 0;
+  // Orden final por "orden" manteniendo relativo
+  const serviciosOrdenados = useMemo(() => {
+    return [...sortedServicios].sort((a, b) => {
+      if (a.orden != null && b.orden != null) return a.orden - b.orden;
+      if (a.orden != null) return -1;
+      if (b.orden != null) return 1;
+      return 0;
     });
+  }, [sortedServicios]);
 
-    return (
-        <div className="flex justify-start md:justify-center overflow-x-auto gap-x-6 pl-1.5 py-1 scrollbar-hidden w-full">
-            {serviciosOrdenados.map((servicio: Servicio) => (
-                <Animate
-                    key={servicio.id}
-                    play
-                    duration={0.8}
-                    delay={0.2}
-                    start={{ opacity: 0, transform: 'translateY(20px)' }}
-                    end={{ opacity: 1, transform: 'translateY(0px)' }}
-                >
-                    <div className="flex flex-col items-center">
+  // Número de columnas (mitad arriba, mitad abajo)
+  const half = Math.ceil(serviciosOrdenados.length / 2);
+  const numCols = half;
 
-                        <button
-                            style={{ backgroundColor: servicio.color }}
-                            aria-label={`Seleccionar servicio ${servicio.nombre}`}
-                            onClick={() => handleClick(servicio)}
-                            className={`hover:bg-opacity-80 size-[65px] text-primary rounded-full cursor-pointer p-1 flex items-center justify-center transition-all duration-75
-                                    ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                                    ? 'border-2 border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-110'
-                                    : 'border-2 border-transparent bg-transparent'
-                                }`}
-                        >
-                            <img
-                                src={servicio.foto ? `${BASE_URL}/${servicio.foto}` : ''}
-                                alt={servicio.nombre}
-                                className="w-full h-full object-contain"
-                            />
-                        </button>
+  const handleClick = useCallback((servicio: Servicio) => {
+    const servicioSeleccionado = servicio.estado === 'activo' ? Number(servicio.id) : String(servicio.nombre);
+    localStorage.setItem('ultimoServicioSeleccionado', JSON.stringify(servicioSeleccionado));
+    setSelectedServicioId(null);
+    setTimeout(() => {
+      setSelectedServicioId(servicioSeleccionado);
+      onSelectServicio(servicioSeleccionado);
+    }, 0);
+  }, [onSelectServicio]);
 
+  // Selección inicial (último guardado o primero)
+  useEffect(() => {
+    if (serviciosOrdenados.length > 0 && selectedServicioId === null) {
+      const guardado = localStorage.getItem('ultimoServicioSeleccionado');
+      if (guardado) {
+        try {
+          const servicioSeleccionado = JSON.parse(guardado);
+          setSelectedServicioId(servicioSeleccionado);
+          onSelectServicio(servicioSeleccionado);
+          return;
+        } catch (e) {
+          console.error('Error leyendo localStorage', e);
+        }
+      }
+      const first = serviciosOrdenados[0];
+      const servicioSeleccionado = first.estado === 'activo' ? Number(first.id) : String(first.nombre);
+      setSelectedServicioId(servicioSeleccionado);
+      onSelectServicio(servicioSeleccionado);
+    }
+  }, [serviciosOrdenados, selectedServicioId, onSelectServicio]);
 
-                        <span
-                            className="text-sm lg:text-base text-gray-600"
-                            style={{
-                                marginTop: '0.3rem',
-                                color: selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
-                                    ? '#FF6600'
-                                    : '',
-                            }}
-                        >
-                            {servicio.nombre}
-                        </span>
-                    </div>
-                </Animate>
-            ))}
+  const defaultImage = '/logo_w_fondo_negro.jpeg';
+
+  // Item reutilizable (icono + texto)
+ const Item = ({ servicio }: { servicio: Servicio }) => (
+  <div className="w-[clamp(72px,12vw,96px)] md:w-[clamp(80px,8vw,110px)] overflow-y-hidden">
+    <div className="flex flex-col items-center overflow-y-hidden">
+      <button
+        style={{ backgroundColor: servicio.color }}
+        aria-label={`Seleccionar servicio ${servicio.nombre}`}
+        onClick={() => handleClick(servicio)}
+        className={`
+          hover:bg-opacity-80
+          rounded-full cursor-pointer mt-3 p-0.5 md:p-1 flex items-center justify-center
+          transition-transform duration-75
+          border ${selectedServicioId === servicio.id || selectedServicioId === servicio.nombre
+            ? 'border-[#FFB84D] bg-[#FFB84D]/80 text-white scale-105 md:scale-110'
+            : 'border-transparent bg-transparent'}
+        `}
+      >
+        <div className="size-[clamp(42px,9vw,56px)] md:size-[clamp(44px,5.5vw,60px)] overflow-hidden">
+          <img
+            src={servicio.foto ? `${BASE_URL}/${servicio.foto}` : defaultImage}
+            alt={servicio.nombre}
+            className="w-full h-full object-contain rounded-full"
+            loading="lazy"
+          />
         </div>
+      </button>
 
-    );
+      <span
+        className="text-[clamp(10px,2.6vw,13px)] md:text-[clamp(10px,1.4vw,14px)] text-gray-700 leading-tight text-center"
+        style={{
+          marginTop: '0.2rem',
+          color:
+            selectedServicioId === servicio.id ||
+            selectedServicioId === servicio.nombre
+              ? '#FF6600'
+              : undefined,
+        }}
+      >
+        {servicio.nombre}
+      </span>
+    </div>
+  </div>
+);
+
+
+  return (
+    // Scroll horizontal, dos filas fijas: 1..half arriba, half+1..n abajo
+    <div className="w-full overflow-x-auto overscroll-x-contain snap-x snap-mandatory scrollbar-thin">
+      <div className="grid grid-rows-2 grid-flow-col auto-cols-max gap-x-3 md:gap-x-4 gap-y-1 px-1 py-1">
+        {Array.from({ length: numCols }).map((_, i) => {
+          // 🔁 Cambio clave: índices por mitades
+          const topIdx = i;              // 0..half-1
+          const bottomIdx = i + half;    // half..n-1
+
+          const topItem = serviciosOrdenados[topIdx];
+          const bottomItem = serviciosOrdenados[bottomIdx];
+
+          return (
+            <div key={`col-${i}`} className="contents">
+              {topItem && (
+                <div className="snap-start row-start-1">
+                  <Item servicio={topItem} />
+                </div>
+              )}
+              {bottomItem && (
+                <div className="snap-start row-start-2">
+                  <Item servicio={bottomItem} />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default IconButtons;
