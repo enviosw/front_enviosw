@@ -268,7 +268,7 @@ const DomicilioItem: React.FC<{ d: Domicilio }> = ({ d }) => {
 
 const DomiciliosPendientes: React.FC = () => {
   const queryClient = useQueryClient();
-  const { data: domicilios, isLoading, error, isFetching } = useDomiciliosPlataforma(1, { pollMs: 10000 });
+  const { data: domicilios, isLoading, error, isFetching } = useDomiciliosPlataforma(0, { pollMs: 10000 });
   const items = domicilios ?? [];
 
   /** También muestro hora en “Última actualización” */
