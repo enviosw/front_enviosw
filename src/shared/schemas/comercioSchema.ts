@@ -12,7 +12,10 @@ export const comercioSchema = z.object({
     descripcion: z.string().min(1, 'Requerido'),
     responsable: z.string().min(1, 'Requerido'),
     email_contacto: z.string().email('Correo no válido'),
-    telefono: z.string().min(1, 'Requerido'),
+    telefono: z
+        .string()
+        .trim()
+        .regex(/^\d{10}$/, 'Debe tener exactamente 10 dígitos'),
     telefono_secundario: z.string().optional(),
     direccion: z.string().min(1, 'Requerido'),
     estado: z.enum(['activo', 'inactivo'], {

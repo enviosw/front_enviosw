@@ -24,6 +24,7 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
     const actualizarMutation = useActualizarComercio();
 
     const { data: tiposComercio, isLoading } = useServicios();
+    const onlyDigits10 = (v: string) => (v ?? '').replace(/\D/g, '').slice(0, 10);
 
 
     const [logo, setLogo] = useState<File | null>(null);
@@ -62,9 +63,9 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
             reset();
         }
     };
-const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  validateImageFilesWithClean(e, 200, setLogo);
-};
+    const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        validateImageFilesWithClean(e, 200, setLogo);
+    };
 
     const isPending = comercio?.id ? actualizarMutation.isPending : crearMutation.isPending;
     const isError = comercio?.id ? actualizarMutation.isError : crearMutation.isError;
@@ -111,7 +112,20 @@ const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
                 <div>
                     <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono</label>
-                    <input {...register('telefono')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
+                    <input
+                        {...register('telefono', {
+                            setValueAs: (v) => onlyDigits10((v ?? '').trim()), // quita espacios + recorta a 10 dígitos
+                        })}
+                        inputMode="numeric"
+                        maxLength={10}
+                        onKeyDown={(e) => {
+                            if (e.key === ' ') e.preventDefault(); // no deja escribir espacio
+                        }}
+                        onChange={(e) => {
+                            e.target.value = onlyDigits10(e.target.value); // limpia en tiempo real
+                        }}
+                        className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+                    />
                     {errors.telefono && <p className="text-red-500">{errors.telefono.message}</p>}
                 </div>
 
