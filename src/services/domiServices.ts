@@ -213,7 +213,7 @@ export interface DomicilioResponse {
   estado?: number;
   fecha?: string;
   numero_cliente: string;
-tipo_servicio: number;
+  tipo_servicio: number;
   origen_direccion: string;
   destino_direccion: string;
   detalles_pedido?: string;
@@ -251,23 +251,34 @@ export const useRegistrarDomiPlataforma = () => {
 
 
 /** ✅ Hook: listar SOLO domicilios de plataforma (tipo_servicio=3) con estado=3 (PROCESO) */
-export const useDomiciliosPlataformaProceso = () => {
-  const axiosInstance = useAxiosInstance();
+type Options = { pollMs?: number | false };
+
+export const useDomiciliosPlataforma = (estado: number, opts: Options = {}) => {
+  const axios = useAxiosInstance();
 
   return useQuery<DomicilioResponse[], AxiosError<ServerError>>({
-    queryKey: ['domicilios', 'plataforma', { estado: 3 }],
+    queryKey: ['domicilios', 'plataforma', { estado }],
     queryFn: async () => {
-      // GET /domicilios/plataforma?estado=3
-      const { data } = await axiosInstance.get('/domicilios/plataforma', {
-        params: { estado: 3 }, // ← solo enviamos estado=3
-      });
+      const { data } = await axios.get('/domicilios/plataforma', { params: { estado } });
       return data;
     },
-    staleTime: 1000 * 60 * 10, // 10 min
-    gcTime: 1000 * 60 * 15,
+
+    // 🔥 Siempre “stale”, sin conservar en caché cuando queda inactivo
+    staleTime: 0,
+    gcTime: 0,
+
+    // 🔁 Forzar refetch en todos los casos
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    refetchOnReconnect: 'always',
+
+    // ⏱️ Opcional: polling
+    refetchInterval: opts.pollMs ?? false, // por ej. 5000 para cada 5s
+
+    // (opcional) menos reintentos si falla
+    retry: 1,
   });
 };
-
 
 
 

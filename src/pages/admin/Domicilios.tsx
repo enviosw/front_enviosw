@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useDomiciliosPlataformaProceso } from '../../services/domiServices'; // ⬅️ ajusta si está en otra ruta
+import { useDomiciliosPlataforma } from '../../services/domiServices'; // ⬅️ ajusta si está en otra ruta
 import Loader from '../../utils/Loader';
 import DataTable from '../../shared/components/DataTable';
 import TableCell from '../../shared/components/TableCell';
@@ -8,7 +8,7 @@ import { formatDate } from '../../utils/formatearFecha';
 
 const Domicilios: React.FC = () => {
   const queryClient = useQueryClient();
-  const { data: domicilios, isLoading, error } = useDomiciliosPlataformaProceso();
+  const { data: domicilios, isLoading, error  } = useDomiciliosPlataforma(3, { pollMs: 10000 });
 
   const headers = [
     'ID',
