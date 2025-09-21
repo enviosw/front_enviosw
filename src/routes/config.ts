@@ -48,7 +48,7 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
-     {
+    {
         path: '/domicilios',
         element: lazy(() => import('../pages/admin/Domicilios')),
         requiresAuth: true,
@@ -56,7 +56,7 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
-        {
+    {
         path: '/domicilios-pendientes',
         element: lazy(() => import('../pages/admin/DomiciliosPendientes')),
         requiresAuth: true,
@@ -73,6 +73,14 @@ export const routesConfig: RouteConfig[] = [
         useAdminLayout: true
     },
     {
+        path: '/precios',
+        element: lazy(() => import('../pages/admin/PreciosPage')),
+        requiresAuth: true,
+        rol: 'administrador',
+        useLayout: false,
+        useAdminLayout: true
+    },
+    {
         path: '/publicidad',
         element: lazy(() => import('../pages/admin/ImagenesPage')),
         requiresAuth: true,
@@ -80,7 +88,7 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
-     {
+    {
         path: '/domiciliarios',
         element: lazy(() => import('../pages/admin/Domiciliarios')),
         requiresAuth: true,
@@ -88,7 +96,7 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
-        {
+    {
         path: '/chats',
         element: lazy(() => import('../pages/admin/ChatApp')),
         requiresAuth: true,

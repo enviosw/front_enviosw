@@ -21,6 +21,8 @@ const menuItems = [
   { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' },
     { icon: <HiTag />, label: 'Turnos', to: '/turnos-domi' },
   { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
+
+    { icon: <HiUsers />, label: 'Precios', to: '/precios' },
 ];
 
 

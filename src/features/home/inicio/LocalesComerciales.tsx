@@ -37,7 +37,7 @@ const guardarPaginaServicio = (servicioId: number, pagina: number) => {
 // ----------------------
 
 // ----------------------
-// NUEVO: Persistencia de scroll/búsqueda/página por servicio
+// Persistencia de scroll/búsqueda/página por servicio
 type ScrollState = {
   y: number;
   page: number;
@@ -81,11 +81,13 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
   const targetPageRef = useRef<number>(1);
   const didRestoreRef = useRef(false);
 
+  // NUEVO: bloqueo de scroll global mientras carga por infinite scroll
+  const [scrollLocked, setScrollLocked] = useState(false);
+  const lockedByScrollRef = useRef(false);
+
   const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
   const lastPage = data?.lastPage || 1;
 
-
- 
   // Al iniciar, restaurar página y scroll/búsqueda guardados
   useEffect(() => {
     if (!servicioId) return;
@@ -127,28 +129,24 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [servicioId]);
 
-const uniqById = (arr: any[]): any[] => {
-  const m = new Map<string, any>();
-  for (const item of arr) {
-    m.set(String(item.id), item);
-  }
-  return Array.from(m.values());
-};
+  const uniqById = (arr: any[]): any[] => {
+    const m = new Map<string, any>();
+    for (const item of arr) {
+      m.set(String(item.id), item);
+    }
+    return Array.from(m.values());
+  };
 
+  useEffect(() => {
+    if (!data) return;
+    const lote = anotarEstado(data.data);
 
-
-useEffect(() => {
-  if (!data) return;
-  const lote = anotarEstado(data.data);
-
-  if (page === 1) {
-    setLocales(ordenarLocales(uniqById(lote)));
-  } else {
-    setLocales((prev) => ordenarLocales(uniqById([...prev, ...lote])));
-  }
-}, [data, page]);
-
-
+    if (page === 1) {
+      setLocales(ordenarLocales(uniqById(lote)));
+    } else {
+      setLocales((prev) => ordenarLocales(uniqById([...prev, ...lote])));
+    }
+  }, [data, page]);
 
   // Restaurar scroll cuando:
   // - hay un target
@@ -198,11 +196,48 @@ useEffect(() => {
     }
   };
 
-  // Infinite scroll
+  // BLOQUEAR/DESBLOQUEAR scroll GLOBAL (body) sin saltos
+  useEffect(() => {
+    if (scrollLocked) {
+      const y = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${y}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+    } else {
+      const top = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      if (top) {
+        const y = parseInt(top || '0', 10) * -1;
+        window.scrollTo(0, y);
+      }
+    }
+    // Limpieza por si el componente se desmonta aún bloqueado
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+    };
+  }, [scrollLocked]);
+
+  // Infinite scroll (ajustado para bloquear el scroll global mientras carga)
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting && page < lastPage && !isLoading) {
+        const isVisible = entries[0].isIntersecting;
+        const puedeCargar = page < lastPage && !isLoading && !scrollLocked;
+        if (isVisible && puedeCargar) {
+          // Bloquear scroll global porque vamos a cargar por scroll
+          lockedByScrollRef.current = true;
+          setScrollLocked(true);
+
           const nuevaPagina = page + 1;
           setPage(nuevaPagina);
           if (servicioId) guardarPaginaServicio(servicioId, nuevaPagina);
@@ -223,8 +258,18 @@ useEffect(() => {
       if (loaderRef.current) {
         observer.unobserve(loaderRef.current);
       }
+      observer.disconnect();
     };
-  }, [loaderRef.current, page, lastPage, isLoading, servicioId]);
+    // Incluimos scrollLocked para evitar múltiples disparos mientras está bloqueado
+  }, [loaderRef.current, page, lastPage, isLoading, servicioId, scrollLocked]);
+
+  // Desbloquear cuando llegan datos si el lock lo provocó el infinite scroll
+  useEffect(() => {
+    if (!isLoading && scrollLocked && lockedByScrollRef.current) {
+      lockedByScrollRef.current = false;
+      setScrollLocked(false);
+    }
+  }, [isLoading, scrollLocked]);
 
   const defaultImage = '/logo_w_fondo_negro.jpeg';
 
@@ -244,7 +289,7 @@ useEffect(() => {
     return () => clearTimeout(t);
   }, [searchValue, search, servicioId]);
 
-  // NUEVO: antes de navegar al detalle, guardar scroll/página/búsqueda
+  // antes de navegar al detalle, guardar scroll/página/búsqueda
   const handleOpenComercio = (comercio: ComercioConEstado) => {
     if (servicioId) {
       saveScrollLocales(servicioId, {
@@ -259,8 +304,6 @@ useEffect(() => {
   if (isLoading && page === 1) return <Skeleton />;
   if (isError) return <div>Error al cargar locales</div>;
 
-
-  
   return (
     <div className='w-full'>
       {/* Buscador */}

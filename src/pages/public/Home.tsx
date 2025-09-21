@@ -12,10 +12,7 @@ const CookieConsent = lazy(() => import('../../shared/components/CookieConsent')
 const LazyWhyChooseUs = lazy(() => import('../../features/home/inicio/components/WhyChooseUs'));
 const LazyMotoExpress = lazy(() => import('../../features/home/inicio/components/MotoExpress'));
 
-
-
 const Home: React.FC = () => {
-
   const [servicioId, setServicioId] = useState<number | null>(null);
   const [servicioNombre, setServicioNombre] = useState<string | null>(null);
   // const [open, setOpen] = useState(false)
@@ -34,18 +31,16 @@ const Home: React.FC = () => {
     }
   }, []);
 
-const handleSelectServicio = useCallback((v: number | string) => {
-  if (typeof v === 'number') { setServicioId(v); setServicioNombre(null); }
-  else { setServicioNombre(v); setServicioId(null); }
-}, []);
+  const handleSelectServicio = useCallback((v: number | string) => {
+    if (typeof v === 'number') { setServicioId(v); setServicioNombre(null); }
+    else { setServicioNombre(v); setServicioId(null); }
+  }, []);
 
   const images2 = [
     "slider1.png",
     "slider2.png",
     "slider3.png",
   ];
-
-
 
   if (isLoading) {
     return <Loading />; // Muestra el loading si las imágenes están siendo cargadas
@@ -57,28 +52,16 @@ const handleSelectServicio = useCallback((v: number | string) => {
 
   return (
     <>
-
       <Slider2 key="slider2-main" />
-
-
 
       <Suspense fallback={<Loading />}>
         <section
           key="select-servicio"
           className="w-full flex flex-col items-center justify-center text-center pt-1.5 bg-[#ffffff]"
         >
-          {/* <h3 className="text-2xl font-black text-gray-700 w-[80%]">
-            ¡Selecciona el servicio que necesitas!
-          </h3> */}
-
           <h2 className="text-xl font-medium text-gray-600 mx-auto w-[80%] lg:m-0 tracking-wide">
             ¡Selecciona el servicio que necesitas!
           </h2>
-
-
-          {/* <figure className="text-2xl size-7 animate-bounce rounded-full font-extrabold border-1 p-1 bg-transparent text-orange-500 flex items-center justify-center">
-            <GoArrowDown />
-          </figure> */}
 
           <div className="items-center w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
             <IconButtons onSelectServicio={handleSelectServicio} />
@@ -88,7 +71,6 @@ const handleSelectServicio = useCallback((v: number | string) => {
 
       <Suspense fallback={<Loading />}>
         <section
-          // key={servicioId !== null ? `servicio-${servicioId}` : `tipo-${servicioNombre}`}
           className="h-auto flex bg-[#ffffff] justify-start items-center relative mt-2 lg:mt-5"
         >
           <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-10 lg:pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
@@ -100,12 +82,9 @@ const handleSelectServicio = useCallback((v: number | string) => {
                 <TipoServicio tipo={String(servicioNombre ?? '')} />
               </div>
             </div>
-
           </div>
         </section>
       </Suspense>
-
-
 
       <Suspense fallback={<Loading />}>
         <Slider
@@ -114,12 +93,7 @@ const handleSelectServicio = useCallback((v: number | string) => {
         />
       </Suspense>
 
-
-
-
       {/* <ToggleButton open={open} setOpen={setOpen} /> */}
-
-
 
       {/* <div className={`${open ? 'block' : 'hidden'}`}> */}
 
@@ -140,7 +114,6 @@ const handleSelectServicio = useCallback((v: number | string) => {
           <CookieConsent />
         </div>
       </Suspense>
-
     </>
   );
 };
