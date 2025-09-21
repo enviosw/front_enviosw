@@ -73,9 +73,11 @@ const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
     const handleSubmit = () => {
         const numeroWhatsApp = '3134089563';
 
-        const mensaje = `💰¡Hola! Me gustaría solicitar el servicio de pagos:\n\n` +
-            `🛵📍Dirección de Recogida: ${formData.direccionRecogidaPago}\n` +
-            `📞 Teléfono: ${formData.telefonoRecogidaPago}`;
+     const mensaje = `*PEDIDO* desde la pagina\n\n` +   // 👈 activador
+    `💰¡Hola! Me gustaría solicitar el servicio de pagos:\n\n` +
+    `🛵📍Dirección de Recogida: ${formData.direccionRecogidaPago}\n` +
+    `📞 Teléfono: ${formData.telefonoRecogidaPago}`;
+
 
         const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
         window.open(url, '_blank');

@@ -82,7 +82,8 @@ const ComprasForm: React.FC<ComprasFormProps> = ({ tipoString }) => {
     const handleSubmit = () => {
         const numeroWhatsApp = '3134089563';
 
-        const mensaje = `🛒 ¡Hola! Me gustaría realizar una compra:\n\n` +
+        const mensaje = `*PEDIDO* desde la pagina\n\n` +   // 👈 activador
+            `🛒 ¡Hola! Me gustaría realizar una compra:\n\n` +
             `🛍️ Lista de Compras: ${formData.listaCompras}\n` +
             `📍 Dirección de Entrega: ${formData.direccionEntrega}\n` +
             `📞 Teléfono de Entrega: ${formData.telefonoEntrega}`;

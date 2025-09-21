@@ -84,10 +84,12 @@ const TramitesForm: React.FC<TramitesFormProps> = ({ tipoString }) => {
     const handleSubmit = () => {
         const numeroWhatsApp = '3134089563';
 
-        const mensaje = `📦 ¡Hola! Me gustaría realizar un trámite:\n\n` +
+        const mensaje = `*PEDIDO* desde la pagina\n\n` +   // 👈 activador
+            `📦 ¡Hola! Me gustaría realizar un trámite:\n\n` +
             `🔧 Descripción del Trámite: ${formData.descripcionTramite}\n` +
             `📍 Dirección de Entrega: ${formData.direccionEntrega}\n` +
             `📞 Teléfono de Entrega: ${formData.telefonoEntrega}`;
+
 
         const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
         window.open(url, '_blank');
