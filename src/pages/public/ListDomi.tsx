@@ -27,7 +27,7 @@ const ListDomi: React.FC = () => {
   const ordered = useMemo(() => conPosicion(ordenar(data as Domi[])), [data]);
 
   return (
-    <section className="space-y-3 mt-16">
+    <section className="space-y-3 mt-4 px-3">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Fila de turnos</h2>
         <button
