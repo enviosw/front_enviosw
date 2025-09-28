@@ -1,7 +1,7 @@
 // routes/config.ts
 import { lazy } from 'react';
 import { RouteConfig } from '../shared/types/routesInterface';
-
+// Define todas las rutas de la aplicación aquí
 export const routesConfig: RouteConfig[] = [
     {
         path: '/',
@@ -10,14 +10,14 @@ export const routesConfig: RouteConfig[] = [
         useLayout: true,
         useAdminLayout: false
     },
-       {
+    {
         path: '/turnnos',
         element: lazy(() => import('../pages/admin/Turnos')),
-        requiresAuth: false,
+        requiresAuth: true,
         useLayout: false,
-        useAdminLayout: false
+        useAdminLayout: true
     },
-      {
+    {
         path: '/turnos-domi',
         element: lazy(() => import('../pages/public/ListDomi')),
         requiresAuth: false,
