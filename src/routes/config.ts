@@ -10,6 +10,13 @@ export const routesConfig: RouteConfig[] = [
         useLayout: true,
         useAdminLayout: false
     },
+       {
+        path: '/turnnos',
+        element: lazy(() => import('../pages/admin/Turnos')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
       {
         path: '/turnos-domi',
         element: lazy(() => import('../pages/public/ListDomi')),
