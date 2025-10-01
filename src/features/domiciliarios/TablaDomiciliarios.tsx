@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useDomiciliarios, useToggleEstadoDomiciliario } from '../../services/domiServices';
+import { useDomiciliarios, useToggleEstadoDomiciliario, useEliminarDomiciliario } from '../../services/domiServices';
 import { DomiciliarioType } from '../../shared/types/domiInterface';
-import { FaPen, FaPlus } from 'react-icons/fa';
+import { FaPen, FaPlus, FaTrash } from 'react-icons/fa';
 import { useModal } from '../../context/ModalContext';
 import Modal from '../../shared/components/Modal';
 import DataTable from '../../shared/components/DataTable';
@@ -12,6 +12,8 @@ import FormularioDomiciliario from './FormularioDomiciliario';
 const TablaDomiciliarios: React.FC = () => {
   const { data: domiciliarios, isLoading, error } = useDomiciliarios();
   const toggleEstadoMutation = useToggleEstadoDomiciliario();
+  const eliminarMutation = useEliminarDomiciliario();
+
   const { openModal, setModalTitle, setModalContent } = useModal();
 
   const [search, setSearch] = useState('');
@@ -37,9 +39,24 @@ const TablaDomiciliarios: React.FC = () => {
       : 'El domiciliario podrá recibir pedidos.';
 
     const confirmado = await AlertService.confirm(mensaje, subtitulo);
-
     if (confirmado) {
       toggleEstadoMutation.mutate(domiciliario.id!);
+    }
+  };
+
+  const handleEliminar = async (domiciliario: DomiciliarioType) => {
+    const confirmado = await AlertService.confirm(
+      '¿Eliminar este domiciliario?',
+      `Esta acción no se puede deshacer.\n\n${domiciliario.nombre} ${domiciliario.apellido} (${domiciliario.telefono_whatsapp})`
+    );
+    if (!confirmado) return;
+
+    try {
+      await eliminarMutation.mutateAsync(domiciliario.id!);
+      // El hook ya hace invalidateQueries y muestra success.
+    } catch (e) {
+      // El hook ya muestra el error, esto es por seguridad si quieres logs.
+      console.error(e);
     }
   };
 
@@ -96,19 +113,35 @@ const TablaDomiciliarios: React.FC = () => {
   const renderRow = (d: DomiciliarioType) => (
     <tr key={d.id} className="hover:bg-gray-100 bg-white text-center">
       <TableCell>{d.id}</TableCell>
+
       <TableCell>
-        <div className="flex justify-center gap-2 items-center">
+        <div className="flex justify-center gap-3 items-center">
           <input
             type="checkbox"
             className="checkbox"
             checked={selectedIds.includes(d.id!)}
             onChange={() => toggleSelect(d.id!)}
           />
-          <button onClick={() => handleEditar(d)} className="text-blue-600 hover:text-blue-800 flex items-center gap-1">
+
+          <button
+            onClick={() => handleEditar(d)}
+            className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
+            title="Editar"
+          >
             <FaPen /> Editar
+          </button>
+
+          <button
+            onClick={() => handleEliminar(d)}
+            className="text-red-600 hover:text-red-800 flex items-center gap-1 disabled:opacity-50"
+            title="Eliminar"
+            disabled={eliminarMutation.isPending}
+          >
+            <FaTrash /> {eliminarMutation.isPending ? 'Eliminando...' : 'Eliminar'}
           </button>
         </div>
       </TableCell>
+
       <TableCell>{d.nombre} {d.apellido}</TableCell>
       <TableCell>{d.telefono_whatsapp}</TableCell>
       <TableCell>{d.disponible ? '✔️' : '❌'}</TableCell>

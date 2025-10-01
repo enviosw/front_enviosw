@@ -336,3 +336,29 @@ export const useReiniciarTurnosACero = () => {
     },
   });
 };
+
+
+// ✅ Eliminar domiciliario por ID
+export const useEliminarDomiciliario = () => {
+  const axiosInstance = useAxiosInstance();
+  const queryClient = useQueryClient();
+
+  return useMutation<void, AxiosError<ServerError>, number>({
+    mutationFn: async (id: number) => {
+      await axiosInstance.delete(`/domiciliarios/${id}`);
+    },
+    onSuccess: async () => {
+      // Invalida todas las queries relacionadas
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios'] }),
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios', 'resumen'] }),
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios', 'orden', 'disponibilidad'] }),
+        queryClient.invalidateQueries({ queryKey: ['domiciliarios', 'siguiente'] }),
+      ]);
+      AlertService.success('Domiciliario eliminado', 'El registro fue borrado exitosamente.');
+    },
+    onError: (error) => {
+      AlertService.error('Error al eliminar', error.response?.data?.message || error.message);
+    },
+  });
+};

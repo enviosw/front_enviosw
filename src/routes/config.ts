@@ -78,6 +78,13 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
+        {
+        path: '/domicilios-urgentes',
+        element: lazy(() => import('../pages/admin/DomiciliosPendientes')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
     {
         path: '/dashboard',
         element: lazy(() => import('../pages/admin/Dashboard')),
