@@ -9,6 +9,7 @@ import { useModal } from '../../context/ModalContext';
 import FormularioComercio from './FormularioComercio';
 import { FaPen } from 'react-icons/fa';
 import FiltrosDeBusqueda from '../../shared/components/FiltrosDeBusqueda';
+import ModalZonaDaisyUI from './ModalZonaDaisyUI';
 
 const TablaComercios: React.FC = () => {
     const [page, setPage] = useState(1);
@@ -38,6 +39,7 @@ const TablaComercios: React.FC = () => {
         fechaInicio: appliedFilters.fechaInicio,
         fechaFin: appliedFilters.fechaFin,
     });
+
 
     const { openModal, setModalTitle, setModalContent } = useModal();
 
@@ -102,6 +104,14 @@ const TablaComercios: React.FC = () => {
                     >
                         <FaPen /> <span>Editar</span>
                     </button>
+
+                    <ModalZonaDaisyUI
+                        comercio={comercio}
+                        onSuccess={() => {
+                            // si quieres refrescar la tabla externa, puedes invalidar queries en el hook
+                            // o forzar un refetch si lo manejas aquí
+                        }}
+                    />
                 </div>
 
             </td>

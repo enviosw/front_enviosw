@@ -17,7 +17,8 @@ export interface Comercio {
   servicio?: any
   servicio_id?: number | undefined | string
   horarios?: any
-  activar_numero? : any
+  activar_numero?: any
+  zonaId?: number | null; // Nueva propiedad para la zona
 }
 
 
@@ -44,4 +45,6 @@ export interface ComercioHorario {
   servicio_id: number;
   estado_comercio?: boolean;
   logo_url?: string;
+  zonaId?: number | null; // Nueva propiedad para la zona
+
 }
