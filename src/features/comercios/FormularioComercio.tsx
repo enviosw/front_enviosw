@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { comercioSchema } from '../../shared/schemas/comercioSchema';
-import { useActualizarComercio, useCrearComercio } from '../../services/comerciosService';
+import { useActualizarComercio2, useCrearComercio } from '../../services/comerciosService';
 import { useServicios } from '../../services/serviciosServices';
 import { validateImageFilesWithClean } from '../../utils/validateImageFiles';
 
@@ -21,7 +21,7 @@ type ComercioFormData = z.infer<typeof comercioSchema>;
 
 const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => {
     const crearMutation = useCrearComercio();
-    const actualizarMutation = useActualizarComercio();
+    const actualizarMutation = useActualizarComercio2();
 
     const { data: tiposComercio, isLoading } = useServicios();
     const onlyDigits10 = (v: string) => (v ?? '').replace(/\D/g, '').slice(0, 10);
