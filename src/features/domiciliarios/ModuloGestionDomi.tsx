@@ -68,8 +68,8 @@ const ModuloGestionDomi: React.FC = () => {
     const noDisponibles = total - disponibles;
     const promedioTurno = total
       ? Math.round(
-          (domisOrdenados!.reduce((acc, d) => acc + (d.turno_orden || 0), 0) / total) * 10
-        ) / 10
+        (domisOrdenados!.reduce((acc, d) => acc + (d.turno_orden || 0), 0) / total) * 10
+      ) / 10
       : 0;
     return { total, disponibles, noDisponibles, promedioTurno };
   }, [domisOrdenados]);
@@ -227,6 +227,7 @@ const ModuloGestionDomi: React.FC = () => {
                   <th>Teléfono</th>
                   <th>Estado</th>
                   <th className="rounded-tr-2xl">Turno</th>
+                  <th className="rounded-tr-2xl">Zona</th>
                 </tr>
               </thead>
 
@@ -300,6 +301,22 @@ const ModuloGestionDomi: React.FC = () => {
                         )}
                       </td>
                       <td className="font-medium">{d.turno_orden}</td>
+                      <td className="font-medium">
+                        <span
+                          className={`badge ${d.zona_id === 1
+                              ? 'badge-info'
+                              : d.zona_id === 2
+                                ? 'badge-success'
+                                : 'badge-ghost'
+                            }`}
+                        >
+                          {d.zona_id === 1
+                            ? 'Zona Centro'
+                            : d.zona_id === 2
+                              ? 'Zona Solarte'
+                              : `Zona ${d.zona_id ?? '—'}`}
+                        </span>
+                      </td>
                     </tr>
                   ))}
               </tbody>

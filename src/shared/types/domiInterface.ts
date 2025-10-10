@@ -12,4 +12,5 @@ export interface DomiciliarioType {
   turno_orden: number;
   fecha_creacion?: Date;
   fecha_actualizacion?: Date;
+  zona_id?: number;
 }

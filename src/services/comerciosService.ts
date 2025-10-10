@@ -167,6 +167,43 @@ export const useActualizarComercio = () => {
     });
 };
 
+
+
+export const useActualizarComercio2 = () => {
+    const axiosInstance = useAxiosInstance();
+    const queryClient = useQueryClient();
+    const { closeModal, setModalTitle, setModalContent } = useModal();
+
+
+    return useMutation({
+        mutationFn: async (formData: FormData) => {
+            const comercioId = formData.get('id');
+
+            if (!comercioId) throw new Error('ID del comercio es requerido para actualizar');
+
+            const { data } = await axiosInstance.patch(`/comercios/act/${comercioId}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return data;
+        },
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ["comercios"] });
+            closeModal()
+            setModalTitle('')
+            setModalContent('')
+            AlertService.success('Actualizado exitosamente', 'El comercio ha sido actualizado.');
+        },
+        onError: (error: AxiosError<ServerError>) => {
+            const messageError: string[] | string = error.response?.data?.message || "Error al actualizar el comercio";
+            console.error(messageError);
+            AlertService.error('Error al actualizar', messageError);
+        },
+    });
+};
+
+
 export const useBuscarComercios = (search: string) => {
     const axiosInstance = useAxiosInstance();
 
