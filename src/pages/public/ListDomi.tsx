@@ -9,6 +9,7 @@ export type Domi = {
   telefono_whatsapp?: string;
   disponible: boolean;
   turno_orden: number;
+    zona_id?: number;
 };
 
 // Ordena: siempre primero los disponibles por turno ASC, luego no disponibles por turno ASC
@@ -60,6 +61,20 @@ const ListDomi: React.FC = () => {
             {/* turno y estado básico */}
             <div className="text-right text-xs leading-tight">
               <div className="font-semibold">Turno: {d.turno_orden ?? 0}</div>
+                 <div className="font-semibold"><span
+                          className={`badge-sm badge flex min-w-24 text-white ${d.zona_id === 1
+                              ? 'badge-info'
+                              : d.zona_id === 2
+                                ? 'badge-success'
+                                : 'badge-ghost'
+                            }`}
+                        >
+                          {d.zona_id === 1
+                            ? 'Zona Centro'
+                            : d.zona_id === 2
+                              ? 'Zona Solarte'
+                              : `Zona ${d.zona_id ?? '—'}`}
+                        </span></div>
               <div
                 className={
                   "mt-0.5 inline-flex items-center rounded-full px-2 py-0.5 " +
