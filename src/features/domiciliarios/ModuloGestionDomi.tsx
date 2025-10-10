@@ -303,7 +303,7 @@ const ModuloGestionDomi: React.FC = () => {
                       <td className="font-medium">{d.turno_orden}</td>
                       <td className="font-medium">
                         <span
-                          className={`badge ${d.zona_id === 1
+                          className={`badge flex min-w-28 text-white ${d.zona_id === 1
                               ? 'badge-info'
                               : d.zona_id === 2
                                 ? 'badge-success'
