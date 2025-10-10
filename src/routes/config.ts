@@ -11,7 +11,7 @@ export const routesConfig: RouteConfig[] = [
         useAdminLayout: false
     },
     {
-        path: '/turnnoss',
+        path: '/turnnoss-app',
         element: lazy(() => import('../pages/admin/Turnos')),
         requiresAuth: true,
         useLayout: false,
