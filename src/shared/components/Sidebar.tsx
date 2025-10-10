@@ -19,7 +19,7 @@ const menuItems = [
 
   { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' },
   { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' },
-    { icon: <HiTag />, label: 'Turnos', to: '/turnnoss' },
+    { icon: <HiTag />, label: 'Turnos', to: '/turnnoss-app' },
   { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
 
     { icon: <HiUsers />, label: 'Precios', to: '/precios' },
