@@ -8,7 +8,7 @@ export type Domi = {
   alias?: string;
   telefono_whatsapp?: string;
   disponible: boolean;
-  turno_orden: number;
+  turno_orden?: number;
     zona_id?: number;
 };
 

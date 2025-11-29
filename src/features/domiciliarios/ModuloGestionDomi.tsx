@@ -50,7 +50,7 @@ const ModuloGestionDomi: React.FC = () => {
     isLoading: loadingOrden,
     error: errorOrden,
     refetch: refetchOrden
-  } = useDomiciliariosPorDisponibilidad();
+} = useDomiciliariosPorDisponibilidad();
 
   const {
     data: siguiente,
