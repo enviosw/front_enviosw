@@ -102,8 +102,8 @@ const TablaDomiciliarios: React.FC = () => {
   };
 
   const headers = [
-    'ID',
     'Acciones',
+    '# Chaqueta',
     'Nombre',
     'Teléfono',
     'Disponible',
@@ -112,12 +112,11 @@ const TablaDomiciliarios: React.FC = () => {
 
   const renderRow = (d: DomiciliarioType) => (
     <tr key={d.id} className="hover:bg-gray-100 bg-white text-center">
-      <TableCell>{d.id}</TableCell>
 
       <TableCell>
         <div className="flex justify-center gap-3 items-center">
           <input
-            type="checkbox"
+            type="hidden"
             className="checkbox"
             checked={selectedIds.includes(d.id!)}
             onChange={() => toggleSelect(d.id!)}
@@ -141,6 +140,7 @@ const TablaDomiciliarios: React.FC = () => {
           </button>
         </div>
       </TableCell>
+      <TableCell>{d.numero_chaqueta}</TableCell>
 
       <TableCell>{d.nombre} {d.apellido}</TableCell>
       <TableCell>{d.telefono_whatsapp}</TableCell>
