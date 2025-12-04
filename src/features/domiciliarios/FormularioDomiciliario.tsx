@@ -54,8 +54,8 @@ const empty: DomiciliarioType = {
   placa_moto: '',
   numero_chaqueta: 0,
   direccion_residencia: '',
-  estado: true,
-  disponible: true,
+  estado: true,       // ✅ por defecto true
+  disponible: true,   // ✅ por defecto true
   horario: null,
   descanso: null,
 };
@@ -67,6 +67,8 @@ const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
   const [formState, setFormState] = useState<DomiciliarioType>(empty);
   const [error, setError] = useState<string | null>(null);
 
+  const isEditing = Boolean(domiciliario && domiciliario.id);
+
   useEffect(() => {
     setFormState(domiciliario ? { ...empty, ...domiciliario } : empty);
   }, [domiciliario]);
@@ -74,16 +76,28 @@ const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
   const onChange =
     (name: keyof DomiciliarioType) =>
       (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const value = e.target.type === "number"
-          ? Number(e.target.value)
-          : e.target.value;
+        let value: any;
+
+        if (e.target.type === "number") {
+          value = Number(e.target.value);
+        } else if (e.target.type === "checkbox") {
+          value = (e.target as HTMLInputElement).checked;
+        } else {
+          value = e.target.value;
+        }
+
         setFormState((s) => ({ ...s, [name]: value }));
       };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data: DomiciliarioType = { ...formState, id: domiciliario?.id };
+    const data: DomiciliarioType = {
+      ...formState,
+      id: domiciliario?.id,
+      // Por si acaso, garantizamos true al crear:
+      ...(isEditing ? {} : { estado: true, disponible: true }),
+    };
 
     const result = domiciliarioSchema.safeParse(data);
     if (!result.success) {
@@ -111,6 +125,7 @@ const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
         { label: 'Placa Moto', name: 'placa_moto' as const },
         { label: 'Dirección', name: 'direccion_residencia' as const },
         { label: 'Horario (ej: 08:00-18:00)', name: 'horario' as const },
+        { label: 'Turno Orden', name: 'turno_orden' as const, type: 'number' },
       ].map(({ label, name, type = 'text' }) => (
         <div key={name}>
           <label className="label">{label}</label>
@@ -142,6 +157,33 @@ const FormularioDomiciliario: React.FC<Props> = ({ domiciliario }) => {
           ))}
         </select>
       </div>
+
+      {/* Checkboxes solo en edición */}
+      {isEditing && (
+        <div className="flex gap-4">
+          <label className="label cursor-pointer">
+            <input
+              type="checkbox"
+              name="estado"
+              checked={!!formState.estado}
+              onChange={onChange('estado')}
+              className="checkbox checkbox-sm"
+            />
+            <span className="ml-2">Activo</span>
+          </label>
+
+          <label className="label cursor-pointer">
+            <input
+              type="checkbox"
+              name="disponible"
+              checked={!!formState.disponible}
+              onChange={onChange('disponible')}
+              className="checkbox checkbox-sm"
+            />
+            <span className="ml-2">Disponible</span>
+          </label>
+        </div>
+      )}
 
       {error && <p className="text-red-600 text-sm">{error}</p>}
 
