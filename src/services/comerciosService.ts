@@ -316,3 +316,37 @@ export const useToggleEstadosComercios = () => {
     });
 };
 
+
+export const useEliminarComercio = () => {
+  const axiosInstance = useAxiosInstance();
+  const queryClient = useQueryClient();
+  const { closeModal, setModalTitle, setModalContent } = useModal();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      if (!id) throw new Error("ID del comercio es requerido para eliminar");
+      const { data } = await axiosInstance.delete(`/comercios/${id}`);
+      return data;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["comercios"] });
+
+      AlertService.success(
+        "Eliminado exitosamente",
+        "El comercio ha sido eliminado."
+      );
+
+      // opcional: si lo estás eliminando desde un modal
+      closeModal();
+      setModalTitle("");
+      setModalContent("");
+    },
+    onError: (error: AxiosError<ServerError>) => {
+      const messageError: string[] | string =
+        error.response?.data?.message || "Error al eliminar el comercio";
+
+      console.error(messageError);
+      AlertService.error("Error al eliminar", messageError);
+    },
+  });
+};

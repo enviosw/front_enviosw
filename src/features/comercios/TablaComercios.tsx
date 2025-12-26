@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useComercios, useToggleActivarNumeroComercio, useToggleEstadosComercios } from '../../services/comerciosService';
+import { useComercios, useEliminarComercio, useToggleActivarNumeroComercio, useToggleEstadosComercios } from '../../services/comerciosService';
 import Loader from '../../utils/Loader';
 import { formatDate } from '../../utils/formatearFecha';
 import DataTable from '../../shared/components/DataTable';
@@ -10,6 +10,7 @@ import FormularioComercio from './FormularioComercio';
 import { FaPen } from 'react-icons/fa';
 import FiltrosDeBusqueda from '../../shared/components/FiltrosDeBusqueda';
 import ModalZonaDaisyUI from './ModalZonaDaisyUI';
+import Swal from 'sweetalert2';
 
 const TablaComercios: React.FC = () => {
     const [page, setPage] = useState(1);
@@ -39,6 +40,8 @@ const TablaComercios: React.FC = () => {
         fechaInicio: appliedFilters.fechaInicio,
         fechaFin: appliedFilters.fechaFin,
     });
+
+    const { mutate: eliminarComercio, isPending: isDeleting } = useEliminarComercio();
 
 
     const { openModal, setModalTitle, setModalContent } = useModal();
@@ -112,6 +115,30 @@ const TablaComercios: React.FC = () => {
                             // o forzar un refetch si lo manejas aquí
                         }}
                     />
+
+                    <button
+                        className="btn btn-error btn-xs"
+                        disabled={isDeleting}
+                        onClick={() => {
+                            Swal.fire({
+                                title: '¿Eliminar comercio?',
+                                text: 'Esta acción no se puede deshacer.',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Sí, eliminar',
+                                cancelButtonText: 'Cancelar',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    eliminarComercio(comercio.id);
+                                }
+                            });
+                        }}
+                    >
+                        Eliminar
+                    </button>
+
                 </div>
 
             </td>
