@@ -1,312 +1,219 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animate } from 'react-simple-animate';
-import ContactoInfo from '../../features/home/inicio/ContactoInfo';
-import PrimaryButton from './buttons/PrimaryButton';
-import SecondaryButton from './buttons/SecondaryButton';
-import Toast from '../../utils/Toast';
-import { useNavigate } from 'react-router-dom';
+// src/pages/(ruta-donde-lo-tengas)/Slider2.tsx
+import React, { useMemo, useRef, useState } from "react";
+import Toast from "../../utils/Toast";
 
 // ✅ Swiper
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
+// ✅ Hook de publicidades
+import { usePublicidades } from "../../services/PublicidadServices";
 
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+// ✅ Igual que en el formulario/tabla
+const buildImageUrl = (value?: string) => {
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value)) return value;
+  const filename = value.replace(/^\/?uploads\//, "");
+  return `${import.meta.env.VITE_API_URL}/${filename}`;
+};
+
+type PublicidadItem = {
+  id?: number;
+  imagen?: string;
+  ruta?: string; // teléfono whatsapp (ej: 573133112345)
+  estado?: number;
+  orden?: number;
+  fecha_inicio?: string | null;
+  fecha_fin?: string | null;
+};
 
 const Slider2: React.FC = () => {
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [toast, setToast] = useState<{ message: string; type?: string } | null>(null);
-  const navigate = useNavigate();
-
-  // ✅ Ref para controlar Swiper (para botones custom)
   const swiperRef = useRef<any>(null);
 
-  const slides = [
-    {
-      content: (
-        <div className="relative w-full h-[35vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
-          {/* Imagen de fondo */}
-          <div
-            className="absolute inset-0 bg-cover bg-center z-10 opacity-15"
-            style={{ backgroundImage: 'url(pitalito.png)' }}
-          ></div>
+  const [toast, setToast] = useState<{ message: string; type?: string } | null>(null);
+  const [brokenIds, setBrokenIds] = useState<Record<string, boolean>>({});
 
-          {/* Capa oscura */}
-          <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
+  const { data: publicidadesRaw, isLoading, error } = usePublicidades();
 
-          {/* Contenido principal */}
-          <div className="flex w-full lg:w-[85%] mx-auto z-30">
-            <div className="flex-1 flex flex-col justify-center space-y-3 text-left">
-              <Animate
-                play
-                duration={1.5}
-                delay={0.3}
-                start={{ opacity: 0, transform: 'translateY(20px)' }}
-                end={{ opacity: 1, transform: 'translateY(0px)' }}
-              >
-                <figure className="mb-[-10px]">
-                  <img src="logoW_1.png" alt="logo domicilios w" className="h-8 sm:h-10 md:h-16 lg:h-24" />
-                </figure>
-              </Animate>
-
-              <Animate
-                play
-                duration={1.5}
-                delay={0.3}
-                start={{ opacity: 0, transform: 'translateY(20px)' }}
-                end={{ opacity: 1, transform: 'translateY(0px)' }}
-              >
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-sans italic font-bold uppercase text-white leading-tight flex flex-col">
-                  <span>
-                    Domicilios <span className="text-primary">W</span>
-                  </span>
-                </h1>
-                <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl font-sans text-white italic pt-2">
-                  Te ahorramos <span className="text-primary">Tiempo</span> y sobre todo <span className="text-primary">Dinero</span>
-                </h2>
-              </Animate>
-
-              <Animate
-                play
-                duration={1.5}
-                delay={0.6}
-                start={{ opacity: 0, transform: 'translateY(20px)' }}
-                end={{ opacity: 1, transform: 'translateY(0px)' }}
-              >
-                <p className="text-base sm:text-base md:text-lg lg:text-xl text-white font-light leading-relaxed">
-                  ¿Necesitas un <span className="text-primary font-semibold">domicilio rápido y seguro</span> en Pitalito?
-                  <br />
-                  Con <span className="text-primary font-semibold">Domicilios W</span>, enviamos tus compras, comida y más a tu puerta.
-                </p>
-              </Animate>
-            </div>
-          </div>
-
-          {/* Imagen decorativa (escritorio) */}
-          <img
-            loading="lazy"
-            className={`absolute top-5 right-10 w-[40%] hidden lg:block z-30 transition-opacity duration-500 ${
-              imgLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-            src="domi11.png"
-            alt="Servicio de Domicilios en Pitalito"
-            onLoad={() => setImgLoaded(true)}
-          />
-
-          {/* Contacto (escritorio) */}
-          <div className="absolute hidden lg:flex right-0 lg:right-5 bottom-7 z-30">
-            <ContactoInfo />
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className="relative w-full h-[35vh] md:h-[40vh] pt-10 lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
-          {/* Imagen de fondo */}
-          <div
-            className="absolute inset-0 bg-cover bg-center z-10 opacity-15"
-            style={{ backgroundImage: 'url(cafe.jpg)' }}
-          ></div>
-
-          {/* Capa oscura */}
-          <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
-
-          {/* Contenedor principal */}
-          <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
-            {/* Contenido textual */}
-            <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3">
-              <Animate
-                play
-                duration={1.5}
-                delay={0.3}
-                start={{ opacity: 0, transform: 'translateY(20px)' }}
-                end={{ opacity: 1, transform: 'translateY(0px)' }}
-              >
-                <h2 className="text-xl sm:text-xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
-                  <span>¿Tienes un negocio?</span>
-                  <br />
-                  <span className="rounded-xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">¡Regístrate y vende!</span>
-                </h2>
-              </Animate>
-
-              <Animate
-                play
-                duration={1.5}
-                delay={0.6}
-                start={{ opacity: 0, transform: 'translateY(20px)' }}
-                end={{ opacity: 1, transform: 'translateY(0px)' }}
-              >
-                <ul className="list-disc pl-4 sm:pl-5 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-white leading-relaxed space-y-1">
-                  <li>
-                    <span className="text-[#E0F2F1] font-bold">Recibe pedidos</span>{' '}
-                    <span className="font-semibold">directo a tu negocio</span>.
-                  </li>
-                  <li>
-                    <span className="text-[#E0F2F1] font-bold">Publica y vende en línea</span>.
-                  </li>
-                  <li>
-                    <span className="text-[#E0F2F1] font-bold">Tus clientes te encontrarán aquí</span>.
-                  </li>
-                  <li>
-                    <span className="text-[#E0F2F1] font-bold">¡Es fácil, rápido y sin costo!</span>
-                  </li>
-                </ul>
-              </Animate>
-
-              <div className="flex gap-4 mt-3 sm:mt-2 z-10 hover:scale-105 transition-transform duration-300">
-                <SecondaryButton text="Quiero registrar mi negocio" onClick={() => handleAction('registrar_comercio')} />
-              </div>
-            </div>
-
-            {/* Imagen decorativa (solo escritorio) */}
-            <img
-              loading="lazy"
-              className="absolute -top-32 right-10 w-[38%] hidden lg:flex z-30"
-              src="persona3.png"
-              alt="Servicio de Domicilios en Pitalito"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className="relative w-full pt-10 h-[35vh] md:h-[40vh] lg:h-[55vh] flex items-end lg:items-center justify-between px-4 sm:px-6 md:px-12 py-6 lg:pt-12 overflow-hidden">
-          {/* Imagen de fondo */}
-          <div
-            className="absolute inset-0 bg-cover bg-start z-10 opacity-15"
-            style={{ backgroundImage: 'url(huila.jpg)' }}
-          ></div>
-
-          {/* Capa oscura */}
-          <div className="absolute inset-0 bg-black opacity-90 z-0"></div>
-
-          {/* Contenedor principal */}
-          <div className="flex w-full lg:w-[85%] mx-auto relative z-10">
-            {/* Contenido textual */}
-            <div className="w-full flex flex-col justify-center items-start text-left space-y-2 lg:space-y-3">
-              <Animate
-                play
-                duration={1.5}
-                delay={0.3}
-                start={{ opacity: 0, transform: 'translateY(20px)' }}
-                end={{ opacity: 1, transform: 'translateY(0px)' }}
-              >
-                <h3 className="text-xl sm:text-xl md:text-4xl lg:text-5xl font-sans font-bold uppercase text-white leading-tight mb-2">
-                  <span>¿Sin empleo?</span>
-                  <br />
-                  <span className="rounded-xl bg-white/20 px-2 py-1 inline-block mt-1 text-white">¡Trabaja con nosotros!</span>
-                </h3>
-              </Animate>
-
-              <Animate
-                play
-                duration={1.5}
-                delay={0.6}
-                start={{ opacity: 0, transform: 'translateY(20px)' }}
-                end={{ opacity: 1, transform: 'translateY(0px)' }}
-              >
-                <ul className="list-disc pl-4 sm:pl-5 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-white leading-relaxed space-y-1">
-                  <li>
-                    <span className="text-slate-200 font-bold">Únete y empieza a generar ingresos ya.</span>
-                  </li>
-                  <li>
-                    <span className="text-slate-200 font-bold">¡Tú decides cuándo trabajar!</span>
-                  </li>
-                  <li>
-                    <span className="text-slate-200 font-bold">Puedes elegir tus horarios.</span>
-                  </li>
-                </ul>
-              </Animate>
-
-              <div className="flex gap-4 mt-3 sm:mt-2 z-10 hover:scale-105 transition-transform duration-300">
-                <PrimaryButton text="Quiero ser domiciliario" onClick={() => handleAction('domiciliario')} />
-              </div>
-            </div>
-
-            {/* Imagen decorativa (solo escritorio) */}
-            <img
-              loading="lazy"
-              className="absolute -top-32 right-10 w-[38%] hidden lg:flex z-30"
-              src="persona3.png"
-              alt="Servicio de Domicilios en Pitalito"
-            />
-          </div>
-        </div>
-      ),
-    },
-  ];
-
-  // Función de scroll + toast
-  const handleAction = (type: string) => {
-    window.scrollBy({ top: window.innerHeight * 0.45, behavior: 'smooth' });
-
-    if (type === 'pedido') {
-      setToast({ message: '¡Realizar tu pedido nunca fue tan fácil con Domicilios W!', type: 'success' });
-    } else if (type === 'comercio') {
-      setToast({ message: 'Selecciona el comercio y elige tus productos favoritos con Domicilios W.', type: 'info' });
-    } else if (type === 'registrar_comercio') {
-      setToast({ message: '¡Registra tu comercio y empieza a recibir pedidos con Domicilios W!', type: 'success' });
-      navigate('/comercios/registrar-mi-negocio');
-    } else if (type === 'domiciliario') {
-      setToast({ message: '¡Aplica para trabajar como domiciliario en Domicilios W!', type: 'success' });
-      navigate('/domiciliarios/quiero-ser-domiciliario');
-    }
-
-    setTimeout(() => setToast(null), 7000);
+  // ✅ Util: saludo según hora (igual a tu otro componente)
+  const getSaludo = () => {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 12) return "Hola, buenos días";
+    if (h >= 12 && h < 19) return "Hola, buenas tardes";
+    return "Hola, buenas noches";
   };
 
-  // ✅ Botones custom para navegación (solo escritorio)
+  // ✅ Util: limpiar teléfono
+  const limpiarTelefono = (telefono?: string | null) => {
+    if (!telefono) return "";
+    return String(telefono).replace(/\D/g, "");
+  };
+
+  // ✅ Mensaje EXACTO que usas en LocalesComerciales (mismo texto)
+  const buildMensajeWhatsapp = () => {
+    return `🚨 NUEVO CLIENTE DE DOMICILIOS W 🛵💨
+📲 313 408 9563 | 🌐 domiciliosw.com
+
+${getSaludo()} 👋
+Quiero hacer un pedido ahora mismo 🛒🍔
+👉 ¿Me envías el menú o catálogo disponible, por favor? 📋✨
+
+¡Quedo atento! 😃🚀`;
+  };
+
+  // ✅ Filtra activas y ordena por "orden"
+  const publicidades = useMemo(() => {
+    const list = (publicidadesRaw ?? []) as PublicidadItem[];
+    return list
+      .filter((p) => Number(p.estado) === 1 && !!p.imagen)
+      .sort((a, b) => Number(a.orden ?? 9999) - Number(b.orden ?? 9999));
+  }, [publicidadesRaw]);
+
+  // ✅ Si NO hay publicidades, mostramos 1 slide de ejemplo
+  const slides = useMemo(() => {
+    if (publicidades.length === 0) {
+      return [
+        {
+          key: "fallback",
+          image: "pitalito.png",
+          ruta: "",
+          isFallback: true,
+        },
+      ];
+    }
+
+    return publicidades.map((p) => ({
+      key: String(p.id ?? Math.random()),
+      image: buildImageUrl(p.imagen),
+      ruta: (p.ruta ?? "").trim(),
+      isFallback: false,
+    }));
+  }, [publicidades]);
+
   const goToPreviousSlide = () => swiperRef.current?.slidePrev();
   const goToNextSlide = () => swiperRef.current?.slideNext();
 
-  // ✅ (Opcional) Si tu Toast depende de re-render, lo dejamos igual
-  useEffect(() => {
-    return () => {};
-  }, []);
+  const handleClickPublicidad = (ruta: string, isFallback: boolean) => {
+    if (isFallback) return;
+
+    const phone = limpiarTelefono(ruta);
+    if (!phone) {
+      setToast({ message: "Esta publicidad no tiene número de WhatsApp.", type: "info" });
+      setTimeout(() => setToast(null), 3500);
+      return;
+    }
+
+    const mensaje = buildMensajeWhatsapp();
+
+    // ✅ IMPORTANTE:
+    // tu ruta ya viene con 57 (ej: 573133112345)
+    // entonces NO le agregamos otro 57
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  // Mensajito opcional si no hay publicidades
+  React.useEffect(() => {
+    if (!isLoading && !error && publicidades.length === 0) {
+      setToast({
+        message: "No hay publicidades activas. Mostrando imagen de ejemplo.",
+        type: "info",
+      });
+      setTimeout(() => setToast(null), 4000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, error, publicidades.length]);
 
   return (
     <div className="w-full relative overflow-x-hidden">
-      {/* ✅ Swiper */}
-      <Swiper
-        modules={[Autoplay, Navigation]}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
-        slidesPerView={1}
-        loop
-        speed={900}
-        autoplay={{
-          delay: 8000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        className="w-full"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index}>
-            <div className="w-full">{slide.content}</div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {/* ✅ Slider listo para banners */}
+      <div className="w-full h-[28vh] md:h-[36vh] lg:h-[40vh] relative">
+        {isLoading ? (
+          <div className="w-full h-full bg-gray-200 animate-pulse" />
+        ) : error ? (
+          <div className="w-full h-full flex items-center justify-center bg-black text-white px-4 text-center">
+            Error cargando publicidades: {(error as Error).message}
+          </div>
+        ) : (
+          <Swiper
+            modules={[Autoplay, Navigation]}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            slidesPerView={1}
+            loop={slides.length > 1}
+            speed={850}
+            autoplay={{
+              delay: 6000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            className="w-full h-full"
+          >
+            {slides.map((s) => {
+              const isBroken = brokenIds[s.key];
 
-      {/* Botones custom (desktop) */}
-      <button
-        onClick={goToPreviousSlide}
-        className="hidden lg:flex absolute left-1.5 lg:left-10 top-1/2 transform -translate-y-1/2 p-2 bg-black/90 text-[#FFB84D] rounded-full z-20"
-        aria-label="Ir a la diapositiva anterior"
-        type="button"
-      >
-        <FaChevronLeft />
-      </button>
+              return (
+                <SwiperSlide key={s.key}>
+                  <button
+                    type="button"
+                    className="w-full h-full relative block text-left"
+                    onClick={() => handleClickPublicidad(s.ruta, s.isFallback)}
+                    aria-label={s.isFallback ? "Imagen de ejemplo" : "Abrir publicidad en WhatsApp"}
+                  >
+                    {!isBroken ? (
+                      <img
+                        src={s.image}
+                        alt={s.isFallback ? "Publicidad de ejemplo" : "Publicidad"}
+                        className="w-full h-full object-contain"
+                        loading="lazy"
+                        onError={() => setBrokenIds((prev) => ({ ...prev, [s.key]: true }))}
+                      />
+                    ) : (
+                      <img
+                        src={"/pitalito.png"}
+                        alt="Publicidad (fallback)"
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    )}
 
-      <button
-        onClick={goToNextSlide}
-        className="hidden lg:flex absolute right-1.5 lg:right-10 top-1/2 transform -translate-y-1/2 p-2 bg-black/90 text-[#FFB84D] rounded-full z-20"
-        aria-label="Ir a la siguiente diapositiva"
-        type="button"
-      >
-        <FaChevronRight />
-      </button>
+                    <div className="absolute inset-0 bg-black/25" />
+
+                    {s.isFallback ? (
+                      <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
+                        Publicidad de ejemplo
+                      </div>
+                    ) : (
+                      <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
+                        Toca para WhatsApp (con mensaje)
+                      </div>
+                    )}
+                  </button>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        )}
+
+        {/* Botones custom (desktop) */}
+        <button
+          onClick={goToPreviousSlide}
+          className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/80 text-[#FFB84D] rounded-full z-20"
+          aria-label="Anterior"
+          type="button"
+        >
+          <FaChevronLeft />
+        </button>
+
+        <button
+          onClick={goToNextSlide}
+          className="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/80 text-[#FFB84D] rounded-full z-20"
+          aria-label="Siguiente"
+          type="button"
+        >
+          <FaChevronRight />
+        </button>
+      </div>
 
       {toast && <Toast message={toast.message} type={toast.type as any} />}
     </div>
