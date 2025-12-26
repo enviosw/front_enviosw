@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import { AiFillStar } from 'react-icons/ai';
 import { useComerciosPublicos } from '../../../services/comerciosService';
@@ -75,8 +74,6 @@ const clearScrollForServicio = (servicioId: number) => {
 
 // ================= Componente =================
 const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioId }) => {
-  const navigate = useNavigate();
-
   const [search, setSearch] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [page, setPage] = useState(1);
@@ -86,8 +83,6 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
   const targetScrollYRef = useRef<number | null>(null);
   const targetPageRef = useRef<number>(1);
   const didRestoreRef = useRef(false);
-
-  // Estado para el botón "Click ver más"
 
   const { data, isLoading, isError } = useComerciosPublicos({ servicioId, search, page });
   const lastPage = data?.lastPage || 1;
@@ -192,22 +187,57 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     return () => clearTimeout(t);
   }, [searchValue, search, servicioId]);
 
-  // Guardar estado antes de navegar
-  const handleOpenComercio = (comercio: ComercioConEstado) => {
-    if (servicioId) {
-      saveScrollLocales(servicioId, {
-        y: window.scrollY,
-        page,
-        search: searchValue.trim(),
-      });
-    }
-    navigate(`/comercio/${comercio.id}/productos`, { state: { comercio } });
+  // ✅ NUEVO: abrir WhatsApp directo con mensaje según la hora
+  const getSaludo = () => {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 12) return 'Hola, buenos días';
+    if (h >= 12 && h < 19) return 'Hola, buenas tardes';
+    return 'Hola, buenas noches';
   };
 
-  // \uD83D\uDD0D  NUEVO: botón "Click ver más" que lista TODAS las páginas restantes
+  const limpiarTelefono = (telefono?: string | null) => {
+    if (!telefono) return '';
+    // deja solo números
+    return String(telefono).replace(/\D/g, '');
+  };
+
+const handleOpenWhatsapp = (comercio: ComercioConEstado) => {
+  // Guarda scroll actual
+  if (servicioId) {
+    saveScrollLocales(servicioId, {
+      y: window.scrollY,
+      page,
+      search: searchValue.trim(),
+    });
+  }
+
+  const phoneRaw: any =
+    (comercio as any).telefono || (comercio as any).telefono_secundario;
+
+  const phone = limpiarTelefono(phoneRaw);
+
+  if (!phone) {
+    alert('Este comercio no tiene número de teléfono disponible.');
+    return;
+  }
+
+  const mensaje = `🚨 NUEVO CLIENTE DE DOMICILIOS W 🛵💨
+📲 313 408 9563 | 🌐 domiciliosw.com
+
+${getSaludo()} 👋
+Quiero hacer un pedido ahora mismo 🛒🍔
+👉 ¿Me envías el menú o catálogo disponible, por favor? 📋✨
+
+¡Quedo atento! 😃🚀`;
+
+  const url = `https://wa.me/57${phone}?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+
+  // 🔍  NUEVO: botón "Click ver más" que lista TODAS las páginas restantes
   const handleClickVerMas = () => {
     if (page >= lastPage) return;
-
 
     let current = page;
     const loadNext = () => {
@@ -218,14 +248,10 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         return next;
       });
       if (current < lastPage) {
-        // Pequeño delay para evitar saturar peticiones y permitir render
         setTimeout(loadNext, 200);
-      } else {
-        // cuando alcanzamos lastPage dejamos de mostrar el estado de carga
       }
     };
 
-    // arrancar el proceso
     setTimeout(loadNext, 0);
   };
 
@@ -268,10 +294,10 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
 
       {/* Lista de locales */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
-        {locales?.map((comercio: ComercioConEstado) =>  (
+        {locales?.map((comercio: ComercioConEstado) => (
           <div
             key={comercio.id}
-            onClick={() => handleOpenComercio(comercio)}
+            onClick={() => handleOpenWhatsapp(comercio)}
             className="cursor-pointer bg-[#ffffff] border-[1px] shadow-lg border-gray-200 rounded-2xl transition duration-300 overflow-hidden relative"
           >
             <div className="relative h-[120px] lg:h-[180px]">
@@ -298,7 +324,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
                   <FaMapMarkerAlt className="text-green-600" />
                   <span>{comercio.direccion || 'Sin dirección'}</span>
                 </div>
-                <span className="flex items-center text-green-600 gap-1 bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
+                <span className=" items-center text-green-600 gap-1 hidden bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
                   {comercio._estado === 'abierto' ? (
                     <>
                       <FaCheckCircle className="text-green-500" />

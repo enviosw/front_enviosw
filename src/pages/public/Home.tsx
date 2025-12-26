@@ -2,21 +2,17 @@ import React, { useState, useEffect, lazy, Suspense, useCallback } from 'react';
 import Loading from '../../utils/Loading';
 // import ToggleButton from '../../shared/components/buttons/ToggleButton';
 // import { GoArrowDown } from "react-icons/go";
-import { useImagenes } from '../../services/imagenesService';
 const IconButtons = lazy(() => import('../../features/home/inicio/IconButtons'));
 const LocalesComerciales = lazy(() => import('../../features/home/inicio/LocalesComerciales'));
 const TipoServicio = lazy(() => import('../../features/home/inicio/TipoServicio'));
-const Slider = lazy(() => import('../../shared/components/Slider'));
 const Slider2 = lazy(() => import('../../shared/components/Slider2'));
 const CookieConsent = lazy(() => import('../../shared/components/CookieConsent'));
-const LazyWhyChooseUs = lazy(() => import('../../features/home/inicio/components/WhyChooseUs'));
-const LazyMotoExpress = lazy(() => import('../../features/home/inicio/components/MotoExpress'));
+
 
 const Home: React.FC = () => {
   const [servicioId, setServicioId] = useState<number | null>(null);
   const [servicioNombre, setServicioNombre] = useState<string | null>(null);
   // const [open, setOpen] = useState(false)
-  const { data: imagenes, isLoading, isError } = useImagenes();
 
   // Set the page title and meta tags
   useEffect(() => {
@@ -35,20 +31,6 @@ const Home: React.FC = () => {
     if (typeof v === 'number') { setServicioId(v); setServicioNombre(null); }
     else { setServicioNombre(v); setServicioId(null); }
   }, []);
-
-  const images2 = [
-    "slider1.png",
-    "slider2.png",
-    "slider3.png",
-  ];
-
-  if (isLoading) {
-    return <Loading />; // Muestra el loading si las imágenes están siendo cargadas
-  }
-
-  if (isError) {
-    return <div>Error al cargar las imágenes</div>; // Muestra un error si la carga falla
-  }
 
   return (
     <>
@@ -84,29 +66,6 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
-      </Suspense>
-
-      <Suspense fallback={<Loading />}>
-        <Slider
-          key={imagenes?.length ? 'slider-data' : 'slider-default'}
-          images={imagenes?.length ? imagenes.map(img => img.ruta) : images2}
-        />
-      </Suspense>
-
-      {/* <ToggleButton open={open} setOpen={setOpen} /> */}
-
-      {/* <div className={`${open ? 'block' : 'hidden'}`}> */}
-
-      <Suspense fallback={<Loading />}>
-        <div key="why-choose">
-          <LazyWhyChooseUs />
-        </div>
-      </Suspense>
-
-      <Suspense fallback={<Loading />}>
-        <div key="moto-express">
-          <LazyMotoExpress />
-        </div>
       </Suspense>
 
       <Suspense fallback={<Loading />}>

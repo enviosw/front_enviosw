@@ -7,150 +7,257 @@ import { useActualizarComercio2, useCrearComercio } from '../../services/comerci
 import { useServicios } from '../../services/serviciosServices';
 import { validateImageFilesWithClean } from '../../utils/validateImageFiles';
 
-
 interface FormularioComercioProps {
-    comercio?: Partial<ComercioFormData> & {
-        id?: number;
-        servicio?: { id: number } | any;
-    };
+  comercio?: Partial<ComercioFormData> & {
+    id?: number;
+    servicio?: { id: number } | any;
+  };
 }
-
-
 
 type ComercioFormData = z.infer<typeof comercioSchema>;
 
-const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => {
-    const crearMutation = useCrearComercio();
-    const actualizarMutation = useActualizarComercio2();
+/** ✅ Comprimir imagen a <= maxKB (por defecto 70KB) */
+const compressImageToMaxKB = async (
+  file: File,
+  maxKB = 70,
+  options?: { maxWidth?: number; maxHeight?: number; mimeType?: 'image/jpeg' | 'image/webp' }
+): Promise<File> => {
+  const { maxWidth = 1280, maxHeight = 1280, mimeType = 'image/jpeg' } = options || {};
 
-    const { data: tiposComercio, isLoading } = useServicios();
-    const onlyDigits10 = (v: string) => (v ?? '').replace(/\D/g, '').slice(0, 10);
+  // Si ya es menor o igual, no hacemos nada
+  if (file.size <= maxKB * 1024) return file;
 
+  const imageBitmap = await createImageBitmap(file);
 
-    const [logo, setLogo] = useState<File | null>(null);
+  // Mantener aspecto, reducir a maxWidth/maxHeight
+  let width = imageBitmap.width;
+  let height = imageBitmap.height;
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset,
-    } = useForm<ComercioFormData>({
-        resolver: zodResolver(comercioSchema),
-        defaultValues: {
-            ...comercio,
-            servicio_id: comercio?.servicio?.id ?? comercio?.servicio_id ?? '',
-        },
+  const ratio = Math.min(maxWidth / width, maxHeight / height, 1);
+  width = Math.round(width * ratio);
+  height = Math.round(height * ratio);
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  if (!ctx) return file;
+
+  canvas.width = width;
+  canvas.height = height;
+  ctx.drawImage(imageBitmap, 0, 0, width, height);
+
+  const targetBytes = maxKB * 1024;
+
+  // Intentar bajando calidad
+  let quality = 0.85;
+  let blob: Blob | null = null;
+
+  const canvasToBlob = (q: number) =>
+    new Promise<Blob | null>((resolve) => {
+      canvas.toBlob((b) => resolve(b), mimeType, q);
     });
 
+  // 1) bajar calidad hasta lograr objetivo (o llegar a 0.2)
+  while (quality >= 0.2) {
+    blob = await canvasToBlob(quality);
+    if (blob && blob.size <= targetBytes) break;
+    quality -= 0.05;
+  }
 
-    const onSubmit = (data: ComercioFormData) => {
-        const formData = new FormData();
-        for (const key in data) {
-            formData.append(key, data[key as keyof ComercioFormData] as string);
-        }
+  // 2) si aún no logra tamaño, reduce dimensiones y vuelve a intentar
+  while (blob && blob.size > targetBytes) {
+    width = Math.round(width * 0.9);
+    height = Math.round(height * 0.9);
 
-        if (logo) {
-            formData.append('logo', logo);
-        }
+    if (width < 320 || height < 320) break; // límite razonable
 
+    canvas.width = width;
+    canvas.height = height;
+    ctx.drawImage(imageBitmap, 0, 0, width, height);
 
-        if (comercio?.id) {
-            formData.append('id', comercio.id.toString()); // 👈 esto debe ir ANTES de llamar a mutate()
-            actualizarMutation.mutate(formData);
-            reset();
-        } else {
-            crearMutation.mutate(formData);
-            reset();
-        }
-    };
-    const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        validateImageFilesWithClean(e, 200, setLogo);
-    };
+    quality = 0.8;
+    while (quality >= 0.2) {
+      blob = await canvasToBlob(quality);
+      if (blob && blob.size <= targetBytes) break;
+      quality -= 0.05;
+    }
 
-    const isPending = comercio?.id ? actualizarMutation.isPending : crearMutation.isPending;
-    const isError = comercio?.id ? actualizarMutation.isError : crearMutation.isError;
-    const error = comercio?.id ? actualizarMutation.error : crearMutation.error;
+    if (blob && blob.size <= targetBytes) break;
+  }
 
+  // Si no pudo generar blob, devuelvo original
+  if (!blob) return file;
 
-    if (isLoading) return <p className="text-center">Cargando tipos de comercio...</p>;
+  const ext = mimeType === 'image/webp' ? 'webp' : 'jpg';
+  const newName = file.name.replace(/\.\w+$/, `.${ext}`);
 
+  return new File([blob], newName, { type: mimeType, lastModified: Date.now() });
+};
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-0 lg:p-4 bg-white">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Nombre Comercial</label>
-                    <input {...register('nombre_comercial')}
-                        className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
-                    />
-                    {errors.nombre_comercial && <p className="text-red-500">{errors.nombre_comercial.message}</p>}
-                </div>
+const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => {
+  const crearMutation = useCrearComercio();
+  const actualizarMutation = useActualizarComercio2();
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Razón Social</label>
-                    <input {...register('razon_social')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
-                    {errors.razon_social && <p className="text-red-500">{errors.razon_social.message}</p>}
-                </div>
+  const { data: tiposComercio, isLoading } = useServicios();
+  const onlyDigits10 = (v: string) => (v ?? '').replace(/\D/g, '').slice(0, 10);
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">NIT</label>
-                    <input {...register('nit')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
-                    {errors.nit && <p className="text-red-500">{errors.nit.message}</p>}
-                </div>
+  const [logo, setLogo] = useState<File | null>(null);
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Responsable</label>
-                    <input {...register('responsable')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
-                    {errors.responsable && <p className="text-red-500">{errors.responsable.message}</p>}
-                </div>
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ComercioFormData>({
+    resolver: zodResolver(comercioSchema),
+    defaultValues: {
+      ...comercio,
+      servicio_id: comercio?.servicio?.id ?? comercio?.servicio_id ?? '',
+    },
+  });
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Email de Contacto</label>
-                    <input type="email" {...register('email_contacto')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
-                    {errors.email_contacto && <p className="text-red-500">{errors.email_contacto.message}</p>}
-                </div>
+  const onSubmit = (data: ComercioFormData) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key as keyof ComercioFormData] as string);
+    }
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono</label>
-                    <input
-                        {...register('telefono', {
-                            setValueAs: (v) => onlyDigits10((v ?? '').trim()), // quita espacios + recorta a 10 dígitos
-                        })}
-                        inputMode="numeric"
-                        maxLength={10}
-                        onKeyDown={(e) => {
-                            if (e.key === ' ') e.preventDefault(); // no deja escribir espacio
-                        }}
-                        onChange={(e) => {
-                            e.target.value = onlyDigits10(e.target.value); // limpia en tiempo real
-                        }}
-                        className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
-                    />
-                    {errors.telefono && <p className="text-red-500">{errors.telefono.message}</p>}
-                </div>
+    if (logo) {
+      formData.append('logo', logo);
+    }
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono envios w</label>
-                    <input
-                        {...register('telefono_secundario')}
-                        defaultValue={comercio?.id ? comercio.telefono_secundario : '3134089563'}
-                        disabled={!comercio?.id}
-                        className={`p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out 
+    if (comercio?.id) {
+      formData.append('id', comercio.id.toString());
+      actualizarMutation.mutate(formData);
+      reset();
+    } else {
+      crearMutation.mutate(formData);
+      reset();
+    }
+  };
+
+  // ✅ Cambiado: ahora valida y luego comprime a 70KB antes de setLogo
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 1) validación que ya tienes (tamaño/formatos, etc.)
+    validateImageFilesWithClean(e, 200, async (file) => {
+      // 2) compresión a 70KB
+      try {
+        const compressed = await compressImageToMaxKB(file, 70, {
+          maxWidth: 1280,
+          maxHeight: 1280,
+          mimeType: 'image/jpeg', // puedes cambiar a 'image/webp' si quieres aún más compresión
+        });
+        setLogo(compressed);
+      } catch (err) {
+        console.error(err);
+        setLogo(file); // fallback: manda la original si falla
+      }
+    });
+  };
+
+  const isPending = comercio?.id ? actualizarMutation.isPending : crearMutation.isPending;
+  const isError = comercio?.id ? actualizarMutation.isError : crearMutation.isError;
+  const error = comercio?.id ? actualizarMutation.error : crearMutation.error;
+
+  if (isLoading) return <p className="text-center">Cargando tipos de comercio...</p>;
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-0 lg:p-4 bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Nombre Comercial</label>
+          <input
+            {...register('nombre_comercial')}
+            className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          />
+          {errors.nombre_comercial && <p className="text-red-500">{errors.nombre_comercial.message}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Razón Social</label>
+          <input
+            {...register('razon_social')}
+            className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          />
+          {errors.razon_social && <p className="text-red-500">{errors.razon_social.message}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">NIT</label>
+          <input
+            {...register('nit')}
+            className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          />
+          {errors.nit && <p className="text-red-500">{errors.nit.message}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Responsable</label>
+          <input
+            {...register('responsable')}
+            className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          />
+          {errors.responsable && <p className="text-red-500">{errors.responsable.message}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Email de Contacto</label>
+          <input
+            type="email"
+            {...register('email_contacto')}
+            className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          />
+          {errors.email_contacto && <p className="text-red-500">{errors.email_contacto.message}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono</label>
+          <input
+            {...register('telefono', {
+              setValueAs: (v) => onlyDigits10((v ?? '').trim()),
+            })}
+            inputMode="numeric"
+            maxLength={10}
+            onKeyDown={(e) => {
+              if (e.key === ' ') e.preventDefault();
+            }}
+            onChange={(e) => {
+              e.target.value = onlyDigits10(e.target.value);
+            }}
+            className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          />
+          {errors.telefono && <p className="text-red-500">{errors.telefono.message}</p>}
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono envios w</label>
+          <input
+            {...register('telefono_secundario')}
+            defaultValue={comercio?.id ? comercio.telefono_secundario : '3134089563'}
+            disabled={!comercio?.id}
+            className={`p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out 
     focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 
     ${!comercio?.id ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
-                    />
-                </div>
+          />
+        </div>
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Dirección</label>
-                    <input {...register('direccion')} className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" />
-                    {errors.direccion && <p className="text-red-500">{errors.direccion.message}</p>}
-                </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Dirección</label>
+          <input
+            {...register('direccion')}
+            className="p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          />
+          {errors.direccion && <p className="text-red-500">{errors.direccion.message}</p>}
+        </div>
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Logo</label>
-                    <input type="file" name="logo" onChange={handleLogoChange} accept="image/*"
-                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Logo</label>
+          <input
+            type="file"
+            name="logo"
+            onChange={handleLogoChange}
+            accept="image/*"
+            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white
                         file:mr-4 file:py-3 file:px-4
                         file:rounded-md file:border-0
                         file:text-sm file:font-semibold
@@ -158,58 +265,66 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
                         hover:file:bg-gray-800
                         focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50
                         transition-all duration-300 ease-in-out"
-                    />
-                </div>
+          />
+          {/* ✅ opcional: mostrar tamaño comprimido */}
+          {logo && (
+            <p className="text-xs text-gray-500 mt-1">
+              Imagen lista: {(logo.size / 1024).toFixed(1)} KB
+            </p>
+          )}
+        </div>
 
-                {comercio?.id && (
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-800 mb-2">Estado</label>
-                        <select {...register('estado')}
-                            className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
-                        >
-                            <option selected value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
-                        </select>
-                        {errors.estado && <p className="text-red-500">{errors.estado.message}</p>}
-                    </div>
-                )}
+        {comercio?.id && (
+          <div>
+            <label className="block text-sm font-semibold text-gray-800 mb-2">Estado</label>
+            <select
+              {...register('estado')}
+              className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+            >
+              <option selected value="activo">
+                Activo
+              </option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+            {errors.estado && <p className="text-red-500">{errors.estado.message}</p>}
+          </div>
+        )}
 
+        <div>
+          <label className="block text-sm font-semibold text-gray-800 mb-2">Tipo de Comercio</label>
+          <select
+            {...register('servicio_id')}
+            className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
+          >
+            {tiposComercio?.filter((t) => t.estado === 'activo').map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.nombre}
+              </option>
+            ))}
+          </select>
+          {errors.servicio_id && <p className="text-red-500">{errors.servicio_id.message}</p>}
+        </div>
+      </div>
 
-                <div>
-                    <label className="block text-sm font-semibold text-gray-800 mb-2">Tipo de Comercio</label>
-                    <select {...register('servicio_id')}
-                        className="p-3 border border-gray-300 rounded-lg w-full transition-all duration-300 ease-in-out focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
-                    >
-                        {tiposComercio?.filter(t => t.estado === 'activo').map(t => (
-                            <option key={t.id} value={t.id}>
-                                {t.nombre}
-                            </option>
-                        ))}
-                    </select>
-                    {errors.servicio_id && <p className="text-red-500">{errors.servicio_id.message}</p>}
-                </div>
-            </div>
+      <div>
+        <label className="block text-sm font-semibold text-gray-800 mb-2">Descripción</label>
+        <textarea {...register('descripcion')} className="textarea textarea-bordered w-full" rows={4} />
+        {errors.descripcion && <p className="text-red-500">{errors.descripcion.message}</p>}
+      </div>
 
-            <div>
-                <label className="block text-sm font-semibold text-gray-800 mb-2">Descripción</label>
-                <textarea {...register('descripcion')} className="textarea textarea-bordered w-full" rows={4} />
-                {errors.descripcion && <p className="text-red-500">{errors.descripcion.message}</p>}
-            </div>
+      <div className="flex justify-center mt-8">
+        <button
+          type="submit"
+          className="py-3 px-8 bg-orange-500 text-white font-bold rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isPending}
+        >
+          {isPending ? (comercio?.id ? 'Actualizando...' : 'Registrando...') : comercio?.id ? 'Actualizar Comercio' : 'Registrar Comercio'}
+        </button>
+      </div>
 
-            <div className="flex justify-center mt-8">
-                <button type="submit"
-                    className="py-3 px-8 bg-orange-500 text-white font-bold rounded-full shadow-lg transform transition-all duration-300 ease-in-out hover:scale-105 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={isPending}
-                >
-                    {isPending
-                        ? comercio?.id ? 'Actualizando...' : 'Registrando...'
-                        : comercio?.id ? 'Actualizar Comercio' : 'Registrar Comercio'}
-                </button>
-            </div>
-
-            {isError && <p className="text-red-500 mt-4">{error?.message}</p>}
-        </form>
-    );
+      {isError && <p className="text-red-500 mt-4">{error?.message}</p>}
+    </form>
+  );
 };
 
 export default FormularioComercio;

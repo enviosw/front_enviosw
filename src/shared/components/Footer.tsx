@@ -3,7 +3,7 @@ import { FaWhatsapp, FaInstagram, FaFacebook } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="footer sm:footer-horizontal mt-20 lg:mt-40 bg-neutral text-neutral-content p-10">
+        <footer className="footer sm:footer-horizontal mt-10 lg:mt-20 bg-neutral text-neutral-content p-10">
             <aside>
                 <FaWhatsapp size={50} className="text-white" />
                 <p>
