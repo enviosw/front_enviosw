@@ -10,19 +10,21 @@ import { useAuth } from '../../context/AuthContext';
 
 // Actualiza los elementos del menú con sus rutas
 const menuItems = [
-  { icon: <HiHome />, label: 'Dashboard', to: '/dashboard' },
-  { icon: <HiUser />, label: 'Usuarios', to: '/usuarios' },
-  { icon: <HiLibrary />, label: 'Comercios', to: '/comercios' },
-  { icon: <HiUsers />, label: 'Clientes', to: '/clientes' },
-  { icon: <FaHome />, label: 'Domicilios', to: '/domicilios' },
+    { icon: <HiHome />, label: 'Dashboard', to: '/dashboard' },
+    { icon: <HiUser />, label: 'Usuarios', to: '/usuarios' },
+    { icon: <HiLibrary />, label: 'Comercios', to: '/comercios' },
+    { icon: <HiUsers />, label: 'Clientes', to: '/clientes' },
+    { icon: <FaHome />, label: 'Domicilios', to: '/domicilios' },
     { icon: <FaMotorcycle />, label: 'Pendientes', to: '/domicilios-pendientes' },
 
-  { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' },
-  { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' },
+    { icon: <HiTag />, label: 'Domiciliarios', to: '/domiciliarios' },
+    { icon: <FiMessageSquare />, label: 'Chats', to: '/chats' },
     { icon: <HiTag />, label: 'Turnos', to: '/turnnoss-app' },
-  { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
+    { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
 
     { icon: <HiUsers />, label: 'Precios', to: '/precios' },
+    { icon: <HiCollection />, label: 'Inicio', to: '/config' },
+
 ];
 
 
