@@ -37,12 +37,7 @@ const Slider2: React.FC = () => {
   const { data: publicidadesRaw, isLoading, error } = usePublicidades();
 
   // ✅ Util: saludo según hora (igual a tu otro componente)
-  const getSaludo = () => {
-    const h = new Date().getHours();
-    if (h >= 5 && h < 12) return "Hola, buenos días";
-    if (h >= 12 && h < 19) return "Hola, buenas tardes";
-    return "Hola, buenas noches";
-  };
+
 
   // ✅ Util: limpiar teléfono
   const limpiarTelefono = (telefono?: string | null) => {
@@ -51,16 +46,20 @@ const Slider2: React.FC = () => {
   };
 
   // ✅ Mensaje EXACTO que usas en LocalesComerciales (mismo texto)
-  const buildMensajeWhatsapp = () => {
-    return `🚨 NUEVO CLIENTE DE DOMICILIOS W 🛵💨
-📲 313 408 9563 | 🌐 domiciliosw.com
+// ✅ Mensaje con el formato exacto (saltos + emojis)
+const buildMensajeWhatsapp = () => {
+  return `🚨 NUEVO CLIENTE 🚨
+🌐 DomiciliosW.com
+📲 313 408 9563
 
-${getSaludo()} 👋
-Quiero hacer un pedido ahora mismo 🛒🍔
-👉 ¿Me envías el menú o catálogo disponible, por favor? 📋✨
+👋 Hola, quiero hacer un pedido.
 
-¡Quedo atento! 😃🚀`;
-  };
+📋 ¿Podrías enviarme la carta o el catálogo, por favor?
+
+😊 Quedo atent@.
+¡Gracias!`;
+};
+
 
   // ✅ Filtra activas y ordena por "orden"
   const publicidades = useMemo(() => {
@@ -177,7 +176,7 @@ Quiero hacer un pedido ahora mismo 🛒🍔
                       />
                     )}
 
-                    <div className="absolute inset-0 bg-black/25" />
+                    <div className="absolute inset-0 bg-black/2" />
 
                     {s.isFallback ? (
                       <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
@@ -185,7 +184,7 @@ Quiero hacer un pedido ahora mismo 🛒🍔
                       </div>
                     ) : (
                       <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
-                        Toca para WhatsApp (con mensaje)
+                        Toca para ir WhatsApp
                       </div>
                     )}
                   </button>

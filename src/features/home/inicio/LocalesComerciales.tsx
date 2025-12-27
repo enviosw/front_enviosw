@@ -187,13 +187,7 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     return () => clearTimeout(t);
   }, [searchValue, search, servicioId]);
 
-  // ✅ NUEVO: abrir WhatsApp directo con mensaje según la hora
-  const getSaludo = () => {
-    const h = new Date().getHours();
-    if (h >= 5 && h < 12) return 'Hola, buenos días';
-    if (h >= 12 && h < 19) return 'Hola, buenas tardes';
-    return 'Hola, buenas noches';
-  };
+
 
   const limpiarTelefono = (telefono?: string | null) => {
     if (!telefono) return '';
@@ -221,17 +215,20 @@ const handleOpenWhatsapp = (comercio: ComercioConEstado) => {
     return;
   }
 
-  const mensaje = `🚨 NUEVO CLIENTE DE DOMICILIOS W 🛵💨
-📲 313 408 9563 | 🌐 domiciliosw.com
+ const mensaje = `🚨 NUEVO CLIENTE 🚨
+🌐 DomiciliosW.com
+📲 313 408 9563
 
-${getSaludo()} 👋
-Quiero hacer un pedido ahora mismo 🛒🍔
-👉 ¿Me envías el menú o catálogo disponible, por favor? 📋✨
+👋 Hola, quiero hacer un pedido.
 
-¡Quedo atento! 😃🚀`;
+📋 ¿Podrías enviarme la carta o el catálogo, por favor?
 
-  const url = `https://wa.me/57${phone}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, '_blank', 'noopener,noreferrer');
+😊 Quedo atent@.
+¡Gracias!`;
+
+const url = `https://wa.me/57${phone}?text=${encodeURIComponent(mensaje)}`;
+window.open(url, '_blank', 'noopener,noreferrer');
+
 };
 
 

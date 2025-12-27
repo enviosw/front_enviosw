@@ -39,13 +39,13 @@ const Home: React.FC = () => {
       <Suspense fallback={<Loading />}>
         <section
           key="select-servicio"
-          className="w-full flex flex-col items-center justify-center text-center pt-1.5 bg-[#ffffff]"
+          className="w-full flex flex-col items-center justify-center text-center pt-3 bg-[#ffffff]"
         >
-          <h2 className="text-xl font-medium text-gray-600 mx-auto w-[80%] lg:m-0 tracking-wide">
+<h2 className="text-md font-semibold text-gray-700 mx-auto w-[80%] lg:m-0 tracking-wide">
             ¡Selecciona el servicio que necesitas!
           </h2>
 
-          <div className="items-center w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 lg:mt-7 mb-2">
+          <div className="items-center w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 mb-2">
             <IconButtons onSelectServicio={handleSelectServicio} />
           </div>
         </section>
