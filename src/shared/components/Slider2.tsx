@@ -127,7 +127,7 @@ const buildMensajeWhatsapp = () => {
   return (
     <div className="w-full relative overflow-x-hidden">
       {/* ✅ Slider listo para banners */}
-      <div className="w-full h-[28vh] md:h-[36vh] lg:h-[40vh] relative">
+      <div className="w-full h-[32vh] md:h-[36vh] lg:h-[40vh] relative">
         {isLoading ? (
           <div className="w-full h-full bg-gray-200 animate-pulse" />
         ) : error ? (
@@ -163,7 +163,7 @@ const buildMensajeWhatsapp = () => {
                       <img
                         src={s.image}
                         alt={s.isFallback ? "Publicidad de ejemplo" : "Publicidad"}
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-fill xl:object-contain"
                         loading="lazy"
                         onError={() => setBrokenIds((prev) => ({ ...prev, [s.key]: true }))}
                       />
