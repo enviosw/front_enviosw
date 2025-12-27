@@ -176,7 +176,7 @@ const Slider2: React.FC = () => {
                       />
                     )}
 
-                    <div className="absolute inset-0 bg-black/2" />
+                    <div className="absolute inset-0 bg-black/2 " />
 
                     {s.isFallback ? (
                       <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
