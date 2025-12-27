@@ -5,7 +5,7 @@ import Toast from "../../utils/Toast";
 // ✅ Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaWhatsapp } from "react-icons/fa";
 
 // ✅ Hook de publicidades
 import { usePublicidades } from "../../services/PublicidadServices";
@@ -46,9 +46,9 @@ const Slider2: React.FC = () => {
   };
 
   // ✅ Mensaje EXACTO que usas en LocalesComerciales (mismo texto)
-// ✅ Mensaje con el formato exacto (saltos + emojis)
-const buildMensajeWhatsapp = () => {
-  return `🚨 NUEVO CLIENTE 🚨
+  // ✅ Mensaje con el formato exacto (saltos + emojis)
+  const buildMensajeWhatsapp = () => {
+    return `🚨 NUEVO CLIENTE 🚨
 🌐 DomiciliosW.com
 📲 313 408 9563
 
@@ -58,7 +58,7 @@ const buildMensajeWhatsapp = () => {
 
 😊 Quedo atent@.
 ¡Gracias!`;
-};
+  };
 
 
   // ✅ Filtra activas y ordena por "orden"
@@ -180,12 +180,29 @@ const buildMensajeWhatsapp = () => {
 
                     {s.isFallback ? (
                       <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
-                        Publicidad de ejemplo
+                        Publicidad
                       </div>
                     ) : (
-                      <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
-                        Toca para ir WhatsApp
-                      </div>
+          <div
+  className="
+    absolute left-4 bottom-4
+    flex items-center gap-2
+    bg-green-500/90 hover:bg-green-600
+    text-white text-sm font-semibold
+    px-4 py-2
+    rounded-full
+    shadow-lg shadow-green-500/30
+    transition-all duration-300
+    hover:scale-105
+    active:scale-95
+    backdrop-blur-md
+  "
+>
+  <FaWhatsapp className="text-white text-lg" />
+  <span className="whitespace-nowrap">Ir a WhatsApp</span>
+</div>
+
+
                     )}
                   </button>
                 </SwiperSlide>
