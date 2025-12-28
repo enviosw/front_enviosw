@@ -34,7 +34,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <img className='w-10' src='/domiw.png'></img>
+      <img className='w-10 hidden' src='/domiw.png'></img>
       <Slider2 key="slider2-main" />
 
       <Suspense fallback={<Loading />}>
