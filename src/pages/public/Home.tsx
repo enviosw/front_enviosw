@@ -34,6 +34,7 @@ const Home: React.FC = () => {
 
   return (
     <>
+      <img className='w-10' src='/domiw.png'></img>
       <Slider2 key="slider2-main" />
 
       <Suspense fallback={<Loading />}>
@@ -41,7 +42,7 @@ const Home: React.FC = () => {
           key="select-servicio"
           className="w-full flex flex-col items-center justify-center text-center pt-3 bg-[#ffffff]"
         >
-<h2 className="text-md font-semibold text-gray-700 mx-auto w-[80%] lg:m-0 tracking-wide">
+          <h2 className="text-md font-semibold text-gray-700 mx-auto w-[80%] lg:m-0 tracking-wide">
             ¡Selecciona el servicio que necesitas!
           </h2>
 
