@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSidebar } from '../../context/SidebarContext';
 import { NavLink, useNavigate } from 'react-router-dom'; // Importar NavLink de React Router
-import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers, HiCollection, HiTag } from 'react-icons/hi';
+import { HiMenu, HiHome, HiUser, HiLibrary, HiUsers, HiCollection, HiTag, HiPhone } from 'react-icons/hi';
 import { FiLogOut, FiMessageSquare } from "react-icons/fi";
 import { FaHome, FaMotorcycle, FaTimes } from 'react-icons/fa';
 import { AlertService } from '../../utils/AlertService';
@@ -23,6 +23,8 @@ const menuItems = [
     { icon: <HiCollection />, label: 'Publicidad', to: '/publicidad' },
 
     { icon: <HiUsers />, label: 'Precios', to: '/precios' },
+        { icon: <HiPhone />, label: 'Teléfonos', to: '/telefonos' },
+
     { icon: <HiCollection />, label: 'Inicio', to: '/config' },
 
 ];
