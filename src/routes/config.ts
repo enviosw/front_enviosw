@@ -10,7 +10,7 @@ export const routesConfig: RouteConfig[] = [
         useLayout: true,
         useAdminLayout: false
     },
- 
+
     {
         path: '/turnos-domi-publico',
         element: lazy(() => import('../pages/public/ListDomi')),
@@ -39,7 +39,7 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: false
     },
-   {
+    {
         path: '/turnnoss-app',
         element: lazy(() => import('../pages/admin/Turnos')),
         requiresAuth: true,
@@ -65,7 +65,7 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
-     {
+    {
         path: '/publicidad',
         element: lazy(() => import('../pages/admin/Publicidad')),
         requiresAuth: true,
@@ -74,7 +74,16 @@ export const routesConfig: RouteConfig[] = [
         useAdminLayout: true
     },
 
-       {
+    {
+        path: '/telefonos',
+        element: lazy(() => import('../pages/admin/Telefonos')),
+        requiresAuth: true,
+        rol: 'administrador',
+        useLayout: false,
+        useAdminLayout: true
+    },
+
+    {
         path: '/config',
         element: lazy(() => import('../pages/admin/Config')),
         requiresAuth: true,
