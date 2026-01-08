@@ -27,25 +27,32 @@ export const Navbar: React.FC = () => {
     <nav
       className="
         sticky top-0 w-full z-[9999]
-        bg-orange-500/90 backdrop-blur-md
+        bg-black backdrop-blur-md
         shadow-md
       "
     >
       {/* Línea decorativa superior */}
-      <div className="h-[2px] bg-gradient-to-r from-orange-300 via-orange-200 to-orange-300" />
+      <div className="h-[2px] bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500" />
 
       <div className="relative w-full max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
-        {/* LOGO (texto) */}
-      <div className="flex items-center gap-2">
-  <span className="text-white font-extrabold text-xl tracking-wide select-none">
-    <span className="hidden sm:inline">Domicilios </span>
-    Envios<span className="text-orange-200 ml-1">W</span>
-  </span>
-</div>
+        {/* LOGO */}
+        <div className="flex items-center gap-3">
+          {/* Imagen redondeada */}
+          <img
+            src="/d1.png" // ⬅️ cambia esta ruta por la de tu imagen
+            alt="Envios W"
+            className="w-9 h-9 rounded-full object-cover border border-orange-400/70 shadow-sm"
+          />
 
+             <img
+            src="/d4.jpeg" // ⬅️ cambia esta ruta por la de tu imagen
+            alt="Envios W"
+            className="h-9"
+          />
+        </div>
 
         {/* REDES */}
-        <div className="flex gap-2 bg-white/15 px-2 py-1 rounded-xl border border-white/20">
+        <div className="flex gap-2 bg-white/5 px-2 py-1 rounded-xl border border-white/10">
           <div className="opacity-90 hover:opacity-100 transition">
             <WhatsappButton phoneNumber="573134089563" message="" />
           </div>
@@ -61,7 +68,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-3">
           {!user ? (
             <button
-              className="text-white hover:bg-white/20 p-2 rounded-full transition"
+              className="text-white hover:bg-white/10 p-2 rounded-full transition"
               onClick={() => navigate('/login')}
               aria-label="Iniciar sesión"
               type="button"
@@ -71,7 +78,7 @@ export const Navbar: React.FC = () => {
           ) : (
             <div className="dropdown dropdown-end">
               <button
-                className="btn btn-ghost btn-circle text-white hover:bg-white/20"
+                className="btn btn-ghost btn-circle text-white hover:bg-white/10"
                 aria-label="Abrir menú de usuario"
                 type="button"
               >
@@ -88,20 +95,29 @@ export const Navbar: React.FC = () => {
 
                 {user.rol === 'administrador' ? (
                   <li>
-                    <button className="hover:text-orange-600" onClick={() => navigate('/dashboard')}>
+                    <button
+                      className="hover:text-orange-600"
+                      onClick={() => navigate('/dashboard')}
+                    >
                       Dashboard
                     </button>
                   </li>
                 ) : (
                   <li>
-                    <button className="hover:text-orange-600" onClick={() => navigate('/mi-comercio')}>
+                    <button
+                      className="hover:text-orange-600"
+                      onClick={() => navigate('/mi-comercio')}
+                    >
                       Mi Comercio
                     </button>
                   </li>
                 )}
 
                 <li>
-                  <button className="text-red-600 hover:bg-red-50" onClick={handleLogout}>
+                  <button
+                    className="text-red-600 hover:bg-red-50"
+                    onClick={handleLogout}
+                  >
                     Cerrar sesión
                   </button>
                 </li>
