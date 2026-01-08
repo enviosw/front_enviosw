@@ -34,6 +34,8 @@ const Home: React.FC = () => {
 
   return (
     <>
+          <img className='w-10 hidden' src='/d1.png'></img>
+
       <img className='w-10 hidden' src='/d2.png'></img>
       <Slider2 key="slider2-main" />
 
