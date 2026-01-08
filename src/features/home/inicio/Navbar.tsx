@@ -36,11 +36,13 @@ export const Navbar: React.FC = () => {
 
       <div className="relative w-full max-w-7xl mx-auto flex items-center justify-between px-4 py-2">
         {/* LOGO (texto) */}
-        <div className="flex items-center gap-2">
-          <span className="text-white font-extrabold text-xl tracking-wide select-none">
-            Domicilios<span className="text-orange-200 ml-1">W</span>
-          </span>
-        </div>
+      <div className="flex items-center gap-2">
+  <span className="text-white font-extrabold text-xl tracking-wide select-none">
+    <span className="hidden sm:inline">Domicilios </span>
+    Envios<span className="text-orange-200 ml-1">W</span>
+  </span>
+</div>
+
 
         {/* REDES */}
         <div className="flex gap-2 bg-white/15 px-2 py-1 rounded-xl border border-white/20">

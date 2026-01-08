@@ -36,17 +36,13 @@ const Slider2: React.FC = () => {
 
   const { data: publicidadesRaw, isLoading, error } = usePublicidades();
 
-  // ✅ Util: saludo según hora (igual a tu otro componente)
-
-
   // ✅ Util: limpiar teléfono
   const limpiarTelefono = (telefono?: string | null) => {
     if (!telefono) return "";
     return String(telefono).replace(/\D/g, "");
   };
 
-  // ✅ Mensaje EXACTO que usas en LocalesComerciales (mismo texto)
-  // ✅ Mensaje con el formato exacto (saltos + emojis)
+  // ✅ Mensaje EXACTO que usas en LocalesComerciales
   const buildMensajeWhatsapp = () => {
     return `🚨 NUEVO CLIENTE 🚨
 🌐 DomiciliosW.com
@@ -59,7 +55,6 @@ const Slider2: React.FC = () => {
 😊 Quedo atent@.
 ¡Gracias!`;
   };
-
 
   // ✅ Filtra activas y ordena por "orden"
   const publicidades = useMemo(() => {
@@ -105,9 +100,7 @@ const Slider2: React.FC = () => {
 
     const mensaje = buildMensajeWhatsapp();
 
-    // ✅ IMPORTANTE:
-    // tu ruta ya viene con 57 (ej: 573133112345)
-    // entonces NO le agregamos otro 57
+    // ✅ tu ruta ya viene con 57 (ej: 573133112345)
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -126,12 +119,24 @@ const Slider2: React.FC = () => {
 
   return (
     <div className="w-full relative overflow-x-hidden">
-      {/* ✅ Slider listo para banners */}
-      <div className="w-full h-[32vh] md:h-[36vh] lg:h-[40vh] relative">
+      {/* Contenedor principal – tema CLARO y mobile-first */}
+      <div
+        className="
+          w-full
+          h-[36vh] sm:h-[34vh] md:h-[36vh] lg:h-[40vh]
+          relative
+          rounded-2xl
+          overflow-hidden
+          bg-white
+          shadow-[0_10px_35px_rgba(15,23,42,0.12)]
+          border border-slate-200
+        "
+      >
         {isLoading ? (
-          <div className="w-full h-full bg-gray-200 animate-pulse" />
+          // Skeleton claro
+          <div className="w-full h-full bg-slate-100 animate-pulse" />
         ) : error ? (
-          <div className="w-full h-full flex items-center justify-center bg-black text-white px-4 text-center">
+          <div className="w-full h-full flex items-center justify-center bg-red-50 text-red-700 px-4 text-center text-sm sm:text-base border border-red-200">
             Error cargando publicidades: {(error as Error).message}
           </div>
         ) : (
@@ -159,11 +164,12 @@ const Slider2: React.FC = () => {
                     onClick={() => handleClickPublicidad(s.ruta, s.isFallback)}
                     aria-label={s.isFallback ? "Imagen de ejemplo" : "Abrir publicidad en WhatsApp"}
                   >
+                    {/* Imagen principal */}
                     {!isBroken ? (
                       <img
                         src={s.image}
                         alt={s.isFallback ? "Publicidad de ejemplo" : "Publicidad"}
-                        className="w-full h-full object-fill xl:object-contain"
+                        className="w-full h-full object-cover lg:object-contain"
                         loading="lazy"
                         onError={() => setBrokenIds((prev) => ({ ...prev, [s.key]: true }))}
                       />
@@ -176,33 +182,65 @@ const Slider2: React.FC = () => {
                       />
                     )}
 
-                    <div className="absolute inset-0 bg-black/2 " />
+                    {/* Capa de gradiente sutil para texto y botón (mantiene look claro) */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
 
-                    {s.isFallback ? (
-                      <div className="absolute left-4 bottom-4 bg-black/60 text-white text-xs sm:text-sm px-3 py-2 rounded-lg">
-                        Publicidad
+                    {/* Badge de publicidad (claro) */}
+                    <div className="absolute top-3 left-3">
+                      <div
+                        className="
+                          inline-flex items-center gap-2
+                          rounded-full
+                          bg-white/90
+                          border border-slate-200
+                          px-3 py-1
+                          text-[10px] sm:text-xs
+                          font-semibold tracking-wide
+                          text-slate-700
+                          backdrop-blur
+                        "
+                      >
+                        <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span>{s.isFallback ? "Ejemplo de publicidad" : "Publicidad destacada"}</span>
                       </div>
-                    ) : (
-          <div
+                    </div>
+
+                    {/* Botón WhatsApp – mobile first (ancho casi completo en móvil) */}
+                    {!s.isFallback && (
+                      <div
+                        className="
+                          absolute
+                          inset-x-4 bottom-4
+                          sm:inset-x-auto sm:left-4
+                          flex justify-center sm:justify-start
+                        "
+                      >
+                      <div
   className="
-    absolute left-4 bottom-4
-    flex items-center gap-2
-    bg-green-500/90 hover:bg-green-600
-    text-white text-sm font-semibold
-    px-4 py-2
+    flex items-center justify-center gap-2
+    w-full sm:w-auto
+    bg-green-500 hover:bg-green-600
+    text-white text-[13px] sm:text-sm font-semibold
+    px-4 sm:px-5 py-2.5
     rounded-full
-    shadow-lg shadow-green-500/30
-    transition-all duration-300
-    hover:scale-105
+    transition-all duration-200
+    hover:scale-[1.02]
     active:scale-95
-    backdrop-blur-md
+    backdrop-blur
   "
 >
-  <FaWhatsapp className="text-white text-lg" />
+  <FaWhatsapp className="text-base sm:text-lg" />
   <span className="whitespace-nowrap">Ir a WhatsApp</span>
 </div>
 
+                      </div>
+                    )}
 
+                    {/* Texto pequeño para fallback */}
+                    {s.isFallback && (
+                      <div className="absolute left-4 bottom-4 bg-white/90 text-slate-800 text-xs sm:text-sm px-3 py-2 rounded-lg shadow">
+                        Publicidad
+                      </div>
                     )}
                   </button>
                 </SwiperSlide>
@@ -211,10 +249,22 @@ const Slider2: React.FC = () => {
           </Swiper>
         )}
 
-        {/* Botones custom (desktop) */}
+        {/* Botones custom (desktop) – adaptados a tema claro */}
         <button
           onClick={goToPreviousSlide}
-          className="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-black/80 text-[#FFB84D] rounded-full z-20"
+          className="
+            hidden lg:flex
+            absolute left-4 top-1/2 -translate-y-1/2
+            h-10 w-10 items-center justify-center
+            rounded-full
+            bg-white/90 hover:bg-white
+            border border-slate-300
+            text-slate-700
+            shadow-md
+            z-20
+            transition-all duration-150
+            hover:scale-105 active:scale-95
+          "
           aria-label="Anterior"
           type="button"
         >
@@ -223,7 +273,19 @@ const Slider2: React.FC = () => {
 
         <button
           onClick={goToNextSlide}
-          className="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-black/80 text-[#FFB84D] rounded-full z-20"
+          className="
+            hidden lg:flex
+            absolute right-4 top-1/2 -translate-y-1/2
+            h-10 w-10 items-center justify-center
+            rounded-full
+            bg-white/90 hover:bg-white
+            border border-slate-300
+            text-slate-700
+            shadow-md
+            z-20
+            transition-all duration-150
+            hover:scale-105 active:scale-95
+          "
           aria-label="Siguiente"
           type="button"
         >

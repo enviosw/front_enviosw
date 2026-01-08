@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaMapMarkerAlt, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaSearch, FaTimes, FaWhatsapp } from 'react-icons/fa';
 import { AiFillStar } from 'react-icons/ai';
 import { useComerciosPublicos } from '../../../services/comerciosService';
 import { Comercio } from '../../../shared/types/comercioInterface';
@@ -290,55 +290,62 @@ window.open(url, '_blank', 'noopener,noreferrer');
       </div>
 
       {/* Lista de locales */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
-        {locales?.map((comercio: ComercioConEstado) => (
-          <div
-            key={comercio.id}
-            onClick={() => handleOpenWhatsapp(comercio)}
-            className="cursor-pointer bg-[#ffffff] border-[1px] shadow-lg border-gray-200 rounded-2xl transition duration-300 overflow-hidden relative"
-          >
-            <div className="relative h-[120px] lg:h-[180px]">
-              <img
-                src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage}
-                alt={comercio.nombre_comercial}
-                className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform truncate"
-              />
-              <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
-                <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}
-              </div>
-            </div>
-            <div className="pb-3 pt-1 px-2">
-              <h3 className="text-base font-bold text-[#2E2C36] line-clamp-1 md:line-clamp-2 break-words max-w-full">
-                {comercio.nombre_comercial}
-              </h3>
-
-              <p className="text-sm text-gray-500 line-clamp-1 md:line-clamp-2 break-words max-w-full">
-                {comercio.descripcion}
-              </p>
-
-              <div className="flex items-center justify-between text-xs font-medium text-gray-600 pt-2">
-                <div className="flex items-center gap-1 truncate">
-                  <FaMapMarkerAlt className="text-green-600" />
-                  <span>{comercio.direccion || 'Sin dirección'}</span>
-                </div>
-                <span className=" items-center text-green-600 gap-1 hidden bg-gray-50 px-3 py-1 rounded-full" aria-live="polite">
-                  {comercio._estado === 'abierto' ? (
-                    <>
-                      <FaCheckCircle className="text-green-500" />
-                      <span className="text-green-500 font-semibold">Abierto</span>
-                    </>
-                  ) : (
-                    <>
-                      <FaTimesCircle className="text-red-500" />
-                      <span className="text-red-500 font-semibold">Cerrado</span>
-                    </>
-                  )}
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
+<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
+  {locales?.map((comercio: ComercioConEstado) => (
+    <div
+      key={comercio.id}
+      onClick={() => handleOpenWhatsapp(comercio)}
+      className="cursor-pointer bg-[#ffffff] border-[1px] shadow-lg border-gray-200 rounded-2xl transition duration-300 overflow-hidden relative"
+    >
+      <div className="relative h-[120px] lg:h-[180px]">
+        <img
+          src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage}
+          alt={comercio.nombre_comercial}
+          className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform truncate"
+        />
+        <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+          <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}
+        </div>
       </div>
+
+      <div className="pb-3 pt-1 px-2">
+        <h3 className="text-base font-bold text-[#2E2C36] line-clamp-1 md:line-clamp-2 break-words max-w-full">
+          {comercio.nombre_comercial}
+        </h3>
+
+        <p className="text-sm text-gray-500 line-clamp-1 md:line-clamp-2 break-words max-w-full">
+          {comercio.descripcion}
+        </p>
+
+        <div className="flex items-center justify-between text-xs font-medium text-gray-600 pt-2">
+          <div className="flex items-center gap-1 truncate">
+            <FaMapMarkerAlt className="text-green-600" />
+            <span>{comercio.direccion || 'Sin dirección'}</span>
+          </div>
+        </div>
+
+        {/* ⭐️ Botón solo visual, sin romper click de tarjeta */}
+       {/* ⭐ Botón flotante WhatsApp - pequeño, abajo derecha */}
+<div
+  className="
+    absolute bottom-2 right-2
+    flex items-center gap-1
+    bg-green-500 text-white
+    text-[10px] sm:text-xs font-semibold
+    px-2 py-1 rounded-full
+    shadow-md shadow-green-400/30
+    pointer-events-none
+  "
+>
+  <FaWhatsapp className="text-xs" />
+  <span>WhatsApp</span>
+</div>
+
+      </div>
+    </div>
+  ))}
+</div>
+
 
       {/* Botón: Click ver más (carga todas las páginas restantes) */}
       {page < lastPage && (

@@ -91,6 +91,13 @@ export const routesConfig: RouteConfig[] = [
         useLayout: false,
         useAdminLayout: true
     },
+        {
+        path: '/turno-domicilios-pendientes',
+        element: lazy(() => import('../pages/public/DomiciliosPendientes2')),
+        requiresAuth: false,
+        useLayout: false,
+        useAdminLayout: false
+    },
     {
         path: '/domicilios-pendientes',
         element: lazy(() => import('../pages/admin/DomiciliosPendientes')),
