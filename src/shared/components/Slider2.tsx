@@ -125,7 +125,6 @@ const Slider2: React.FC = () => {
           w-full
           h-[36vh] sm:h-[34vh] md:h-[36vh] lg:h-[40vh]
           relative
-          rounded-2xl
           overflow-hidden
           bg-white
           shadow-[0_10px_35px_rgba(15,23,42,0.12)]
