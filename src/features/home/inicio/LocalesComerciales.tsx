@@ -215,16 +215,14 @@ const handleOpenWhatsapp = (comercio: ComercioConEstado) => {
     return;
   }
 
- const mensaje = `🚨 NUEVO CLIENTE 🚨
-🌐 DomiciliosW.com
-📲 313 408 9563
+const mensaje = `👋 *Hola!*
+Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
+*¿Me puedes enviar la carta o el catálogo, por favor?* 📋📲
 
-👋 Hola, quiero hacer un pedido.
+🛵 Cuando tengas mi orden lista, *pide el domicilio por enviosw*
+👉 Envía el número ( 1 ) al 📲 *313 408 95 63*, ✅confirma y ¡listo!
+🚀 *En segundos va el domiciliario.*`;
 
-📋 ¿Podrías enviarme la carta o el catálogo, por favor?
-
-😊 Quedo atent@.
-¡Gracias!`;
 
 const url = `https://wa.me/57${phone}?text=${encodeURIComponent(mensaje)}`;
 window.open(url, '_blank', 'noopener,noreferrer');

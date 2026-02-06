@@ -43,18 +43,16 @@ const Slider2: React.FC = () => {
   };
 
   // ✅ Mensaje EXACTO que usas en LocalesComerciales
-  const buildMensajeWhatsapp = () => {
-    return `🚨 NUEVO CLIENTE 🚨
-🌐 DomiciliosW.com
-📲 313 408 9563
+// ✅ Mensaje con palabras en *bold* (WhatsApp)
+const buildMensajeWhatsapp = () => {
+  return `👋 *Hola!*
+Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
+*¿Me puedes enviar la carta o el catálogo, por favor?* 📄📲
 
-👋 Hola, quiero hacer un pedido.
-
-📋 ¿Podrías enviarme la carta o el catálogo, por favor?
-
-😊 Quedo atent@.
-¡Gracias!`;
-  };
+🛵 Cuando tengas mi orden lista, *pide el domicilio por enviosw*
+👉 Envía el número ( 1 ) al 📲 *313 408 95 63*, ✅confirma y ¡listo!
+🚀 *En segundos va el domiciliario.*`;
+};
 
   // ✅ Filtra activas y ordena por "orden"
   const publicidades = useMemo(() => {
