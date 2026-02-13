@@ -44,15 +44,17 @@ const Slider2: React.FC = () => {
 
   // ✅ Mensaje EXACTO que usas en LocalesComerciales
 // ✅ Mensaje con palabras en *bold* (WhatsApp)
+// ✅ Mensaje actualizado para WhatsApp
 const buildMensajeWhatsapp = () => {
-  return `👋 *Hola!*
+  return `👋 Hola!
 Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
-*¿Me puedes enviar la carta o el catálogo, por favor?* 📄📲
+¿Me puedes enviar la carta o el catálogo, por favor? 📄📲
 
-🛵 Cuando tengas mi orden lista, *pide el domicilio por enviosw*
-👉 Envía el número ( 1 ) al 📲 *313 408 95 63*, ✅confirma y ¡listo!
-🚀 *En segundos va el domiciliario.*`;
+🛵 Cuando tengas mi orden lista, pide el domicilio por enviosw
+👉 Envía el número ( 1 ) al 📲 3218689914, ✅confirma y ¡listo!
+🚀 En segundos va el domiciliario.`;
 };
+
 
   // ✅ Filtra activas y ordena por "orden"
   const publicidades = useMemo(() => {
