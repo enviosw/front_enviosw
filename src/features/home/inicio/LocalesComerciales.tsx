@@ -217,11 +217,11 @@ const handleOpenWhatsapp = (comercio: ComercioConEstado) => {
 
 const mensaje = `👋 *Hola!*
 Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
-*¿Me puedes enviar la carta o el catálogo, por favor?* 📋📲
+¿Me puedes enviar la carta o el catálogo, por favor? 📄📲
 
-🛵 Cuando tengas mi orden lista, *pide el domicilio por enviosw*
-👉 Envía el número ( 1 ) al 📲 *313 408 95 63*, ✅confirma y ¡listo!
-🚀 *En segundos va el domiciliario.*`;
+🛵 Cuando tengas mi orden lista, pide el domicilio por enviosw
+3108857311`;
+
 
 
 const url = `https://wa.me/57${phone}?text=${encodeURIComponent(mensaje)}`;
