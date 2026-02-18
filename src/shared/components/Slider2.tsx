@@ -42,18 +42,15 @@ const Slider2: React.FC = () => {
     return String(telefono).replace(/\D/g, "");
   };
 
-  // ✅ Mensaje EXACTO que usas en LocalesComerciales
-// ✅ Mensaje con palabras en *bold* (WhatsApp)
-// ✅ Mensaje actualizado para WhatsApp
-const buildMensajeWhatsapp = () => {
-  return `👋 Hola!
+
+  const buildMensajeWhatsapp = () => {
+    return `👋 Hola!
 Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
 ¿Me puedes enviar la carta o el catálogo, por favor? 📄📲
 
 🛵 Cuando tengas mi orden lista, pide el domicilio por enviosw
-👉 Envía el número ( 1 ) al 📲 3218689914, ✅confirma y ¡listo!
-🚀 En segundos va el domiciliario.`;
-};
+3108857311`;
+  };
 
 
   // ✅ Filtra activas y ordena por "orden"
@@ -214,8 +211,8 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
                           flex justify-center sm:justify-start
                         "
                       >
-                      <div
-  className="
+                        <div
+                          className="
     flex items-center justify-center gap-2
     w-full sm:w-auto
     bg-green-500 hover:bg-green-600
@@ -227,10 +224,10 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
     active:scale-95
     backdrop-blur
   "
->
-  <FaWhatsapp className="text-base sm:text-lg" />
-  <span className="whitespace-nowrap">Ir a WhatsApp</span>
-</div>
+                        >
+                          <FaWhatsapp className="text-base sm:text-lg" />
+                          <span className="whitespace-nowrap">Ir a WhatsApp</span>
+                        </div>
 
                       </div>
                     )}
