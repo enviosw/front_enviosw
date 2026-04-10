@@ -122,7 +122,7 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
           w-full
           h-[38vh] sm:h-[42vh] md:h-[46vh] lg:h-[52vh]
           relative overflow-hidden
-          bg-[#1A1208]
+          bg-black
           shadow-[0_8px_40px_rgba(28,14,6,0.22)]
         "
       >
