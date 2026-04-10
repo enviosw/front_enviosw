@@ -57,8 +57,9 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center md:flex-row">
-      <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-6 py-6 lg:py-12">
+    <div className="min-h-screen flex flex-col justify-center md:flex-row bg-[#FAFAF7]">
+      {/* Panel formulario */}
+      <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-6 py-8 lg:py-14">
         <AnimatePresence mode="wait">
           {isRegistering ? (
             <motion.div
@@ -66,14 +67,14 @@ useEffect(() => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.4 }}
-              className="w-full max-w-lg space-y-1 lg:shadow-xl p-6 lg:p-12 rounded-2xl lg:border border-gray-200"
+              transition={{ duration: 0.35 }}
+              className="w-full max-w-md space-y-1 lg:shadow-[0_4px_32px_rgba(28,14,6,0.1)] p-6 lg:p-10 rounded-3xl lg:border border-[#EDE8E3]"
             >
-              <FormRegister 
-                onInputChange={handleChange} 
-                handleRegister={handleRegister} 
+              <FormRegister
+                onInputChange={handleChange}
+                handleRegister={handleRegister}
                 toggleForm={toggleForm}
-                form={form} 
+                form={form}
               />
             </motion.div>
           ) : (
@@ -82,29 +83,35 @@ useEffect(() => {
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 50 }}
-              transition={{ duration: 0.4 }}
-              className="w-full max-w-lg space-y-6 lg:shadow-xl p-6 lg:p-12 rounded-2xl lg:border border-gray-200"
+              transition={{ duration: 0.35 }}
+              className="w-full max-w-md space-y-5 lg:shadow-[0_4px_32px_rgba(28,14,6,0.1)] p-6 lg:p-10 rounded-3xl lg:border border-[#EDE8E3]"
             >
-              <FormLogin 
-                onInputChange={handleChange} 
-                handleLogin={handleLogin} 
+              <FormLogin
+                onInputChange={handleChange}
+                handleLogin={handleLogin}
                 toggleForm={toggleForm}
-                form={form} 
+                form={form}
               />
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Imagen de fondo */}
+      {/* Panel decorativo */}
       <div className="hidden md:flex relative w-1/2 bg-[url('/login.png')] bg-cover bg-center justify-center items-center px-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-pink-800/40"></div>
-        <div className="relative z-10 bg-white/90 p-10 rounded-3xl shadow-2xl text-center max-w-md backdrop-blur-md border border-white/40">
-          <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-red-500 to-orange-500 mb-4">
-            Servicio de Domicilios Express
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1C0E06]/70 to-[#E8622A]/30" />
+        <div className="relative z-10 bg-white/92 backdrop-blur-md p-10 rounded-3xl shadow-2xl text-center max-w-md border border-white/50">
+          <div className="w-14 h-14 rounded-full bg-[#E8622A]/10 flex items-center justify-center mx-auto mb-5">
+            <span className="text-3xl">🛵</span>
+          </div>
+          <h2 className="text-3xl font-bold text-[#1A1208] mb-3 leading-tight">
+            Domicilios Express<br />
+            <span className="text-[#E8622A]">en Pitalito</span>
           </h2>
-          <p className="text-gray-700 text-base leading-relaxed">
-            Únete a nuestra plataforma para <span className="font-semibold text-pink-600">gestionar tus pedidos</span> de forma rápida y eficiente. Entrega tus productos justo donde tus clientes los necesitan.
+          <p className="text-[#6B5E52] text-sm leading-relaxed">
+            Únete a nuestra plataforma para{' '}
+            <span className="font-semibold text-[#1A1208]">gestionar tus pedidos</span>{' '}
+            de forma rápida y eficiente. Entrega tus productos justo donde tus clientes los necesitan.
           </p>
         </div>
       </div>

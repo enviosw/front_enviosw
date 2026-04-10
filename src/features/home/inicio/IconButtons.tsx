@@ -105,24 +105,27 @@ export const IconButtons = ({
             className={`
               relative rounded-full cursor-pointer mt-3 p-1 md:p-1.5
               flex items-center justify-center
-              transition-all duration-150
-              ${isSelected ? 'scale-110' : 'hover:scale-105'}
+              transition-all duration-300 ease-in-out
+              focus:outline-none focus:ring-2 focus:ring-[#E8622A]/50
+              ${isSelected ? 'scale-110' : 'hover:scale-105 hover:-translate-y-0.5'}
             `}
           >
-            {/* ✅ Halo / glow cuando está seleccionado */}
+            {/* Halo / glow seleccionado */}
             <span
               className={`
-                absolute inset-0 rounded-full
-                ${isSelected ? 'ring-4 ring-orange-400/70 shadow-[0_0_0_6px_rgba(255,107,0,0.15)]' : 'ring-0'}
+                absolute inset-0 rounded-full transition-all duration-300
+                ${isSelected
+                  ? 'ring-[3px] ring-[#E8622A]/65 shadow-[0_0_0_7px_rgba(232,98,42,0.13)]'
+                  : 'ring-0'}
               `}
             />
 
-            {/* ✅ Círculo de color (mantiene tu color) */}
+            {/* Círculo de color */}
             <div
               style={{ backgroundColor: servicio.color }}
               className={`
-                relative rounded-full p-0.5 md:p-1
-                ${isSelected ? 'bg-opacity-95' : 'bg-opacity-80 hover:bg-opacity-90'}
+                relative rounded-full p-0.5 md:p-1 transition-all duration-300
+                ${isSelected ? 'shadow-md' : 'shadow-sm'}
               `}
             >
               <div className="size-[clamp(44px,9vw,60px)] md:size-[clamp(46px,5.5vw,64px)] overflow-hidden rounded-full bg-white/10">
@@ -134,22 +137,22 @@ export const IconButtons = ({
                 />
               </div>
 
-              {/* ✅ Check visible arriba derecha */}
+              {/* Indicador seleccionado */}
               {isSelected && (
-                <div className="absolute -top-1 -right-1 bg-orange-500 text-white text-[10px] md:text-xs font-bold rounded-full px-1.5 py-0.5 shadow-md">
+                <div className="absolute -top-1 -right-1 bg-[#E8622A] text-white text-[10px] md:text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md animate-in zoom-in-75 duration-200">
                   ✓
                 </div>
               )}
             </div>
           </button>
 
-    
-
           <span
             className={`
               text-[clamp(10px,2.6vw,13px)] md:text-[clamp(10px,1.4vw,14px)]
-              leading-tight text-center mt-1
-              ${isSelected ? 'text-orange-600 font-bold' : 'text-gray-700 font-medium'}
+              leading-tight text-center mt-1.5 transition-all duration-300
+              ${isSelected
+                ? 'text-[#E8622A] font-bold'
+                : 'text-[#6B5E52] font-medium hover:text-[#1A1208]'}
             `}
           >
             {servicio.nombre}
@@ -186,23 +189,24 @@ export const IconButtons = ({
       <style>{`
         .servicios-swiper {
           padding-top: 0.15rem;
-          padding-bottom: 0.65rem;
+          padding-bottom: 0.75rem;
         }
         .servicios-swiper .swiper-pagination {
           position: static;
-          margin-top: 0.1rem;
+          margin-top: 0.25rem;
         }
         .servicios-swiper .swiper-pagination-bullet {
-          width: 16px;
+          width: 18px;
           height: 4px;
           border-radius: 999px;
-          background: #E4E4E7;
+          background: #EDE8E3;
           opacity: 1;
-          transition: all 0.2s ease;
+          transition: all 0.25s ease;
         }
         .servicios-swiper .swiper-pagination-bullet-active {
-          background: #FF6B00;
-          transform: scale(1.1);
+          background: #E8622A;
+          width: 28px;
+          transform: scale(1.05);
         }
       `}</style>
 

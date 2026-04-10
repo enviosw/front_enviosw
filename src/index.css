@@ -5,8 +5,34 @@
     themes: light --default;
 }
 
+/* ===== FUENTES ===== */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poetsen+One&display=swap');
+
+/* ===== TAILWIND V4 TEMA PERSONALIZADO ===== */
+@theme {
+  /* Paleta cálida y moderna */
+  --color-brand-bg: #FAFAF7;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-primary: #E8622A;
+  --color-brand-primary-dark: #C4501E;
+  --color-brand-text: #1A1208;
+  --color-brand-text-secondary: #6B5E52;
+  --color-brand-border: #EDE8E3;
+  --color-brand-accent: #2D6A4F;
+  --color-brand-whatsapp: #25D366;
+  --color-brand-espresso: #1C0E06;
+
+  /* Fuentes */
+  --font-fraunces: 'Fraunces', Georgia, serif;
+  --font-dm-sans: 'DM Sans', system-ui, sans-serif;
+
+  /* Sombras personalizadas */
+  --shadow-card: 0 2px 12px rgba(30, 20, 10, 0.08);
+  --shadow-card-hover: 0 8px 28px rgba(30, 20, 10, 0.16);
+  --shadow-float: 0 6px 24px rgba(37, 211, 102, 0.45);
+}
 
 
 @import "swiper/css";
@@ -30,18 +56,43 @@
 
 /* VARIABLES ESTILOS GLOBALES */
 :root {
-    --color-primary: #ff6600;
-    --color-secondary: #000000;
+    --color-primary: #E8622A;
+    --color-secondary: #1A1208;
     --color-black: #000000;
-    --color-dark: #121212;
-    --color-background: #000;
-    --color-text-dark: #1a1a1a;
+    --color-dark: #1C0E06;
+    --color-background: #FAFAF7;
+    --color-text-dark: #1A1208;
 }
 
+html {
+    scroll-behavior: smooth;
+}
 
-/* body {
-    font-family: 'Poppins', sans-serif;
-} */
+body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background-color: #FAFAF7;
+    color: #1A1208;
+}
+
+/* Scrollbar global delgado y cálido */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #E8622A transparent;
+}
+*::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: #E8622A;
+    border-radius: 9999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #C4501E;
+}
 
 @keyframes float {
 

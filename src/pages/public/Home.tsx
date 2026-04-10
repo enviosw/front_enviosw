@@ -42,13 +42,16 @@ const Home: React.FC = () => {
       <Suspense fallback={<Loading />}>
         <section
           key="select-servicio"
-          className="w-full flex flex-col items-center justify-center text-center pt-3 bg-[#ffffff]"
+          className="w-full flex flex-col items-center justify-center text-center pt-4 pb-1 bg-[#FAFAF7] border-b border-[#EDE8E3]"
         >
-          <h2 className="text-md font-semibold text-gray-700 mx-auto w-[80%] lg:m-0 tracking-wide">
-            ¡Selecciona el servicio que necesitas!
+          <p className="text-xs font-semibold text-[#6B5E52] uppercase tracking-widest mb-1">
+            ¿Qué necesitas hoy?
+          </p>
+          <h2 className="text-base sm:text-lg font-bold text-[#1A1208] mx-auto w-[90%] lg:w-auto leading-snug">
+            Selecciona el servicio que necesitas
           </h2>
 
-          <div className="items-center w-full lg:w-[85%] mx-auto px-4 lg:px-10 mt-2 mb-2">
+          <div className="items-center w-full lg:w-[85%] mx-auto px-3 lg:px-10 mt-1 mb-0">
             <IconButtons onSelectServicio={handleSelectServicio} />
           </div>
         </section>
@@ -56,9 +59,9 @@ const Home: React.FC = () => {
 
       <Suspense fallback={<Loading />}>
         <section
-          className="h-auto flex bg-[#ffffff] justify-start items-center relative mt-2 lg:mt-5"
+          className="h-auto flex bg-[#FAFAF7] justify-start items-center relative mt-3 lg:mt-6"
         >
-          <div className="relative z-20 w-full lg:w-[85%] mx-auto pb-10 lg:pb-20 px-4 lg:px-10 lg:flex justify-center gap-10">
+          <div className="relative z-20 w-full lg:w-[88%] mx-auto pb-10 lg:pb-20 px-4 lg:px-6">
             <div className="w-full">
               <div style={{ display: servicioId !== null ? 'block' : 'none' }}>
                 <LocalesComerciales servicioId={servicioId as number} />

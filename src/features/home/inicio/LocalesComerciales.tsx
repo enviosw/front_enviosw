@@ -258,110 +258,145 @@ window.open(url, '_blank', 'noopener,noreferrer');
   return (
     <div className='w-full'>
       {/* Buscador */}
-      <div className="flex justify-center items-center mb-3.5">
-        <div className="relative w-full max-w-full lg:max-w-sm flex items-center">
+      <div className="flex justify-center items-center mb-5">
+        <div className="relative w-full max-w-full lg:max-w-md flex items-center">
           <input
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            placeholder="Buscar negocio o servicio"
-            className="w-full py-3 pl-3 pr-3 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+            placeholder="Buscar negocio o servicio…"
+            className="
+              w-full py-3 pl-5 pr-12
+              bg-white border-2 border-[#EDE8E3]
+              rounded-full
+              text-[#1A1208] placeholder-[#6B5E52]/60
+              font-medium text-sm
+              focus:outline-none focus:ring-2 focus:ring-[#E8622A]/40 focus:border-[#E8622A]
+              shadow-sm hover:shadow-md
+              transition-all duration-300
+            "
           />
-
-          <button
-            onClick={handleSearch}
-            className="absolute right-8 top-1/2 transform -translate-y-1/2 text-orange-500 hover:text-orange-600 transition-all duration-300"
-            aria-label="Realizar búsqueda"
-          >
-            <FaSearch />
-          </button>
-          {searchValue && (
+          {searchValue ? (
             <button
               onClick={handleClearSearch}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500 transition-all duration-300"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E52] hover:text-red-500 transition-all duration-200 hover:scale-110"
               aria-label="Limpiar búsqueda"
             >
-              <FaTimes />
+              <FaTimes size={14} />
+            </button>
+          ) : (
+            <button
+              onClick={handleSearch}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#E8622A] hover:text-[#C4501E] transition-all duration-200 hover:scale-110"
+              aria-label="Realizar búsqueda"
+            >
+              <FaSearch size={15} />
             </button>
           )}
         </div>
       </div>
 
-      {/* Lista de locales */}
-<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-6">
-  {locales?.map((comercio: ComercioConEstado) => (
-    <div
-      key={comercio.id}
-      onClick={() => handleOpenWhatsapp(comercio)}
-      className="cursor-pointer bg-[#ffffff] border-[1px] shadow-lg border-gray-200 rounded-2xl transition duration-300 overflow-hidden relative"
-    >
-      <div className="relative h-[120px] lg:h-[180px]">
-        <img
-          src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage}
-          alt={comercio.nombre_comercial}
-          className="w-full rounded-2xl bg-[#FFB84D] h-full object-cover transition-transform truncate"
-        />
-        <div className="absolute bottom-2 right-2 z-20 bg-white text-green-600 font-semibold text-xs px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
-          <AiFillStar className="text-green-500" /> {comercio.servicio?.nombre || 'Sin tipo'}
-        </div>
-      </div>
+      {/* Grid de locales */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 lg:gap-5">
+        {locales?.map((comercio: ComercioConEstado) => (
+          <div
+            key={comercio.id}
+            onClick={() => handleOpenWhatsapp(comercio)}
+            className="
+              group cursor-pointer
+              bg-white border border-[#EDE8E3]
+              rounded-2xl overflow-hidden relative
+              shadow-[0_2px_12px_rgba(30,20,10,0.07)]
+              hover:shadow-[0_8px_28px_rgba(30,20,10,0.15)]
+              hover:scale-[1.02] hover:-translate-y-1
+              transition-all duration-300 ease-in-out
+            "
+          >
+            {/* Imagen */}
+            <div className="relative aspect-[4/3] overflow-hidden bg-[#EDE8E3]">
+              <img
+                src={comercio.logo_url ? `${BASE_URL}/${comercio.logo_url}` : defaultImage}
+                alt={comercio.nombre_comercial}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              {/* Estado abierto/cerrado */}
+              <div className={`
+                absolute top-2 left-2 z-10
+                text-[10px] font-bold px-2 py-0.5 rounded-full
+                shadow-sm
+                ${comercio._isOpen
+                  ? 'bg-[#2D6A4F] text-white'
+                  : 'bg-[#1A1208]/70 text-white/80'}
+              `}>
+                {comercio._isOpen ? 'Abierto' : 'Cerrado'}
+              </div>
+              {/* Badge categoría */}
+              <div className="absolute bottom-2 right-2 z-10 bg-white/95 backdrop-blur text-[#2D6A4F] font-semibold text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md">
+                <AiFillStar className="text-[#2D6A4F]" size={10} />
+                <span>{comercio.servicio?.nombre || 'Sin tipo'}</span>
+              </div>
+            </div>
 
-      <div className="pb-3 pt-1 px-2">
-        <h3 className="text-base font-bold text-[#2E2C36] line-clamp-1 md:line-clamp-2 break-words max-w-full">
-          {comercio.nombre_comercial}
-        </h3>
+            {/* Contenido */}
+            <div className="pb-3 pt-2.5 px-3">
+              <h3 className="text-sm font-bold text-[#1A1208] line-clamp-1 leading-snug mb-0.5">
+                {comercio.nombre_comercial}
+              </h3>
 
-        <p className="text-sm text-gray-500 line-clamp-1 md:line-clamp-2 break-words max-w-full">
-          {comercio.descripcion}
-        </p>
+              <p className="text-xs text-[#6B5E52] line-clamp-2 leading-relaxed mb-2">
+                {comercio.descripcion || 'Toca para contactar por WhatsApp'}
+              </p>
 
-        <div className="flex items-center justify-between text-xs font-medium text-gray-600 pt-2">
-          <div className="flex items-center gap-1 truncate">
-            <FaMapMarkerAlt className="text-green-600" />
-            <span>{comercio.direccion || 'Sin dirección'}</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1 text-[10px] text-[#6B5E52] truncate flex-1 min-w-0">
+                  <FaMapMarkerAlt className="text-[#2D6A4F] shrink-0" size={10} />
+                  <span className="truncate">{comercio.direccion || 'Sin dirección'}</span>
+                </div>
+                {/* Badge WhatsApp */}
+                <div className="
+                  flex items-center gap-1 shrink-0
+                  bg-[#25D366] text-white
+                  text-[9px] sm:text-[10px] font-bold
+                  px-2 py-0.5 rounded-full ml-1
+                  shadow-sm
+                  pointer-events-none
+                ">
+                  <FaWhatsapp size={9} />
+                  <span>WA</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* ⭐️ Botón solo visual, sin romper click de tarjeta */}
-       {/* ⭐ Botón flotante WhatsApp - pequeño, abajo derecha */}
-<div
-  className="
-    absolute bottom-2 right-2
-    flex items-center gap-1
-    bg-green-500 text-white
-    text-[10px] sm:text-xs font-semibold
-    px-2 py-1 rounded-full
-    shadow-md shadow-green-400/30
-    pointer-events-none
-  "
->
-  <FaWhatsapp className="text-xs" />
-  <span>WhatsApp</span>
-</div>
-
+        ))}
       </div>
-    </div>
-  ))}
-</div>
 
-
-      {/* Botón: Click ver más (carga todas las páginas restantes) */}
+      {/* Botón: Ver más */}
       {page < lastPage && (
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-10">
           <button
             onClick={handleClickVerMas}
             disabled={isLoading}
-            className={`bg-orange-500 hover:bg-orange-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-2 px-6 rounded-full shadow-md`}
+            className="
+              bg-[#E8622A] hover:bg-[#C4501E]
+              disabled:opacity-60 disabled:cursor-not-allowed
+              text-white font-semibold
+              py-3 px-8 rounded-full
+              shadow-md hover:shadow-lg
+              transition-all duration-300
+              hover:scale-105 active:scale-95
+              focus:outline-none focus:ring-2 focus:ring-[#E8622A]/50
+            "
           >
-            {isLoading ? 'Cargando el resto…' : 'Click ver más'}
+            {isLoading ? 'Cargando…' : 'Ver más negocios'}
           </button>
         </div>
       )}
 
       {/* Estado de carga */}
       {isLoading && (
-        <div className="h-10 mt-8 flex justify-center items-center">
-          <p className="text-gray-500 text-sm">Cargando locales…</p>
+        <div className="h-12 mt-8 flex justify-center items-center gap-3">
+          <div className="w-5 h-5 rounded-full border-2 border-[#E8622A]/30 border-t-[#E8622A] animate-spin" />
+          <p className="text-[#6B5E52] text-sm font-medium">Cargando locales…</p>
         </div>
       )}
     </div>

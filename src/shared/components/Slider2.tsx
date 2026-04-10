@@ -116,23 +116,22 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
 
   return (
     <div className="w-full relative overflow-x-hidden">
-      {/* Contenedor principal – tema CLARO y mobile-first */}
+      {/* Contenedor principal */}
       <div
         className="
           w-full
-          h-[36vh] sm:h-[34vh] md:h-[36vh] lg:h-[40vh]
-          relative
-          overflow-hidden
-          bg-white
-          shadow-[0_10px_35px_rgba(15,23,42,0.12)]
-          border border-slate-200
+          h-[38vh] sm:h-[42vh] md:h-[46vh] lg:h-[52vh]
+          relative overflow-hidden
+          bg-[#1A1208]
+          shadow-[0_8px_40px_rgba(28,14,6,0.22)]
         "
       >
         {isLoading ? (
-          // Skeleton claro
-          <div className="w-full h-full bg-slate-100 animate-pulse" />
+          <div className="w-full h-full bg-gradient-to-br from-[#EDE8E3] to-[#FAFAF7] animate-pulse flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full border-4 border-[#E8622A]/30 border-t-[#E8622A] animate-spin" />
+          </div>
         ) : error ? (
-          <div className="w-full h-full flex items-center justify-center bg-red-50 text-red-700 px-4 text-center text-sm sm:text-base border border-red-200">
+          <div className="w-full h-full flex items-center justify-center bg-red-50 text-red-700 px-4 text-center text-sm border border-red-100">
             Error cargando publicidades: {(error as Error).message}
           </div>
         ) : (
@@ -141,7 +140,7 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             slidesPerView={1}
             loop={slides.length > 1}
-            speed={850}
+            speed={900}
             autoplay={{
               delay: 6000,
               disableOnInteraction: false,
@@ -156,16 +155,16 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
                 <SwiperSlide key={s.key}>
                   <button
                     type="button"
-                    className="w-full h-full relative block text-left"
+                    className="w-full h-full relative block text-left cursor-pointer"
                     onClick={() => handleClickPublicidad(s.ruta, s.isFallback)}
                     aria-label={s.isFallback ? "Imagen de ejemplo" : "Abrir publicidad en WhatsApp"}
                   >
-                    {/* Imagen principal */}
+                    {/* Imagen */}
                     {!isBroken ? (
                       <img
                         src={s.image}
                         alt={s.isFallback ? "Publicidad de ejemplo" : "Publicidad"}
-                        className="w-full h-full object-cover lg:object-contain"
+                        className="w-full h-full object-cover lg:object-contain transition-transform duration-700 hover:scale-[1.02]"
                         loading="lazy"
                         onError={() => setBrokenIds((prev) => ({ ...prev, [s.key]: true }))}
                       />
@@ -178,63 +177,38 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
                       />
                     )}
 
-                    {/* Capa de gradiente sutil para texto y botón (mantiene look claro) */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+                    {/* Gradiente inferior */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
 
-                    {/* Badge de publicidad (claro) */}
-                    <div className="absolute top-3 left-3">
-                      <div
-                        className="
-                          inline-flex items-center gap-2
-                          rounded-full
-                          bg-white/90
-                          border border-slate-200
-                          px-3 py-1
-                          text-[10px] sm:text-xs
-                          font-semibold tracking-wide
-                          text-slate-700
-                          backdrop-blur
-                        "
-                      >
-                        <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    {/* Badge */}
+                    <div className="absolute top-3 left-3 pointer-events-none">
+                      <div className="inline-flex items-center gap-1.5 rounded-full bg-white/92 backdrop-blur border border-white/50 px-3 py-1 text-[10px] sm:text-xs font-semibold tracking-wide text-[#1A1208] shadow-sm">
+                        <span className="inline-block h-2 w-2 rounded-full bg-[#25D366] animate-pulse" />
                         <span>{s.isFallback ? "Ejemplo de publicidad" : "Publicidad destacada"}</span>
                       </div>
                     </div>
 
-                    {/* Botón WhatsApp – mobile first (ancho casi completo en móvil) */}
+                    {/* Botón WhatsApp */}
                     {!s.isFallback && (
-                      <div
-                        className="
-                          absolute
-                          inset-x-4 bottom-4
-                          sm:inset-x-auto sm:left-4
-                          flex justify-center sm:justify-start
-                        "
-                      >
-                        <div
-                          className="
-    flex items-center justify-center gap-2
-    w-full sm:w-auto
-    bg-green-500 hover:bg-green-600
-    text-white text-[13px] sm:text-sm font-semibold
-    px-4 sm:px-5 py-2.5
-    rounded-full
-    transition-all duration-200
-    hover:scale-[1.02]
-    active:scale-95
-    backdrop-blur
-  "
-                        >
+                      <div className="absolute inset-x-4 bottom-4 sm:inset-x-auto sm:left-4 flex justify-center sm:justify-start pointer-events-none">
+                        <div className="
+                          inline-flex items-center justify-center gap-2
+                          w-full sm:w-auto
+                          bg-[#25D366] text-white
+                          text-[13px] sm:text-sm font-semibold
+                          px-5 py-2.5 rounded-full
+                          shadow-[0_4px_20px_rgba(37,211,102,0.45)]
+                          transition-all duration-300
+                        ">
                           <FaWhatsapp className="text-base sm:text-lg" />
-                          <span className="whitespace-nowrap">Ir a WhatsApp</span>
+                          <span className="whitespace-nowrap">Contactar por WhatsApp</span>
                         </div>
-
                       </div>
                     )}
 
-                    {/* Texto pequeño para fallback */}
+                    {/* Texto fallback */}
                     {s.isFallback && (
-                      <div className="absolute left-4 bottom-4 bg-white/90 text-slate-800 text-xs sm:text-sm px-3 py-2 rounded-lg shadow">
+                      <div className="absolute left-4 bottom-4 pointer-events-none bg-white/92 backdrop-blur text-[#1A1208] text-xs sm:text-sm px-3 py-2 rounded-xl shadow-md font-medium">
                         Publicidad
                       </div>
                     )}
@@ -245,26 +219,27 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
           </Swiper>
         )}
 
-        {/* Botones custom (desktop) – adaptados a tema claro */}
+        {/* Botones nav desktop */}
         <button
           onClick={goToPreviousSlide}
           className="
             hidden lg:flex
             absolute left-4 top-1/2 -translate-y-1/2
-            h-10 w-10 items-center justify-center
+            h-11 w-11 items-center justify-center
             rounded-full
-            bg-white/90 hover:bg-white
-            border border-slate-300
-            text-slate-700
-            shadow-md
+            bg-white/92 hover:bg-white
+            border border-[#EDE8E3]
+            text-[#1A1208]
+            shadow-lg
             z-20
-            transition-all duration-150
-            hover:scale-105 active:scale-95
+            transition-all duration-200
+            hover:scale-110 active:scale-95
+            focus:outline-none focus:ring-2 focus:ring-[#E8622A]/50
           "
           aria-label="Anterior"
           type="button"
         >
-          <FaChevronLeft />
+          <FaChevronLeft size={14} />
         </button>
 
         <button
@@ -272,20 +247,21 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
           className="
             hidden lg:flex
             absolute right-4 top-1/2 -translate-y-1/2
-            h-10 w-10 items-center justify-center
+            h-11 w-11 items-center justify-center
             rounded-full
-            bg-white/90 hover:bg-white
-            border border-slate-300
-            text-slate-700
-            shadow-md
+            bg-white/92 hover:bg-white
+            border border-[#EDE8E3]
+            text-[#1A1208]
+            shadow-lg
             z-20
-            transition-all duration-150
-            hover:scale-105 active:scale-95
+            transition-all duration-200
+            hover:scale-110 active:scale-95
+            focus:outline-none focus:ring-2 focus:ring-[#E8622A]/50
           "
           aria-label="Siguiente"
           type="button"
         >
-          <FaChevronRight />
+          <FaChevronRight size={14} />
         </button>
       </div>
 
