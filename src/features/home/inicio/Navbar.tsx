@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
     <nav
       className="
         sticky top-0 w-full z-[9999]
-        bg-[#1C0E06]/95 backdrop-blur-md
+        bg-black backdrop-blur-md
         shadow-[0_2px_20px_rgba(28,14,6,0.35)]
         border-b border-white/5
       "

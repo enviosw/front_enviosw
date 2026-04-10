@@ -3,7 +3,7 @@ import { FaWhatsapp, FaInstagram, FaFacebook } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="w-full bg-[#1C0E06] text-white/80">
+        <footer className="w-full bg-black text-white/80">
             {/* Línea superior decorativa */}
             <div className="h-[3px] bg-gradient-to-r from-[#E8622A] via-amber-400 to-[#E8622A]" />
 

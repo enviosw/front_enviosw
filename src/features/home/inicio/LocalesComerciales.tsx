@@ -320,7 +320,7 @@ window.open(url, '_blank', 'noopener,noreferrer');
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               {/* Estado abierto/cerrado */}
-              <div className={`
+              {/* <div className={`
                 absolute top-2 left-2 z-10
                 text-[10px] font-bold px-2 py-0.5 rounded-full
                 shadow-sm
@@ -329,7 +329,7 @@ window.open(url, '_blank', 'noopener,noreferrer');
                   : 'bg-[#1A1208]/70 text-white/80'}
               `}>
                 {comercio._isOpen ? 'Abierto' : 'Cerrado'}
-              </div>
+              </div> */}
               {/* Badge categoría */}
               <div className="absolute bottom-2 right-2 z-10 bg-white/95 backdrop-blur text-[#2D6A4F] font-semibold text-[10px] px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md">
                 <AiFillStar className="text-[#2D6A4F]" size={10} />
