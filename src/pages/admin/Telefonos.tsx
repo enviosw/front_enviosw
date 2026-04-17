@@ -102,7 +102,7 @@ const Telefonos: React.FC = () => {
               </div>
               <input
                 className="input input-bordered w-full"
-                placeholder="Ej: 573108054942"
+                placeholder="Ej: 573171530428"
                 value={cuentasValue}
                 onChange={(e) => setCuentasValue(e.target.value)}
               />
@@ -174,7 +174,7 @@ const Telefonos: React.FC = () => {
       {/* Ayuda */}
       <div className="alert">
         <span className="text-sm opacity-80">
-          Recuerda: el backend valida que el número venga con <b>57</b> (ej: <b>573108054942</b>).
+          Recuerda: el backend valida que el número venga con <b>57</b> (ej: <b>573171530428</b>).
         </span>
       </div>
     </div>

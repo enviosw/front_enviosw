@@ -49,7 +49,7 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
 ¿Me puedes enviar la carta o el catálogo, por favor? 📄📲
 
 🛵 Cuando tengas mi orden lista, pide el domicilio por enviosw
-3108857311`;
+3171530428`;
   };
 
 
