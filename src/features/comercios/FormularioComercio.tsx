@@ -233,7 +233,7 @@ const FormularioComercio: React.FC<FormularioComercioProps> = ({ comercio }) => 
           <label className="block text-sm font-semibold text-gray-800 mb-2">Teléfono envios w</label>
           <input
             {...register('telefono_secundario')}
-            defaultValue={comercio?.id ? comercio.telefono_secundario : '3134089563'}
+            defaultValue={comercio?.id ? comercio.telefono_secundario : '3171530428'}
             disabled={!comercio?.id}
             className={`p-3 border border-gray-300 rounded-lg w-full appearance-none transition-all duration-300 ease-in-out 
     focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50 

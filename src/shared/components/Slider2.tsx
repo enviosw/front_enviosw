@@ -21,7 +21,7 @@ const buildImageUrl = (value?: string) => {
 type PublicidadItem = {
   id?: number;
   imagen?: string;
-  ruta?: string; // teléfono whatsapp (ej: 573133112345)
+  ruta?: string;
   estado?: number;
   orden?: number;
   fecha_inicio?: string | null;
@@ -97,7 +97,6 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
 
     const mensaje = buildMensajeWhatsapp();
 
-    // ✅ tu ruta ya viene con 57 (ej: 573133112345)
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };

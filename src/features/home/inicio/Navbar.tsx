@@ -54,7 +54,7 @@ export const Navbar: React.FC = () => {
         {/* REDES SOCIALES */}
         <div className="flex gap-1 bg-white/8 px-2.5 py-1.5 rounded-2xl border border-white/10 backdrop-blur-sm">
           <div className="opacity-85 hover:opacity-100 transition-all duration-200 hover:scale-110">
-            <WhatsappButton phoneNumber="573134089563" message="" />
+            <WhatsappButton phoneNumber="573171530428" message="" />
           </div>
           <div className="opacity-85 hover:opacity-100 transition-all duration-200 hover:scale-110">
             <InstagramButton username="/envioswpitalito/" />

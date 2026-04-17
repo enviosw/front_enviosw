@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
                         </p>
                         <div className="text-xs text-white/50 space-y-1">
                             <p>📍 Calle José Hilario López, Main Park, Pitalito, Huila</p>
-                            <p>📞 +57 313 408 9563</p>
+                            <p>📞 +57 3171530428</p>
                         </div>
                     </div>
 
@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
                         </h6>
                         <div className="flex items-center gap-3">
                             <a
-                                href="https://wa.me/573134089563"
+                                href="https://wa.me/3171530428"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="WhatsApp"
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
                         </div>
 
                         <a
-                            href="https://wa.me/573134089563"
+                            href="https://wa.me/573171530428"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Contactar por WhatsApp"

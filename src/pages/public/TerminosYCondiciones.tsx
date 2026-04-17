@@ -58,7 +58,7 @@ const TerminosYCondiciones: React.FC = () => {
           <p className="mb-4">Para consultas o reclamos relacionados con estos Términos y Condiciones, puede contactarnos a través de:</p>
           <ul className="list-disc pl-5 mb-4">
             <li className="mb-1"><strong className="font-semibold">Correo electrónico:</strong> domicilioswexpress@gmail.com</li>
-            <li className="mb-1"><strong className="font-semibold">Teléfono:</strong> +57 313 4089563</li>
+            <li className="mb-1"><strong className="font-semibold">Teléfono:</strong> +57 3171530428</li>
             <li className="mb-1"><strong className="font-semibold">Dirección:</strong> Carrera 5a #2a-79, Pitalito, Huila, Colombia</li>
           </ul>
 

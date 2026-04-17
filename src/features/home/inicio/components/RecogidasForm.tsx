@@ -89,7 +89,7 @@ const RecogidasForm: React.FC<RecogidasFormProps> = ({ tipoString }) => {
     };
 
     const handleSubmit = () => {
-        const numeroWhatsApp = '3134089563';
+        const numeroWhatsApp = '3171530428';
 
         const mensaje = `*PEDIDO* desde la pagina\n\n` +   // 👈 activador
             `🛵 ¡Hola! Quiero coordinar una recogida y entrega:\n\n` +
