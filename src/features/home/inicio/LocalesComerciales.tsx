@@ -219,7 +219,7 @@ const mensaje = `👋 *Hola!*
 Vi el anuncio en enviosw.com soy cliente nuevo 😊
 ¿Me puedes enviar la carta o el catálogo, por favor? 📄📲
 
-🛵 Cuando tengas mi orden lista, pide el domicilio por enviosw
+🛵 Cuando tengas mi orden lista, pide el domicilio por envíosw
 3171530428`;
 
 
