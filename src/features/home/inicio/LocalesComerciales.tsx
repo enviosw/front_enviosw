@@ -216,7 +216,7 @@ const handleOpenWhatsapp = (comercio: ComercioConEstado) => {
   }
 
 const mensaje = `👋 *Hola!*
-Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
+Vi el anuncio en enviosw.com soy cliente nuevo 😊
 ¿Me puedes enviar la carta o el catálogo, por favor? 📄📲
 
 🛵 Cuando tengas mi orden lista, pide el domicilio por enviosw

@@ -77,7 +77,7 @@ const Cart: React.FC = () => {
     registrarDomi.mutate(payload);
 
     const mensaje =
-      `*PEDIDO* desde Domiciliosw.com\n` +
+      `*PEDIDO* desde enviosw.com\n` +
       `${comercio?.telefono_secundario} a ${negritaSegura(comercio?.nombre_comercial)} con los siguientes productos:\n\n` +
       `${productos}\n\n` +
       `🔸 Total: $${formatNumber(total)} + *Domicilio*\n` +

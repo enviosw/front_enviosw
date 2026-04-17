@@ -195,7 +195,7 @@ useEffect(() => {
 
                                 <SocialShareModalButton
                                     message={`Hola, mira el menú de ${comercio?.nombre_comercial ?? 'este comercio'}:\n\n`}
-                                    url={`https://domiciliosw.com${location.pathname}`}
+                                    url={`https://enviosw.com${location.pathname}`}
                                 />
 
                                 {/* <CartaMenu /> */}
