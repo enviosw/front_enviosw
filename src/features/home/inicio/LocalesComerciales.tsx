@@ -148,26 +148,23 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
     });
   }, [servicioId]);
 
-  // ── Post-carga: liberar lock y resolver intención pendiente ──
+  // ── Post-carga: solo para respuestas de RED (isLoading true→false) ──
+  // Para respuestas de caché el lock se libera en el efecto de acumulación.
   useEffect(() => {
     const wasLoading = prevLoadingRef.current;
     prevLoadingRef.current = isLoading;
 
-    if (!wasLoading || isLoading) return; // solo cuando termina una carga
+    if (!wasLoading || isLoading) return;
 
-    // Liberar el lock para que tryLoadNext pueda disparar
     lockRef.current = false;
 
-    if (isError) return; // en error no auto-continuar
+    if (isError) return;
 
-    // 1. ¿El usuario pidió más mientras estábamos cargando? → cargar ya
     if (wantMoreRef.current) {
       requestAnimationFrame(() => tryLoadNext());
       return;
     }
 
-    // 2. ¿El contenido nuevo es tan corto que el fondo sigue en pantalla?
-    //    Usamos doble rAF para que el DOM refleje los nuevos elementos
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const distBottom =
@@ -240,12 +237,33 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
   }, [servicioId]);
 
   // ── Acumular resultados ──
+  // También libera el lock aquí: cubre respuestas de CACHÉ donde isLoading
+  // nunca se pone en true (staleTime activo) y prevLoadingRef jamás detecta
+  // la transición → lockRef se quedaría true para siempre sin este release.
   useEffect(() => {
     if (!data) return;
     const lote = anotarEstado(data.data);
     if (page === 1) setLocales(ordenarLocales(uniqById(lote)));
     else            setLocales((prev) => ordenarLocales(uniqById([...prev, ...lote])));
-  }, [data, page]);
+
+    // Liberar lock (cubre caché + red)
+    lockRef.current = false;
+
+    if (wantMoreRef.current) {
+      requestAnimationFrame(() => tryLoadNext());
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const distBottom =
+          document.documentElement.scrollHeight -
+          window.scrollY -
+          window.innerHeight;
+        if (distBottom < 600) tryLoadNext();
+      });
+    });
+  }, [data, page, tryLoadNext]);
 
   // ── Restaurar posición de scroll ──
   useEffect(() => {
