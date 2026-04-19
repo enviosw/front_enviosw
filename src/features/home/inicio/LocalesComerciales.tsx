@@ -433,40 +433,49 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         </div>
       )}
 
-      {/* ── Spinner carga páginas 2+ ── */}
-      {isLoading && page > 1 && (
-        <div className="flex items-center justify-center gap-3 py-8">
-          <div className="w-6 h-6 rounded-full border-[3px] border-[#E8622A]/20 border-t-[#E8622A] animate-spin" />
-          <span className="text-[#6B5E52] text-sm font-medium">Cargando más negocios…</span>
-        </div>
-      )}
-
-      {/* ── Error al cargar más ── */}
-      {isError && page > 1 && (
-        <div className="flex justify-center py-6">
-          <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-2xl px-5 py-3">
-            <span>⚠️</span>
-            <p className="text-red-600 text-sm font-medium">Error al cargar más</p>
-            <button
-              onClick={() => { lockRef.current = false; refetch(); }}
-              className="flex items-center gap-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
-            >
-              <FaRedo size={10} /> Reintentar
-            </button>
+      {/* ── Zona inferior: bloquea el footer hasta que todo esté cargado ── */}
+      <div
+        className={
+          hasMore || (isLoading && page > 1)
+            ? 'min-h-screen flex flex-col items-center justify-start pt-8 gap-4'
+            : ''
+        }
+      >
+        {/* Spinner carga páginas 2+ */}
+        {isLoading && page > 1 && (
+          <div className="flex items-center justify-center gap-3 py-8">
+            <div className="w-6 h-6 rounded-full border-[3px] border-[#E8622A]/20 border-t-[#E8622A] animate-spin" />
+            <span className="text-[#6B5E52] text-sm font-medium">Cargando más negocios…</span>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ── Fin del listado — sin más páginas ── */}
-      {!isLoading && !isError && !hasMore && locales.length > 0 && (
-        <div className="flex items-center gap-3 justify-center py-8">
-          <div className="flex-1 max-w-[80px] h-px bg-[#EDE8E3]" />
-          <span className="text-[#6B5E52]/60 text-xs font-medium">
-            {locales.length} {locales.length === 1 ? 'negocio' : 'negocios'} en total
-          </span>
-          <div className="flex-1 max-w-[80px] h-px bg-[#EDE8E3]" />
-        </div>
-      )}
+        {/* Error al cargar más */}
+        {isError && page > 1 && (
+          <div className="flex justify-center py-6">
+            <div className="flex items-center gap-3 bg-red-50 border border-red-200 rounded-2xl px-5 py-3">
+              <span>⚠️</span>
+              <p className="text-red-600 text-sm font-medium">Error al cargar más</p>
+              <button
+                onClick={() => { lockRef.current = false; refetch(); }}
+                className="flex items-center gap-1.5 bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full transition-all"
+              >
+                <FaRedo size={10} /> Reintentar
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Fin del listado — solo visible cuando ya no hay más páginas */}
+        {!isLoading && !isError && !hasMore && locales.length > 0 && (
+          <div className="flex items-center gap-3 justify-center py-8">
+            <div className="flex-1 max-w-[80px] h-px bg-[#EDE8E3]" />
+            <span className="text-[#6B5E52]/60 text-xs font-medium">
+              {locales.length} {locales.length === 1 ? 'negocio' : 'negocios'} en total
+            </span>
+            <div className="flex-1 max-w-[80px] h-px bg-[#EDE8E3]" />
+          </div>
+        )}
+      </div>
 
     </div>
   );
