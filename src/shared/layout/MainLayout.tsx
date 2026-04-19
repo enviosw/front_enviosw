@@ -5,12 +5,27 @@ import { Contenido } from '../types/childrenInterface';
 const LazyFooter = lazy(() => import('../components/Footer'));
 
 const MainLayout: React.FC<Contenido> = ({ children }) => {
-  const [showFooter, setShowFooter] = useState(false);
+  const [showFooter, setShowFooter]   = useState(false);
+  const [footerReady, setFooterReady] = useState(true);
   const footerTriggerRef = useRef<HTMLDivElement | null>(null);
 
+  // Escucha eventos de LocalesComerciales para saber si aún está cargando
   useEffect(() => {
-    let hasShown = false;
+    const onLoading = () => { setFooterReady(false); setShowFooter(false); };
+    const onDone    = () => setFooterReady(true);
+    window.addEventListener('locales-loading', onLoading);
+    window.addEventListener('locales-done',    onDone);
+    return () => {
+      window.removeEventListener('locales-loading', onLoading);
+      window.removeEventListener('locales-done',    onDone);
+    };
+  }, []);
 
+  // Solo observar el trigger cuando el contenido está listo
+  useEffect(() => {
+    if (!footerReady) return;
+
+    let hasShown = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasShown) {
@@ -23,26 +38,22 @@ const MainLayout: React.FC<Contenido> = ({ children }) => {
 
     const target = footerTriggerRef.current;
     if (target) observer.observe(target);
-
-    return () => {
-      if (target) observer.unobserve(target);
-    };
-  }, []);
+    return () => { if (target) observer.unobserve(target); };
+  }, [footerReady]);
 
   return (
     <div className="w-full flex flex-col">
-      {/* ✅ Sticky funciona mejor si el padre NO tiene overflow */}
       <Navbar />
 
-      {/* ✅ Si necesitas ocultar overflow horizontal, hazlo aquí */}
       <div className="w-full overflow-x-hidden">
         {children}
 
-        {/* Activador para cargar el footer */}
-        <div ref={footerTriggerRef} className="w-full h-[100px]" />
+        {/* Trigger solo aparece cuando el contenido terminó de cargar */}
+        {footerReady && (
+          <div ref={footerTriggerRef} className="w-full h-[100px]" />
+        )}
 
-        {/* Footer diferido */}
-        {showFooter && (
+        {showFooter && footerReady && (
           <div key="footer-stable" className="w-full">
             <Suspense fallback={<div className="h-20 bg-gray-100" />}>
               <LazyFooter />

@@ -125,6 +125,15 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
   useEffect(() => { pageRef.current = page; },         [page]);
   useEffect(() => { lastPageRef.current = lastPage; }, [lastPage]);
 
+  // Notificar al MainLayout si aún hay contenido por cargar
+  useEffect(() => {
+    if (isLoading || hasMore) {
+      window.dispatchEvent(new CustomEvent('locales-loading'));
+    } else {
+      window.dispatchEvent(new CustomEvent('locales-done'));
+    }
+  }, [isLoading, hasMore]);
+
   // ── Función central de carga ──
   const tryLoadNext = useCallback(() => {
     // Sin más páginas → limpiar intención y salir
@@ -433,14 +442,8 @@ const LocalesComerciales: React.FC<{ servicioId: number | null }> = ({ servicioI
         </div>
       )}
 
-      {/* ── Zona inferior: bloquea el footer hasta que todo esté cargado ── */}
-      <div
-        className={
-          hasMore || (isLoading && page > 1)
-            ? 'min-h-screen flex flex-col items-center justify-start pt-8 gap-4'
-            : ''
-        }
-      >
+      {/* ── Zona inferior ── */}
+      <div>
         {/* Spinner carga páginas 2+ */}
         {isLoading && page > 1 && (
           <div className="flex items-center justify-center gap-3 py-8">
