@@ -42,7 +42,7 @@ const ComprasForm: React.FC<ComprasFormProps> = ({ tipoString }) => {
       return;
     }
 
-    const numeroWhatsApp = '3134089563';
+    const numeroWhatsApp = '3171530428';
     const mensaje =
       `*PEDIDO* desde la pagina\n\n` +
       `🛒 ¡Hola! Me gustaría realizar una compra:\n\n` +

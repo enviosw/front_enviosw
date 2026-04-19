@@ -109,7 +109,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-1 sm:gap-1.5">
           {/* WhatsApp */}
           <a
-            href="https://wa.me/573134089563"
+            href="https://wa.me/573171530428"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
