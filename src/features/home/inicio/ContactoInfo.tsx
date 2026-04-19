@@ -13,7 +13,7 @@ const ContactoInfo: React.FC = () => {
                         href="tel:+573001234567"
                         className="text-sm font-medium text-black hover:underline"
                     >
-                        +57 3134089563
+                        +57 3171530428
                     </a>
                 </div>
             </div>

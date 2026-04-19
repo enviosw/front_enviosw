@@ -91,7 +91,7 @@ const SocialShareModalButton: React.FC<SocialShareModalButtonProps> = ({ message
 
 
                         <div className='mt-5'>
-                            <a className='text-primary font-bold ' href="https://domiciliosw.com">Domicilios W Pitalito</a>
+                            <a className='text-primary font-bold ' href="https://enviosw.com">Domicilios W Pitalito</a>
                         </div>
 
 

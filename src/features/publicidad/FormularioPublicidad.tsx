@@ -28,8 +28,8 @@ const phone57Schema = z
   .string()
   .min(1, "El teléfono es requerido")
   .transform((v) => v.replace(/\D/g, "")) // deja solo dígitos
-  .refine((v) => v.length === 12, "El teléfono debe tener 12 dígitos (ej: 573133112345)")
-  .refine((v) => v.startsWith("57"), "El teléfono debe iniciar con 57 (ej: 573133112345)");
+  .refine((v) => v.length === 12, "El teléfono debe tener 12 dígitos (ej: 573171530428)")
+  .refine((v) => v.startsWith("57"), "El teléfono debe iniciar con 57 (ej: 573171530428)");
 
 const publicidadSchema = z.object({
   ruta: phone57Schema,
@@ -219,7 +219,7 @@ const FormularioPublicidad: React.FC<FormularioPublicidadProps> = ({ publicidad 
           <input
             type="tel"
             inputMode="numeric"
-            placeholder="573133112345"
+            placeholder="573171530428"
             {...register("ruta")}
             className="p-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50"
           />

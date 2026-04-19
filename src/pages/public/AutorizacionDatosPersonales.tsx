@@ -52,7 +52,7 @@ const AutorizacionDatosPersonales: React.FC = () => {
         <p className="mb-4">El titular podrá ejercer sus derechos mediante:</p>
         <ul className="list-disc pl-5 mb-4">
             <li className="mb-1"><strong className="font-semibold">Correo electrónico:</strong> domicilioswexpress@gmail.com</li>
-            <li className="mb-1"><strong className="font-semibold"></strong> +57 313 4089563</li>
+            <li className="mb-1"><strong className="font-semibold"></strong> +57 3171530428</li>
             <li className="mb-1"><strong className="font-semibold">Dirección física:</strong> Carrera 5a #2a-79, Pitalito, Huila, Colombia</li>
             <li className="mb-1"><strong className="font-semibold">SIC Facilita:</strong> El titular puede acudir a este canal oficial de la Superintendencia de Industria y Comercio.</li>
         </ul>

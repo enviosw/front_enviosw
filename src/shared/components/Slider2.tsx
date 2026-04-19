@@ -21,7 +21,7 @@ const buildImageUrl = (value?: string) => {
 type PublicidadItem = {
   id?: number;
   imagen?: string;
-  ruta?: string; // teléfono whatsapp (ej: 573133112345)
+  ruta?: string;
   estado?: number;
   orden?: number;
   fecha_inicio?: string | null;
@@ -45,11 +45,11 @@ const Slider2: React.FC = () => {
 
   const buildMensajeWhatsapp = () => {
     return `👋 Hola!
-Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
+Vi el anuncio en enviosw.com soy cliente nuevo 😊
 ¿Me puedes enviar la carta o el catálogo, por favor? 📄📲
 
-🛵 Cuando tengas mi orden lista, pide el domicilio por enviosw
-3108857311`;
+🛵 Cuando tengas mi orden lista, pide el domicilio por envíosw
+3171530428`;
   };
 
 
@@ -97,7 +97,6 @@ Vi el anuncio en Domiciliosw.com soy cliente nuevo 😊
 
     const mensaje = buildMensajeWhatsapp();
 
-    // ✅ tu ruta ya viene con 57 (ej: 573133112345)
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
