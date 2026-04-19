@@ -1,195 +1,148 @@
-import React, { useState, useRef, useEffect } from 'react';
-import InputField from '../../../../shared/components/InputField';
-import { FaCheckCircle, FaEdit } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaWhatsapp, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
 interface PagosFormProps {
-    tipoString: string;
+  tipoString: string;
 }
 
-type FormDataKeys = 'direccionRecogidaPago' | 'telefonoRecogidaPago';
-
 const PagosForm: React.FC<PagosFormProps> = ({ tipoString }) => {
-    const [formData, setFormData] = useState({
-        direccionRecogidaPago: '',
-        telefonoRecogidaPago: '',
-    });
+  const [formData, setFormData] = useState({
+    direccionRecogidaPago: '',
+    telefonoRecogidaPago: '',
+  });
 
-    const [completed, setCompleted] = useState({
-        direccionRecogidaPago: false,
-        telefonoRecogidaPago: false,
-    });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-    const [showTelefono, setShowTelefono] = useState(false);
+  if (tipoString !== 'pagos') return null;
 
-    const direccionInputRef = useRef<HTMLInputElement | null>(null);
-    const telefonoInputRef = useRef<HTMLInputElement | null>(null);
-    const [showToast, setShowToast] = useState(false);
-    const [showToast2, setShowToast2] = useState(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+  };
 
-    // ✅ Focus al primer input al cargar
-    useEffect(() => {
-        if (tipoString === 'pagos') {
-            direccionInputRef.current?.focus();
-        }
-    }, [tipoString]);
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.direccionRecogidaPago.trim())
+      newErrors.direccionRecogidaPago = 'Por favor ingresa la dirección de recogida.';
+    if (!formData.telefonoRecogidaPago.trim())
+      newErrors.telefonoRecogidaPago = 'Por favor ingresa el teléfono de contacto.';
+    return newErrors;
+  };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+  const handleSubmit = () => {
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
-    const handleConfirm = (field: FormDataKeys) => {
-        const value = formData[field].trim();
+    const numeroWhatsApp = '3134089563';
+    const mensaje =
+      `*PEDIDO* desde la pagina\n\n` +
+      `💰¡Hola! Me gustaría solicitar el servicio de pagos:\n\n` +
+      `🛵📍Dirección de Recogida: ${formData.direccionRecogidaPago}\n` +
+      `📞 Teléfono: ${formData.telefonoRecogidaPago}`;
 
-        if (!value) {
-            if (field === 'direccionRecogidaPago') {
-                setShowToast(true);
-                setTimeout(() => setShowToast(false), 2500);
-            } else if (field === 'telefonoRecogidaPago') {
-                setShowToast2(true);
-                setTimeout(() => setShowToast2(false), 2500);
-            }
-            return; // No continuar si el campo está vacío
-        }
+    const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  };
 
-        setCompleted(prev => ({ ...prev, [field]: true }));
-
-        if (field === 'direccionRecogidaPago') {
-            setShowTelefono(true);
-            setTimeout(() => telefonoInputRef.current?.focus(), 100);
-        }
-    };
-
-
-    const handleEdit = (field: FormDataKeys) => {
-        setCompleted(prev => ({ ...prev, [field]: false }));
-
-        setTimeout(() => {
-            if (field === 'direccionRecogidaPago') direccionInputRef.current?.focus();
-            else if (field === 'telefonoRecogidaPago') telefonoInputRef.current?.focus();
-        }, 100);
-    };
-
-    const handleSubmit = () => {
-        const numeroWhatsApp = '3134089563';
-
-     const mensaje = `*PEDIDO* desde la pagina\n\n` +   // 👈 activador
-    `💰¡Hola! Me gustaría solicitar el servicio de pagos:\n\n` +
-    `🛵📍Dirección de Recogida: ${formData.direccionRecogidaPago}\n` +
-    `📞 Teléfono: ${formData.telefonoRecogidaPago}`;
-
-
-        const url = `https://wa.me/57${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-        window.open(url, '_blank');
-    };
-
-    if (tipoString !== 'pagos') return null;
-
-    const buttonColor = (completed: boolean) => completed ? 'bg-green-500' : 'bg-[#ff6600]';
-
-    return (
-        <div className='w-full pb-5'>
-            {showToast && (
-                <div
-                    style={{
-                        marginTop: '80px', // Ajusta la distancia de la parte superior
-                    }}
-                    className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300"
-                >
-                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
-                        <span className="text-xl">❗</span>
-                        <div className="flex flex-col text-left">
-                            <span>Te falta la dirección.</span>
-                            <span>Escríbela para poder enviar el pedido.</span>
-
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {showToast2 && (
-                <div
-                    style={{
-                        marginTop: '80px', // Ajusta la distancia de la parte superior
-                    }}
-                    className="toast z-50 toast-top toast-center lg:toast-end transition-opacity duration-300"
-                >
-                    <div className="alert alert-warning shadow-lg flex items-start gap-2">
-                        <span className="text-xl">❗</span>
-                        <div className="flex flex-col text-left">
-                            <span>Te falta el teléfono.</span>
-                            <span>Escríbelo para poder enviar el pedido.</span>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            <h2 className="text-2xl text-left font-bold mb-4">Trámite de Pagos 💰</h2>
-            <form className="flex flex-col gap-6 w-full items-center justify-center">
-                <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-5 mx-auto'>
-
-                    {/* Dirección de Recogida */}
-                    <div className="flex justify-between items-center gap-2 w-full">
-                        <InputField
-                            label="Dirección de Recogida"
-                            name="direccionRecogidaPago"
-                            value={formData.direccionRecogidaPago}
-                            onChange={handleChange}
-                            placeholder="¿Dónde recogemos el dinero?"
-                            ref={direccionInputRef}
-                        />
-                        <button
-                            type="button"
-                            className={`btn btn-lg btn-circle text-2xl text-white ${buttonColor(completed.direccionRecogidaPago)}`}
-                            onClick={() =>
-                                completed.direccionRecogidaPago
-                                    ? handleEdit('direccionRecogidaPago')
-                                    : handleConfirm('direccionRecogidaPago')
-                            }
-                        >
-                            {completed.direccionRecogidaPago ? <FaEdit /> : <FaCheckCircle />}
-                        </button>
-                    </div>
-
-                    {/* Teléfono */}
-                    {showTelefono && (
-                        <div className="flex justify-between items-center gap-2 w-full">
-                            <InputField
-                                type='number'
-                                label="Teléfono"
-                                name="telefonoRecogidaPago"
-                                value={formData.telefonoRecogidaPago}
-                                onChange={handleChange}
-                                placeholder="Teléfono contacto"
-                                ref={telefonoInputRef}
-                            />
-                            <button
-                                type="button"
-                                className={`btn btn-lg btn-circle text-2xl text-white ${buttonColor(completed.telefonoRecogidaPago)}`}
-                                onClick={() =>
-                                    completed.telefonoRecogidaPago
-                                        ? handleEdit('telefonoRecogidaPago')
-                                        : handleConfirm('telefonoRecogidaPago')
-                                }
-                            >
-                                {completed.telefonoRecogidaPago ? <FaEdit /> : <FaCheckCircle />}
-                            </button>
-                        </div>
-                    )}
-                </div>
-
-                {(completed.direccionRecogidaPago && completed.telefonoRecogidaPago) && (
-                    <button
-                        type="button"
-                        className="bg-green-500 text-white p-3 w-full rounded-md mt-4"
-                        onClick={handleSubmit}
-                    >
-                        Confirmar Servicio
-                    </button>
-                )}
-            </form>
+  return (
+    <div className="w-full">
+      {/* Encabezado */}
+      <div className="flex items-center gap-3 mb-5">
+        <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-xl shrink-0">
+          💰
         </div>
-    );
+        <div>
+          <h2 className="text-lg font-bold text-[#1A1208] leading-tight">Trámite de Pagos</h2>
+          <p className="text-xs text-[#6B5E52]">Completa los datos y te contactamos</p>
+        </div>
+      </div>
+
+      <form
+        className="bg-white border border-[#EDE8E3] rounded-2xl p-5 shadow-sm space-y-4"
+        onSubmit={e => { e.preventDefault(); handleSubmit(); }}
+        noValidate
+      >
+        {/* Dirección de recogida */}
+        <div>
+          <label className="flex items-center gap-1.5 text-sm font-semibold text-[#1A1208] mb-1.5">
+            <FaMapMarkerAlt className="text-[#E8622A]" size={13} />
+            Dirección de Recogida
+          </label>
+          <input
+            type="text"
+            name="direccionRecogidaPago"
+            value={formData.direccionRecogidaPago}
+            onChange={handleChange}
+            placeholder="¿Dónde recogemos el dinero?"
+            className={`
+              w-full px-4 py-3 rounded-xl text-sm font-medium text-[#1A1208]
+              border-2 bg-[#FAFAF7] placeholder:text-[#6B5E52]/50
+              focus:outline-none focus:bg-white
+              transition-all duration-200
+              ${errors.direccionRecogidaPago
+                ? 'border-red-400 focus:border-red-400'
+                : 'border-[#EDE8E3] focus:border-[#E8622A]'}
+            `}
+          />
+          {errors.direccionRecogidaPago && (
+            <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
+              <span>⚠</span> {errors.direccionRecogidaPago}
+            </p>
+          )}
+        </div>
+
+        {/* Teléfono */}
+        <div>
+          <label className="flex items-center gap-1.5 text-sm font-semibold text-[#1A1208] mb-1.5">
+            <FaPhone className="text-[#E8622A]" size={12} />
+            Teléfono de Contacto
+          </label>
+          <input
+            type="tel"
+            name="telefonoRecogidaPago"
+            value={formData.telefonoRecogidaPago}
+            onChange={handleChange}
+            placeholder="Número de contacto"
+            className={`
+              w-full px-4 py-3 rounded-xl text-sm font-medium text-[#1A1208]
+              border-2 bg-[#FAFAF7] placeholder:text-[#6B5E52]/50
+              focus:outline-none focus:bg-white
+              transition-all duration-200
+              ${errors.telefonoRecogidaPago
+                ? 'border-red-400 focus:border-red-400'
+                : 'border-[#EDE8E3] focus:border-[#E8622A]'}
+            `}
+          />
+          {errors.telefonoRecogidaPago && (
+            <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
+              <span>⚠</span> {errors.telefonoRecogidaPago}
+            </p>
+          )}
+        </div>
+
+        {/* Botón WhatsApp */}
+        <button
+          type="submit"
+          className="
+            w-full flex items-center justify-center gap-2
+            bg-[#25D366] hover:bg-[#1EB555] text-white
+            font-bold text-sm py-3.5 rounded-xl mt-2
+            shadow-[0_4px_16px_rgba(37,211,102,0.35)]
+            hover:shadow-[0_6px_24px_rgba(37,211,102,0.5)]
+            transition-all duration-300 hover:scale-[1.01] active:scale-[0.99]
+            focus:outline-none focus:ring-2 focus:ring-[#25D366]/50
+          "
+        >
+          <FaWhatsapp size={18} />
+          Confirmar Servicio por WhatsApp
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default PagosForm;
